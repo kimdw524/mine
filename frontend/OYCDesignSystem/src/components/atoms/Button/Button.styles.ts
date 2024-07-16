@@ -3,11 +3,18 @@ import { PaletteColor } from '../../../themes/lightTheme';
 import { Size } from '../../../themes/themeBase';
 import { ButtonVariant } from './Button.types';
 
+const spacing = {
+  sm: '0.75rem',
+  md: '0.875rem',
+  lg: '1rem',
+  xl: '1.25rem',
+};
+
 export const base = (theme: Theme, size: Size, fullWidth: boolean) => css`
-  padding: calc(${theme.spacing[size]} / 1.375) ${theme.spacing[size]};
+  padding: calc(${spacing[size]} / 1.375) ${spacing[size]};
   box-sizing: border-box;
   border: 0;
-  border-radius: ${theme.borderRadius.sm};
+  border-radius: 0.25rem;
   font-size: ${theme.typography.fontSize[size]};
   font-weight: ${theme.typography.fontWeight.medium};
   transition: all 100ms ease;
@@ -27,7 +34,10 @@ export const base = (theme: Theme, size: Size, fullWidth: boolean) => css`
   `}
 `;
 
-export const variants: Record<ButtonVariant, (theme: Theme, palette: PaletteColor) => SerializedStyles> = {
+export const variants: Record<
+  ButtonVariant,
+  (theme: Theme, palette: PaletteColor) => SerializedStyles
+> = {
   contained: (theme: Theme, palette: PaletteColor) => css`
     background-color: ${palette.main};
     color: ${palette.contrastText};

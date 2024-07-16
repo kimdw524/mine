@@ -20,7 +20,7 @@ export const base = (theme: Theme, size: Size) => css`
   box-sizing: border-box;
   outline: none;
   border: 0;
-  border-radius: ${theme.borderRadius.sm};
+  border-radius: 0.25rem;
   font-size: ${theme.typography.fontSize[size]};
   font-weight: ${theme.typography.fontWeight.medium};
   transition: all 100ms ease;
