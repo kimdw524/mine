@@ -1,21 +1,29 @@
 import { Theme, css } from '@emotion/react';
 import { Size } from '../../../themes/themeBase';
+import { PaletteColor } from '../../../themes/lightTheme';
 
-const borderRadius = {
-  sm: '0.25rem',
-  md: '0.375rem',
-  lg: '0.5rem',
-  xl: '0.625rem',
+const sizes: Record<Size, { width: string }> = {
+  sm: { width: '0.875rem' },
+  md: { width: '1rem' },
+  lg: { width: '1.125rem' },
+  xl: { width: '1.25rem' },
 };
 
-export const base = (theme: Theme, size: Size) => css`
+const polylinesizes: Record<Size, { scale: string }> = {
+  sm: { scale: '0.22' },
+  md: { scale: '0.25' },
+  lg: { scale: '0.28' },
+  xl: { scale: '0.31' },
+};
+
+export const base = (theme: Theme, color: PaletteColor, size: Size) => css`
   position: absolute;
   cursor: pointer;
   opacity: 0;
 
   &:checked + svg {
-    background-color: ${theme.colors.primary.main};
-    border: 0.125rem solid ${theme.colors.primary.main};
+    background-color: ${color.main};
+    border: 0.125rem solid ${color.main};
   }
 
   &:checked + svg polyline {
@@ -24,8 +32,10 @@ export const base = (theme: Theme, size: Size) => css`
 `;
 
 export const svgCss = (theme: Theme, size: Size) => css`
+  width: ${sizes[size].width};
+  height: ${sizes[size].width};
   border: 0.125rem solid #999;
-  border-radius: ${borderRadius[size]};
+  border-radius: 0.375rem;
   background-color: transparent;
   transition:
     background-color 0.4s,
@@ -36,6 +46,10 @@ export const svgCss = (theme: Theme, size: Size) => css`
   stroke-linecap: round;
   stroke-width: 0.53rem;
   fill: none;
+
+  polyline {
+    transform: scale(${polylinesizes[size].scale});
+  }
 `;
 
 export const polylineCss = css`
