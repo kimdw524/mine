@@ -6,9 +6,7 @@ import { base, svgCss, polylineCss } from './CheckBox.styles';
 
 export const CheckBox = ({
   color = 'primary',
-  variant = 'outlined',
   size = 'md',
-
   ...props
 }: CheckBoxProps) => {
   const theme = useTheme();
@@ -17,7 +15,7 @@ export const CheckBox = ({
     <label>
       <input
         type="checkbox"
-        css={base(theme, size)}
+        css={[base(theme, theme.colors[color], size)]}
         {...props}
       />
       <svg css={svgCss(theme, size)} width="64" height="64">
