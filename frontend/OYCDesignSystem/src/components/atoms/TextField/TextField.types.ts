@@ -1,13 +1,19 @@
 import { Palette } from '../../../themes/lightTheme';
 import { Size } from '../../../themes/themeBase';
 
-export type TextFieldVariant = 'outlined';
+export type TextFieldVariant = 'contained' | 'outlined' | 'standard';
 
 export interface TextFieldProps
   extends Omit<React.ComponentProps<'input'>, 'size'> {
-  variant?: TextFieldVariant;
   color?: Palette;
-  size?: Size;
+  defaultValue?: string;
+  disabled: boolean;
+  label?: string;
+  maxRows?: number;
+  multiLine?: boolean;
   placeholder?: string;
-  error?: boolean;
+  readOnly?: boolean;
+  size?: Size;
+  type?: string;
+  variant?: TextFieldVariant;
 }
