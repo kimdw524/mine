@@ -1,7 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { LabeledCheckBox } from './LabeledCheckBox';
-import { Palette } from '../../../themes/lightTheme';
-import { ReactComponent as Arrow } from '../../../assets/icons/arrow.svg';
 
 const meta = {
   title: 'UI/Molecules/LabeledCheckBox',
@@ -20,7 +18,6 @@ const meta = {
   argTypes: {
     children: {
       description: 'Label에 표시할 내용입니다.',
-      control: false,
     },
     size: {
       description: '컴포넌트의 크기입니다.',
@@ -53,39 +50,4 @@ export const Primary: Story = {
     size: 'md',
     color: 'primary',
   },
-};
-
-const colorList: Palette[] = ['primary', 'secondary', 'success', 'danger'];
-
-export const Contained: Story = {
-  args: {
-    ...Primary.args,
-  },
-  render: (args) => (
-    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem' }}>
-      {colorList.map((color) => (
-        <LabeledCheckBox {...args} color={color}>
-          {color}
-        </LabeledCheckBox>
-      ))}
-    </div>
-  ),
-};
-
-export const Outlined: Story = {
-  args: {
-    ...Primary.args,
-  },
-  parameters: {
-    controls: false,
-  },
-  render: (args) => (
-    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem' }}>
-      {colorList.map((color) => (
-        <LabeledCheckBox {...args} color={color}>
-          {color}
-        </LabeledCheckBox>
-      ))}
-    </div>
-  ),
 };
