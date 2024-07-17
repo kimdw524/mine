@@ -32,6 +32,20 @@ const LightTheme: ThemeType = {
       active: colorPalette.red['800'],
       disabled: colorPalette.red['200'],
     },
+    dark: {
+      main: '#000',
+      contrastText: '#fff',
+      hover: '#555',
+      active: '#333',
+      disabled: '#ccc',
+    },
+    light: {
+      main: '#fff',
+      contrastText: '#000',
+      hover: '#f2f2f2',
+      active: '#e4e4e4',
+      disabled: '#eee',
+    },
     text: {
       primary: '#000',
       secondary: colorPalette.blueGrey['700'],
@@ -48,7 +62,13 @@ export interface TextPalette {
   secondary: string;
   disabled: string;
 }
-export type Palette = 'primary' | 'secondary' | 'success' | 'danger';
+export type Palette =
+  | 'primary'
+  | 'secondary'
+  | 'success'
+  | 'danger'
+  | 'dark'
+  | 'light';
 export type PaletteColor = {
   [key in 'main' | 'contrastText' | 'hover' | 'active' | 'disabled']: string;
 };

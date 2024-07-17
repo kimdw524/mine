@@ -2,7 +2,7 @@
 import React from 'react';
 import { useTheme } from '@emotion/react';
 import { CheckBoxProps } from './CheckBox.types';
-import { base, svgCss, polylineCss } from './CheckBox.styles';
+import { base, svgCss, polylineCss, labelCss } from './CheckBox.styles';
 
 export const CheckBox = ({
   color = 'primary',
@@ -12,7 +12,7 @@ export const CheckBox = ({
   const theme = useTheme();
 
   return (
-    <label>
+    <label css={labelCss}>
       <input
         type="checkbox"
         css={[base(theme, theme.colors[color], size)]}

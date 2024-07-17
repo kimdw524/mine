@@ -38,8 +38,8 @@ export const svgCss = (theme: Theme, size: Size) => css`
   border-radius: 0.375rem;
   background-color: transparent;
   transition:
-    background-color 0.4s,
-    stroke-dashoffset 1s;
+    background-color 0.3s,
+    stroke-dashoffset 0.5s;
   stroke: #f9f9f9;
   stroke-dasharray: 131;
   stroke-dashoffset: -130;
@@ -53,5 +53,9 @@ export const svgCss = (theme: Theme, size: Size) => css`
 `;
 
 export const polylineCss = css`
-  transition: stroke-dashoffset 1s;
+  transition: stroke-dashoffset 0.5s;
+`;
+
+export const labelCss = css`
+  line-height: 0;
 `;
