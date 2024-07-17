@@ -1,35 +1,158 @@
-import { Theme, css } from '@emotion/react';
-import { Size } from '../../../themes/themeBase';
+import { SerializedStyles, Theme, css } from '@emotion/react';
+import { TextFieldVariant } from './TextField.types';
+import { PaletteColor } from '../../../themes/lightTheme';
 
-const spacing = {
-  sm: '0.75rem',
-  md: '0.875rem',
-  lg: '1rem',
-  xl: '1.25rem',
-};
+export const base = (
+  theme: Theme,
+  palette: PaletteColor,
+  multiLine: boolean,
+) => css`
+  position: relative;
+  padding: 0.875rem 0.625rem;
+  transition: all 150ms ease-in-out;
 
-const borderRadius = {
-  sm: '0.25rem',
-  md: '0.375rem',
-  lg: '0.5rem',
-  xl: '0.625rem',
-};
+  ${multiLine &&
+  css`
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+    ::-webkit-scrollbar {
+      width: 0;
+    }
+  `};
+`;
 
-export const base = (theme: Theme, size: Size, error: boolean) => css`
+export const labelField = (
+  theme: Theme,
+  palette: PaletteColor,
+  placeholder: string,
+  defaultValue: string,
+  isFocused: boolean,
+) => css`
+  position: absolute;
+  top: calc(50% - 0.5rem);
+  padding: 0 0.3125rem;
+  color: ${isFocused ? palette.main : '#B4B4B4'};
+  font-size: ${defaultValue !== '' || placeholder !== '' || isFocused
+    ? '0.625rem'
+    : '1rem'};
+  transition: all 150ms ease-in-out;
+`;
+
+export const inputField = (
+  theme: Theme,
+  disabled: boolean,
+  multiLine: boolean,
+) => css`
   width: 100%;
-  padding: ${spacing[size]};
-  box-sizing: border-box;
-  border: 0.0875rem solid
-    ${error ? theme.colors.danger.main : theme.colors.secondary.main};
-  border-radius: ${borderRadius[size]};
-  font-size: ${theme.typography.fontSize[size]};
-  transition: all 100ms ease;
+  margin: 0;
+  padding: 0;
+  border: 0;
   outline: none;
 
-  ${!error &&
+  ::placeholder {
+    color: #999999;
+  }
+
+  ${disabled &&
   css`
-    :focus {
-      border: 0.0875rem solid ${theme.colors.primary.main};
+    background-color: white;
+  `}
+
+  ${multiLine &&
+  css`
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+    ::-webkit-scrollbar {
+      width: 0;
     }
   `}
 `;
+
+export const variants: Record<
+  TextFieldVariant,
+  (theme: Theme, palette: PaletteColor, isFocused: boolean) => SerializedStyles
+> = {
+  contained: (theme: Theme, palette: PaletteColor, isFocused: boolean) => css`
+    padding-bottom: 0;
+    border-bottom: calc(0.0625rem * 1.5) ${isFocused ? palette.main : '#D5D5D5'}
+      solid;
+    border-top-left-radius: 0.3125rem;
+    border-top-right-radius: 0.3125rem;
+    background-color: #e8e8e8;
+  `,
+  outlined: (theme: Theme, palette: PaletteColor, isFocused: boolean) => css`
+    border: calc(0.0625rem * 1.5) ${isFocused ? palette.main : '#D5D5D5'} solid;
+    border-radius: 0.3125rem;
+  `,
+  standard: (theme: Theme, palette: PaletteColor, isFocused: boolean) => css`
+    padding-bottom: 0;
+    padding-left: 0;
+    border-bottom: calc(0.0625rem * 1.5) ${isFocused ? palette.main : '#D5D5D5'}
+      solid;
+    border-top-left-radius: 0.3125rem;
+    border-top-right-radius: 0.3125rem;
+  `,
+};
+
+export const labelVariants: Record<
+  TextFieldVariant,
+  (
+    theme: Theme,
+    palette: PaletteColor,
+    placeholder: string,
+    defaultValue: string,
+    isFocused: boolean,
+  ) => SerializedStyles
+> = {
+  contained: (
+    theme: Theme,
+    palette: PaletteColor,
+    placeholder: string,
+    defaultValue: string,
+    isFocused: boolean,
+  ) => css`
+    ${(defaultValue !== '' || placeholder !== '' || isFocused) &&
+    css`
+      top: 0.5rem;
+    `};
+  `,
+  outlined: (
+    theme: Theme,
+    palette: PaletteColor,
+    placeholder: string,
+    defaultValue: string,
+    isFocused: boolean,
+  ) => css`
+    ${(defaultValue !== '' || placeholder !== '' || isFocused) &&
+    css`
+      top: -0.375rem;
+      background-color: white;
+    `};
+  `,
+  standard: (
+    theme: Theme,
+    palette: PaletteColor,
+    placeholder: string,
+    defaultValue: string,
+    isFocused: boolean,
+  ) => css`
+    ${(defaultValue !== '' || placeholder !== '' || isFocused) &&
+    css`
+      top: 0.5rem;
+    `};
+  `,
+};
+
+export const inputVariants: Record<
+  TextFieldVariant,
+  (theme: Theme, palette: PaletteColor) => SerializedStyles
+> = {
+  contained: (theme: Theme, palette: PaletteColor) => css`
+    margin: 1rem 0 0.25rem 0;
+    background-color: #e8e8e8;
+  `,
+  outlined: (theme: Theme, palette: PaletteColor) => css``,
+  standard: (theme: Theme, palette: PaletteColor) => css`
+    margin: 1rem 0 0.25rem 0;
+  `,
+};
