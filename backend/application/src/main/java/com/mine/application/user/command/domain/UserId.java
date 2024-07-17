@@ -12,7 +12,7 @@ import java.util.Objects;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class UserId implements Serializable {
-    private String id;
+    private Integer id;
 
     @Override
     public boolean equals(Object o) {
@@ -25,5 +25,5 @@ public class UserId implements Serializable {
     @Override
     public int hashCode() { return Objects.hash(id); }
 
-    public static UserId of(String id) { return new UserId(id); }
+    public static UserId of(Integer id) { return new UserId(id); }
 }
