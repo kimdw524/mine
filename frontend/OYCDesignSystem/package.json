@@ -74,7 +74,6 @@
     "eslint-plugin-storybook": "^0.8.0",
     "prop-types": "^15.8.1",
     "storybook": "^8.1.9",
-    "typescript": "^5.5.3",
     "webpack": "^5.91.0"
   },
   "peerDependencies": {
