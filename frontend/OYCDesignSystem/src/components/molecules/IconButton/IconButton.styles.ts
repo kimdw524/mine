@@ -1,6 +1,7 @@
 import { Theme, css } from '@emotion/react';
 import { PaletteColor } from '../../../themes/lightTheme';
 import { Size } from '../../../themes/themeBase';
+import { applyAlpha } from '../../../utils/colorUtils';
 
 const sizes: Record<Size, string> = {
   sm: '1.25rem',
@@ -32,7 +33,7 @@ export const base = (
     cursor: pointer;
 
     :active {
-      background-color: ${color.active};
+      background-color: ${applyAlpha(color.main, 0.07)};
     }
   }
 
