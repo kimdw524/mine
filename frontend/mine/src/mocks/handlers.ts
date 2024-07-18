@@ -10,6 +10,23 @@ const userHandler = [
             lastName: "Maverick",
         });
     }),
+    http.post("/user/login", async ({request}) => {
+        const result: any = await request.json()
+        const data = {
+            accessToken: '오늘도 파이팅',
+        }
+
+        if (result?.email && result?.password) {
+            return new HttpResponse(JSON.stringify(data), {
+                status: 200,
+            })
+        } else {
+            return new HttpResponse(null, {
+                status:400,
+                statusText: 'quthentication_failed',
+            })
+        }
+        }),
 ];
 
 // 하나의 handler 로 관리

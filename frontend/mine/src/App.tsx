@@ -1,32 +1,53 @@
 import { useEffect, useState } from "react";
+import { LightTheme } from "oyc-ds";
+import { ThemeProvider } from "@emotion/react";
+// import { Routes, Route } from "react-router-dom"
+import Login from "./pages/Login";
 
 interface Result {
-    id: string;
-    firstName: string;
-    lastName: string;
+  id: string;
+  firstName: string;
+  lastName: string;
+}
+
+interface LoginResult {
+  email: string;
+  password: string;
 }
 
 function App() {
-    const [result, setResult] = useState<Result>({
-        id: "",
-        firstName: "",
-        lastName: "",
-    });
+  const [result, setResult] = useState<Result>({
+    id: "",
+    firstName: "",
+    lastName: "",
+  });
 
-    useEffect(() => {
-        // mocking 한 데이터가 옴
-        fetch("http://localhost:3000/user")
-            .then((res) => res.json())
-            .then((res) => setResult({ ...res }));
-    }, []);
+  const [login, setLogin] = useState<LoginResult>({
+    email: "",
+    password: "",
+  });
 
-    return (
-        <>
-            <div>{result.id}</div>
-            <div>{result.firstName}</div>
-            <div>{result.lastName}</div>
-        </>
-    );
+  useEffect(() => {
+    // mocking 한 데이터가 옴
+    fetch("http://localhost:3000/user")
+      .then((res) => res.json())
+      .then((res) => setResult({ ...res }));
+
+    fetch("http://localhost:3000/user/login")
+      .then((res) => res.json())
+      .then((res) => setLogin({ ...res }));
+  }, []);
+
+  return (
+    <ThemeProvider theme={LightTheme}>
+      <div>{result.id}</div>
+      <div>{result.firstName}</div>
+      <div>{result.lastName}</div>
+      <div>{login.email}</div>
+      <div>{login.password}</div>
+      <Login />
+    </ThemeProvider>
+  );
 }
 
 export default App;
