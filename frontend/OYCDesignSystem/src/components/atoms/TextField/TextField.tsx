@@ -20,7 +20,6 @@ export const TextField = ({
   multiLine = false,
   placeholder = '',
   readOnly = false,
-  size = 'md',
   type = 'text',
   variant = 'contained',
   ...props
