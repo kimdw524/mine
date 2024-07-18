@@ -9,17 +9,22 @@ const toggleSize: Record<Size, { width: string }> = {
   xl: { width: '2.75rem' },
 };
 
-export const base = (theme: Theme, palette: PaletteColor, size: Size) => css`
+export const base = (
+  theme: Theme,
+  palette: PaletteColor,
+  isOn: boolean,
+  size: Size,
+) => css`
   position: relative;
   width: ${toggleSize[size].width};
   height: 1rem;
   padding: 0.125rem 0;
   border-radius: 1rem;
-  background-color: ${palette.main};
+  background-color: ${isOn ? palette.main : '#999999'};
   transition: background-color 300ms;
 `;
 
-export const thumb = (value: boolean, size: Size) => css`
+export const thumb = (isOn: boolean, size: Size) => css`
   position: absolute;
   width: 1rem;
   height: 1rem;
@@ -27,7 +32,7 @@ export const thumb = (value: boolean, size: Size) => css`
   background-color: white;
   transition: left 300ms ease-in-out;
 
-  ${value
+  ${isOn
     ? css`
         left: calc(${toggleSize[size].width} - 1.125rem);
       `
