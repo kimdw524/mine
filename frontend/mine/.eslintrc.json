@@ -24,6 +24,10 @@
     "import/prefer-default-export": 0,
     "import/no-extraneous-dependencies": 0,
     "import/extensions": 0,
-    "import/no-unresolved": 0
+    "import/no-unresolved": 0,
+    "react/function-component-definition": [
+      2,
+      { "namedComponents": ["arrow-function"] }
+    ]
   }
 }
