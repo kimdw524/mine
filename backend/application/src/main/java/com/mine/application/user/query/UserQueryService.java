@@ -11,4 +11,7 @@ public class UserQueryService {
     public boolean existUserId(String email) {
         return userDataRepository.existsByEmail(email);
     }
+    public UserData getUserData(String email) {
+        return userDataRepository.findByEmail(email);
+    }
 }
