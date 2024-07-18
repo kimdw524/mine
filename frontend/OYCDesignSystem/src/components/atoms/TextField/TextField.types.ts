@@ -6,7 +6,7 @@ export interface TextFieldProps
   extends Omit<React.ComponentProps<'input'>, 'size'> {
   color?: Palette;
   defaultValue?: string;
-  disabled: boolean;
+  disabled?: boolean;
   label?: string;
   maxRows?: number;
   multiLine?: boolean;
