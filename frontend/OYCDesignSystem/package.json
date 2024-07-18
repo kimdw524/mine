@@ -14,7 +14,7 @@
     "type": "git",
     "url": "https://github.com/Memory-Orgel/OYCDesignSystem"
   },
-  "version": "0.0.5",
+  "version": "0.0.6",
   "dependencies": {
     "@emotion/react": "^11.11.4",
     "@testing-library/jest-dom": "^5.17.0",
