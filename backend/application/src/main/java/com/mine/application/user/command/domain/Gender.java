@@ -5,8 +5,11 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.Objects;
+
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+
 public class Gender {
     private Type type;
 
@@ -32,6 +35,27 @@ public class Gender {
     }
 
     public static Gender of(String val) {
-        return new Gender(Type.valueOf(val));
+        if(val.equals("F"))
+            return new Gender(Type.FEMALE);
+
+        return new Gender(Type.MALE);
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == this) {
+            return true;
+        }
+        if( obj == null || obj.getClass() != this.getClass()) {
+            return false;
+        }
+        Gender gender = (Gender) obj;
+        return type.equals(gender.getType());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(type.hashCode());
+    }
+
 }

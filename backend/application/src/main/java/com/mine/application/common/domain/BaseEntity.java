@@ -29,7 +29,9 @@ public abstract class BaseEntity {
 
     @PrePersist
     protected void noDeleted(){
-        isDeleted = false;
+        if(isDeleted == null){
+            isDeleted = false;
+        }
     } //JPA 영속성 추가되면 default로 추가되게 함. 궂이 false 일일이 추가 안해도 됨.
 
 }

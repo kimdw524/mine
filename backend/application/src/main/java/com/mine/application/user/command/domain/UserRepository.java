@@ -10,4 +10,6 @@ public interface UserRepository extends Repository<User, UserId> {
     void save(User user);
 
     boolean existsById(UserId userId);
+
+    Optional<User> findByEmail(String email);
 }
