@@ -20,8 +20,8 @@ const meta = {
     color: {
       description: '적용할 컬러 팔레트입니다.',
     },
-    value: {
-      description: '토글이 on이면 true, off면 false',
+    size: {
+      description: '적용할 크기입니다.',
     },
   },
 } satisfies Meta<typeof Toggle>;
@@ -33,11 +33,11 @@ type Story = StoryObj<typeof Toggle>;
 export const Primary: Story = {
   args: {
     color: 'primary',
-    value: false,
+    size: 'sm',
   },
 };
 
-const colorList: Palette[] = ['primary', 'secondary'];
+const colorList: Palette[] = ['primary', 'secondary', 'success', 'danger'];
 
 export const Contained: Story = {
   args: {
