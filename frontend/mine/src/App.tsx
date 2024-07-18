@@ -3,6 +3,7 @@ import { LightTheme } from "oyc-ds";
 import { ThemeProvider } from "@emotion/react";
 // import { Routes, Route } from "react-router-dom"
 import Login from "./pages/Login";
+import './App.css'
 
 interface Result {
   id: string;
@@ -40,12 +41,12 @@ function App() {
 
   return (
     <ThemeProvider theme={LightTheme}>
-      <div>{result.id}</div>
-      <div>{result.firstName}</div>
-      <div>{result.lastName}</div>
-      <div>{login.email}</div>
-      <div>{login.password}</div>
-      <Login />
+      {/* <div>{result.id}</div> */}
+      {/* <div>{result.firstName}</div> */}
+      {/* <div>{result.lastName}</div> */}
+      {/* <div>{login.email}</div> */}
+      {/* <div>{login.password}</div> */}
+      <Login/>
     </ThemeProvider>
   );
 }
