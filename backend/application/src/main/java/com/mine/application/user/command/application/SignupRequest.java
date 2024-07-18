@@ -14,9 +14,9 @@ public class SignupRequest {
     @NotNull
     private String password;
     @NotNull
-    private String name;
+    private String nickname;
     @NotNull
-    private String phone;
+    private String phoneNum;
     @NotNull
     private String gender;
 }

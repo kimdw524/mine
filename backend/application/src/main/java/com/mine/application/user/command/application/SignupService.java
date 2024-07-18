@@ -18,10 +18,10 @@ public class SignupService {
         Gender gender = Gender.of(signupRequest.getGender());
         User user = User.builder()
                 .email(signupRequest.getEmail())
-                .name(signupRequest.getName())
+                .nickname(signupRequest.getNickname())
                 .gender(gender)
                 .password(password)
-                .phoneNum(signupRequest.getPhone())
+                .phoneNum(signupRequest.getPhoneNum())
                 .build();
 
         //TODO : 이메일 인증 기능 추가할 것
