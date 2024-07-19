@@ -3,10 +3,12 @@ import { Button } from "oyc-ds";
 import { LabeledCheckBox, Typography, TextField } from "oyc-ds/dist/components";
 import axios from "axios";
 import "./Login.css";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const nav = useNavigate();
   // const [userInfo, setUserInfo] = useState({
   //   email:'',
   //   password:''
@@ -36,6 +38,7 @@ const Login = () => {
     axios
       .post("/user/login", { email: email, password: password })
       .then((res) => console.log(res.data));
+    nav("/");
   };
 
   return (

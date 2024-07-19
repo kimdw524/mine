@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+import { BrowserRouter } from "react-router-dom"
 
 // 개발 환경에서만 mocking 이 동작하도록
 async function enableMocking() {
@@ -18,7 +19,9 @@ const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement)
 enableMocking().then(() => {
     root.render(
         <React.StrictMode>
-            <App />
+            <BrowserRouter>
+                <App />
+            </BrowserRouter>
         </React.StrictMode>
     );
 });

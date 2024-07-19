@@ -2,8 +2,10 @@ import { useEffect, useState } from "react";
 import { LightTheme } from "oyc-ds";
 import { ThemeProvider } from "@emotion/react";
 // import { Routes, Route } from "react-router-dom"
+import Home from "./pages/Home";
 import Login from "./pages/Login";
 import './App.css'
+import { Routes, Route } from "react-router-dom";
 
 interface Result {
   id: string;
@@ -44,9 +46,12 @@ function App() {
       {/* <div>{result.id}</div> */}
       {/* <div>{result.firstName}</div> */}
       {/* <div>{result.lastName}</div> */}
-      {/* <div>{login.email}</div> */}
-      {/* <div>{login.password}</div> */}
-      <Login/>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/user/login" element={<Login />} />
+      </Routes>
+
+      {/* <Login/> */}
     </ThemeProvider>
   );
 }
