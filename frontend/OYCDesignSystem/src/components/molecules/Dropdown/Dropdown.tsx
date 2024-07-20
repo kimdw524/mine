@@ -1,76 +1,39 @@
 /** @jsxImportSource @emotion/react */
-import React, {
-  createContext,
-  forwardRef,
-  ReactNode,
-  useCallback,
-  useState,
-} from 'react';
-import { css, useTheme } from '@emotion/react';
+import React, { forwardRef } from 'react';
+import { useTheme } from '@emotion/react';
 import { DropdownProps } from './Dropdown.types';
-import { base, variants, icon, itemContainer } from './Dropdown.styles';
+import { base, variants, iconCss, containerCss } from './Dropdown.styles';
 import { ReactComponent as Arrow } from '../../../assets/icons/arrow.svg';
 
-export const DropdownContext = createContext(
-  (name: ReactNode, value: string) => {},
-);
-
 export const Dropdown = forwardRef<HTMLSelectElement, DropdownProps>(
-  ({
-    children,
-    size = 'md',
-    color = 'primary',
-    variant = 'outlined',
-    disabled = false,
-    name,
-    onChange = (value: string) => {},
-    ...props
-  }: DropdownProps) => {
+  (
+    {
+      children,
+      size = 'md',
+      color = 'primary',
+      variant = 'outlined',
+      name,
+      ...props
+    },
+    ref,
+  ) => {
     const theme = useTheme();
-    const [open, setOpen] = useState(false);
-    const [selected, setSeleceted] = useState<{
-      name: ReactNode;
-      value: string;
-    }>({ name: '', value: '' });
-
-    const handleClick = () => {
-      if (disabled) return;
-      setOpen((open) => !open);
-    };
-
-    const handleUpdateValue = useCallback(
-      (name: ReactNode, value: string) => {
-        setSeleceted({ name, value });
-        onChange(value);
-      },
-      [onChange],
-    );
 
     return (
-      <div
-        css={[
-          base(theme, size),
-          variants[variant](theme, theme.colors[color], open, disabled),
-        ]}
-        onClick={handleClick}
-        {...props}
-      >
-        <input type="hidden" name={name} value={selected.value} />
-        <div
-          css={css`
-            margin-right: 1.25rem;
-          `}
+      <div css={containerCss}>
+        <select
+          css={[
+            base(theme, size),
+            variants[variant](theme, theme.colors[color]),
+          ]}
+          ref={ref}
+          {...props}
         >
-          {selected.name}
-        </div>
-        <span css={icon(open)}>
+          {children}
+        </select>
+        <span css={iconCss(false)}>
           <Arrow />
         </span>
-        <div css={itemContainer(theme, !disabled && open)}>
-          <DropdownContext.Provider value={handleUpdateValue}>
-            {children}
-          </DropdownContext.Provider>
-        </div>
       </div>
     );
   },
