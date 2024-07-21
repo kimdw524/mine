@@ -1,7 +1,8 @@
 /** @jsxImportSource @emotion/react */
 import { Button, TextField, Typography } from 'oyc-ds';
 import { formCss, genderContainerCss, instCss } from './style';
-import { useState } from 'react';
+import { useContext, useRef, useState } from 'react';
+import { SignupContext } from '..';
 
 interface UserDataFormProps {
   onSubmit: () => void;
@@ -9,6 +10,20 @@ interface UserDataFormProps {
 
 const UserDataForm = ({ onSubmit }: UserDataFormProps) => {
   const [gender, setGender] = useState<'M' | 'F'>('M');
+  const signupContext = useContext(SignupContext);
+  const emailRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
+  const passwordCheckRef = useRef<HTMLInputElement>(null);
+  const nameRef = useRef<HTMLInputElement>(null);
+
+  const handleNext = () => {
+    signupContext.update({
+      email: emailRef.current?.value,
+      password: passwordRef.current?.value,
+      name: nameRef.current?.value,
+    });
+    onSubmit();
+  };
 
   return (
     <>
@@ -18,20 +33,36 @@ const UserDataForm = ({ onSubmit }: UserDataFormProps) => {
         정보를 입력해 주세요.
       </Typography>
       <div css={formCss}>
-        <TextField label="이메일" defaultValue="" variant="outlined" />
+        <TextField
+          label="이메일"
+          name="email"
+          ref={emailRef}
+          defaultValue=""
+          variant="outlined"
+        />
         <TextField
           type="password"
+          name="password"
           label="비밀번호"
+          ref={passwordRef}
           defaultValue=""
           variant="outlined"
         />
         <TextField
           type="password"
+          name="passwordCheck"
           label="비밀번호 확인"
+          ref={passwordCheckRef}
           defaultValue=""
           variant="outlined"
         />
-        <TextField label="이름" defaultValue="" variant="outlined" />
+        <TextField
+          label="이름"
+          name="name"
+          ref={nameRef}
+          defaultValue=""
+          variant="outlined"
+        />
         <div css={genderContainerCss}>
           <Button
             size="md"
@@ -50,8 +81,7 @@ const UserDataForm = ({ onSubmit }: UserDataFormProps) => {
             여자
           </Button>
         </div>
-
-        <Button size="lg" onClick={onSubmit}>
+        <Button type="submit" size="lg" onClick={handleNext}>
           다음
         </Button>
       </div>
