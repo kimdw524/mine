@@ -33,6 +33,7 @@ export const TextField = forwardRef<
   ) => {
     const theme = useTheme();
     const [isFocused, setIsFocused] = useState<boolean>(false);
+    const [inputValue, setInputValue] = useState<string>('');
 
     return (
       <div
@@ -49,6 +50,7 @@ export const TextField = forwardRef<
               theme.colors[color],
               placeholder,
               defaultValue,
+              inputValue,
               isFocused,
             ),
             labelVariants[variant](
@@ -56,6 +58,7 @@ export const TextField = forwardRef<
               theme.colors[color],
               placeholder,
               defaultValue,
+              inputValue,
               isFocused,
             ),
           ]}
@@ -74,6 +77,7 @@ export const TextField = forwardRef<
             rows={maxRows}
             onFocus={() => !readOnly && setIsFocused(true)}
             onBlur={() => !readOnly && setIsFocused(false)}
+            onChange={(e) => setInputValue(e.target.value)}
             ref={ref as React.Ref<HTMLTextAreaElement>}
           >
             {defaultValue}
@@ -91,6 +95,7 @@ export const TextField = forwardRef<
             defaultValue={defaultValue}
             onFocus={() => !readOnly && setIsFocused(true)}
             onBlur={() => !readOnly && setIsFocused(false)}
+            onChange={(e) => setInputValue(e.target.value)}
             ref={ref as React.Ref<HTMLInputElement>}
           />
         )}
