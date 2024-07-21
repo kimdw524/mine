@@ -1,5 +1,6 @@
 import { http, HttpResponse } from "msw";
 
+
 // mocking 할 API handler
 // 종류에 따라 분류하면 됨
 const userHandler = [
@@ -10,6 +11,7 @@ const userHandler = [
       lastName: "Maverick",
     });
   }),
+
   http.post("/user/login", async ({ request }) => {
     const result: any = await request.json();
     const data = {
@@ -17,24 +19,33 @@ const userHandler = [
       email: "",
       password: "",
     };
-
+  
     if (result?.email && result?.password) {
       return (
         (data.email = result.email),
         (data.password = result.password),
         new HttpResponse(JSON.stringify(data), {
           status: 200,
+          // headers: {
+          //   'Set-Cookie': 'authToken=abc-123',
+          // }
         })
       );
-      // return new HttpResponse(JSON.stringify(data), {
-      //     status: 200,
-      // })
     } else {
       return new HttpResponse(null, {
         status: 400,
         statusText: "quthentication_failed",
       });
     }
+  }),
+
+  http.post('/user/logout', () => {
+    console.log('로그아웃');
+    return new HttpResponse(null, {
+      // headers: {
+      //   'Set-Cookie': 'authToken=abc-123',
+      // }
+    })
   }),
 ];
 

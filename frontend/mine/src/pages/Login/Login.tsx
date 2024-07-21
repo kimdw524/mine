@@ -4,15 +4,14 @@ import { LabeledCheckBox, Typography, TextField } from "oyc-ds/dist/components";
 import axios from "axios";
 import "./Login.css";
 import { useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const nav = useNavigate();
-  // const [userInfo, setUserInfo] = useState({
-  //   email:'',
-  //   password:''
-  // });
+  const [cookies, setCookie] = useCookies();
+  const [ischecked, setIsChecked] = useState(false);
 
   const emailChange = (e: any) => {
     setEmail(e.target.value);
@@ -24,21 +23,42 @@ const Login = () => {
     console.log(password);
   };
 
-  // const handleChange = (e:any) => {
-  //   setUserInfo({ ...userInfo, [e.target.name]: e.target.value });
-  //   console.log(userInfo)
-  // };
-
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    // axios
-    //   .post("/user/login", { email: userInfo.email, password: userInfo.password })
-    //   .then((res) => console.log(res.data));
-    //   Validation(userInfo)
-    axios
-      .post("/user/login", { email: email, password: password })
-      .then((res) => console.log(res.data));
-    nav("/");
+    if (!ischecked) {
+      axios
+        .post("/user/login", { email: email, password: password })
+        .then((res) => {
+          console.log(res.data);
+          setCookie("Token", res.data.accessToken); // 쿠키에 토큰 저장
+        }); 
+      nav("/");
+      console.log(cookies);
+    }
+  };
+
+  const checkedItemHandler = (ischecked: Boolean) => {
+    if (!ischecked) {
+      setIsChecked(false);
+      console.log("체크해제");
+    } else {
+      setIsChecked(true);
+      console.log("체크");
+    }
+  };
+
+  const autoLogin = (e: any) => {
+    if (ischecked) {
+      const today = new Date(); 
+      today.setDate(today.getDate() + 1); 
+      axios
+        .post("/user/login", { email: email, password: password })
+        .then((res) => {
+          console.log(res.data);
+          setCookie("Token", res.data.accessToken, { expires: today });
+        });
+      nav("/");
+    }
   };
 
   return (
@@ -97,28 +117,40 @@ const Login = () => {
           labelColor="dark"
           size="sm"
           weight="medium"
+          onChange={checkedItemHandler}
         >
           자동 로그인
         </LabeledCheckBox>
         <div className="LoginBtn">
-          <Button color="primary" size="md" variant="contained" type="submit">
+          <Button
+            color="primary"
+            size="md"
+            variant="contained"
+            type="submit"
+            onClick={autoLogin}
+          >
             로그인
           </Button>
         </div>
-        <div className="SignUpBtn">
-          <Button color="primary" size="md" variant="outlined">
-            회원가입
-          </Button>
-        </div>
-        <Typography
-          color="secondary"
-          size="xs"
-          weight="medium"
-          className="passwordfind"
-        >
-          비밀번호 찾기
-        </Typography>
       </form>
+      <div className="SignUpBtn">
+        <Button
+          color="primary"
+          size="md"
+          variant="outlined"
+          onClick={() => nav("/user/signup")}
+        >
+          회원가입
+        </Button>
+      </div>
+      <Typography
+        color="secondary"
+        size="xs"
+        weight="medium"
+        className="passwordfind"
+      >
+        비밀번호 찾기
+      </Typography>
     </div>
   );
 };
