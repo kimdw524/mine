@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Dropdown } from './Dropdown';
+import { Dropdown } from './';
 import { Palette } from '../../../themes/lightTheme';
 
 const meta = {

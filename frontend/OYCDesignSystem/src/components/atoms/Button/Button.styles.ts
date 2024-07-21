@@ -43,10 +43,6 @@ export const variants: Record<
     color: ${palette.contrastText};
 
     :enabled {
-      :hover {
-        background-color: ${palette.hover};
-      }
-
       :active {
         background-color: ${palette.active};
       }
@@ -57,12 +53,19 @@ export const variants: Record<
     }
   `,
   outlined: (theme: Theme, palette: PaletteColor) => css`
-    border: 1px solid ${palette.main};
+    box-shadow: 0 0 0 0.0625rem ${palette.main};
     background-color: ${theme.colors.background};
     color: ${palette.main};
 
+    :enabled {
+      :active {
+        box-shadow: 0 0 0 0.0625rem ${palette.active};
+        color: ${palette.active};
+      }
+    }
+
     :disabled {
-      border: 1px solid ${palette.disabled};
+      box-shadow: 0 0 0 0.0625rem ${palette.disabled};
       color: ${palette.disabled};
     }
   `,

@@ -4,6 +4,7 @@ export { TextField } from './atoms/TextField';
 export { Toggle } from './atoms/Toggle';
 export { Icon } from './atoms/Icon';
 export { Typography } from './atoms/Typography';
+export { Progress } from './atoms/Progress';
 export { Dropdown } from './molecules/Dropdown';
 export { LabeledCheckBox } from './molecules/LabeledCheckBox';
 export { IconButton } from './molecules/IconButton';
