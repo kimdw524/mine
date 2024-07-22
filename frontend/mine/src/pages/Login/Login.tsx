@@ -6,21 +6,44 @@ import "./Login.css";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 
+
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
   const nav = useNavigate();
   const [cookies, setCookie] = useCookies();
   const [ischecked, setIsChecked] = useState(false);
+  const [emailvalidation, setEmailValidation] = useState<Boolean>(false);
+  let emailCheck = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-za-z0-9\-]+/;
+  const [passwordvalidation, setPasswordValidation] = useState<Boolean>(false);
+  let passwordCheck = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,}$/; // 영문, 숫자, 8글자 이상
+
+  const EmailValidation = (email: string) => {
+    if (emailCheck.test(email)) {
+      setEmailValidation(true); // 검증 성공
+    } else {
+      setEmailValidation(false); // 검증 실패
+    }
+  };
+
+  const PasswordValidation = (password: string) => {
+    if (passwordCheck.test(password)) {
+      setPasswordValidation(true);
+    } else {
+      setPasswordValidation(false);
+    }
+  };
 
   const emailChange = (e: any) => {
     setEmail(e.target.value);
     console.log(email);
+    EmailValidation(email);
   };
 
   const passwordChange = (e: any) => {
     setPassword(e.target.value);
     console.log(password);
+    PasswordValidation(password);
   };
 
   const handleSubmit = (e: any) => {
@@ -31,7 +54,8 @@ const Login = () => {
         .then((res) => {
           console.log(res.data);
           setCookie("Token", res.data.accessToken); // 쿠키에 토큰 저장
-        }); 
+        });
+        
       nav("/");
       console.log(cookies);
     }
@@ -49,8 +73,8 @@ const Login = () => {
 
   const autoLogin = (e: any) => {
     if (ischecked) {
-      const today = new Date(); 
-      today.setDate(today.getDate() + 1); 
+      const today = new Date();
+      today.setDate(today.getDate() + 1);
       axios
         .post("/user/login", { email: email, password: password })
         .then((res) => {
@@ -81,14 +105,16 @@ const Login = () => {
             required
             value={email}
           />
-          <Typography
-            className="errormsg"
-            color="danger"
-            size="xs"
-            weight="medium"
-          >
-            아이디 양식 맞춰주세요
-          </Typography>
+          {!emailvalidation && email ? (
+            <Typography
+              className="errormsg"
+              color="danger"
+              size="xs"
+              weight="medium"
+            >
+              올바른 이메일을 입력해주세요.
+            </Typography>
+          ) : null}
         </div>
         <div className="passwordtextfield">
           <TextField
@@ -103,14 +129,16 @@ const Login = () => {
             onChange={passwordChange}
             value={password}
           />
-          <Typography
+          {!passwordvalidation && password ? (
+            <Typography
             className="errormsg"
             color="danger"
             size="xs"
             weight="medium"
           >
-            비밀번호 양식 맞춰주세요
+            영문, 숫자 포함 8자 이상 입력해주세요.
           </Typography>
+          ) : null}
         </div>
         <LabeledCheckBox
           color="primary"
@@ -143,14 +171,14 @@ const Login = () => {
           회원가입
         </Button>
       </div>
-      <Typography
-        color="secondary"
-        size="xs"
-        weight="medium"
-        className="passwordfind"
-      >
-        비밀번호 찾기
-      </Typography>
+        <Typography
+          color="secondary"
+          size="xs"
+          weight="medium"
+          className="passwordfind"
+        >
+          비밀번호 찾기
+        </Typography>
     </div>
   );
 };
