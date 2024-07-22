@@ -20,9 +20,17 @@ const Home = () => {
         color="primary"
         size="xl"
         variant="contained"
+        onClick={() => nav("/user/signup")}
+      >
+        회원가입
+      </Button>
+      <Button
+        color="primary"
+        size="xl"
+        variant="contained"
         onClick={() => nav("/user/login")}
       >
-        로그인 하러가기
+        로그인
       </Button>
       <Button color="primary" size="xl" variant="contained" onClick={onClick}>
         로그아웃

@@ -156,6 +156,7 @@ const Login = () => {
             variant="contained"
             type="submit"
             onClick={autoLogin}
+            disabled={passwordvalidation && emailvalidation ? false : true}
           >
             로그인
           </Button>
