@@ -1,14 +1,19 @@
 /** @jsxImportSource @emotion/react */
 import React from 'react';
-import { Typography } from 'oyc-ds';
+import { Button, Typography } from 'oyc-ds';
 import { instCss } from './style';
 
-const Intro = () => {
+interface IntroProps {
+  onCreateClick: () => void;
+}
+
+const Intro = ({ onCreateClick }: IntroProps) => {
   return (
     <>
       <Typography size={'xl'} weight={'medium'} color={'dark'} css={instCss}>
-        adsasdadsdsadsa
+        설명 123456
       </Typography>
+      <Button onClick={onCreateClick}>만들기</Button>
     </>
   );
 };

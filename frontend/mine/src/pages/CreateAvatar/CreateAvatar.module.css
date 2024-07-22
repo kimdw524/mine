@@ -1,5 +1,5 @@
 .fade-enter {
-  transform: translateX(50vw) scale(0.9) !important;
+  transform: translateX(50vw) !important;
   opacity: 0 !important;
 }
 
@@ -9,7 +9,7 @@
   right: 0;
   left: 0;
   bottom: 0;
-  transform: translateX(-50vw) scale(0.9) !important;
+  transform: translateX(-50vw) !important;
   opacity: 0 !important;
   pointer-events: none;
   user-select: none;
@@ -17,5 +17,5 @@
 
 .fade {
   opacity: 1;
-  transition: all 0.3s ease;
+  transition: all 10.3s ease;
 }
