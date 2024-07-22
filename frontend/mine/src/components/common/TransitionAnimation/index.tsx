@@ -1,13 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { Interpolation, Theme } from '@emotion/react';
-import React, {
-  Key,
-  ReactElement,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import React, { Key, ReactElement, useEffect, useRef, useState } from 'react';
 
 interface TransitionClass {
   normal: string;
@@ -56,6 +49,7 @@ const TransitionAnimation = (props: TransitionAnimationProps) => {
       if (child.key === props['data-key']) setItems([ch.item]);
       return ch;
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -115,7 +109,9 @@ const TransitionAnimation = (props: TransitionAnimationProps) => {
         return false;
       });
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     props['data-key'],
     props.className.normal,
     props.className.enter,
