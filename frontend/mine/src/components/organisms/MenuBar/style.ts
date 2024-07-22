@@ -4,9 +4,10 @@ export const containerCss = css`
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  position: sticky;
+  position: absolute;
   bottom: 0;
   z-index: 30;
+  width: 100%;
   height: 4rem;
 
   border-top-left-radius: 2rem;
