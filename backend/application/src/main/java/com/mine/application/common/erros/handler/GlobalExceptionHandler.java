@@ -89,7 +89,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 .map(ErrorResponse.ValidationError::of)
                 .collect(Collectors.toList());
 
-
         return ErrorResponse.builder()
                 .code(errorCode.name())
                 .message(errorCode.getMessage())
