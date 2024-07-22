@@ -33,7 +33,10 @@ const GlobalStyle = () => {
             -webkit-tap-highlight-color: transparent !important;
           }
 
-          body {
+          body,
+          #root {
+            width: 100vw;
+            height: 100vh;
             overflow-x: hidden;
           }
         `,

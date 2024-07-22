@@ -1,10 +1,12 @@
 /** @jsxImportSource @emotion/react */
-import React, { createContext, useCallback, useState } from 'react';
-import { containerCss } from './style';
+import { createContext, useCallback, useState } from 'react';
+import TransitionAnimation from '../../components/atmos/TransitionAnimation';
 import AppBar from '../../components/organisms/AppBar';
+import Done from './Done';
+import styles from './Signup.module.css';
 import UserDataForm from './UserDataForm';
 import Verification from './Verification';
-import Done from './Done';
+import { containerCss } from './style';
 
 interface SignupInfo {
   email: string;
@@ -14,10 +16,14 @@ interface SignupInfo {
   code: string;
 }
 
-export const SignupContext = createContext<{
+interface SignupContextProps {
   info: SignupInfo;
   update: (data: Partial<SignupInfo>) => void;
-}>({} as any);
+}
+
+export const SignupContext = createContext<SignupContextProps>(
+  {} as SignupContextProps,
+);
 
 const Signup = () => {
   const [info, setInfo] = useState<SignupInfo>({
@@ -44,13 +50,18 @@ const Signup = () => {
         <AppBar.Progress value={step + 1} max={3} />
       </AppBar>
       <div css={containerCss}>
-        {
-          {
-            0: <UserDataForm onSubmit={() => setStep(1)} />,
-            1: <Verification onSubmit={() => setStep(2)} />,
-            2: <Done />,
-          }[step]
-        }
+        <TransitionAnimation
+          data-key={step.toString()}
+          className={{
+            normal: styles.fade,
+            enter: styles['fade-enter'],
+            exit: styles['fade-exit'],
+          }}
+        >
+          <UserDataForm key={0} onSubmit={() => setStep(1)} />
+          <Verification key={1} onSubmit={() => setStep(2)} />
+          <Done key={2} />
+        </TransitionAnimation>
       </div>
     </SignupContext.Provider>
   );

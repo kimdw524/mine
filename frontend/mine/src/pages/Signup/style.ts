@@ -1,7 +1,8 @@
 import { css } from '@emotion/react';
 
 export const containerCss = css`
-  padding: 1rem;
+  position: relative;
+  margin: 1rem;
 `;
 
 export const formCss = css`
