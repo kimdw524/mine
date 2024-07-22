@@ -9,6 +9,7 @@ import {
   IconButton,
   LabeledCheckBox,
   Typography,
+  Progress,
 } from './components';
 
 export {
@@ -22,4 +23,5 @@ export {
   IconButton,
   LabeledCheckBox,
   Typography,
+  Progress,
 };
