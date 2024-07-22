@@ -4,7 +4,7 @@ import { containerCss, labelCss, menuCss } from './style';
 import { ChevronLeftIcon, Bars3Icon } from '@heroicons/react/24/solid';
 import { useTheme } from '@emotion/react';
 import Progress from './Progress';
-import { ReactNode } from 'react';
+import React, { ReactNode } from 'react';
 
 interface AppBarProps {
   children?: ReactNode;
