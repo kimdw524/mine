@@ -11,6 +11,7 @@ const sizes: Record<Size, string> = {
 
 export const base = (theme: Theme, palette: PaletteColor, size: Size) => css`
   color: ${palette.main};
+  line-height: 0;
 
   svg {
     width: ${sizes[size]};

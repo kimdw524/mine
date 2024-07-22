@@ -26,13 +26,17 @@ export const labelField = (
   palette: PaletteColor,
   placeholder: string,
   defaultValue: string,
+  inputValue: string,
   isFocused: boolean,
 ) => css`
   position: absolute;
   top: calc(50% - 0.5rem);
   padding: 0 0.3125rem;
   color: ${isFocused ? palette.main : '#B4B4B4'};
-  font-size: ${defaultValue !== '' || placeholder !== '' || isFocused
+  font-size: ${inputValue !== '' ||
+  defaultValue !== '' ||
+  placeholder !== '' ||
+  isFocused
     ? '0.625rem'
     : '1rem'};
   transition: all 150ms ease-in-out;
@@ -101,6 +105,7 @@ export const labelVariants: Record<
     palette: PaletteColor,
     placeholder: string,
     defaultValue: string,
+    inputValue: string,
     isFocused: boolean,
   ) => SerializedStyles
 > = {
@@ -109,9 +114,13 @@ export const labelVariants: Record<
     palette: PaletteColor,
     placeholder: string,
     defaultValue: string,
+    inputValue: string,
     isFocused: boolean,
   ) => css`
-    ${(defaultValue !== '' || placeholder !== '' || isFocused) &&
+    ${(inputValue !== '' ||
+      defaultValue !== '' ||
+      placeholder !== '' ||
+      isFocused) &&
     css`
       top: 0.5rem;
     `};
@@ -121,9 +130,13 @@ export const labelVariants: Record<
     palette: PaletteColor,
     placeholder: string,
     defaultValue: string,
+    inputValue: string,
     isFocused: boolean,
   ) => css`
-    ${(defaultValue !== '' || placeholder !== '' || isFocused) &&
+    ${(inputValue !== '' ||
+      defaultValue !== '' ||
+      placeholder !== '' ||
+      isFocused) &&
     css`
       top: -0.375rem;
       background-color: white;
@@ -134,9 +147,13 @@ export const labelVariants: Record<
     palette: PaletteColor,
     placeholder: string,
     defaultValue: string,
+    inputValue: string,
     isFocused: boolean,
   ) => css`
-    ${(defaultValue !== '' || placeholder !== '' || isFocused) &&
+    ${(inputValue !== '' ||
+      defaultValue !== '' ||
+      placeholder !== '' ||
+      isFocused) &&
     css`
       top: 0.5rem;
     `};

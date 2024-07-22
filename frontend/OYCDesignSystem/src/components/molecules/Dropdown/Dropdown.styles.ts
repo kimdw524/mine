@@ -14,9 +14,9 @@ export const base = (theme: Theme, size: Size) => css`
   display: flex;
   align-items: center;
   position: relative;
-  min-width: 5rem;
+  width: 100%;
   height: ${sizes[size].height};
-  padding: 0 0.875rem;
+  padding: 0 2.125rem 0 0.875rem;
   box-sizing: border-box;
   outline: none;
   border: 0;
@@ -29,13 +29,17 @@ export const base = (theme: Theme, size: Size) => css`
   appearance: unset;
 `;
 
-export const icon = (open: boolean) => css`
+export const containerCss = css`
+  position: relative;
+`;
+
+export const iconCss = (open: boolean) => css`
   position: absolute;
+  top: calc(50% - 0.625rem);
   right: 0.5rem;
   width: 1.25rem;
   height: 1.25rem;
-  transition: all 100ms ease;
-  transform: rotateZ(${open ? '180deg' : '0'});
+  pointer-events: none;
 
   path {
     fill: inherit;
@@ -44,79 +48,34 @@ export const icon = (open: boolean) => css`
 
 export const variants: Record<
   DropdownVariant,
-  (
-    theme: Theme,
-    palette: PaletteColor,
-    open: boolean,
-    disabled: boolean,
-  ) => SerializedStyles
+  (theme: Theme, palette: PaletteColor) => SerializedStyles
 > = {
-  contained: (
-    theme: Theme,
-    palette: PaletteColor,
-    open: boolean,
-    disabled: boolean,
-  ) => css`
+  contained: (theme: Theme, palette: PaletteColor) => css`
     color: ${palette.contrastText};
+    background-color: ${palette.disabled};
     fill: ${palette.contrastText};
     transition: all 100ms ease;
 
-    ${disabled
-      ? css`
-          background-color: ${palette.disabled};
-        `
-      : css`
-          background-color: ${palette.main};
-        `}
+    :disabled {
+      background-color: ${palette.main};
+    }
   `,
-  outlined: (
-    theme: Theme,
-    palette: PaletteColor,
-    open: boolean,
-    disabled: boolean,
-  ) => css`
+  outlined: (theme: Theme, palette: PaletteColor) => css`
+    border: 0.0625rem solid ${theme.colors.text.secondary};
     background-color: ${theme.colors.background};
-    transition: all 100ms ease;
+    color: ${theme.colors.text.primary};
+    fill: ${theme.colors.text.secondary};
+    transition: all 200ms ease;
 
-    ${disabled
-      ? css`
-          border: 0.0625rem solid ${theme.colors.text.disabled};
-          color: ${theme.colors.text.disabled};
-          fill: ${theme.colors.text.disabled};
-        `
-      : css`
-          border: 0.0625rem solid ${theme.colors.text.secondary};
-          color: ${theme.colors.text.primary};
-          fill: ${theme.colors.text.secondary};
-        `}
-
-    ${open &&
-    css`
+    :focus {
       border: 0.0625rem solid ${palette.main};
       fill: ${palette.main};
-    `}
+    }
+
+    :disabled {
+      border: 0.0625rem solid ${theme.colors.text.disabled};
+      color: ${theme.colors.text.disabled};
+      fill: ${theme.colors.text.disabled};
+    }
   `,
 };
-
-export const itemContainer = (theme: Theme, open: boolean) => css`
-  position: absolute;
-  top: calc(100% + 0.75rem);
-  right: 0;
-  left: 0;
-  z-index: 20;
-  box-shadow: rgba(0, 0, 0, 0.1) 0 0 0.5rem 0.0125rem;
-  border: 0.0625rem solid ${theme.colors.text.disabled};
-  border-radius: 0.25rem;
-  background-color: ${theme.colors.background};
-
-  ${open
-    ? css`
-        opacity: 1;
-      `
-    : css`
-        transform: translateY(-0.25rem);
-        opacity: 0;
-        pointer-events: none;
-      `}
-  transition: all 100ms ease;
-`;
