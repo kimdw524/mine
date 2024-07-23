@@ -56,6 +56,11 @@ const mypageHandler = [
       gender: '남성',
     });
   }),
+  http.get('/mypage/nickname', () => {
+    return HttpResponse.json({
+      nickname: '닉네임입니다',
+    });
+  }),
 ];
 
 // 하나의 handler 로 관리
