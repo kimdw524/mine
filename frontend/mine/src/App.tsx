@@ -6,7 +6,7 @@ import GlobalStyle from './styles/GlobalStyle';
 import { Routes, Route } from 'react-router-dom';
 import Home from './pages/Login/Home';
 import Login from './pages/Login/Login';
-import MyPage from './pages/MyPage';
+import MyPage from './pages/MyPage/Information';
 import './App.css';
 
 function App() {

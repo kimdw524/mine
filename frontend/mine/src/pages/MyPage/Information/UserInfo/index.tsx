@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import InfoBox from '../../../components/molecules/InfoBox/InfoBox';
+import InfoBox from '../../../../components/molecules/InfoBox/InfoBox';
 import { userInfoTitle, userInfoBox, userInfoBtn } from './style';
 import { Button, Typography } from 'oyc-ds';
 

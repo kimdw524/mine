@@ -1,11 +1,11 @@
 /** @jsxImportSource @emotion/react */
 import React, { useState } from 'react';
-import MenuBar from '../../components/organisms/MenuBar';
-import AppBar from '../../components/organisms/AppBar';
-import { containerCss } from './style';
+import MenuBar from '../../../components/organisms/MenuBar';
+import AppBar from '../../../components/organisms/AppBar';
 import UserInfo from './UserInfo';
-import TransitionAnimation from '../../components/common/TransitionAnimation';
+import TransitionAnimation from '../../../components/common/TransitionAnimation';
 import styles from './MyPage.module.css';
+import { containerCss } from './style';
 
 const MyPage = () => {
   const [curMenu, setCurMenu] = useState<number>(1);
