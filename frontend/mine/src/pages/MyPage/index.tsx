@@ -29,7 +29,6 @@ const MyPage = () => {
           <UserInfo key={1} />
           <div key={2}>it is Menu 2</div>
         </TransitionAnimation>
-
         <MenuBar page="mypage" menu={curMenu} setCurMenu={setCurMenu} />
       </div>
     </>

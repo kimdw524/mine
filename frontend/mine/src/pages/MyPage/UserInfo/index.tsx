@@ -2,8 +2,8 @@
 import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import InfoBox from '../../../components/molecules/InfoBox/InfoBox';
-import { userInfoTitle, userInfoBox } from './style';
-import { Typography } from 'oyc-ds';
+import { userInfoTitle, userInfoBox, userInfoBtn } from './style';
+import { Button, Typography } from 'oyc-ds';
 
 interface UserInfoResponse {
   [key: string]: string;
@@ -32,6 +32,10 @@ const UserInfo = () => {
           {Object.keys(userInfo).map((v: string) => {
             return <InfoBox key={v} label={v} content={userInfo[v]} />;
           })}
+        </div>
+        <div css={userInfoBtn}>
+          <Button fullWidth>닉네임 변경</Button>
+          <Button fullWidth>비밀번호 변경</Button>
         </div>
       </>
     );
