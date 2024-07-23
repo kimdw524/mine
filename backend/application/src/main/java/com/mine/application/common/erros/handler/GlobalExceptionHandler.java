@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(RestApiException.class)
-    public ResponseEntity<Object> handleQuizException(final RestApiException e) {
+    public ResponseEntity<Object> handleRestApiException(final RestApiException e) {
         final ErrorCode errorCode = e.getErrorCode();
         return handleExceptionInternal(errorCode);
     }
