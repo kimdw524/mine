@@ -1,28 +1,62 @@
 /** @jsxImportSource @emotion/react */
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import AppBar from '../../components/organisms/AppBar';
 import Intro from './Intro';
-import { containerCss } from './style';
+import { containerCss, appBarCss, innerCss } from './style';
 import styles from './CreateAvatar.module.css';
 import TransitionAnimation from '../../components/common/TransitionAnimation';
-import Choice from './Choice';
+import Choice, { QuestionData } from './Choice';
+import Subject, { SubjectiveQuestionData } from './Subject';
+import ReadSentence from './ReadSentence';
+
+const questions: QuestionData[] = [
+  {
+    questionId: 1,
+    description:
+      '1. 여행을 좋아하나요? 좋아한다면, 주로 가고 싶은 여행지 유형은 무엇인가요?',
+    choices: ['1번', '2번', '3번'],
+  },
+  {
+    questionId: 2,
+    description: '2. 2번 질문?',
+    choices: ['10번', '20번', '30번'],
+  },
+  {
+    questionId: 3,
+    description: '3번 질문',
+    choices: ['100번', '200번', '300번'],
+  },
+];
+
+const subjectiveQuestions: SubjectiveQuestionData[] = [
+  {
+    questionId: 1,
+    description:
+      '1. 여행을 좋아하나요? 좋아한다면, 주로 가고 싶은 여행지 유형은 무엇인가요?',
+  },
+  {
+    questionId: 2,
+    description: '2. 2번 질문?',
+  },
+  {
+    questionId: 3,
+    description: '3번 질문',
+  },
+];
 
 const CreateAvatar = () => {
   const [step, setStep] = useState<number>(0);
 
-  useEffect(() => {
-    document.querySelector('#root')?.scrollTo({ top: 0 });
-  }, [step]);
-
   return (
-    <>
+    <div css={containerCss}>
       <AppBar
         label="아바타 만들기"
         onBackClick={() => console.log('navigate to main')}
+        css={appBarCss}
       >
         <AppBar.Progress value={step} max={3} />
       </AppBar>
-      <div css={containerCss}>
+      <div css={innerCss}>
         <TransitionAnimation
           data-key={step.toString()}
           className={{
@@ -32,10 +66,16 @@ const CreateAvatar = () => {
           }}
         >
           <Intro key={0} onCreateClick={() => setStep(1)} />
-          <Choice key={1} onSubmit={() => setStep(0)} />
+          <Choice key={1} items={questions} onSubmit={() => setStep(2)} />
+          <Subject
+            key={2}
+            items={subjectiveQuestions}
+            onSubmit={() => setStep(3)}
+          />
+          <ReadSentence key={3} onSubmit={() => setStep(0)} />
         </TransitionAnimation>
       </div>
-    </>
+    </div>
   );
 };
 
