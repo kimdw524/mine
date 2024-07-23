@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React,{ useState } from "react";
 import { Button } from "oyc-ds";
 import { LabeledCheckBox, Typography, TextField } from "oyc-ds/dist/components";
 import axios from "axios";
@@ -13,10 +13,10 @@ const Login = () => {
   const nav = useNavigate();
   const [cookies, setCookie] = useCookies();
   const [ischecked, setIsChecked] = useState(false);
-  const [emailvalidation, setEmailValidation] = useState<Boolean>(false);
-  let emailCheck = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-za-z0-9\-]+/;
-  const [passwordvalidation, setPasswordValidation] = useState<Boolean>(false);
-  let passwordCheck = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,}$/; // 영문, 숫자, 8글자 이상
+  const [emailvalidation, setEmailValidation] = useState<boolean>(false);
+  const emailCheck = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-za-z0-9\-]+/;
+  const [passwordvalidation, setPasswordValidation] = useState<boolean>(false);
+  const passwordCheck = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,}$/; // 영문, 숫자, 8글자 이상
 
   const EmailValidation = (email: string) => {
     if (emailCheck.test(email)) {
@@ -34,34 +34,19 @@ const Login = () => {
     }
   };
 
-  const emailChange = (e: any) => {
+  const emailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
     console.log(email);
     EmailValidation(email);
   };
 
-  const passwordChange = (e: any) => {
+  const passwordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
     console.log(password);
     PasswordValidation(password);
   };
 
-  const handleSubmit = (e: any) => {
-    e.preventDefault();
-    if (!ischecked) {
-      axios
-        .post("/user/login", { email: email, password: password })
-        .then((res) => {
-          console.log(res.data);
-          setCookie("Token", res.data.accessToken); // 쿠키에 토큰 저장
-        });
-        
-      nav("/");
-      console.log(cookies);
-    }
-  };
-
-  const checkedItemHandler = (ischecked: Boolean) => {
+  const checkedItemHandler = (ischecked: boolean) => {
     if (!ischecked) {
       setIsChecked(false);
       console.log("체크해제");
@@ -71,7 +56,8 @@ const Login = () => {
     }
   };
 
-  const autoLogin = (e: any) => {
+  const autoLogin = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
     if (ischecked) {
       const today = new Date();
       today.setDate(today.getDate() + 1);
@@ -82,7 +68,16 @@ const Login = () => {
           setCookie("Token", res.data.accessToken, { expires: today });
         });
       nav("/");
+    } else if (!ischecked){
+      axios
+      .post("/user/login", { email: email, password: password })
+      .then((res) => {
+        console.log(res.data);
+        setCookie("Token", res.data.accessToken); // 쿠키에 토큰 저장
+      });
+    nav("/");
     }
+    console.log(cookies)
   };
 
   return (
@@ -90,7 +85,7 @@ const Login = () => {
       <Typography color="primary" size="xl" weight="bold" className="header">
         Mine
       </Typography>
-      <form onSubmit={handleSubmit}>
+      <form >
         <div className="emailtexfield">
           <TextField
             name="email"
