@@ -172,6 +172,7 @@ const Login = () => {
           size="xs"
           weight="medium"
           className="passwordfind"
+          onClick={()=>nav("/findpassword")}
         >
           비밀번호 찾기
         </Typography>

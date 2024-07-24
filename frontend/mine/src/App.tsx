@@ -8,6 +8,7 @@ import Home from './pages/Login/Home';
 import Login from './pages/Login/Login';
 import MyPage from './pages/MyPage';
 import './App.css';
+import FindPassword from './pages/FindPassword';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="/user/signup" element={<Signup />} />
           <Route path="/user/login" element={<Login />} />
           <Route path="/mypage" element={<MyPage />} />
+          <Route path="/findpassword" element={<FindPassword/>}/>
         </Routes>
       </ThemeProvider>
     </>
