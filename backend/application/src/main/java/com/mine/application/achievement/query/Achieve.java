@@ -1,4 +1,4 @@
-package com.mine.application.achieve.query;
+package com.mine.application.achievement.query;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
