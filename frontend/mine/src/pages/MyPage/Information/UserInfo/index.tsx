@@ -39,7 +39,9 @@ const UserInfo = () => {
         <Link to="/mypage/nickname">
           <Button fullWidth>닉네임 변경</Button>
         </Link>
-        <Button fullWidth>비밀번호 변경</Button>
+        <Link to="/mypage/password">
+          <Button fullWidth>비밀번호 변경</Button>
+        </Link>
       </div>
     </>
   );
