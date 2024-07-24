@@ -11,6 +11,8 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.stream.IntStream;
+
 @RequiredArgsConstructor
 @Service
 public class AddAchievementStatesService {
@@ -24,15 +26,13 @@ public class AddAchievementStatesService {
         Integer userId = (Integer) sessionDao.get(SessionConstants.USER_ID)
                 .orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND));
 
-        int size = UpdaterMapper.getAchievementSize();
-        for (int i = 1; i <= size; i++) {
-            achievementStateRepository.save(AchievementState.builder()
-                    .userId(userId)
-                    .achievement(achievementRepository.findById(i))
-                    .count(0)
-                    .build()
-            );
-        }
+        IntStream.rangeClosed(1, UpdaterMapper.getAchievementCount())
+                .mapToObj(i -> AchievementState.builder()
+                        .userId(userId)
+                        .achievement(achievementRepository.findById(i))
+                        .count(0)
+                        .build())
+                .forEach(achievementStateRepository::save);
     }
 
 }

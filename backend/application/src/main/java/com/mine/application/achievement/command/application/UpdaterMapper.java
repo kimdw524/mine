@@ -7,7 +7,7 @@ import com.mine.application.common.erros.exception.RestApiException;
 import java.util.HashMap;
 
 final class UpdaterMapper {
-    private static HashMap<Integer, AchievementStateUpdater> mappings;
+    private static HashMap<Integer, AchievementStateUpdater> mappings = new HashMap<>();
 
     private UpdaterMapper() {
         throw new AssertionError();
@@ -25,7 +25,8 @@ final class UpdaterMapper {
         return updater;
     }
 
-    static int getAchievementSize() {
+    static int getAchievementCount() {
         return mappings.size();
     }
+
 }
