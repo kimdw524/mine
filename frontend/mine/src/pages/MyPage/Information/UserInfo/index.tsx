@@ -4,6 +4,8 @@ import { useQuery } from '@tanstack/react-query';
 import InfoBox from '../../../../components/molecules/InfoBox/InfoBox';
 import { userInfoTitle, userInfoBox, userInfoBtn } from './style';
 import { Button, Typography } from 'oyc-ds';
+import { Link } from 'react-router-dom';
+import { getUserInfo } from '../../../../api/myPageApi';
 
 interface UserInfoResponse {
   [key: string]: string;
@@ -11,37 +13,36 @@ interface UserInfoResponse {
 
 const UserInfo = () => {
   const [userInfo, setUserInfo] = useState<UserInfoResponse>({});
-  const { isPending } = useQuery({
+
+  useQuery({
     queryKey: ['userinfo'],
     queryFn: async () => {
-      await fetch('/mypage/userinfo')
-        .then((res) => res.json())
-        .then((res) => setUserInfo({ ...res }));
+      const res = await getUserInfo();
+      setUserInfo({ ...res.data });
+      return res;
     },
   });
 
-  if (!isPending) {
-    return (
-      <>
-        <div css={userInfoTitle}>
-          <Typography weight="bold" color="dark" size="xl">
-            회원정보
-          </Typography>
-        </div>
-        <div css={userInfoBox}>
-          {Object.keys(userInfo).map((v: string) => {
-            return <InfoBox key={v} label={v} content={userInfo[v]} />;
-          })}
-        </div>
-        <div css={userInfoBtn}>
+  return (
+    <>
+      <div css={userInfoTitle}>
+        <Typography weight="bold" color="dark" size="xl">
+          회원정보
+        </Typography>
+      </div>
+      <div css={userInfoBox}>
+        {Object.keys(userInfo).map((v: string) => {
+          return <InfoBox key={v} label={v} content={userInfo[v]} />;
+        })}
+      </div>
+      <div css={userInfoBtn}>
+        <Link to="/mypage/nickname">
           <Button fullWidth>닉네임 변경</Button>
-          <Button fullWidth>비밀번호 변경</Button>
-        </div>
-      </>
-    );
-  } else {
-    return <div>hello</div>;
-  }
+        </Link>
+        <Button fullWidth>비밀번호 변경</Button>
+      </div>
+    </>
+  );
 };
 
 export default UserInfo;

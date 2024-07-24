@@ -6,7 +6,7 @@ import GlobalStyle from './styles/GlobalStyle';
 import { Routes, Route } from 'react-router-dom';
 import Home from './pages/Login/Home';
 import Login from './pages/Login/Login';
-import MyPage from './pages/MyPage/Information';
+import Information from './pages/MyPage/Information';
 import NickEdit from './pages/MyPage/EditUser/NickEdit';
 import './App.css';
 
@@ -19,7 +19,9 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/user/signup" element={<Signup />} />
           <Route path="/user/login" element={<Login />} />
-          <Route path="/mypage" element={<MyPage />} />
+
+          {/* 마이페이지 */}
+          <Route path="/mypage" element={<Information />} />
           <Route path="/mypage/nickname" element={<NickEdit />} />
         </Routes>
       </ThemeProvider>

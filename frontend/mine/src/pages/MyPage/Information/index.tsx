@@ -4,10 +4,10 @@ import MenuBar from '../../../components/organisms/MenuBar';
 import AppBar from '../../../components/organisms/AppBar';
 import UserInfo from './UserInfo';
 import TransitionAnimation from '../../../components/common/TransitionAnimation';
-import styles from './MyPage.module.css';
+import styles from './Information.module.css';
 import { containerCss } from './style';
 
-const MyPage = () => {
+const Information = () => {
   const [curMenu, setCurMenu] = useState<number>(1);
 
   return (
@@ -35,4 +35,4 @@ const MyPage = () => {
   );
 };
 
-export default MyPage;
+export default Information;
