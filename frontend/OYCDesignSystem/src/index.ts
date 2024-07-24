@@ -12,6 +12,7 @@ import {
   Typography,
   Progress,
   Spinner,
+  Toast,
 } from './components';
 
 export {
@@ -28,4 +29,5 @@ export {
   Typography,
   Progress,
   Spinner,
+  Toast,
 };

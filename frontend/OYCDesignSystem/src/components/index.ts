@@ -10,3 +10,4 @@ export { Spinner } from './atoms/Spinner';
 export { Dropdown } from './molecules/Dropdown';
 export { LabeledCheckBox } from './molecules/LabeledCheckBox';
 export { IconButton } from './molecules/IconButton';
+export { Toast } from './molecules/Toast';
