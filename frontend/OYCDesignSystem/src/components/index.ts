@@ -1,3 +1,4 @@
+export { BackDrop } from './atoms/BackDrop';
 export { Button } from './atoms/Button';
 export { CheckBox } from './atoms/CheckBox';
 export { TextField } from './atoms/TextField';

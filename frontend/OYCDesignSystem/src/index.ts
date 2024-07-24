@@ -1,5 +1,6 @@
 import LightTheme from './themes/lightTheme';
 import {
+  BackDrop,
   Button,
   CheckBox,
   TextField,
@@ -14,6 +15,7 @@ import {
 
 export {
   LightTheme,
+  BackDrop,
   Button,
   CheckBox,
   TextField,
