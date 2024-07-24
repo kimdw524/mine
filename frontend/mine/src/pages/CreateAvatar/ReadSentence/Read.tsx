@@ -5,9 +5,10 @@ import { descCss, sentenceCss } from './style';
 import Record from './Record';
 import { useTheme } from '@emotion/react';
 import { buttonContainerCss } from '../../../components/organisms/QnA/style';
+import { SentenceData } from '../../../apis/avatarApi';
 
 interface ReadProps {
-  items: string[];
+  items: SentenceData[];
   onSubmit: () => void;
 }
 
@@ -51,7 +52,7 @@ const Read = ({ items, onSubmit }: ReadProps) => {
         style={{ backgroundColor: theme.colors.light.hover }}
       >
         <Typography color="dark" size="lg">
-          {items[index]}
+          {items[index].description}
         </Typography>
       </div>
       <Record key={index} onRecord={handleRecord} />
