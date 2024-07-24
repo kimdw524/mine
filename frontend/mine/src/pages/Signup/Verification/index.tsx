@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { Button, TextField, Typography } from 'oyc-ds';
 import { formCss, instCss, authCss } from './style';
-import { useContext } from 'react';
+import React, { useContext } from 'react';
 import { SignupContext } from '..';
 
 interface VerificationProps {
