@@ -56,6 +56,42 @@ const mypageHandler = [
       gender: '남성',
     });
   }),
+  http.get('/mypage/nickname', () => {
+    return HttpResponse.json({
+      nickname: '닉네임입니다',
+    });
+  }),
+  http.get('/mypage/nicknames', ({ request }) => {
+    const url = new URL(request.url);
+    const nick = url.searchParams.get('nick');
+
+    if (nick === 'duplicate') {
+      return HttpResponse.json(
+        { msg: '중복된 닉네임입니다.' },
+        { status: 409 },
+      );
+    } else {
+      return HttpResponse.json(
+        { msg: '사용 가능한 닉네임입니다.' },
+        { status: 200 },
+      );
+    }
+  }),
+  http.patch('/mypage/nickname', () => {
+    return HttpResponse.json(
+      { msg: '닉네임이 성공적으로 변경되었습니다.' },
+      { status: 200 },
+    );
+  }),
+  http.post('/mypage/password/code', () => {
+    return HttpResponse.json({ msg: '코드 전송' }, { status: 200 });
+  }),
+  http.post('/mypage/password/verify', () => {
+    return HttpResponse.json({ msg: '인증 성공' }, { status: 200 });
+  }),
+  http.post('/mypage/password', () => {
+    return HttpResponse.json({ msg: '변경 성공' }, { status: 200 });
+  }),
 ];
 
 const avatarHandler = [
