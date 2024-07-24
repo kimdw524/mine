@@ -16,3 +16,11 @@ export const userInfoBox = css`
   margin-right: auto;
   row-gap: 1rem;
 `;
+
+export const userInfoBtn = css`
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.5rem;
+  margin-top: 2rem;
+  padding: 0 1rem;
+`;

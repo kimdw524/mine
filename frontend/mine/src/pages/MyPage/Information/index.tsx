@@ -1,13 +1,13 @@
 /** @jsxImportSource @emotion/react */
 import React, { useState } from 'react';
-import MenuBar from '../../components/organisms/MenuBar';
-import AppBar from '../../components/organisms/AppBar';
-import { containerCss } from './style';
+import MenuBar from '../../../components/organisms/MenuBar';
+import AppBar from '../../../components/organisms/AppBar';
 import UserInfo from './UserInfo';
-import TransitionAnimation from '../../components/common/TransitionAnimation';
-import styles from './MyPage.module.css';
+import TransitionAnimation from '../../../components/common/TransitionAnimation';
+import styles from './Information.module.css';
+import { containerCss } from './style';
 
-const MyPage = () => {
+const Information = () => {
   const [curMenu, setCurMenu] = useState<number>(1);
 
   return (
@@ -29,11 +29,10 @@ const MyPage = () => {
           <UserInfo key={1} />
           <div key={2}>it is Menu 2</div>
         </TransitionAnimation>
-
         <MenuBar page="mypage" menu={curMenu} setCurMenu={setCurMenu} />
       </div>
     </>
   );
 };
 
-export default MyPage;
+export default Information;

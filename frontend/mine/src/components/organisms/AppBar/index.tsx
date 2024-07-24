@@ -6,7 +6,7 @@ import { useTheme } from '@emotion/react';
 import Progress from './Progress';
 import React, { ReactNode } from 'react';
 
-interface AppBarProps {
+interface AppBarProps extends React.ComponentProps<'div'> {
   children?: ReactNode;
   label: string;
   onBackClick?: () => void | undefined;
@@ -16,11 +16,17 @@ interface AppBarProps {
 /**
  * onBackClick onMenuClick 등 특정 메뉴의 콜백이 정의되면 해당 메뉴가 표시됨
  */
-const AppBar = ({ children, label, onBackClick, onMenuClick }: AppBarProps) => {
+const AppBar = ({
+  children,
+  label,
+  onBackClick,
+  onMenuClick,
+  ...props
+}: AppBarProps) => {
   const theme = useTheme();
 
   return (
-    <div css={containerCss(theme)}>
+    <div css={containerCss(theme)} {...props}>
       {onBackClick && (
         <IconButton size="lg" color="dark" circular onClick={onBackClick}>
           <Icon size="sm" color="dark">
