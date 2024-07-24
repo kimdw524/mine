@@ -11,6 +11,7 @@ import {
   LabeledCheckBox,
   Typography,
   Progress,
+  Spinner,
 } from './components';
 
 export {
@@ -26,4 +27,5 @@ export {
   LabeledCheckBox,
   Typography,
   Progress,
+  Spinner,
 };
