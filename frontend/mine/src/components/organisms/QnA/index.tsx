@@ -32,6 +32,7 @@ const QnA = ({ question, choices = [], onSubmit }: QnAProps) => {
         <TextField
           label="답변"
           defaultValue=""
+          value=""
           variant="standard"
           maxRows={5}
           style={{ marginBottom: '1rem' }}

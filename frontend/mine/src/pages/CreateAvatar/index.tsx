@@ -8,6 +8,7 @@ import TransitionAnimation from '../../components/common/TransitionAnimation';
 import Choice, { QuestionData } from './Choice';
 import Subject, { SubjectiveQuestionData } from './Subject';
 import ReadSentence from './ReadSentence';
+import Done from './Done';
 
 const questions: QuestionData[] = [
   {
@@ -72,7 +73,8 @@ const CreateAvatar = () => {
             items={subjectiveQuestions}
             onSubmit={() => setStep(3)}
           />
-          <ReadSentence key={3} onSubmit={() => setStep(0)} />
+          <ReadSentence key={3} onSubmit={() => setStep(4)} />
+          <Done key={4} />
         </TransitionAnimation>
       </div>
     </div>

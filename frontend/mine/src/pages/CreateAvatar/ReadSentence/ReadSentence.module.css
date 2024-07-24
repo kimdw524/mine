@@ -1,10 +1,9 @@
 .fade-enter {
-  transform: translateX(50vw) !important;
+  transform: translateY(-10vh) !important;
   opacity: 0 !important;
 }
 
 .fade-exit {
-  transform: translateX(-50vw) !important;
   opacity: 0 !important;
   pointer-events: none;
   user-select: none;

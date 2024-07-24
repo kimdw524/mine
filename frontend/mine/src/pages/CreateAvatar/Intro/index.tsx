@@ -7,7 +7,7 @@ import {
   ChatBubbleBottomCenterTextIcon,
   SpeakerWaveIcon,
 } from '@heroicons/react/24/outline';
-import Process from './Process';
+import Process from '../../../components/molecules/Process';
 
 interface IntroProps {
   onCreateClick: () => void;
@@ -16,7 +16,7 @@ interface IntroProps {
 const Intro = ({ onCreateClick }: IntroProps) => {
   return (
     <>
-      <Typography size={'md'} weight={'medium'} color={'dark'} css={instCss}>
+      <Typography size="md" weight="medium" color="dark" css={instCss}>
         아바타를 생성하려면
         <br />
         다음과 같은 3가지 과정이 필요해요.

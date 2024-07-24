@@ -28,21 +28,21 @@ const Choice = ({ items, onSubmit }: ChoiceProps) => {
   };
 
   return (
-    <React.Fragment>
+    <>
       <Typography color="dark">설문조사</Typography>
       <Typography css={descCss}>
         {index >= items.length - 1
           ? '마지막 문항이에요.'
           : `${items.length - index} 문항 남았어요.`}
       </Typography>
-      <Progress value={index + 1} max={items.length} size="lg" />
+      <Progress value={index} max={items.length} size="lg" />
       <QnA
         key={index}
         question={items[index].description}
         choices={items[index].choices}
         onSubmit={handleSubmit}
       />
-    </React.Fragment>
+    </>
   );
 };
 
