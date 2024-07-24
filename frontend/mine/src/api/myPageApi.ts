@@ -35,3 +35,36 @@ export const changeNickname = (newNick: string) => {
     },
   });
 };
+
+/* 인증 메일 전송 */
+export const sendEmail = (email: string) => {
+  return api({
+    url: '/mypage/password/code',
+    method: 'post',
+    data: {
+      email: email,
+    },
+  });
+};
+
+/* 인증 코드 전송 */
+export const sendCode = (code: string) => {
+  return api({
+    url: '/mypage/password/verify',
+    method: 'post',
+    data: {
+      code: code,
+    },
+  });
+};
+
+/* 비밀번호 변경 */
+export const changePwd = (pwd: string) => {
+  return api({
+    url: '/mypage/password',
+    method: 'post',
+    data: {
+      pwd: pwd,
+    },
+  });
+};

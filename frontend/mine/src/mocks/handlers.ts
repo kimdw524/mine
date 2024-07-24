@@ -83,6 +83,15 @@ const mypageHandler = [
       { status: 200 },
     );
   }),
+  http.post('/mypage/password/code', () => {
+    return HttpResponse.json({ msg: '코드 전송' }, { status: 200 });
+  }),
+  http.post('/mypage/password/verify', () => {
+    return HttpResponse.json({ msg: '인증 성공' }, { status: 200 });
+  }),
+  http.post('/mypage/password', () => {
+    return HttpResponse.json({ msg: '변경 성공' }, { status: 200 });
+  }),
 ];
 
 // 하나의 handler 로 관리
