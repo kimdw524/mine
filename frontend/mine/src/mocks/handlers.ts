@@ -61,6 +61,28 @@ const mypageHandler = [
       nickname: '닉네임입니다',
     });
   }),
+  http.get('/mypage/nicknames', ({ request }) => {
+    const url = new URL(request.url);
+    const nick = url.searchParams.get('nick');
+
+    if (nick === 'duplicate') {
+      return HttpResponse.json(
+        { msg: '중복된 닉네임입니다.' },
+        { status: 409 },
+      );
+    } else {
+      return HttpResponse.json(
+        { msg: '사용 가능한 닉네임입니다.' },
+        { status: 200 },
+      );
+    }
+  }),
+  http.patch('/mypage/nickname', () => {
+    return HttpResponse.json(
+      { msg: '닉네임이 성공적으로 변경되었습니다.' },
+      { status: 200 },
+    );
+  }),
 ];
 
 // 하나의 handler 로 관리
