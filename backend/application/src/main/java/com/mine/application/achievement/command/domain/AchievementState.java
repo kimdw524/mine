@@ -18,7 +18,7 @@ public class AchievementState {
     private Integer id;
 
     @Column(name = "user_id", nullable = false)
-    private String username;
+    private Integer userId;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "achievement_id", nullable = false)
@@ -34,11 +34,10 @@ public class AchievementState {
     private Boolean isAchieved;
 
     @Builder
-    public AchievementState(String username, Achievement achievement, Integer count, LocalDateTime date) {
-        this.username = username;
+    public AchievementState(Integer userId, Achievement achievement, Integer count) {
+        this.userId = userId;
         this.achievement = achievement;
         this.count = count;
-        this.date = date;
         this.isAchieved = false;
     }
 

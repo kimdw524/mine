@@ -23,6 +23,7 @@ public class LoginService {
             User user = findUser.get();
             if (user.getPassword().equals(Password.of(loginRequest.getPassword(), false))) {
                 sessionDao.put(SessionConstants.EMAIL, loginRequest.getEmail());
+                sessionDao.put(SessionConstants.USER_ID, user.getId());
             }
         }
         // throw error;

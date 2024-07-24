@@ -1,15 +1,21 @@
 package com.mine.application.achievement.command.domain;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Getter
 @Entity
 public class Achievement {
 
     @Id
     @Column(name = "achievement_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name = "achievement_required_amount")

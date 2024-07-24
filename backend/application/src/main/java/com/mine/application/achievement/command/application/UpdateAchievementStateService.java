@@ -4,19 +4,21 @@ import com.mine.application.achievement.command.domain.AchievementState;
 import com.mine.application.achievement.command.domain.AchievementStateRepository;
 import com.mine.application.common.domain.SessionConstants;
 import com.mine.application.common.domain.SessionDao;
+import com.mine.application.common.erros.errorcode.CommonErrorCode;
+import com.mine.application.common.erros.exception.RestApiException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service
-public class UpdateCountService {
+public class UpdateAchievementStateService {
 
     private final SessionDao sessionDao;
     private final AchievementStateRepository achievementStateRepository;
 
     @Transactional
-    public boolean updateCount(int achievementId) {
+    public boolean updateAchievementState(int achievementId) {
         AchievementState achievementState = getAchievementStateOrElseThrow(achievementId);
 
         if (achievementState.isAchieved()) {
@@ -31,9 +33,11 @@ public class UpdateCountService {
     }
 
     private AchievementState getAchievementStateOrElseThrow(int achievementId) {
-        String email = (String) sessionDao.get(SessionConstants.EMAIL).get();
-        return achievementStateRepository.findBySortIdAndUsername(email, achievementId)
-                .orElseThrow();
+        Integer userId = (Integer) sessionDao.get(SessionConstants.USER_ID)
+                .orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND));
+
+        return achievementStateRepository.findByUserIdAndAchievement_Id(userId, achievementId)
+                .orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND));
     }
 
 }

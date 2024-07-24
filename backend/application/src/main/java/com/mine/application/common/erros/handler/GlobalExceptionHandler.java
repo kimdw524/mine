@@ -46,12 +46,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return handleExceptionInternal(e, errorCode);
     }
 
-    @ExceptionHandler({Exception.class})
-    public ResponseEntity<Object> handleAllException(final Exception ex) {
-        log.warn("handleAllException", ex);
-        final ErrorCode errorCode = CommonErrorCode.INTERNAL_SERVER_ERROR;
-        return handleExceptionInternal(errorCode);
-    }
+//    @ExceptionHandler({Exception.class})
+//    public ResponseEntity<Object> handleAllException(final Exception ex) {
+//        log.warn("handleAllException", ex);
+//        final ErrorCode errorCode = CommonErrorCode.INTERNAL_SERVER_ERROR;
+//        return handleExceptionInternal(errorCode);
+//    }
 
     private ResponseEntity<Object> handleExceptionInternal(final ErrorCode errorCode) {
         return ResponseEntity.status(errorCode.getHttpStatus())

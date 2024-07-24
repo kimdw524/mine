@@ -6,6 +6,8 @@ import java.util.Optional;
 
 public interface AchievementStateRepository extends Repository<AchievementState, Integer> {
 
-    Optional<AchievementState> findBySortIdAndUsername(String email, Integer id);
+    Optional<AchievementState> findByUserIdAndAchievement_Id(Integer userId, Integer id);
+
+    AchievementState save(AchievementState achievementState);
 
 }
