@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import React from 'react';
-import { Button, Typography } from 'oyc-ds';
-import { instCss, processCss } from './style';
+import { Typography } from 'oyc-ds';
+import { instCss } from './style';
 
 const Done = () => {
   return (
