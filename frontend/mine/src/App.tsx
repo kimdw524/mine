@@ -10,6 +10,7 @@ import Information from './pages/MyPage/Information';
 import NickEdit from './pages/MyPage/EditUser/NickEdit';
 import './App.css';
 import PwdEdit from './pages/MyPage/EditUser/PwdEdit';
+import CreateAvatar from './pages/CreateAvatar';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route path="/mypage" element={<Information />} />
           <Route path="/mypage/nickname" element={<NickEdit />} />
           <Route path="/mypage/password" element={<PwdEdit />} />
+          <Route path="/avatar/create" element={<CreateAvatar />} />
         </Routes>
       </ThemeProvider>
     </>
