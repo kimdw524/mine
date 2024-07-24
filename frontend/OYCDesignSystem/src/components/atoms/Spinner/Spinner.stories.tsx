@@ -16,8 +16,11 @@ const meta = {
   ],
   tags: ['!autodocs'],
   argTypes: {
-    children: {
-      description: '버튼 안에 표시할 텍스트입니다.',
+    size: {
+      description: '스피너의 크기입니다.',
+    },
+    color: {
+      description: '스피너의 색상입니다.',
     },
   },
 } satisfies Meta<typeof Spinner>;
@@ -28,7 +31,7 @@ type Story = StoryObj<typeof Spinner>;
 
 export const Primary: Story = {
   args: {
-    children: '',
+    size: 'md',
+    color: 'primary',
   },
-  render: (args) => <Spinner {...args}></Spinner>,
 };
