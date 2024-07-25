@@ -47,6 +47,14 @@ const Home = () => {
       >
         아바타 만들기
       </Button>
+      <Button
+        color="primary"
+        size="xl"
+        variant="contained"
+        onClick={() => nav('mypage')}
+      >
+        마이페이지
+      </Button>
     </>
   );
 };

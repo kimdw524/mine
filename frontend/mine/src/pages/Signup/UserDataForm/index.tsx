@@ -1,5 +1,4 @@
 /** @jsxImportSource @emotion/react */
-import React from 'react';
 import { Button, TextField, Typography } from 'oyc-ds';
 import { formCss, genderContainerCss, instCss } from './style';
 import React, { useContext, useRef, useState } from 'react';
