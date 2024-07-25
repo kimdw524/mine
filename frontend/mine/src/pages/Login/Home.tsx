@@ -2,7 +2,6 @@ import React from 'react';
 import { Button } from 'oyc-ds';
 import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
-import Calendar from '../../components/molecules/Calendar';
 
 const Home = () => {
   const [, , removeCookie] = useCookies();
@@ -48,7 +47,6 @@ const Home = () => {
       >
         아바타 만들기
       </Button>
-      <Calendar />
     </>
   );
 };

@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Palette } from '../../../themes/lightTheme';
 import { Calendar } from './Calendar';
 
 const meta = {
@@ -18,6 +17,12 @@ const meta = {
   argTypes: {
     width: {
       description: '달력의 가로 길이입니다.',
+    },
+    year: {
+      description: '달력의 연도',
+    },
+    month: {
+      description: '달력의 월',
     },
   },
   tags: ['!autodocs'],

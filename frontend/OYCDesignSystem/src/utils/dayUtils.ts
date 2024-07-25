@@ -40,7 +40,7 @@ export const getDays = (year: number, month: number): DateData[][] => {
     days.push([]);
 
     for (
-      let i = lastMonthEnd.getDate() + lastMonthEnd.getDay();
+      let i = lastMonthEnd.getDate() - lastMonthEnd.getDay();
       i <= lastMonthEnd.getDate();
       i++
     ) {
@@ -67,19 +67,17 @@ export const getDays = (year: number, month: number): DateData[][] => {
       days.push([]);
     }
 
-    days
-      .at(-1)
-      ?.push({
-        year,
-        month,
-        day,
-        type:
-          days.at(-1)!.length === 0
-            ? 'holiday'
-            : days.at(-1)!.length === 6
-              ? 'satuarday'
-              : 'weekday',
-      });
+    days.at(-1)?.push({
+      year,
+      month,
+      day,
+      type:
+        days.at(-1)!.length === 0
+          ? 'holiday'
+          : days.at(-1)!.length === 6
+            ? 'satuarday'
+            : 'weekday',
+    });
   }
 
   let nextDay = 0;

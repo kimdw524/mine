@@ -1,37 +1,27 @@
 /** @jsxImportSource @emotion/react */
 import React from 'react';
-import { containerCss } from './style';
-import { css } from '@emotion/react';
+import { containerCss, dateCss, tableCss, weekCss } from './style';
 import { Typography } from '../../atoms/Typography';
-import Day from './Day';
 import { DateData, getDays } from '../../../utils/dayUtils';
+import { Day } from '../../atoms/Day';
 
 interface CalendarProps {
   year?: number;
   month?: number;
   width?: string;
-  height?: string;
+  selected?: string;
+  onClick?: (year: number, month: number, day: number) => void;
 }
-
-const tableCss = css`
-  width: 100%;
-  text-align: center;
-`;
-
-const weekCss = css`
-  padding: calc(25% - 0.875rem / 4) 0;
-`;
-
-const dateCss = css`
-  padding: 0.75rem 0.5rem;
-`;
 
 export const Calendar = ({
   year = new Date().getFullYear(),
   month = new Date().getMonth() + 1,
   width = '100%',
+  onClick = () => {},
+  selected = '',
 }: CalendarProps) => {
   const days: DateData[][] = getDays(year, month);
+  const weekdayList = ['일', '월', '화', '수', '목', '금', '토'];
 
   return (
     <div css={containerCss} style={{ width }}>
@@ -43,7 +33,7 @@ export const Calendar = ({
       <table css={tableCss}>
         <thead>
           <tr>
-            {['일', '월', '화', '수', '목', '금', '토'].map((week) => (
+            {weekdayList.map((week) => (
               <th key={week}>
                 <Typography css={weekCss} color="secondary">
                   {week}
@@ -58,7 +48,14 @@ export const Calendar = ({
               <tr key={index}>
                 {week.map((day, index) => (
                   <td key={index}>
-                    <Day key={`${day.month}-${day.day}`} {...day} />
+                    <Day
+                      key={`${day.month}-${day.day}`}
+                      {...day}
+                      selected={
+                        `${day.year}-${day.month}-${day.day}` === selected
+                      }
+                      onClick={onClick}
+                    />
                   </td>
                 ))}
               </tr>

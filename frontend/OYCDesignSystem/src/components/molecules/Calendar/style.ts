@@ -6,3 +6,17 @@ export const containerCss = css`
   background-color: #fff;
   user-select: none;
 `;
+
+export const tableCss = css`
+  width: 100%;
+  border-spacing: 0;
+  text-align: center;
+`;
+
+export const weekCss = css`
+  padding: calc(25% - 0.875rem / 4) 0;
+`;
+
+export const dateCss = css`
+  padding: 0.75rem 0.5rem;
+`;
