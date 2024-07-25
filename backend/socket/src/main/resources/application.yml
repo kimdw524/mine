@@ -13,3 +13,18 @@ spring:
     redis:
       host: khj745700.iptime.org
       port: 6379
+
+  rabbitmq:
+    host: khj745700.iptime.org
+    port: 5672
+    username: khj745700
+    password: "@rkd07032"
+
+rabbitmq:
+  queue.my-name: chat-queue-springboot
+  queue.fastapi-name: chat-queue-fastapi
+  queue.fastapi-batch-name: batch-queue-fastapi
+  exchange.name: amq.direct
+  routing.fast-api-key: fast-api-server
+  routing.fast-api-batch-key: fast-api-server-batch
+  routing.my-key: spring-chat-server
