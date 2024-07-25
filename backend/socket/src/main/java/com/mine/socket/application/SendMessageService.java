@@ -34,7 +34,7 @@ public class SendMessageService {
                 .sendedAt(request.getSendedAt())
                 .chatCategoryId(0)
                 .chatContent(request.getChatContent())
-                .chatId(chatRepository.)
+                .chatId(ChatRepository.nextId())
                 .chatRole("u")
                 .chatType(isVoiced ? "v" : "t")
                 .userId(avatarData.getUserId())
