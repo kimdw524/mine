@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { Button, TextField, Typography } from 'oyc-ds';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useContext, useState } from 'react';
 import {
   emailInputCss,
   emailVerificationCss,
@@ -9,12 +9,14 @@ import {
 } from './style';
 import { Palette } from 'oyc-ds/dist/themes/lightTheme';
 import { sendEmail, sendCode } from '../../../../../api/myPageApi';
+import { NotificationContext } from '../../../../../utils/NotificationContext';
 
 interface EmailVerificationProps {
   nextStep: () => void;
 }
 
 const EmailVerification = ({ nextStep }: EmailVerificationProps) => {
+  const notificationContext = useContext(NotificationContext);
   const emailCheck = /^[A-Za-z0-9_.-]+@[A-Za-z0-9-]+\.[A-za-z0-9-]+/;
   const [emailColor, setEmailColor] = useState<Palette>('primary');
   const [email, setEmail] = useState<string>('');
@@ -68,9 +70,15 @@ const EmailVerification = ({ nextStep }: EmailVerificationProps) => {
             size="md"
             disabled={!(emailColor === 'success')}
             onClick={async () => {
-              await sendEmail(email);
-              setStep(1);
-              // info 띄우기
+              await sendEmail(email)
+                .then(() => setStep(1))
+                .catch(() => {
+                  notificationContext.handle(
+                    'contained',
+                    'danger',
+                    '이메일 전송에 실패했습니다',
+                  );
+                });
             }}
           >
             전송
@@ -94,9 +102,12 @@ const EmailVerification = ({ nextStep }: EmailVerificationProps) => {
             onClick={async () => {
               await sendCode(code)
                 .then(() => setStep(2))
-                .catch((err) => {
-                  console.log(err.response);
-                  // 틀렸다고 warning 띄우기
+                .catch(() => {
+                  notificationContext.handle(
+                    'contained',
+                    'danger',
+                    '인증번호가 틀렸습니다',
+                  );
                 });
             }}
           >

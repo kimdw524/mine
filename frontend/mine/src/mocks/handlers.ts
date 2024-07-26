@@ -49,14 +49,18 @@ const userHandler = [
 ];
 
 const mypageHandler = [
-  http.get('/mypage/userinfo', () => {
+  http.get('/mypage/userinfo', async () => {
+    await delay(1000);
+
     return HttpResponse.json({
       email: 'ssafy@gmaill.com',
       nickname: '닉네임입니다',
       gender: '남성',
     });
   }),
-  http.get('/mypage/nickname', () => {
+  http.get('/mypage/nickname', async () => {
+    await delay(500);
+
     return HttpResponse.json({
       nickname: '닉네임입니다',
     });
