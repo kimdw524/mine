@@ -7,9 +7,9 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
+
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
 @Builder
 public class UserVerificationEmailDto implements Serializable {
     private String email;
