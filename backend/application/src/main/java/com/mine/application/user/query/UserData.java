@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Immutable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Entity
 @Table(name="user")
@@ -25,4 +26,8 @@ public class UserData {
 
     @Column String password;
 
+
+    public boolean isEqualsPassword(String password, PasswordEncoder encoder) {
+        return encoder.matches(password, this.password);
+    }
 }

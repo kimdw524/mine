@@ -31,6 +31,8 @@ public class SignupService {
                 .password(password)
                 .build();
 
+        sessionDao.remove(SessionConstants.EMAIL_VERIFICATION);
+
         userRepository.save(user);
 
     }

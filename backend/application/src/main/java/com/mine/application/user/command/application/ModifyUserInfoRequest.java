@@ -1,15 +1,14 @@
 package com.mine.application.user.command.application;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
-@Builder
-public class
-EmailVerificationNumRequest {
-    private String email;
+@Setter
+public class ModifyUserInfoRequest {
+    private String nickname;
 }
