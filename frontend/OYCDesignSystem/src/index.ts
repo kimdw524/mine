@@ -13,6 +13,8 @@ import {
   Progress,
   Spinner,
   Toast,
+  Calendar,
+  Day,
 } from './components';
 
 export {
@@ -30,4 +32,6 @@ export {
   Progress,
   Spinner,
   Toast,
+  Calendar,
+  Day,
 };
