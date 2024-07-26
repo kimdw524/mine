@@ -68,3 +68,11 @@ export const changePwd = (pwd: string) => {
     },
   });
 };
+
+/* 업적 조회 */
+export const getAchievement = () => {
+  return api({
+    url: '/mypage/achievement',
+    method: 'get',
+  });
+};

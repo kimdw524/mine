@@ -96,6 +96,18 @@ const mypageHandler = [
   http.post('/mypage/password', () => {
     return HttpResponse.json({ msg: '변경 성공' }, { status: 200 });
   }),
+  http.get('/mypage/achievement', async () => {
+    await delay(1000);
+
+    return HttpResponse.json({
+      achievement: [
+        {
+          title: '업적1',
+          description: '업적1 설명',
+        },
+      ],
+    });
+  }),
 ];
 
 const avatarHandler = [
