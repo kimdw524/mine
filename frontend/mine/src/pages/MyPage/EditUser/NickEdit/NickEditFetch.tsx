@@ -10,8 +10,7 @@ import {
   nicknameDuplicate,
 } from '../../../../api/myPageApi';
 import { useSuspenseQuery } from '@tanstack/react-query';
-import { NotificationContext } from '../../../../App';
-import { ToastVariant } from 'oyc-ds/dist/components/molecules/Toast/Toast.types';
+import { NotificationContext } from '../../../../utils/NotificationContext';
 
 const NickEditFetch = () => {
   const nav = useNavigate();
@@ -59,36 +58,18 @@ const NickEditFetch = () => {
     }
   }, [newNick]);
 
-  const handleNotification = (
-    variant: ToastVariant,
-    color: Palette,
-    msg: string,
-  ) => {
-    notificationContext.update({
-      notiState: true,
-      variant: variant,
-      color: color,
-      msg: msg,
-    });
-    setTimeout(() => {
-      notificationContext.update({
-        notiState: false,
-      });
-    }, 2000);
-  };
-
   const handleNicknameChange = async () => {
     await changeNickname(newNick)
       .then(() => {
         nav('/mypage');
-        handleNotification(
+        notificationContext.handle(
           'contained',
           'success',
           '닉네임이 성공적으로 변경되었습니다',
         );
       })
       .catch(() => {
-        handleNotification('contained', 'danger', '다시 시도해주세요');
+        notificationContext.handle('contained', 'danger', '다시 시도해주세요');
       });
   };
 

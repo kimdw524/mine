@@ -2,19 +2,7 @@
 import React from 'react';
 import { BackDrop, Toast, Typography } from 'oyc-ds';
 import { toastCss } from './style';
-import { ToastVariant } from 'oyc-ds/dist/components/molecules/Toast/Toast.types';
-import { Palette } from 'oyc-ds/dist/themes/lightTheme';
-
-export interface INotiInfo {
-  notiState: boolean;
-  variant: ToastVariant;
-  color: Palette;
-  msg: string;
-}
-
-interface INotification {
-  notiInfo: INotiInfo;
-}
+import { INotification } from '../../../utils/NotificationContext';
 
 const Notification = ({ notiInfo }: INotification) => {
   return (

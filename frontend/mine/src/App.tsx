@@ -1,4 +1,4 @@
-import React, { createContext, useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import Signup from './pages/Signup';
 import { LightTheme } from 'oyc-ds';
 import { ThemeProvider } from '@emotion/react';
@@ -12,16 +12,10 @@ import './App.css';
 import PwdEdit from './pages/MyPage/EditUser/PwdEdit';
 import CreateAvatar from './pages/CreateAvatar';
 import FindPassword from './pages/FindPassword';
-import Notification, { INotiInfo } from './components/common/Notification';
-
-interface INotificationContext {
-  info: INotiInfo;
-  update: (newInfo: Partial<INotiInfo>) => void;
-}
-
-export const NotificationContext = createContext<INotificationContext>(
-  {} as INotificationContext,
-);
+import Notification from './components/common/Notification';
+import { ToastVariant } from 'oyc-ds/dist/components/molecules/Toast/Toast.types';
+import { Palette } from 'oyc-ds/dist/themes/lightTheme';
+import { INotiInfo, NotificationContext } from './utils/NotificationContext';
 
 function App() {
   const [notiInfo, setNotiInfo] = useState<INotiInfo>({
@@ -37,9 +31,22 @@ function App() {
     });
   }, []);
 
-  useEffect(() => {
-    console.log(notiInfo);
-  }, [notiInfo]);
+  const handleNoti = useCallback(
+    (variant: ToastVariant, color: Palette, msg: string) => {
+      updateInfo({
+        notiState: true,
+        variant: variant,
+        color: color,
+        msg: msg,
+      });
+      setTimeout(() => {
+        updateInfo({
+          notiState: false,
+        });
+      }, 2000);
+    },
+    [],
+  );
 
   return (
     <>
@@ -49,6 +56,7 @@ function App() {
           value={{
             info: notiInfo,
             update: updateInfo,
+            handle: handleNoti,
           }}
         >
           {notiInfo.notiState && <Notification notiInfo={notiInfo} />}
