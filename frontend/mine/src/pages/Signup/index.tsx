@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import React, { createContext, useCallback, useState } from 'react';
+import React, { createContext, useState } from 'react';
 import TransitionAnimation from '../../components/common/TransitionAnimation';
 import AppBar from '../../components/organisms/AppBar';
 import Done from './Done';
@@ -35,11 +35,11 @@ const Signup = () => {
   });
   const [step, setStep] = useState<number>(0);
 
-  const updateInfo = useCallback((data: Partial<SignupInfo>) => {
+  const updateInfo = (data: Partial<SignupInfo>) => {
     setInfo((info) => {
       return { ...info, ...data };
     });
-  }, []);
+  };
 
   return (
     <SignupContext.Provider value={{ info, update: updateInfo }}>
