@@ -18,6 +18,7 @@ public class AuthController {
     private final UserQueryService userQueryService;
     private final LoginService loginService;
     private final EmailVerificationService emailVerificationService;
+    private final ModifyUserInfoService modifyUserInfoService;
 
     @PostMapping("/user")
     public ResponseEntity<?> signup(@RequestBody @Valid SignupRequest signupRequest) {
@@ -56,4 +57,11 @@ public class AuthController {
         loginService.logout();
         return ResponseEntity.ok().build();
     }
+
+    @PatchMapping("/help/password")
+    public ResponseEntity<?> modifyPassword(@RequestBody @Valid ModifyPasswordRequest modifyPasswordRequest) {
+        modifyUserInfoService.modifyPasswordByEmailValidation(modifyPasswordRequest);
+        return ResponseEntity.accepted().build();
+    }
+
 }

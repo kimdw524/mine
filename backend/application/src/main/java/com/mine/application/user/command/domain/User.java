@@ -2,6 +2,10 @@ package com.mine.application.user.command.domain;
 
 
 import com.mine.application.common.domain.BaseEntity;
+import com.mine.application.common.erros.exception.RestApiException;
+import com.mine.application.user.command.application.ModifyPasswordRequest;
+import com.mine.application.user.command.application.ModifyUserInfoRequest;
+import com.mine.application.user.error.UserErrorCode;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -45,6 +49,26 @@ public class User extends BaseEntity {
         this.nickname = nickname;
         this.gender = gender;
         this.email = email;
+    }
+
+    public void updateUserInfo(ModifyUserInfoRequest request) {
+        if(request.getNickname() == null) {
+            throw new IllegalArgumentException("Nickname is required");
+        }
+
+        if(request.getNickname().equals(nickname)){
+            throw new IllegalArgumentException("Input nickname is the same");
+        }
+
+        this.nickname = request.getNickname();
+    }
+
+    public void updateUserPassword(ModifyPasswordRequest request) {
+        Password newPassword = Password.of(request.getPassword(), false);
+        if(password.equals(newPassword)) {
+            throw new RestApiException(UserErrorCode.PASSWORD_IS_SAME);
+        }
+        this.password = newPassword;
     }
 
 }
