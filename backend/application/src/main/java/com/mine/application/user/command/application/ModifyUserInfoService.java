@@ -56,4 +56,13 @@ public class ModifyUserInfoService {
 
         sessionDao.remove(SessionConstants.EMAIL_VERIFICATION);
     }
+
+    @Transactional
+    public void withdraw() {
+        Integer sessionId = (Integer) sessionDao.get(SessionConstants.USER_ID).get();
+        User findUser = userRepository.findById(sessionId).orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND));
+
+        findUser.withdraw();
+        sessionDao.removeAll();
+    }
 }

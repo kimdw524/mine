@@ -5,8 +5,10 @@ import com.mine.application.common.domain.SessionDao;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 @Service
 public class UserQueryService {
     private final UserDataRepository userDataRepository;

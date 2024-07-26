@@ -31,11 +31,11 @@ create table achievement_state(
 drop table IF EXISTS user;
 
 create table user (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    email VARCHAR(50) NOT NULL UNIQUE,
-    gender CHAR(1) NOT NULL,
-    password BINARY(60) NOT NULL,
-    nickname VARCHAR(11) NOT NULL,
+    user_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_email VARCHAR(50) NOT NULL,
+    user_gender CHAR(1) NOT NULL,
+    user_password BINARY(60) NOT NULL,
+    user_nickname VARCHAR(11) NOT NULL,
     is_deleted CHAR(1) NOT NULL,
     created_at DATETIME NOT NULL
 );

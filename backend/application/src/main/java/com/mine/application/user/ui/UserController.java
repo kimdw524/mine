@@ -53,4 +53,10 @@ public class UserController {
         return ResponseEntity.accepted().build();
     }
 
+    @DeleteMapping("")
+    @LoginCheck
+    public ResponseEntity<?> deleteUser() {
+        modifyUserInfoService.withdraw();
+        return ResponseEntity.noContent().build();
+    }
 }

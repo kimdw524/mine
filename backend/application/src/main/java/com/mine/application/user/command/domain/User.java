@@ -13,6 +13,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
+import org.hibernate.annotations.Where;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -21,6 +24,7 @@ import org.hibernate.annotations.DynamicUpdate;
 @Entity
 @SuperBuilder
 @DynamicUpdate
+@SQLRestriction("is_deleted = false")
 public class User extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -71,4 +75,7 @@ public class User extends BaseEntity {
         this.password = newPassword;
     }
 
+    public void withdraw() {
+        super.delete();
+    }
 }
