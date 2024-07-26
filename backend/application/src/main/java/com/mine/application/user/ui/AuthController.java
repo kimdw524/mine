@@ -38,10 +38,11 @@ public class AuthController {
 
     @PostMapping("/verify-email-code")
     public ResponseEntity<?> verifyEmailCode(@RequestBody EmailVerificationRequest request) {
-        emailVerificationService.verifyEmail(request);
-        return ResponseEntity.ok(request);
+        if (emailVerificationService.verifyEmail(request)) {
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.badRequest().build();
     }
-
 
 
     @PostMapping("/login")

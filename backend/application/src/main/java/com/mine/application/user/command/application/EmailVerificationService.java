@@ -40,6 +40,10 @@ public class EmailVerificationService {
     public boolean verifyEmail(EmailVerificationRequest request) {
         Optional<Object> object = sessionDao.get(SessionConstants.EMAIL_VERIFICATION);
         UserVerificationEmailDto userVerificationEmailDto = (UserVerificationEmailDto) object.get();
-        return userVerificationEmailDto.verify(request.getNumber());
+        if(userVerificationEmailDto.verify(request.getNumber())) {
+            sessionDao.put(SessionConstants.EMAIL_VERIFICATION, userVerificationEmailDto);
+            return true;
+        }
+        return false;
     }
 }
