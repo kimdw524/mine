@@ -1,4 +1,4 @@
-import React, { createContext, useCallback, useState } from 'react';
+import React, { createContext, useCallback, useEffect, useState } from 'react';
 import Signup from './pages/Signup';
 import { LightTheme } from 'oyc-ds';
 import { ThemeProvider } from '@emotion/react';
@@ -12,16 +12,7 @@ import './App.css';
 import PwdEdit from './pages/MyPage/EditUser/PwdEdit';
 import CreateAvatar from './pages/CreateAvatar';
 import FindPassword from './pages/FindPassword';
-import Notification from './components/common/Notification';
-import { ToastVariant } from 'oyc-ds/dist/components/molecules/Toast/Toast.types';
-import { Palette } from 'oyc-ds/dist/themes/lightTheme';
-
-interface INotiInfo {
-  notiState: boolean;
-  variant: ToastVariant;
-  color: Palette;
-  msg: string;
-}
+import Notification, { INotiInfo } from './components/common/Notification';
 
 interface INotificationContext {
   info: INotiInfo;
@@ -46,6 +37,10 @@ function App() {
     });
   }, []);
 
+  useEffect(() => {
+    console.log(notiInfo);
+  }, [notiInfo]);
+
   return (
     <>
       <GlobalStyle />
@@ -56,7 +51,7 @@ function App() {
             update: updateInfo,
           }}
         >
-          {notiInfo.notiState && <Notification ment={notiInfo.msg} />}
+          {notiInfo.notiState && <Notification notiInfo={notiInfo} />}
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/user/signup" element={<Signup />} />
