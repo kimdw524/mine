@@ -1,12 +1,14 @@
 /** @jsxImportSource @emotion/react */
 import { Button, TextField, Typography } from 'oyc-ds';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useContext, useState } from 'react';
 import { pwdVerificationCss } from './style';
 import { Palette } from 'oyc-ds/dist/themes/lightTheme';
 import { changePwd } from '../../../../../api/myPageApi';
 import { useNavigate } from 'react-router-dom';
+import { NotificationContext } from '../../../../../utils/NotificationContext';
 
 const Password = () => {
+  const notificationContext = useContext(NotificationContext);
   const nav = useNavigate();
   const pwdCheck = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,}$/;
   const [color, setColor] = useState<Palette>('primary');
@@ -42,9 +44,22 @@ const Password = () => {
         <Button
           disabled={!(color === 'success')}
           onClick={async () => {
-            await changePwd(pwd);
-            // info 띄우기
-            nav('/mypage');
+            await changePwd(pwd)
+              .then(() => {
+                notificationContext.handle(
+                  'contained',
+                  'success',
+                  '비밀번호를 변경하였습니다',
+                );
+                nav('/mypage');
+              })
+              .catch(() =>
+                notificationContext.handle(
+                  'contained',
+                  'danger',
+                  '비밀번호 변경에 실패하였습니다',
+                ),
+              );
           }}
         >
           변경
