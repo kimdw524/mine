@@ -2,10 +2,13 @@ package com.mine.application.user.command.application;
 
 import com.mine.application.common.domain.SessionConstants;
 import com.mine.application.common.domain.SessionDao;
-import com.mine.application.user.command.domain.Password;
-import com.mine.application.user.command.domain.User;
-import com.mine.application.user.command.domain.UserRepository;
-import jakarta.servlet.http.HttpSession;
+import com.mine.application.common.erros.errorcode.CommonErrorCode;
+import com.mine.application.common.erros.exception.RestApiException;
+import com.mine.application.user.command.domain.log.LoginLog;
+import com.mine.application.user.command.domain.log.LoginLogRepository;
+import com.mine.application.user.command.domain.user.Password;
+import com.mine.application.user.command.domain.user.User;
+import com.mine.application.user.command.domain.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +18,7 @@ import java.util.Optional;
 @Service
 public class LoginService {
     private final UserRepository userRepository;
+    private final LoginLogRepository loginLogRepository;
     private final SessionDao sessionDao;
 
     public void login(LoginRequest loginRequest) {
@@ -24,14 +28,20 @@ public class LoginService {
             if (user.getPassword().equals(Password.of(loginRequest.getPassword(), false))) {
                 sessionDao.put(SessionConstants.EMAIL, loginRequest.getEmail());
                 sessionDao.put(SessionConstants.USER_ID, user.getId());
+
+                loginLogRepository.save(new LoginLog(user.getId()));
+                
+                return;
             }
         }
-        // throw error;
+        throw new RestApiException(CommonErrorCode.UNAUTHORIZED);
     }
 
     public void loginCheck() {
         // TODO : 예외 처리 필요
-        assert sessionDao.get(SessionConstants.EMAIL) != null;
+        if(sessionDao.get(SessionConstants.EMAIL).isEmpty()) {
+            throw new RestApiException(CommonErrorCode.UNAUTHORIZED);
+        }
     }
 
     public void logout() {

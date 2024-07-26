@@ -2,10 +2,10 @@ package com.mine.application.user.command.application;
 
 import com.mine.application.common.domain.SessionConstants;
 import com.mine.application.common.domain.SessionDao;
-import com.mine.application.user.command.domain.Gender;
-import com.mine.application.user.command.domain.Password;
-import com.mine.application.user.command.domain.User;
-import com.mine.application.user.command.domain.UserRepository;
+import com.mine.application.user.command.domain.user.Gender;
+import com.mine.application.user.command.domain.user.Password;
+import com.mine.application.user.command.domain.user.User;
+import com.mine.application.user.command.domain.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
