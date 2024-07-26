@@ -6,6 +6,7 @@ import UserInfo from './UserInfo';
 import TransitionAnimation from '../../../components/common/TransitionAnimation';
 import styles from './Information.module.css';
 import { containerCss } from './style';
+import Achievement from './Achievement';
 
 const Information = () => {
   const [curMenu, setCurMenu] = useState<number>(1);
@@ -25,7 +26,7 @@ const Information = () => {
             exit: styles['fade-exit'],
           }}
         >
-          <div key={0}>it is Menu 0</div>
+          <Achievement key={0} />
           <UserInfo key={1} />
           <div key={2}>it is Menu 2</div>
         </TransitionAnimation>
