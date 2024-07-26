@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import React, { ReactNode, useCallback, useContext, useState } from 'react';
+import React, { useCallback, useContext, useState } from 'react';
 import { Button, TextField, Typography } from 'oyc-ds';
 import { contentCss } from './style';
 import { useNavigate } from 'react-router-dom';
