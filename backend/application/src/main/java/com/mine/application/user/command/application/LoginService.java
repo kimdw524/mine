@@ -9,7 +9,9 @@ import com.mine.application.user.command.domain.log.LoginLogRepository;
 import com.mine.application.user.command.domain.user.Password;
 import com.mine.application.user.command.domain.user.User;
 import com.mine.application.user.command.domain.user.UserRepository;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -19,7 +21,10 @@ import java.util.Optional;
 public class LoginService {
     private final UserRepository userRepository;
     private final LoginLogRepository loginLogRepository;
+    private final HttpSession httpSession;
     private final SessionDao sessionDao;
+
+    @Value("${spring.session.expire-seconds}") private Integer expireSeconds;
 
     public void login(LoginRequest loginRequest) {
         Optional<User> findUser = userRepository.findByEmail(loginRequest.getEmail());
@@ -30,7 +35,7 @@ public class LoginService {
                 sessionDao.put(SessionConstants.USER_ID, user.getId());
 
                 loginLogRepository.save(new LoginLog(user.getId()));
-                
+
                 return;
             }
         }
@@ -38,7 +43,6 @@ public class LoginService {
     }
 
     public void loginCheck() {
-        // TODO : 예외 처리 필요
         if(sessionDao.get(SessionConstants.EMAIL).isEmpty()) {
             throw new RestApiException(CommonErrorCode.UNAUTHORIZED);
         }

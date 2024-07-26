@@ -39,3 +39,6 @@ spring:
   sql:
     init:
       mode: always
+
+  session:
+    expire-seconds: 86400
