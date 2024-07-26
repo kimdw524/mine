@@ -16,7 +16,5 @@ public class SignupRequest {
     @NotNull
     private String nickname;
     @NotNull
-    private String phoneNum;
-    @NotNull
     private String gender;
 }

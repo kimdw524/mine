@@ -32,23 +32,19 @@ public class User extends BaseEntity {
 
     private String nickname;
 
-    @Column(name = "phone_num")
-    private String phoneNum;
-
     @Convert(converter = GenderConverter.class)
     private Gender gender;
 
     @Column(name = "email")
     private String email;
 
-    public User(Password password, String nickname, Gender gender, String email, String phoneNum) {
+    public User(Password password, String nickname, Gender gender, String email) {
 
         this.password = password;
 //        this.mbti = mbti;
         this.nickname = nickname;
         this.gender = gender;
         this.email = email;
-        this.phoneNum = phoneNum;
     }
 
 }

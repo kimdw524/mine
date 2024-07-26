@@ -25,8 +25,4 @@ public class UserData {
 
     @Column String password;
 
-    @Getter
-    @Column(name="phone_num") String phoneNum;
-
-
 }
