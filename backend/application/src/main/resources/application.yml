@@ -36,9 +36,9 @@ spring:
             trust: smtp.naver.com
             enable: true
         debug: false
-  sql:
-    init:
-      mode: always
+#  sql:
+  #    init:
+  #      mode: always
 
   session:
     expire-seconds: 86400

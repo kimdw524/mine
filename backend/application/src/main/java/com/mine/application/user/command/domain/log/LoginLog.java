@@ -19,11 +19,11 @@ public class LoginLog {
     @Column(name = "user_id")
     private Integer userId;
 
-    @Column
-    private LocalDateTime loginTime;
+    @Column(name = "login_datetime" )
+    private LocalDateTime loginDateTime;
 
     public LoginLog(Integer userId) {
         this.userId = userId;
-        this.loginTime = LocalDateTime.now();
+        this.loginDateTime = LocalDateTime.now();
     }
 }

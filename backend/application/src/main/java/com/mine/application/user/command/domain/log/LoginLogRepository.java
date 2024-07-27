@@ -8,5 +8,5 @@ import java.util.List;
 public interface LoginLogRepository extends Repository<LoginLog, Integer> {
     void save(LoginLog loginLog);
 
-    List<LoginLog> findByUserIdAndLoginTimeBetween(Integer userId, LocalDateTime from, LocalDateTime to);
+    List<LoginLog> findByUserIdAndLoginDateTimeBetween(Integer userId, LocalDateTime from, LocalDateTime to);
 }

@@ -26,22 +26,25 @@ import org.hibernate.annotations.SQLRestriction;
 public class User extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private Integer id;
 
     @Convert(converter = PasswordConverter.class)
-    @Column(name = "password", nullable = false)
+    @Column(name = "user_password", nullable = false)
     private Password password;
 
 //    @Convert(converter = MBTIConverter.class)
 //    @Column(name = "mbti")
 //    private MBTI mbti;
 
+    @Column(name = "user_nickname")
     private String nickname;
 
     @Convert(converter = GenderConverter.class)
+    @Column(name = "user_gender")
     private Gender gender;
 
-    @Column(name = "email")
+    @Column(name = "user_email")
     private String email;
 
     public User(Password password, String nickname, Gender gender, String email) {
@@ -54,11 +57,11 @@ public class User extends BaseEntity {
     }
 
     public void updateUserInfo(ModifyUserInfoRequest request) {
-        if(request.getNickname() == null) {
+        if (request.getNickname() == null) {
             throw new IllegalArgumentException("Nickname is required");
         }
 
-        if(request.getNickname().equals(nickname)){
+        if (request.getNickname().equals(nickname)) {
             throw new IllegalArgumentException("Input nickname is the same");
         }
 
@@ -67,7 +70,7 @@ public class User extends BaseEntity {
 
     public void updateUserPassword(ModifyPasswordRequest request) {
         Password newPassword = Password.of(request.getPassword(), false);
-        if(password.equals(newPassword)) {
+        if (password.equals(newPassword)) {
             throw new RestApiException(UserErrorCode.PASSWORD_IS_SAME);
         }
         this.password = newPassword;

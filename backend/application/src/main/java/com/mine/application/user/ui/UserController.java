@@ -32,24 +32,8 @@ public class UserController {
 
     @PatchMapping("/info")
     @LoginCheck
-    public ResponseEntity<?> updateUserInfo(ModifyUserInfoRequest request) {
+    public ResponseEntity<?> updateUserInfo(@RequestBody ModifyUserInfoRequest request) {
         modifyUserInfoService.modifyUserInfo(request);
-        return ResponseEntity.accepted().build();
-    }
-
-    @PostMapping("/info/password")
-    @LoginCheck
-    public ResponseEntity<?> isEqualsPassword(@RequestBody @Valid PasswordDto dto) {
-        if(userQueryService.isEqualsPassword(dto)) {
-            return ResponseEntity.ok().build();
-        }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-    }
-
-    @PatchMapping("/info/password")
-    @LoginCheck
-    public ResponseEntity<?> modifyPassword(@RequestBody @Valid ModifyPasswordRequest modifyPasswordRequest) {
-        modifyUserInfoService.modifyPasswordBySession(modifyPasswordRequest);
         return ResponseEntity.accepted().build();
     }
 
