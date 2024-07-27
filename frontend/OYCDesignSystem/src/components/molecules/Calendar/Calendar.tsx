@@ -1,15 +1,16 @@
 /** @jsxImportSource @emotion/react */
 import React from 'react';
-import { containerCss, dateCss, tableCss, weekCss } from './style';
 import { Typography } from '../../atoms/Typography';
 import { DateData, getDays } from '../../../utils/dayUtils';
 import { Day } from '../../atoms/Day';
+import { containerCss, dateCss, tableCss, weekCss } from './Calendar.style';
 
 export interface CalendarProps {
   year?: number;
   month?: number;
   width?: string;
   selected?: string;
+  showHeader?: boolean;
   onClick?: (year: number, month: number, day: number) => void;
 }
 
@@ -18,6 +19,7 @@ export const Calendar = ({
   month = new Date().getMonth() + 1,
   width = '100%',
   onClick = () => {},
+  showHeader = true,
   selected = '',
 }: CalendarProps) => {
   const days: DateData[][] = getDays(year, month);
@@ -25,11 +27,13 @@ export const Calendar = ({
 
   return (
     <div css={containerCss} style={{ width }}>
-      <div css={dateCss}>
-        <Typography size="lg" color="dark">
-          {year}년 {month}월
-        </Typography>
-      </div>
+      {showHeader && (
+        <div css={dateCss}>
+          <Typography size="lg" color="dark">
+            {year}년 {month}월
+          </Typography>
+        </div>
+      )}
       <table css={tableCss}>
         <thead>
           <tr>
