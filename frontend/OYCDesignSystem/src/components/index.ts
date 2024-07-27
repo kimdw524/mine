@@ -8,6 +8,7 @@ export { Typography } from './atoms/Typography';
 export { Progress } from './atoms/Progress';
 export { Spinner } from './atoms/Spinner';
 export { Day } from './atoms/Day';
+export { Chip } from './atoms/Chip';
 export { Dropdown } from './molecules/Dropdown';
 export { LabeledCheckBox } from './molecules/LabeledCheckBox';
 export { IconButton } from './molecules/IconButton';
