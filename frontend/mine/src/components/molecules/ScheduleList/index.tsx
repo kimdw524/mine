@@ -1,38 +1,38 @@
 /** @jsxImportSource @emotion/react */
 import React from 'react';
-import Category from './Category';
-import Title from './Title';
-import Description from './Description';
-import Place from './Place';
-import { css } from '@emotion/react';
-import useLongPress from '../../../hooks/useLongPress';
+import { GiftIcon } from '@heroicons/react/24/outline';
+import { Typography } from 'oyc-ds';
+import { bodyCss, categoryCss, containerCss, iconWrapperCss } from './style';
+import { scheduleCategoryData } from '../../../utils/scheduleUtils';
 
-const containerCss = css`
-  position: relative;
-  padding: 0.875rem 0;
-  user-select: none;
+interface ScheduleListProps extends React.ComponentProps<'div'> {
+  title: string;
+  description: string;
+  category: number;
+}
 
-  :not(:last-child) {
-    border-bottom: 0.0625rem solid #eee;
-  }
-`;
-
-const ScheduleList = ({ children, ...props }: React.ComponentProps<'div'>) => {
-  const { ref, ripple } = useLongPress<HTMLDivElement>(() => {
-    alert('longPress');
-  });
-
+const ScheduleList = ({
+  title,
+  description,
+  category,
+  ...props
+}: ScheduleListProps) => {
   return (
-    <div css={containerCss} ref={ref} {...props}>
-      {ripple}
-      {children}
+    <div css={containerCss} {...props}>
+      <div css={iconWrapperCss}>
+        <GiftIcon />
+      </div>
+      <div css={bodyCss}>
+        <Typography size="md" color="dark">
+          {title}
+        </Typography>
+        <Typography color="secondary" size="sm" weight="light">
+          <span css={categoryCss}>{scheduleCategoryData[category].name}</span>
+          {description}
+        </Typography>
+      </div>
     </div>
   );
 };
-
-ScheduleList.Category = Category;
-ScheduleList.Title = Title;
-ScheduleList.Description = Description;
-ScheduleList.Place = Place;
 
 export default ScheduleList;

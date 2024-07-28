@@ -18,7 +18,7 @@ const Schedule = () => {
   return (
     <div css={containerCss}>
       <div>
-        <AppBar label="회원가입" onBackClick={() => navigate('/')} />
+        <AppBar label="일정 관리" onBackClick={() => navigate('/')} />
         <div css={calendarCss}>
           <Calendar
             showHeader={false}

@@ -22,7 +22,6 @@ export const headerCss = css`
   position: sticky;
   top: 0;
   z-index: 10;
-  padding: 0.5rem 1rem;
-  border-bottom: 1px solid #ddd;
+  padding: 0.25rem 1rem;
   background-color: #fff;
 `;

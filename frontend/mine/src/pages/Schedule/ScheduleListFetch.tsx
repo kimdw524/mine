@@ -1,12 +1,10 @@
 /** @jsxImportSource @emotion/react */
-import React from 'react';
+import React, { CSSProperties } from 'react';
 import ScheduleList from '../../components/molecules/ScheduleList';
-import { Chip } from 'oyc-ds';
 import { css } from '@emotion/react';
 import { SchedulePeriod } from '.';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { getDailySchedules } from '../../apis/scheduleApi';
-import { scheduleCategoryData } from '../../utils/scheduleUtils';
 import { formatDate } from '../../utils/dateUtils';
 
 interface ScheduleListFetchProps {
@@ -37,24 +35,19 @@ export const ScheduleListFetch = ({
 
   return (
     <div css={containerCss} {...props}>
-      {data.data.map((data) => (
-        <ScheduleList key={data.scheduleId}>
-          <ScheduleList.Category>
-            <Chip
-              fill={scheduleCategoryData[data.category].fill}
-              color={scheduleCategoryData[data.category].color}
-              size="sm"
-            >
-              {scheduleCategoryData[data.category].name}
-            </Chip>
-          </ScheduleList.Category>
-          <ScheduleList.Title>{data.title}</ScheduleList.Title>
-          <ScheduleList.Description>
-            {data.description}
-          </ScheduleList.Description>
-          <ScheduleList.Place>{data.place}</ScheduleList.Place>
-        </ScheduleList>
-      ))}{' '}
+      {data.data.map((data, index) => (
+        <ScheduleList
+          key={data.scheduleId}
+          title={data.title}
+          description={data.description}
+          category={data.category}
+          style={
+            {
+              '--duration': `${Math.min(1500, (index + 1) * 300)}ms`,
+            } as CSSProperties
+          }
+        />
+      ))}
     </div>
   );
 };
