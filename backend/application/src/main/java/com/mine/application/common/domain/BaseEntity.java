@@ -35,4 +35,7 @@ public abstract class BaseEntity {
         }
     } //JPA 영속성 추가되면 default로 추가되게 함. 궂이 false 일일이 추가 안해도 됨.
 
+    protected void delete() {
+        isDeleted = true;
+    }
 }

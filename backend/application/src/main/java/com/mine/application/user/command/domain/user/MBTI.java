@@ -1,4 +1,4 @@
-package com.mine.application.user.command.domain;
+package com.mine.application.user.command.domain.user;
 
 import lombok.Setter;
 

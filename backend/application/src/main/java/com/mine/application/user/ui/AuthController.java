@@ -1,9 +1,6 @@
 package com.mine.application.user.ui;
 
-import com.mine.application.user.command.application.LoginRequest;
-import com.mine.application.user.command.application.LoginService;
-import com.mine.application.user.command.application.SignupRequest;
-import com.mine.application.user.command.application.SignupService;
+import com.mine.application.user.command.application.*;
 import com.mine.application.user.query.UserQueryService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +17,8 @@ public class AuthController {
     private final SignupService signupService;
     private final UserQueryService userQueryService;
     private final LoginService loginService;
+    private final EmailVerificationService emailVerificationService;
+    private final ModifyUserInfoService modifyUserInfoService;
 
     @PostMapping("/user")
     public ResponseEntity<?> signup(@RequestBody @Valid SignupRequest signupRequest) {
@@ -28,8 +27,22 @@ public class AuthController {
     }
 
     @GetMapping("/help/user/{userEmail}")
-    public ResponseEntity<?> existuserEmail(@PathVariable("userEmail") String userEmail) {
+    public ResponseEntity<?> existUserEmail(@PathVariable("userEmail") String userEmail) {
         return ResponseEntity.ok().body(userQueryService.existUserId(userEmail));
+    }
+
+    @PostMapping("/request-verification-email-code")
+    public ResponseEntity<?> requestVerificationEmailCode(@RequestBody EmailVerificationNumRequest request) {
+        emailVerificationService.emailNumberRequest(request);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/verify-email-code")
+    public ResponseEntity<?> verifyEmailCode(@RequestBody EmailVerificationRequest request) {
+        if (emailVerificationService.verifyEmail(request)) {
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.badRequest().build();
     }
 
 
@@ -44,4 +57,11 @@ public class AuthController {
         loginService.logout();
         return ResponseEntity.ok().build();
     }
+
+    @PatchMapping("/help/password")
+    public ResponseEntity<?> modifyPassword(@RequestBody @Valid ModifyPasswordRequest modifyPasswordRequest) {
+        modifyUserInfoService.modifyPasswordByEmailValidation(modifyPasswordRequest);
+        return ResponseEntity.accepted().build();
+    }
+
 }
