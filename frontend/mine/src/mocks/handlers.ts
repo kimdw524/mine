@@ -96,6 +96,64 @@ const mypageHandler = [
   http.post('/mypage/password', () => {
     return HttpResponse.json({ msg: '변경 성공' }, { status: 200 });
   }),
+  http.get('/mypage/achievement', async () => {
+    await delay(1000);
+
+    return HttpResponse.json({
+      achievement: [
+        {
+          achievement_id: 1,
+          achievement_title: '업적1',
+          achievement_description:
+            '업적1 설명 업적1 설명 업적1 설명 업적1 설명 업적1 설명 업적1 설명 업적1 설명 업적1 설명',
+          achievement_required_amount: 10,
+          achievement_count: 10,
+          achievement_date: '2024-07-26',
+          is_achieved: true,
+        },
+        {
+          achievement_id: 2,
+          achievement_title: '업적2',
+          achievement_description:
+            '업적2 설명 업적2 설명 업적2 설명 업적2 설명 업적2 설명 업적2 설명 업적2 설명 업적2 설명',
+          achievement_required_amount: 10,
+          achievement_count: 8,
+          achievement_date: null,
+          is_achieved: false,
+        },
+        {
+          achievement_id: 3,
+          achievement_title: '업적3',
+          achievement_description:
+            '업적3 설명 업적3 설명 업적3 설명 업적3 설명 업적3 설명 업적3 설명',
+          achievement_required_amount: 10,
+          achievement_count: 6,
+          achievement_date: null,
+          is_achieved: false,
+        },
+        {
+          achievement_id: 4,
+          achievement_title: '업적4',
+          achievement_description:
+            '업적4 설명 업적4 설명 업적4 설명 업적4 설명 업적4 설명 업적4 설명',
+          achievement_required_amount: 10,
+          achievement_count: 4,
+          achievement_date: null,
+          is_achieved: false,
+        },
+        {
+          achievement_id: 5,
+          achievement_title: '업적5',
+          achievement_description:
+            '업적5 설명 업적5 설명 업적5 설명 업적5 설명 업적5 설명 업적5 설명',
+          achievement_required_amount: 10,
+          achievement_count: 2,
+          achievement_date: null,
+          is_achieved: false,
+        },
+      ],
+    });
+  }),
 ];
 
 const avatarHandler = [

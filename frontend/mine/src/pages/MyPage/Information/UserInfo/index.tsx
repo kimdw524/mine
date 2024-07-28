@@ -10,7 +10,7 @@ const UserInfo = () => {
   return (
     <>
       <div css={userInfoTitle}>
-        <Typography weight="bold" color="dark" size="xl">
+        <Typography color="dark" size="lg">
           회원정보
         </Typography>
       </div>
