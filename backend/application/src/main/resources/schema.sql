@@ -1,7 +1,9 @@
 drop table IF EXISTS chat;
 drop table IF EXISTS avatar;
-
 drop table IF EXISTS achievement;
+drop table IF EXISTS schedule;
+drop table IF EXISTS login_log;
+drop table IF EXISTS user;
 
 create table achievement
 (
@@ -29,8 +31,6 @@ create table achievement_state
     achievement_date     DATETIME,
     is_achieved          BOOL NOT NULL
 );
-
-drop table IF EXISTS user;
 
 create table user
 (
