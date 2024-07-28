@@ -12,18 +12,32 @@ export const textCss = css`
   align-items: center;
   justify-content: center;
   position: relative;
+  z-index: 10;
   width: 2.25rem;
   margin: 0 auto;
   padding: 0 0;
-  border-radius: 50%;
   font-weight: 500;
   font-size: 0.875rem;
   aspect-ratio: 1 / 1;
 `;
 
+export const circleCss = css`
+  position: absolute;
+  z-index: -10;
+  width: 2.25rem;
+  margin: 0 auto;
+  padding: 0 0;
+  border-radius: 50%;
+  aspect-ratio: 1 / 1;
+
+  background-color: transparent;
+  transform: scale(0.5);
+  transition: all 200ms ease;
+`;
+
 export const selectedCss = css`
-  background-color: #e9d5ff;
-  box-shadow: 0 0 0.5rem 0 #e9d5ff;
+  background-color: #d6d8e9;
+  transform: scale(1);
 `;
 
 export const scheduledCss = css`
