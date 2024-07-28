@@ -9,7 +9,7 @@ const Achievement = () => {
   return (
     <>
       <div css={achievementTitle}>
-        <Typography weight="bold" color="dark" size="xl">
+        <Typography color="dark" size="lg">
           업적
         </Typography>
         <ErrorBoundary fallback={<>에러</>}>

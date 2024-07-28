@@ -8,5 +8,6 @@ export const achievementTitle = css`
 
 export const achievementListBox = css`
   width: calc(100% - 2rem);
-  margin: 1.5rem auto 0 auto;
+  margin: 0 auto;
+  padding-bottom: 4.5rem;
 `;
