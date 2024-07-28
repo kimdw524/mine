@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Getter
 @Entity
-public class AvatarInfo {
+public class Avatar {
 
     // GeneratedValue -> 기본 키의 값을 DB가 자동으로 생성하게 설정 함
     @Id
@@ -19,7 +19,7 @@ public class AvatarInfo {
 
     // nullable = false -> 값이 비어 있을 수 없도록 함
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id", nullable = false)
+    @Column(name = "user_id", nullable = false)
     private Integer userId;
 
     @Column(name = "avatar_name", nullable = false)
@@ -44,7 +44,7 @@ public class AvatarInfo {
     private Boolean isDeleted;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "avatar_model_id", nullable = false)
+    @Column(name = "avatar_model_id", nullable = false)
     private Integer modelId;
 
     @Column(name = "avatar_residence")
@@ -53,5 +53,15 @@ public class AvatarInfo {
     @Column(name = "avatar_job")
     private String job;
 
+    public Avatar(String name, LocalDateTime birthday, String assistantId, String threadId, String voiceId, String residence, String job) {
+        this.name = name;
+        this.birthday = birthday;
+        this.assistantId = assistantId;
+        this.threadId = threadId;
+        this.voiceId = voiceId;
+        this.residence = residence;
+        this.job = job;
+        this.isDeleted = false;
+    }
 
 }

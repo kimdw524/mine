@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Entity
-public class AvatarVoiceFile {
+public class VoiceFile {
 
     @Id
     @Column(name = "voice_file_id")
