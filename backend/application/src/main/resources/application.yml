@@ -37,5 +37,8 @@ spring:
             enable: true
         debug: false
   sql:
-    init:
-      mode: always
+      init:
+        mode: always
+
+  session:
+    expire-seconds: 86400

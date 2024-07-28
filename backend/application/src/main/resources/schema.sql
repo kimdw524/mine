@@ -3,11 +3,12 @@ drop table IF EXISTS avatar;
 
 drop table IF EXISTS achievement;
 
-create table achievement(
-    achievement_id INT AUTO_INCREMENT PRIMARY KEY,
-    achievement_required_amount INT NOT NULL,
-    achievement_title VARCHAR(80) NOT NULL,
-    achievement_description VARCHAR(200) NOT NULL
+create table achievement
+(
+    achievement_id              INT AUTO_INCREMENT PRIMARY KEY,
+    achievement_required_amount INT          NOT NULL,
+    achievement_title           VARCHAR(80)  NOT NULL,
+    achievement_description     VARCHAR(200) NOT NULL
 );
 
 insert into achievement(achievement_required_amount, achievement_title, achievement_description)
@@ -19,24 +20,32 @@ values (7, "로그인", "로그인 해줘"),
 
 drop table IF EXISTS achievement_state;
 
-create table achievement_state(
+create table achievement_state
+(
     achievement_state_id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT NOT NULL,
-    achievement_id INT NOT NULL,
-    achievement_count INT NOT NULL,
-    achievement_date DATETIME,
-    is_achieved BOOL NOT NULL
+    user_id              INT  NOT NULL,
+    achievement_id       INT  NOT NULL,
+    achievement_count    INT  NOT NULL,
+    achievement_date     DATETIME,
+    is_achieved          BOOL NOT NULL
 );
 
 drop table IF EXISTS user;
 
-create table user (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    email VARCHAR(50) NOT NULL UNIQUE,
-    phone_num CHAR(11) NOT NULL,
-    gender CHAR(1) NOT NULL,
-    password BINARY(60) NOT NULL,
-    nickname VARCHAR(11) NOT NULL,
-    is_deleted CHAR(1) NOT NULL,
-    created_at DATETIME NOT NULL
+create table user
+(
+    user_id       INT AUTO_INCREMENT PRIMARY KEY,
+    user_email    VARCHAR(50) NOT NULL,
+    user_gender   CHAR(1)     NOT NULL,
+    user_password BINARY(60) NOT NULL,
+    user_nickname VARCHAR(11) NOT NULL,
+    is_deleted    CHAR(1)     NOT NULL,
+    created_at    DATETIME    NOT NULL
+);
+
+create table login_log(
+    login_log_id   INT AUTO_INCREMENT PRIMARY KEY,
+    user_id        INT      NOT NULL,
+    login_datetime DATETIME NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES user (user_id)
 );
