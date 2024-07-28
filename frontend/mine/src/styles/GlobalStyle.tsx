@@ -1,8 +1,8 @@
 import React from 'react';
 import { Global, css } from '@emotion/react';
-import GmarketSansTTFLight from '../aseets/fonts/GmarketSansTTFLight.ttf';
-import GmarketSansTTFMedium from '../aseets/fonts/GmarketSansTTFMedium.ttf';
-import GmarketSansTTFBold from '../aseets/fonts/GmarketSansTTFBold.ttf';
+import GmarketSansTTFLight from '../aseets/fonts/GmarketSansLight.woff2';
+import GmarketSansTTFMedium from '../aseets/fonts/GmarketSansMedium.woff2';
+import GmarketSansTTFBold from '../aseets/fonts/GmarketSansBold.woff2';
 
 const GlobalStyle = () => {
   return (
