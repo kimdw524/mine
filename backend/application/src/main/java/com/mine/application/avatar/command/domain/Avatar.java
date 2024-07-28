@@ -1,6 +1,7 @@
 package com.mine.application.avatar.command.domain;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
@@ -53,15 +54,19 @@ public class Avatar {
     @Column(name = "avatar_job")
     private String job;
 
-    public Avatar(String name, LocalDateTime birthday, String assistantId, String threadId, String voiceId, String residence, String job) {
+    @Builder
+    public Avatar(Integer userId, String name, LocalDateTime birthday, String personality, String assistantId, String threadId, String voiceId, Integer modelId, String residence, String job) {
+        this.userId = userId;
         this.name = name;
         this.birthday = birthday;
+        this.personality = personality;
         this.assistantId = assistantId;
         this.threadId = threadId;
         this.voiceId = voiceId;
+        this.isDeleted = false;
+        this.modelId = modelId;
         this.residence = residence;
         this.job = job;
-        this.isDeleted = false;
     }
 
 }

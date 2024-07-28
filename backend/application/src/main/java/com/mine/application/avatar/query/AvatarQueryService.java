@@ -22,15 +22,5 @@ public class AvatarQueryService {
     private final SessionDao sessionDao;
     private final AvatarDataRepository avatarDataRepository;
 
-//    @Transactional
-//    public List<GetAchievementStateResponse> getAchievementStates() {
-//        Integer userId = (Integer) sessionDao.get(SessionConstants.USER_ID)
-//                .orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND));
-//
-//        return avatarDataRepository.findAllByUserId(userId)
-//                .stream()
-//                .sorted(Comparator.comparingInt(o -> o.getAvatar().getId()))
-//                .map(AchievementConverter::convert)
-//                .collect(Collectors.toList());
-//    }
+
 }

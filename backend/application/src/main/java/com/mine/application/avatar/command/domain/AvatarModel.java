@@ -12,7 +12,7 @@ public class AvatarModel {
     @Id
     @Column(name = "avatar_model_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer modelId;
 
     @Column(name = "avatar_model_url", nullable = false)
     private String modelUrl;

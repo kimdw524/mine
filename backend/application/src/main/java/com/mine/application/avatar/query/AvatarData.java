@@ -1,5 +1,7 @@
 package com.mine.application.avatar.query;
 
+import com.mine.application.avatar.command.domain.Avatar;
+import com.mine.application.avatar.command.domain.AvatarModel;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,14 +19,12 @@ import java.time.LocalDateTime;
 @Immutable
 public class AvatarData {
 
-    // GeneratedValue -> 기본 키의 값을 DB가 자동으로 생성하게 설정 함
     @Id
     @Column(name = "avatar_id")
     private Integer id;
 
-    // nullable = false -> 값이 비어 있을 수 없도록 함
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id")
+    @Column(name = "user_id")
     private Integer userId;
 
     @Column(name = "avatar_name")
@@ -47,7 +47,7 @@ public class AvatarData {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "avatar_model_id")
-    private Integer modelId;
+    private AvatarModel modelId;
 
     @Column(name = "avatar_residence")
     private String residence;
