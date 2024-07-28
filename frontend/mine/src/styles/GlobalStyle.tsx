@@ -38,6 +38,11 @@ const GlobalStyle = () => {
             width: 100vw;
             height: 100vh;
             overflow-x: hidden;
+            overflow-y: scroll;
+            -ms-overflow-style: none;
+            ::-webkit-scrollbar {
+              width: 0;
+            }
           }
         `,
       ]}

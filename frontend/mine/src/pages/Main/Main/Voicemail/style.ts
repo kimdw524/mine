@@ -1,14 +1,14 @@
 import { css } from '@emotion/react';
 
 export const voicemodalCss = css`
-  width: 60%;
-  height: 30%;
-  left: 20%;
-  top: 30%;
+  width: 80%;
+  height: 40%;
+  left: 10%;
+  top: 25%;
   background-color: white;
   border: 1px solid black;
   border-radius: 10px;
-  /* background: rgba(71, 58, 58, 0.25); */
+  // background: rgba(71, 58, 58, 0.25);
 `
 export const modalwindowCss = css`    
   width: 100%;
@@ -24,7 +24,7 @@ export const modalbtnCss = css`
   /* background-color: red; */
   display: flex;
   gap: 20px;
-  align-self: flex-end;
+  // align-self: flex-end;
   justify-content: center; // 가로 중앙 정렬
 `
 export const modalcancelCss = css`
@@ -38,7 +38,7 @@ export const modalsendCss = css`
 `
 
 export const modalcontentCss = css`
-  text-align: center;
-  /* background-color: blue; */
-  height: 50%;
+  // background-color: blue;
+  height: 75%;
+  padding-top: 20px;
 `

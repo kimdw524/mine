@@ -10,7 +10,7 @@ import Voicemail from './Voicemail';
 import Home from './Home';
 
 const Main = () => {
-  const [curMenu, setCurMenu] = useState<number>(2);
+  const [curMenu, setCurMenu] = useState<number>(1);
   return (
     <>
         <AppBar

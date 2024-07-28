@@ -2,8 +2,8 @@
 import React from 'react';
 import { TextField } from 'oyc-ds';
 import { chatbarCss } from './style';
-
 const Chat = () => {
+
   return (
     <div>
       <TextField
@@ -16,8 +16,8 @@ const Chat = () => {
         variant="outlined"
         css={chatbarCss}
       />
-      
     </div>
+    
   );
 };
 
