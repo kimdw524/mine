@@ -10,6 +10,7 @@ import com.mine.application.common.erros.exception.RestApiException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+
 @RequiredArgsConstructor
 @Service
 public class CreateAvatarService {
