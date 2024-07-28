@@ -63,7 +63,6 @@ public class Avatar {
         this.assistantId = assistantId;
         this.threadId = threadId;
         this.voiceId = voiceId;
-        this.isDeleted = false;
         this.modelId = modelId;
         this.residence = residence;
         this.job = job;
