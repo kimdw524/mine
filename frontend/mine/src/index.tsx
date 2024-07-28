@@ -23,14 +23,12 @@ const root = ReactDOM.createRoot(
 // mocking 여부 확인
 enableMocking().then(() => {
   root.render(
-    <React.StrictMode>
-      <CookiesProvider>
-        <BrowserRouter>
-          <QueryClientProvider client={queryClient}>
-            <App />
-          </QueryClientProvider>
-        </BrowserRouter>
-      </CookiesProvider>
-    </React.StrictMode>,
+    <CookiesProvider>
+      <BrowserRouter>
+        <QueryClientProvider client={queryClient}>
+          <App />
+        </QueryClientProvider>
+      </BrowserRouter>
+    </CookiesProvider>,
   );
 });

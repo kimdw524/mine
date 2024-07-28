@@ -163,5 +163,51 @@ const avatarHandler = [
   }),
 ];
 
+const scheduleHandler = [
+  http.get('/schedule/daily/*', async () => {
+    await delay(1000);
+
+    return HttpResponse.json([
+      {
+        scheduleId: 1,
+        title: '1번 일정',
+        description: '1번 일정의 내용',
+        place: '1번 장소',
+        startTime: '20240728',
+        category: 1,
+      },
+      {
+        scheduleId: 2,
+        title: '2번 일정',
+        description: '2번 일정의 내용',
+        place: '2번 장소',
+        startTime: '20240728',
+        category: 2,
+      },
+      {
+        scheduleId: 3,
+        title: '3번 일정',
+        description: '3번 일정의 내용',
+        place: '3번 장소',
+        startTime: '20240728',
+        category: 3,
+      },
+      {
+        scheduleId: 4,
+        title: '4번 일정',
+        description: '4번 일정의 내용',
+        place: '4번 장소',
+        startTime: '20240728',
+        category: 4,
+      },
+    ]);
+  }),
+];
+
 // 하나의 handler 로 관리
-export const handlers = [...userHandler, ...mypageHandler, ...avatarHandler];
+export const handlers = [
+  ...userHandler,
+  ...mypageHandler,
+  ...avatarHandler,
+  ...scheduleHandler,
+];
