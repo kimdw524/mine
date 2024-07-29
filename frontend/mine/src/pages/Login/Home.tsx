@@ -53,7 +53,7 @@ const Home = () => {
         variant="contained"
         onClick={() => nav('mypage')}
       >
-        마이페이지
+        됐을까?
       </Button>
     </>
   );
