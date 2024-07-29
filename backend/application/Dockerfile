@@ -10,6 +10,6 @@ RUN ./gradlew bootJar
 FROM amazoncorretto:21
 COPY --from=builder /application/build/libs/*.jar /app.jar
 
-EXPOSE 8080
+EXPOSE 8081
 
 CMD ["java", "-jar", "/app.jar"]
