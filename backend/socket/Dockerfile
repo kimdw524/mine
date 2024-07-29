@@ -3,7 +3,7 @@ FROM gradle:8.9.0-jdk21 AS builder
 WORKDIR /socket
 COPY . .
 
-RUN chmod 755 gradlew
+RUN chmod +x ./gradlew
 RUN ./gradlew bootJar
 
 # 2. 패키지 단계
