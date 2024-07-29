@@ -52,12 +52,12 @@ export const variants: Record<
 > = {
   contained: (theme: Theme, palette: PaletteColor) => css`
     color: ${palette.contrastText};
-    background-color: ${palette.disabled};
+    background-color: ${palette.main};
     fill: ${palette.contrastText};
     transition: all 100ms ease;
 
     :disabled {
-      background-color: ${palette.main};
+      background-color: ${palette.disabled};
     }
   `,
   outlined: (theme: Theme, palette: PaletteColor) => css`
