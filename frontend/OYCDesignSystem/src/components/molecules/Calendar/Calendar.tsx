@@ -84,6 +84,21 @@ export const Calendar = ({
   );
 
   useEffect(() => {
+    if (initYear === prevYear && initMonth === prevMonth) {
+      swipeToPrev(true);
+      return;
+    }
+
+    if (initYear === nextYear && initMonth === nextMonth) {
+      swipeToNext(true);
+      return;
+    }
+
+    setYear(initYear);
+    setMonth(initMonth);
+  }, [initYear, initMonth]);
+
+  useEffect(() => {
     onChange(year, month);
     if (!containerRef.current) return;
     const container = containerRef.current;
@@ -99,7 +114,6 @@ export const Calendar = ({
 
     const handleTouchMove = (e: TouchEvent | MouseEvent) => {
       if (!down) return;
-      e.preventDefault();
       const width = container.getBoundingClientRect().width / 3;
       x = Math.min(
         width,

@@ -1,19 +1,53 @@
 /** @jsxImportSource @emotion/react */
-import React, { Suspense, useState } from 'react';
+import React, { Suspense, useEffect, useRef, useState } from 'react';
 import AppBar from '../../components/organisms/AppBar';
 import { useNavigate } from 'react-router-dom';
 import { Calendar, Dropdown, Typography } from 'oyc-ds';
 import { calendarCss, containerCss, headerCss, scheduleCss } from './style';
 import ScheduleListFetch from './ScheduleListFetch';
 import { ErrorBoundary } from 'react-error-boundary';
+import { getMonthDates, getWeekDates } from '../../utils/dateUtils';
 
 export type SchedulePeriod = 'daily' | 'weekly' | 'monthly';
 
 const Schedule = () => {
   const navigate = useNavigate();
-  const [date, setDate] = useState<string>(
-    new Date().toLocaleDateString().replaceAll('.', '').replaceAll(' ', '-'),
-  );
+  const today = new Date()
+    .toLocaleDateString()
+    .replaceAll('.', '')
+    .replaceAll(' ', '-');
+  const [date, setDate] = useState<string>(today);
+  const [period, setPeriod] = useState<SchedulePeriod>('daily');
+  const selectedRef = useRef<string[]>([today]);
+
+  const handlePeriodChange = (e: React.FormEvent<HTMLSelectElement>) => {
+    const period = (e.target as HTMLSelectElement).value as SchedulePeriod;
+    setPeriod(period);
+    updateSelected(date, period);
+  };
+
+  const handleCalendarClick = (year: number, month: number, day: number) => {
+    const date = `${year}-${month}-${day}`;
+    setDate(date);
+    updateSelected(date, period);
+  };
+
+  const updateSelected = (date: string, period: SchedulePeriod) => {
+    switch (period) {
+      case 'daily': {
+        selectedRef.current = [date];
+        break;
+      }
+      case 'weekly': {
+        selectedRef.current = getWeekDates(date);
+        break;
+      }
+      case 'monthly': {
+        selectedRef.current = getMonthDates(date);
+        break;
+      }
+    }
+  };
 
   return (
     <div css={containerCss}>
@@ -21,28 +55,37 @@ const Schedule = () => {
         <AppBar label="일정 관리" onBackClick={() => navigate('/')} />
         <div css={calendarCss}>
           <Calendar
-            showHeader={false}
-            selected={date}
-            onClick={(year, month, day) => setDate(`${year}-${month}-${day}`)}
+            selected={selectedRef.current}
+            onClick={handleCalendarClick}
           />
         </div>
       </div>
       <div css={scheduleCss}>
         <div css={headerCss}>
-          <Typography color="secondary" size="sm">
-            {date.replaceAll('-', ' ')}
+          <Typography color="secondary" size="xs">
+            {selectedRef.current.length === 1
+              ? selectedRef.current[0].replaceAll('-', '. ')
+              : `${selectedRef.current[0].replaceAll('-', '. ')} ~ ${selectedRef.current.at(-1)!.replaceAll('-', '. ')}`}
           </Typography>
           <div>
-            <Dropdown size="sm" style={{ border: '0' }}>
-              <Dropdown.Item>일간</Dropdown.Item>
-              <Dropdown.Item>주간</Dropdown.Item>
-              <Dropdown.Item>월간</Dropdown.Item>
+            <Dropdown
+              size="sm"
+              style={{ border: '0' }}
+              onChangeCapture={handlePeriodChange}
+            >
+              <Dropdown.Item value="daily">일간</Dropdown.Item>
+              <Dropdown.Item value="weekly">주간</Dropdown.Item>
+              <Dropdown.Item value="monthly">월간</Dropdown.Item>
             </Dropdown>
           </div>
         </div>
-        <ErrorBoundary fallback={<>에러 뜸</>}>
-          <Suspense fallback={<>로딩 중</>}>
-            <ScheduleListFetch key={date} type="daily" date={date} />
+        <ErrorBoundary fallback={<>error</>}>
+          <Suspense fallback={<></>}>
+            <ScheduleListFetch
+              key={`${date}${period}`}
+              type={period}
+              date={date[0]}
+            />
           </Suspense>
         </ErrorBoundary>
       </div>

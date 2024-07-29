@@ -13,6 +13,8 @@ interface ScheduleListFetchProps {
 }
 
 const containerCss = css`
+  overflow-x: hidden;
+
   > div {
     padding: 1rem;
   }
@@ -43,7 +45,7 @@ export const ScheduleListFetch = ({
           category={data.category}
           style={
             {
-              '--duration': `${Math.min(1500, (index + 1) * 300)}ms`,
+              '--duration': `${Math.min(1500, index * 200 + 300)}ms`,
             } as CSSProperties
           }
         />

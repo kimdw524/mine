@@ -4,12 +4,12 @@ export const containerCss = css`
   @keyframes fadeIn {
     from {
       opacity: 0;
-      transform: scale(0.95);
+      transform: translateX(0.5rem);
     }
 
     to {
       opacity: 1;
-      transform: scale(1);
+      transform: translateX(0);
     }
   }
 

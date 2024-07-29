@@ -165,8 +165,6 @@ const avatarHandler = [
 
 const scheduleHandler = [
   http.get('/schedule/daily/*', async () => {
-    await delay(1000);
-
     return HttpResponse.json([
       {
         scheduleId: 1,

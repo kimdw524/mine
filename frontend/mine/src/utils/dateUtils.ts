@@ -7,3 +7,42 @@ export const formatDate = (dateString: string) => {
 
   return `${year}${month}${day}`;
 };
+
+export const getWeekDates = (dateString: string): string[] => {
+  const date = new Date(dateString);
+  const dayOfWeek = date.getDay();
+  const startOfWeek = new Date(date);
+
+  startOfWeek.setDate(date.getDate() - dayOfWeek);
+
+  const weekDates: string[] = [];
+
+  for (let i = 0; i < 7; i++) {
+    const currentDate = new Date(startOfWeek);
+    currentDate.setDate(startOfWeek.getDate() + i);
+    weekDates.push(
+      `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}-${currentDate.getDate()}`,
+    );
+  }
+
+  return weekDates;
+};
+
+export const getMonthDates = (dateString: string): string[] => {
+  const date = new Date(dateString);
+  const year = date.getFullYear();
+  const month = date.getMonth();
+
+  const lastDayOfMonth = new Date(year, month + 1, 0);
+
+  const monthDates: string[] = [];
+
+  for (let day = 1; day <= lastDayOfMonth.getDate(); day++) {
+    const currentDate = new Date(year, month, day);
+    monthDates.push(
+      `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}-${currentDate.getDate()}`,
+    );
+  }
+
+  return monthDates;
+};
