@@ -13,3 +13,4 @@ export { LabeledCheckBox } from './molecules/LabeledCheckBox';
 export { IconButton } from './molecules/IconButton';
 export { Toast } from './molecules/Toast';
 export { Calendar } from './molecules/Calendar';
+export { MenuTab } from './molecules/MenuTab';

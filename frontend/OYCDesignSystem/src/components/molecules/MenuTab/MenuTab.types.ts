@@ -9,5 +9,5 @@ export interface MenuTabProps
     children: ReactNode[];
     size?: Size;
     color?: Palette;
-    // variant?: MenuTabVariant;
+    variant?: MenuTabVariant;
   }

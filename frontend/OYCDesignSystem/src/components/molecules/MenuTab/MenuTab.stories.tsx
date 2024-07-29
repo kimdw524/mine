@@ -4,7 +4,7 @@ import { MenuTab } from './MenuTab';
 import { MenuTabProps } from './MenuTab.types';
 
 export default {
-  title: 'Components/Tab',
+  title: 'UI/Molecules/MenuTab',
   component: MenuTab,
   argTypes: {
     size: {
@@ -29,11 +29,12 @@ const Template: StoryObj<MenuTabProps> = {
   ),
 };
 
-export const Default = {
+export const Primary = {
   ...Template,
   args: {
     size: 'md',
     color: 'primary',
     children: ['Tab1', 'Tab2', 'Tab3'],
+    variant: 'rounded',
   },
 };

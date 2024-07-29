@@ -3,12 +3,12 @@ import React, { useState } from 'react';
 import { useTheme } from '@emotion/react';
 import { Button } from '../../atoms/Button';
 import { MenuTabProps } from './MenuTab.types';
-import { tabsCss, btnCss, activeCss } from './MenuTab.styles';
+import { tabsCss, btnCss, activeCss, variantCss } from './MenuTab.styles';
 
 export const MenuTab = ({
   children,
   size = 'md',
-  // variant = 'rounded',
+  variant = 'rounded',
   color = 'primary',
   ...props
 }: MenuTabProps) => {
@@ -21,11 +21,11 @@ export const MenuTab = ({
 
   const tabCount = React.Children.count(children);
 
-  return <div css={[tabsCss]} {...props}>
+  return <div css={[tabsCss, variantCss[variant]]} {...props}>
     <div css={activeCss(activeIndex, theme.colors[color], tabCount)}></div>
     {React.Children.map(children, (child, index) => (
         <Button
-          css={btnCss(tabCount)}
+          css={btnCss(theme, tabCount, size)}
           onClick={() => handleTabClick(index)}
           size={size}
           color={color}
