@@ -38,4 +38,22 @@ public class ScheduleDataCustomRepositoryImpl implements ScheduleDataCustomRepos
                 .fetch();
     }
 
+    @Override
+    public List<GetSchedulesResponse> findSchedulesByContaining(Integer userId, String query) {
+        return jpaQueryFactory
+                .select(Projections.constructor(GetSchedulesResponse.class,
+                        scheduleData.id,
+                        scheduleData.categoryId,
+                        scheduleData.startDateTime,
+                        scheduleData.endDateTime,
+                        scheduleData.title,
+                        scheduleData.description,
+                        scheduleData.where))
+                .from(scheduleData)
+                .where(scheduleData.title.contains(query)
+                        .or(scheduleData.description.contains(query))
+                        .or(scheduleData.where.contains(query)))
+                .fetch();
+    }
+
 }

@@ -9,4 +9,6 @@ public interface ScheduleDataCustomRepository {
 
     List<GetSchedulesResponse> findSchedulesBetweenDates(Integer userId, LocalDateTime startDate, LocalDateTime endDate);
 
+    List<GetSchedulesResponse> findSchedulesByContaining(Integer userId, String query);
+
 }
