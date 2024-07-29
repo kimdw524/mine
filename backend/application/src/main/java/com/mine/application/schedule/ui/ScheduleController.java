@@ -9,7 +9,6 @@ import com.mine.application.schedule.ui.dto.GetSchedulesResponse;
 import com.mine.application.schedule.ui.dto.UpdateScheduleRequest;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
