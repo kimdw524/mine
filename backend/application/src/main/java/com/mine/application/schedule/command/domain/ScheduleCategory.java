@@ -3,9 +3,9 @@ package com.mine.application.schedule.command.domain;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import org.hibernate.annotations.Immutable;
 
-@Table(name = "schedule_category")
+@Immutable
 @Entity
 public class ScheduleCategory {
 

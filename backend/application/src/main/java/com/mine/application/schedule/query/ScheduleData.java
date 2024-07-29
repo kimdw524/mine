@@ -1,13 +1,17 @@
 package com.mine.application.schedule.query;
 
-import com.mine.application.user.command.domain.user.User;
+import com.mine.application.schedule.command.domain.ScheduleCategory;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Immutable;
 
 import java.time.LocalDateTime;
 
+
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "schedule")
+@Immutable
 @Entity
 public class ScheduleData {
 
@@ -15,12 +19,12 @@ public class ScheduleData {
     @Column(name = "schedule_id")
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id")
-    private User userId;
+    @Column(name = "user_id")
+    private Integer userId;
 
-    @Column(name = "schedule_category_id")
-    private Integer categoryId;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "schedule_category_id")
+    private ScheduleCategory category;
 
     @Column(name = "schedule_start_datetime")
     private LocalDateTime startDateTime;
