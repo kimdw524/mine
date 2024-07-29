@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import React, { Suspense, useEffect, useRef, useState } from 'react';
+import React, { Suspense, useRef, useState } from 'react';
 import AppBar from '../../components/organisms/AppBar';
 import { useNavigate } from 'react-router-dom';
 import { Calendar, Dropdown, Typography } from 'oyc-ds';
@@ -7,6 +7,7 @@ import { calendarCss, containerCss, headerCss, scheduleCss } from './style';
 import ScheduleListFetch from './ScheduleListFetch';
 import { ErrorBoundary } from 'react-error-boundary';
 import { getMonthDates, getWeekDates } from '../../utils/dateUtils';
+import Create from './Create';
 
 export type SchedulePeriod = 'daily' | 'weekly' | 'monthly';
 
@@ -19,6 +20,10 @@ const Schedule = () => {
   const [date, setDate] = useState<string>(today);
   const [period, setPeriod] = useState<SchedulePeriod>('daily');
   const selectedRef = useRef<string[]>([today]);
+  const [year, month, day] = new Date(date)
+    .toLocaleDateString()
+    .replaceAll('.', '')
+    .split(' ');
 
   const handlePeriodChange = (e: React.FormEvent<HTMLSelectElement>) => {
     const period = (e.target as HTMLSelectElement).value as SchedulePeriod;
@@ -55,6 +60,8 @@ const Schedule = () => {
         <AppBar label="일정 관리" onBackClick={() => navigate('/')} />
         <div css={calendarCss}>
           <Calendar
+            year={parseInt(year)}
+            month={parseInt(month)}
             selected={selectedRef.current}
             onClick={handleCalendarClick}
           />

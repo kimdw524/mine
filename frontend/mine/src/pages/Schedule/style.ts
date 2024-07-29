@@ -7,7 +7,7 @@ export const containerCss = css`
 `;
 
 export const calendarCss = css`
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1rem solid #f3f5f9;
 `;
 
 export const scheduleCss = css`
