@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface ScheduleDataCustomRepository {
 
-    List<GetSchedulesResponse> findAllBetweenDates(Integer userId, LocalDateTime startDate, LocalDateTime endDate);
+    List<GetSchedulesResponse> findSchedulesBetweenDates(Integer userId, LocalDateTime startDate, LocalDateTime endDate);
 
 }

@@ -18,7 +18,7 @@ public class ScheduleDataCustomRepositoryImpl implements ScheduleDataCustomRepos
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public List<GetSchedulesResponse> findAllBetweenDates(
+    public List<GetSchedulesResponse> findSchedulesBetweenDates(
             Integer userId,
             LocalDateTime startDateTime,
             LocalDateTime endDateTime)

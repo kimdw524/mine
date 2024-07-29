@@ -1,5 +1,9 @@
 package com.mine.application.schedule.query.application;
 
+import com.mine.application.common.domain.SessionConstants;
+import com.mine.application.common.domain.SessionDao;
+import com.mine.application.common.erros.errorcode.CommonErrorCode;
+import com.mine.application.common.erros.exception.RestApiException;
 import com.mine.application.schedule.query.domain.ScheduleDataCustomRepository;
 import com.mine.application.schedule.ui.dto.GetSchedulesResponse;
 import lombok.RequiredArgsConstructor;
@@ -13,15 +17,18 @@ import java.util.List;
 @Service
 public class GetSchedulesService {
 
+    private final SessionDao sessionDao;
     private final ScheduleDataCustomRepository scheduleDataCustomRepository;
 
     public List<GetSchedulesResponse> getSchedulesBetweenDates(
             LocalDate startDate,
             LocalDate endDate)
     {
-        System.out.println(startDate.atStartOfDay() + " " + endDate.atTime(LocalTime.MAX));
-        return scheduleDataCustomRepository.findAllBetweenDates(
-                1,
+        Integer userId = (Integer) sessionDao.get(SessionConstants.USER_ID)
+                .orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND));
+
+        return scheduleDataCustomRepository.findSchedulesBetweenDates(
+                userId,
                 startDate.atStartOfDay(),
                 endDate.atTime(LocalTime.MAX)
         );
