@@ -1,9 +1,14 @@
 package com.mine.application.account.command.domain;
 
+import com.mine.application.account.ui.dto.UpdateAccountRequest;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class Account {
 
@@ -36,5 +41,26 @@ public class Account {
 
     @Column(name = "create_at")
     private LocalDateTime createAt;
+
+    @Builder
+    public Account(Integer userId, Integer spendCategoryId, AccountType accountType, Long money, String title, String description, LocalDateTime dateTime, LocalDateTime createAt) {
+        this.userId = userId;
+        this.spendCategoryId = spendCategoryId;
+        this.accountType = accountType;
+        this.money = money;
+        this.title = title;
+        this.description = description;
+        this.dateTime = dateTime;
+        this.createAt = createAt;
+    }
+
+    public void updateAccount(UpdateAccountRequest request) {
+        this.spendCategoryId = request.getSpendCategoryId();
+        this.accountType = AccountType.of(request.getAccountType());
+        this.money = request.getMoney();
+        this.title = request.getTitle();
+        this.description = request.getDescription();
+        this.dateTime = request.getDateTime();
+    }
 
 }
