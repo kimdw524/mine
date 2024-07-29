@@ -164,7 +164,7 @@ export const Calendar = ({
     <div css={containerCss} style={{ width }}>
       {showHeader && (
         <div css={dateCss}>
-          <Typography size="lg" color="dark">
+          <Typography size="md" color="dark">
             {year}년 {month}월
           </Typography>
         </div>
