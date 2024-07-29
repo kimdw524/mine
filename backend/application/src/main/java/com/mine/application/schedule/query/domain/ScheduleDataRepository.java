@@ -1,4 +1,4 @@
-package com.mine.application.schedule.query;
+package com.mine.application.schedule.query.domain;
 
 import org.springframework.data.repository.Repository;
 

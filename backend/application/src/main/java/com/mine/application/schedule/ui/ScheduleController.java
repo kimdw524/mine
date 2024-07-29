@@ -3,33 +3,38 @@ package com.mine.application.schedule.ui;
 import com.mine.application.schedule.command.application.AddScheduleService;
 import com.mine.application.schedule.command.application.DeleteScheduleService;
 import com.mine.application.schedule.command.application.UpdateScheduleService;
+import com.mine.application.schedule.query.application.GetSchedulesService;
 import com.mine.application.schedule.ui.dto.AddScheduleRequest;
+import com.mine.application.schedule.ui.dto.GetSchedulesResponse;
 import com.mine.application.schedule.ui.dto.UpdateScheduleRequest;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @RequiredArgsConstructor
 @RequestMapping("/users/schedules")
 @RestController
 public class ScheduleController {
 
+    private final GetSchedulesService getSchedulesService;
     private final AddScheduleService addScheduleService;
     private final UpdateScheduleService updateScheduleService;
     private final DeleteScheduleService deleteScheduleService;
 
     @GetMapping
-    public ResponseEntity<?> getSchedulesBetweenDates(
-            @RequestParam @NotBlank LocalDate startDate,
-            @RequestParam LocalDate endDate)
+    public ResponseEntity<List<GetSchedulesResponse>> getSchedulesBetweenDates(
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate)
     {
-
-        return ResponseEntity.ok().build();
+        List<GetSchedulesResponse> response = getSchedulesService.getSchedulesBetweenDates(startDate, endDate);
+        return ResponseEntity.ok().body(response);
     }
 
     @PostMapping("/calendar")

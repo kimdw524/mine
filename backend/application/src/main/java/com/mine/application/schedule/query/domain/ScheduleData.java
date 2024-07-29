@@ -1,4 +1,4 @@
-package com.mine.application.schedule.query;
+package com.mine.application.schedule.query.domain;
 
 import com.mine.application.schedule.command.domain.ScheduleCategory;
 import jakarta.persistence.*;
@@ -22,14 +22,13 @@ public class ScheduleData {
     @Column(name = "user_id")
     private Integer userId;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "schedule_category_id")
-    private ScheduleCategory category;
+    @Column(name = "schedule_category_id")
+    private Integer categoryId;
 
     @Column(name = "schedule_start_datetime")
     private LocalDateTime startDateTime;
 
-    @Column(name = "schedule+end_datetime")
+    @Column(name = "schedule_end_datetime")
     private LocalDateTime endDateTime;
 
     @Column(name = "schedule_title")
