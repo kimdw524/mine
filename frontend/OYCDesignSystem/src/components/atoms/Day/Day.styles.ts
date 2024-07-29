@@ -16,9 +16,12 @@ export const textCss = css`
   width: 2.25rem;
   margin: 0 auto;
   padding: 0 0;
-  font-weight: 500;
-  font-size: 0.875rem;
   aspect-ratio: 1 / 1;
+
+  > span {
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
 `;
 
 export const circleCss = css`
@@ -36,15 +39,15 @@ export const circleCss = css`
 `;
 
 export const selectedCss = css`
-  background-color: #d6d8e9;
+  background-color: #ecedf2;
   transform: scale(1);
 `;
 
 export const scheduledCss = css`
   position: absolute;
   width: 1.25rem;
-  height: 0.1875rem;
-  bottom: 0.5rem;
-  background-color: #e1bfef;
+  height: 0.125rem;
+  bottom: 0.375rem;
+  background-color: #b771ff;
   border-radius: 0.5rem;
 `;
