@@ -14,7 +14,7 @@ public class UploadVoiceService {
     public void uploadFile(Base64FileUploadRequest request) {
         //TODO : 세션으로 아바타 ID 가져올 건지, dto로 avatarId 가져올건지? 일단 DTO로 받아오는 거로 하자.
         File voiceFile = base64ToFile(request);
-        Events.raise(new FileUploadedEvent(voiceFile, request.getAvatarId()));
+        Events.raise(new FileUploadedEvent(voiceFile, request.getAvatarId(), 0));
     }
 
     private File base64ToFile(Base64FileUploadRequest request) {

@@ -34,7 +34,7 @@ final class Base64AndFileConverter {
         StringBuilder sb = new StringBuilder();
         UUID uuid = UUID.randomUUID();
 
-        sb.append(uuid).append(".").append(extension);
+        sb.append(uuid).append("-").append(fileName).append(".").append(extension);
         return sb.toString();
     }
 }

@@ -12,4 +12,5 @@ import java.io.File;
 public class FileUploadedEvent {
     private File file;
     private String voiceId;
+    private Integer avatarId;
 }
