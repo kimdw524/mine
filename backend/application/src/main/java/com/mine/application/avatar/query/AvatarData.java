@@ -23,7 +23,6 @@ public class AvatarData {
     @Column(name = "avatar_id")
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
     @Column(name = "user_id")
     private Integer userId;
 
@@ -45,9 +44,8 @@ public class AvatarData {
     @Column(name = "avatar_voice_id")
     private String voiceId;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "avatar_model_id")
-    private AvatarModel modelId;
+    @Column(name = "avatar_model_id")
+    private Integer modelId;
 
     @Column(name = "avatar_residence")
     private String residence;

@@ -19,7 +19,6 @@ public class Avatar {
     private Integer id;
 
     // nullable = false -> 값이 비어 있을 수 없도록 함
-    @ManyToOne(fetch = FetchType.EAGER)
     @Column(name = "user_id", nullable = false)
     private Integer userId;
 
@@ -44,7 +43,6 @@ public class Avatar {
     @Column(name = "is_deleted", nullable = false)
     private Boolean isDeleted;
 
-    @ManyToOne(fetch = FetchType.EAGER)
     @Column(name = "avatar_model_id", nullable = false)
     private Integer modelId;
 
