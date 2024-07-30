@@ -6,6 +6,9 @@ import { SchedulePeriod } from '.';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { getDailySchedules } from '../../apis/scheduleApi';
 import { formatDate } from '../../utils/dateUtils';
+import DetailView from './DetailView';
+import useModal from '../../hooks/useModal';
+import Modal from '../../hooks/useModal/Modal';
 
 interface ScheduleListFetchProps {
   type: SchedulePeriod;
@@ -35,22 +38,31 @@ export const ScheduleListFetch = ({
     throw error;
   }
 
+  const { open, close, modal } = useModal();
+
   return (
-    <div css={containerCss} {...props}>
-      {data.data.map((data, index) => (
-        <ScheduleList
-          key={data.scheduleId}
-          title={data.title}
-          description={data.description}
-          category={data.category}
-          style={
-            {
-              '--duration': `${Math.min(1500, index * 200 + 300)}ms`,
-            } as CSSProperties
-          }
-        />
-      ))}
-    </div>
+    <>
+      <Modal modal={modal} />
+      <button onClick={close}>닫기</button>
+      <div css={containerCss} {...props}>
+        {data.data.map((data, index) => (
+          <ScheduleList
+            key={data.scheduleId}
+            title={data.title}
+            description={data.description}
+            category={data.categoryId}
+            startDateTime={data.startDateTime}
+            endDateTime={data.endDateTime}
+            onClick={() => open(<DetailView />)}
+            style={
+              {
+                '--duration': `${Math.min(800, index * 200 + 300)}ms`,
+              } as CSSProperties
+            }
+          />
+        ))}
+      </div>
+    </>
   );
 };
 

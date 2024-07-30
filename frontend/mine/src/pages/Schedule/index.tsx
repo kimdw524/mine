@@ -2,8 +2,8 @@
 import React, { Suspense, useRef, useState } from 'react';
 import AppBar from '../../components/organisms/AppBar';
 import { useNavigate } from 'react-router-dom';
-import { Calendar, Dropdown, Typography } from 'oyc-ds';
-import { calendarCss, containerCss, headerCss, scheduleCss } from './style';
+import { Button, Calendar, Dropdown, Typography } from 'oyc-ds';
+import { bottomCss, containerCss, headerCss, scheduleCss } from './style';
 import ScheduleListFetch from './ScheduleListFetch';
 import { ErrorBoundary } from 'react-error-boundary';
 import { getMonthDates, getWeekDates } from '../../utils/dateUtils';
@@ -58,7 +58,7 @@ const Schedule = () => {
     <div css={containerCss}>
       <div>
         <AppBar label="일정 관리" onBackClick={() => navigate('/')} />
-        <div css={calendarCss}>
+        <div>
           <Calendar
             year={parseInt(year)}
             month={parseInt(month)}
@@ -95,6 +95,9 @@ const Schedule = () => {
             />
           </Suspense>
         </ErrorBoundary>
+      </div>
+      <div css={bottomCss}>
+        <Button size="sm">일정 등록</Button>
       </div>
     </div>
   );

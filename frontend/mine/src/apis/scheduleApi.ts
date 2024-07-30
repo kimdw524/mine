@@ -2,11 +2,12 @@ import axios from 'axios';
 
 export interface ScheduleData {
   scheduleId: number;
+  categoryId: number;
+  startDateTime: string;
+  endDateTime: string;
   title: string;
   description: string;
-  place: string;
-  startTime: string;
-  category: number;
+  where: string;
 }
 
 export const getDailySchedules = (date: string) => {

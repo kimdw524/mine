@@ -6,10 +6,6 @@ export const containerCss = css`
   height: 100vh;
 `;
 
-export const calendarCss = css`
-  border-bottom: 1rem solid #f3f5f9;
-`;
-
 export const scheduleCss = css`
   flex: 1;
   overflow-y: scroll;
@@ -24,4 +20,11 @@ export const headerCss = css`
   z-index: 10;
   padding: 0.25rem 1rem;
   background-color: #fff;
+`;
+
+export const bottomCss = css`
+  display: flex;
+  justify-content: flex-end;
+  padding: 0.75rem;
+  border-top: 0.0625rem solid #e6e6e6;
 `;

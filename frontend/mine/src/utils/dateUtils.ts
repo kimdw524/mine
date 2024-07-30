@@ -1,4 +1,4 @@
-export const formatDate = (dateString: string) => {
+export const formatDate = (dateString: string): string => {
   const date = new Date(dateString);
 
   const year = date.getFullYear();
@@ -6,6 +6,10 @@ export const formatDate = (dateString: string) => {
   const day = ('0' + date.getDate()).slice(-2);
 
   return `${year}${month}${day}`;
+};
+
+export const simpleFormatDate = (date: Date): string => {
+  return `${date.getFullYear().toString().slice(-2)}. ${date.getMonth() + 1}. ${date.getDate()}. ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
 };
 
 export const getWeekDates = (dateString: string): string[] => {

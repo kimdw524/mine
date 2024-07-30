@@ -29,11 +29,12 @@ export const containerCss = css`
 `;
 
 export const iconWrapperCss = css`
+  flex-shrink: 0;
   width: 1.5rem;
   height: 1.5rem;
   padding: 0.75rem;
   border-radius: 50%;
-  background-color: #eaeff1;
+  background-color: var(--color);
 `;
 
 export const bodyCss = css`
@@ -41,10 +42,18 @@ export const bodyCss = css`
   justify-content: center;
   flex-direction: column;
   gap: 0.375rem;
+  width: calc(100vw - 6rem);
 `;
 
 export const categoryCss = css`
   margin-right: 0.375rem;
   font-weight: 500;
   font-size: 0.875rem;
+`;
+
+export const detailCss = css`
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-all;
+  white-space: nowrap;
 `;
