@@ -1,5 +1,5 @@
 package com.mine.application.avatar.command.domain;
-
+// 아바타 테이블과 매핑되는 JPA 엔티티,  객체를 쉽게 생성하기 위한 빌더 패턴
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -64,7 +64,23 @@ public class Avatar {
         this.voiceId = voiceId;
         this.modelId = modelId;
         this.residence = residence;
+        this.isDeleted = false;
         this.job = job;
+    }
+
+
+    public void update(String name, LocalDateTime birthday, String personality, String voiceId, Integer modelId, String residence, String job) {
+        this.name = name;
+        this.birthday = birthday;
+        this.personality = personality;
+        this.voiceId = voiceId;
+        this.modelId = modelId;
+        this.residence = residence;
+        this.job = job;
+    }
+
+    public void delete() {
+        this.isDeleted = true;
     }
 
 }

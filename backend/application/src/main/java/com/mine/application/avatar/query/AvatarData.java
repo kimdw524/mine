@@ -1,7 +1,5 @@
 package com.mine.application.avatar.query;
-
-import com.mine.application.avatar.command.domain.Avatar;
-import com.mine.application.avatar.command.domain.AvatarModel;
+// 데이터 베이스의 avatar 테이블과 매핑되는 JPA 엔티티 클래스, 아바타의 다양한 속성을 포함
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
