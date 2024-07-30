@@ -5,7 +5,7 @@ import com.mine.application.schedule.command.application.DeleteScheduleService;
 import com.mine.application.schedule.command.application.UpdateScheduleService;
 import com.mine.application.schedule.query.application.ScheduleQueryService;
 import com.mine.application.schedule.ui.dto.AddScheduleRequest;
-import com.mine.application.schedule.ui.dto.GetSchedulesResponse;
+import com.mine.application.schedule.ui.dto.GetScheduleResponse;
 import com.mine.application.schedule.ui.dto.UpdateScheduleRequest;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
@@ -28,7 +28,7 @@ public class ScheduleController {
     private final DeleteScheduleService deleteScheduleService;
 
     @GetMapping
-    public ResponseEntity<List<GetSchedulesResponse>> getSchedulesBetweenDates(
+    public ResponseEntity<List<GetScheduleResponse>> getSchedulesBetweenDates(
             @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
             @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate)
     {
@@ -36,7 +36,7 @@ public class ScheduleController {
     }
 
     @GetMapping("/calendar")
-    public ResponseEntity<List<GetSchedulesResponse>> getSchedulesByContaining(@RequestParam String query) {
+    public ResponseEntity<List<GetScheduleResponse>> getSchedulesByContaining(@RequestParam String query) {
         return ResponseEntity.ok(scheduleQueryService.getSchedulesByContaining(query));
     }
 
