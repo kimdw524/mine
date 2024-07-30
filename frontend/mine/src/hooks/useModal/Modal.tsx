@@ -1,42 +1,54 @@
-/** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react';
-import React, { ReactNode, useEffect, useState } from 'react';
-import TransitionAnimation from '../../components/common/TransitionAnimation';
+import React, { useEffect, useRef, useState } from 'react';
+import { ModalData } from '.';
 import styles from './Modal.module.css';
 
 interface ModalProps extends React.ComponentProps<'div'> {
-  modal: ReactNode;
+  data: ModalData | null;
 }
 
 const classNames = {
-  normal: styles.fade,
-  enter: styles['fade-enter'],
-  exit: styles['fade-exit'],
+  modal: styles.modal,
+  unmounted: styles.unmounted,
+  enter: styles.enter,
+  exit: styles.exit,
 };
 
-const containerCss = css`
-  position: absolute;
-  inset: 0 0 0 0;
-`;
+const Modal = ({ data }: ModalProps) => {
+  const [modal, setModal] = useState<ModalData | null>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
 
-const Modal = ({ modal }: ModalProps) => {
+  useEffect(() => {
+    setModal(data);
+
+    if (wrapperRef.current) {
+      if (data === null) {
+        wrapperRef.current.className = classNames.modal;
+      } else if (data.show) {
+        wrapperRef.current.className = `${classNames.modal} ${classNames.enter}`;
+      } else {
+        wrapperRef.current.className = classNames.unmounted;
+        const reflow = wrapperRef.current.offsetTop;
+        wrapperRef.current.className = `${classNames.unmounted} ${classNames.exit}`;
+      }
+    }
+  }, [data]);
+
+  const handleTransitionEnd = (e: React.TransitionEvent) => {
+    if (
+      wrapperRef.current?.classList.contains(classNames.exit) &&
+      e.propertyName === 'opacity'
+    ) {
+      setModal(null);
+    }
+  };
+
   return (
     <>
-      <TransitionAnimation
-        data-key={modal === null ? '' : 'modal'}
-        className={classNames}
-      >
-        <React.Fragment key="">zz</React.Fragment>
-        <div key="modal" css={containerCss}>
-          {modal}모달
-          {123213}
-        </div>
-      </TransitionAnimation>
-      {modal}
+      <div ref={wrapperRef} onTransitionEnd={handleTransitionEnd}>
+        {modal?.component}
+      </div>
     </>
   );
 };
-
-Modal.Item = () => {};
 
 export default Modal;
