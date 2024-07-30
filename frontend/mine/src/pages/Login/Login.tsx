@@ -1,10 +1,12 @@
-import React,{ useState } from "react";
+import React,{ useContext, useState, useEffect } from "react";
 import { Button } from "oyc-ds";
 import { LabeledCheckBox, Typography, TextField } from "oyc-ds/dist/components";
 import axios from "axios";
 import "./Login.css";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
+import { UserContext } from "./UserContext";
+import { Palette } from 'oyc-ds/dist/themes/lightTheme';
 
 
 const Login = () => {
@@ -16,21 +18,35 @@ const Login = () => {
   const [emailvalidation, setEmailValidation] = useState<boolean>(false);
   const emailCheck = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-za-z0-9\-]+/;
   const [passwordvalidation, setPasswordValidation] = useState<boolean>(false);
-  const passwordCheck = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,}$/; // 영문, 숫자, 8글자 이상
+  const passwordCheck = /^(?=.*[a-zA-Z])(?=.*[0-9]).{7,}$/; // 영문, 숫자, 8글자 이상
+  const [loginResult, setLoginResult] = useState("");
+  const {setUserInfo} = useContext(UserContext);
+  const [color, setColor] = useState<Palette>('primary')
+
+  useEffect(() => {
+    const storedUserInfo = localStorage.getItem("userInfo");
+    if (storedUserInfo) {
+      setUserInfo(JSON.parse(storedUserInfo));
+    }
+  }, [setUserInfo]);
 
   const EmailValidation = (email: string) => {
     if (emailCheck.test(email)) {
       setEmailValidation(true); // 검증 성공
+      setColor('success')
     } else {
       setEmailValidation(false); // 검증 실패
+      setColor('danger')
     }
   };
 
   const PasswordValidation = (password: string) => {
     if (passwordCheck.test(password)) {
       setPasswordValidation(true);
+      setColor('success')
     } else {
       setPasswordValidation(false);
+      setColor('danger')
     }
   };
 
@@ -66,16 +82,36 @@ const Login = () => {
         .then((res) => {
           console.log(res.data);
           setCookie("Token", res.data.accessToken, { expires: today });
+          const userData = {
+            nickname: res.data.nickname,
+            email: res.data.email,
+          };
+          setUserInfo(userData);
+          localStorage.setItem("userInfo", JSON.stringify(userData));
+          nav("/");
+        })
+        .catch(err => {
+          console.log(err)
         });
-      nav("/");
     } else if (!ischecked){
       axios
       .post("/user/login", { email: email, password: password })
       .then((res) => {
         console.log(res.data);
-        setCookie("Token", res.data.accessToken); // 쿠키에 토큰 저장
-      });
-    nav("/");
+        // , {maxAge: 3}
+        setCookie("Token", res.data.accessToken, {maxAge: 3}); // 쿠키에 토큰 저장
+        const userData = {
+          nickname: res.data.nickname,
+          email: res.data.email,
+        };
+        setUserInfo(userData);
+        localStorage.setItem("userInfo", JSON.stringify(userData));
+        nav("/");
+      })
+      .catch(err => {
+        console.log("에러...:", err)
+        setLoginResult(`이메일 또는 비밀번호가 잘 못 되었습니다.\n아이디와 비밀번호를 정확히 입력해주세요.`)
+      })
     }
     console.log(cookies)
   };
@@ -89,7 +125,7 @@ const Login = () => {
         <div className="emailtexfield">
           <TextField
             name="email"
-            color="danger"
+            color={color}
             defaultValue=""
             label="이메일 주소"
             maxRows={10}
@@ -114,7 +150,7 @@ const Login = () => {
         <div className="passwordtextfield">
           <TextField
             name="password"
-            color="danger"
+            color={color}
             defaultValue=""
             label="비밀번호"
             maxRows={10}
@@ -144,6 +180,16 @@ const Login = () => {
         >
           자동 로그인
         </LabeledCheckBox>
+        {loginResult ? (
+            <Typography
+              className="errormsg"
+              color="danger"
+              size="xs"
+              weight="medium"
+            >
+              {loginResult}
+            </Typography>
+          ) : null}
         <div className="LoginBtn">
           <Button
             color="primary"
@@ -181,3 +227,4 @@ const Login = () => {
 };
 
 export default Login;
+
