@@ -1,4 +1,7 @@
+server:
+  port: 8081
 spring:
+
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://khj745700.iptime.org:3306/mine
@@ -42,3 +45,4 @@ spring:
 
   session:
     expire-seconds: 86400
+

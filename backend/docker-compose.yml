@@ -1,0 +1,76 @@
+version: '3.8'
+
+services:
+  app:
+    container_name: app
+    build: ./application/
+    ports:
+      - "8081:8081"
+    depends_on:
+      - rabbitmq
+      - redis
+      - mysql
+    environment:
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/mine
+      SPRING_DATASOURCE_USERNAME: "root"
+      SPRING_DATASOURCE_PASSWORD: "qwer1234"
+    restart: always
+
+
+  chat:
+    container_name: chat
+    build: ./socket/
+    ports:
+      - "8082:8082"
+    depends_on:
+      - rabbitmq
+      - redis
+      - mysql
+    environment:
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/mine
+      SPRING_DATASOURCE_USERNAME: "root"
+      SPRING_DATASOURCE_PASSWORD: "qwer1234"
+    restart: always
+
+
+
+  redis:
+    image: redis
+
+
+
+  mysql:
+    container_name: mysql
+    image: mysql
+    ports:
+      - "3306:3306" # MySQL 기본 포트는 3306입니다.
+    environment:
+      MYSQL_DATABASE: mine
+      MYSQL_ROOT_HOST: '%'
+      MYSQL_ROOT_PASSWORD: 'qwer1234'
+
+
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:3-management-alpine
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin
+    ports:
+      - "5672:5672" # RabbitMQ 기본 포트
+      - "15672:15672" # 관리 인터페이스 포트
+
+
+  nginx:
+    container_name: nginx
+    build: ./nginx/
+    ports:
+      - "80:80"
+    depends_on:
+      - app
+      - chat
+      - rabbitmq
