@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 @Entity
 public class Avatar {
 
+
     // GeneratedValue -> 기본 키의 값을 DB가 자동으로 생성하게 설정 함
     @Id
     @Column(name = "avatar_id")
@@ -19,7 +20,6 @@ public class Avatar {
     private Integer id;
 
     // nullable = false -> 값이 비어 있을 수 없도록 함
-    @ManyToOne(fetch = FetchType.EAGER)
     @Column(name = "user_id", nullable = false)
     private Integer userId;
 
@@ -44,7 +44,6 @@ public class Avatar {
     @Column(name = "is_deleted", nullable = false)
     private Boolean isDeleted;
 
-    @ManyToOne(fetch = FetchType.EAGER)
     @Column(name = "avatar_model_id", nullable = false)
     private Integer modelId;
 
