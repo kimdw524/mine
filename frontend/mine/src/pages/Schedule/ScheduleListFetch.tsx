@@ -38,12 +38,11 @@ export const ScheduleListFetch = ({
     throw error;
   }
 
-  const { open, close, modal } = useModal();
+  const { open, modal } = useModal();
 
   return (
     <>
-      <Modal modal={modal} />
-      <button onClick={close}>닫기</button>
+      <Modal data={modal} />
       <div css={containerCss} {...props}>
         {data.data.map((data, index) => (
           <ScheduleList
@@ -53,7 +52,12 @@ export const ScheduleListFetch = ({
             category={data.categoryId}
             startDateTime={data.startDateTime}
             endDateTime={data.endDateTime}
-            onClick={() => open(<DetailView />)}
+            onClick={() =>
+              open({
+                component: <DetailView data={data} />,
+                name: 'detailView',
+              })
+            }
             style={
               {
                 '--duration': `${Math.min(800, index * 200 + 300)}ms`,

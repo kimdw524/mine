@@ -5,6 +5,7 @@ import {
   bottomCss,
   categoryCss,
   containerCss,
+  modalCss,
   periodCss,
   textContainerCss,
 } from './style';
@@ -12,8 +13,10 @@ import { Button, Dropdown, TextField, Typography } from 'oyc-ds';
 import DateTimePicker from '../../../components/organisms/DateTimePicker';
 import DateToggle from '../../../components/molecules/DateToggle';
 import { scheduleCategoryData } from '../../../utils/scheduleUtils';
+import { useNavigate } from 'react-router-dom';
 
 const Create = () => {
+  const navigate = useNavigate();
   const [dateType, setDateType] = useState<'start' | 'end'>('start');
   const [startDate, setStartDate] = useState<Date>(new Date());
   const [endDate, setEndDate] = useState<Date>(new Date());
@@ -34,7 +37,7 @@ const Create = () => {
   };
 
   return (
-    <>
+    <div css={modalCss}>
       <AppBar label="일정 추가" />
       <div css={containerCss}>
         <div css={textContainerCss}>
@@ -77,10 +80,12 @@ const Create = () => {
       </div>
 
       <div css={bottomCss}>
-        <Button color="secondary">취소</Button>
+        <Button color="secondary" onClick={() => navigate(-1)}>
+          취소
+        </Button>
         <Button>등록</Button>
       </div>
-    </>
+    </div>
   );
 };
 

@@ -8,6 +8,8 @@ import ScheduleListFetch from './ScheduleListFetch';
 import { ErrorBoundary } from 'react-error-boundary';
 import { getMonthDates, getWeekDates } from '../../utils/dateUtils';
 import Create from './Create';
+import useModal from '../../hooks/useModal';
+import Modal from '../../hooks/useModal/Modal';
 
 export type SchedulePeriod = 'daily' | 'weekly' | 'monthly';
 
@@ -20,7 +22,8 @@ const Schedule = () => {
   const [date, setDate] = useState<string>(today);
   const [period, setPeriod] = useState<SchedulePeriod>('daily');
   const selectedRef = useRef<string[]>([today]);
-  const [year, month, day] = new Date(date)
+  const { open, modal } = useModal();
+  const [year, month] = new Date(date)
     .toLocaleDateString()
     .replaceAll('.', '')
     .split(' ');
@@ -35,6 +38,13 @@ const Schedule = () => {
     const date = `${year}-${month}-${day}`;
     setDate(date);
     updateSelected(date, period);
+  };
+
+  const handleCreateSchedule = () => {
+    open({
+      component: <Create />,
+      name: 'createSchedule',
+    });
   };
 
   const updateSelected = (date: string, period: SchedulePeriod) => {
@@ -55,51 +65,56 @@ const Schedule = () => {
   };
 
   return (
-    <div css={containerCss}>
-      <div>
-        <AppBar label="일정 관리" onBackClick={() => navigate('/')} />
+    <>
+      <Modal data={modal} />
+      <div css={containerCss}>
         <div>
-          <Calendar
-            year={parseInt(year)}
-            month={parseInt(month)}
-            selected={selectedRef.current}
-            onClick={handleCalendarClick}
-          />
-        </div>
-      </div>
-      <div css={scheduleCss}>
-        <div css={headerCss}>
-          <Typography color="secondary" size="xs">
-            {selectedRef.current.length === 1
-              ? selectedRef.current[0].replaceAll('-', '. ')
-              : `${selectedRef.current[0].replaceAll('-', '. ')} ~ ${selectedRef.current.at(-1)!.replaceAll('-', '. ')}`}
-          </Typography>
+          <AppBar label="일정 관리" onBackClick={() => navigate('/')} />
           <div>
-            <Dropdown
-              size="sm"
-              style={{ border: '0' }}
-              onChangeCapture={handlePeriodChange}
-            >
-              <Dropdown.Item value="daily">일간</Dropdown.Item>
-              <Dropdown.Item value="weekly">주간</Dropdown.Item>
-              <Dropdown.Item value="monthly">월간</Dropdown.Item>
-            </Dropdown>
+            <Calendar
+              year={parseInt(year)}
+              month={parseInt(month)}
+              selected={selectedRef.current}
+              onClick={handleCalendarClick}
+            />
           </div>
         </div>
-        <ErrorBoundary fallback={<>error</>}>
-          <Suspense fallback={<></>}>
-            <ScheduleListFetch
-              key={`${date}${period}`}
-              type={period}
-              date={date[0]}
-            />
-          </Suspense>
-        </ErrorBoundary>
+        <div css={scheduleCss}>
+          <div css={headerCss}>
+            <Typography color="secondary" size="xs">
+              {selectedRef.current.length === 1
+                ? selectedRef.current[0].replaceAll('-', '. ')
+                : `${selectedRef.current[0].replaceAll('-', '. ')} ~ ${selectedRef.current.at(-1)!.replaceAll('-', '. ')}`}
+            </Typography>
+            <div>
+              <Dropdown
+                size="sm"
+                style={{ border: '0' }}
+                onChangeCapture={handlePeriodChange}
+              >
+                <Dropdown.Item value="daily">일간</Dropdown.Item>
+                <Dropdown.Item value="weekly">주간</Dropdown.Item>
+                <Dropdown.Item value="monthly">월간</Dropdown.Item>
+              </Dropdown>
+            </div>
+          </div>
+          <ErrorBoundary fallback={<>error</>}>
+            <Suspense fallback={<></>}>
+              <ScheduleListFetch
+                key={`${date}${period}`}
+                type={period}
+                date={date[0]}
+              />
+            </Suspense>
+          </ErrorBoundary>
+        </div>
+        <div css={bottomCss}>
+          <Button size="sm" onClick={handleCreateSchedule}>
+            일정 등록
+          </Button>
+        </div>
       </div>
-      <div css={bottomCss}>
-        <Button size="sm">일정 등록</Button>
-      </div>
-    </div>
+    </>
   );
 };
 
