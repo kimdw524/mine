@@ -39,7 +39,8 @@ public class Schedule {
     private String where;
 
     @Builder
-    public Schedule(Integer categoryId, LocalDateTime startDateTime, LocalDateTime endDateTime, String title, String description, String where) {
+    public Schedule(Integer userId, Integer categoryId, LocalDateTime startDateTime, LocalDateTime endDateTime, String title, String description, String where) {
+        this.userId = userId;
         this.categoryId = categoryId;
         this.startDateTime = startDateTime;
         this.endDateTime = endDateTime;
