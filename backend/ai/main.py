@@ -8,13 +8,13 @@ from fastapi import FastAPI
 from api.assistant_router import router as assistant_router
 from assistant.message_handler import MessageHandler
 
-RABBITMQ_HOST = 'khj745700.iptime.org'
+RABBITMQ_HOST = 'rabbitmq'
 CHAT_QUEUE_NAME = 'chat-queue-fastapi'
 CHAT_SPRING_QUEUE_NAME = 'chat-queue-springboot'
 
 
 def get_connection():
-    credentials = pika.PlainCredentials(username="khj745700", password="@rkd07032")
+    credentials = pika.PlainCredentials(username="guest", password="guest")
     connection = pika.BlockingConnection(
         pika.ConnectionParameters(host=RABBITMQ_HOST, port=5672, credentials=credentials))
     return connection
