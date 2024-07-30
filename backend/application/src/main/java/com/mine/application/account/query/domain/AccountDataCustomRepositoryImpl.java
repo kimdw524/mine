@@ -1,7 +1,6 @@
 package com.mine.application.account.query.domain;
 
 import static com.mine.application.account.query.domain.QAccountData.accountData;
-import static com.mine.application.schedule.query.domain.QScheduleData.scheduleData;
 
 import com.mine.application.account.ui.dto.GetAccountResponse;
 import com.querydsl.core.types.Projections;
@@ -35,7 +34,7 @@ public class AccountDataCustomRepositoryImpl implements AccountDataCustomReposit
                         accountData.dateTime))
                 .from(accountData)
                 .where(accountData.dateTime.between(startDateTime, endDateTime)
-                        .and(scheduleData.userId.eq(userId)))
+                        .and(accountData.userId.eq(userId)))
                 .fetch();
     }
 
