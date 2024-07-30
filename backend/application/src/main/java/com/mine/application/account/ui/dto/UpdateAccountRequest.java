@@ -2,6 +2,7 @@ package com.mine.application.account.ui.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
@@ -9,7 +10,7 @@ import java.time.LocalDateTime;
 @Getter
 public class UpdateAccountRequest {
 
-    @NotBlank
+    @NotNull
     private Integer accountId;
 
     private Integer spendCategoryId;
@@ -17,7 +18,7 @@ public class UpdateAccountRequest {
     @NotBlank
     private String accountType;
 
-    @NotBlank
+    @NotNull
     private Long money;
 
     @NotBlank
@@ -25,7 +26,7 @@ public class UpdateAccountRequest {
 
     private String description;
 
-    @NotBlank
+    @NotNull
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
     private LocalDateTime dateTime;
 
