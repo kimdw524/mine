@@ -64,6 +64,14 @@ services:
       - "5672:5672" # RabbitMQ 기본 포트
       - "15672:15672" # 관리 인터페이스 포트
 
+  ai:
+    container_name: ai
+    build: ./ai/
+    ports:
+      - "8000:8000"
+    depends_on:
+      - nginx
+      - mysql
 
   nginx:
     container_name: nginx
