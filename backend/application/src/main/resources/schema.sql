@@ -5,6 +5,7 @@ drop table IF EXISTS achievement;
 drop table IF EXISTS achievement_state;
 drop table IF EXISTS avatar;
 drop table IF EXISTS login_log;
+drop table IF EXISTS account;
 drop table IF EXISTS user;
 
 create table schedule_category(
