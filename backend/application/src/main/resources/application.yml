@@ -46,3 +46,6 @@ spring:
   session:
     expire-seconds: 86400
 
+  ai:
+    openai:
+      api-key: 'sk-None-UMlcbFFlLf7aBiYFMy7YT3BlbkFJbO5ol9peEGHBKmR9Kkue'
