@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 @Entity
 public class Avatar {
 
+
     // GeneratedValue -> 기본 키의 값을 DB가 자동으로 생성하게 설정 함
     @Id
     @Column(name = "avatar_id")
