@@ -14,7 +14,7 @@
     "type": "git",
     "url": "https://github.com/Memory-Orgel/OYCDesignSystem"
   },
-  "version": "0.0.21",
+  "version": "0.0.22",
   "dependencies": {
     "@emotion/react": "^11.11.4",
     "@heroicons/react": "^2.1.5",
