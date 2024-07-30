@@ -17,7 +17,7 @@ spring:
         format_sql: true
   data:
     redis:
-      host: localhost
+      host: khj745700.iptime.org
       port: 6379
 
   mail:
@@ -47,3 +47,6 @@ spring:
   ai:
     openai:
       api-key: 'sk-None-UMlcbFFlLf7aBiYFMy7YT3BlbkFJbO5ol9peEGHBKmR9Kkue'
+
+  profiles:
+    include: dev
