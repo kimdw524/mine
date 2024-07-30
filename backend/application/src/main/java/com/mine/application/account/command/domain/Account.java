@@ -23,7 +23,7 @@ public class Account {
     @Column(name = "spend_category_id")
     private Integer spendCategoryId;
 
-    @Convert(converter = AccountType.class)
+    @Convert(converter = AccountTypeConverter.class)
     @Column(name = "account_type")
     private AccountType accountType;
 
@@ -39,11 +39,11 @@ public class Account {
     @Column(name = "account_datetime")
     private LocalDateTime dateTime;
 
-    @Column(name = "create_at")
-    private LocalDateTime createAt;
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
 
     @Builder
-    public Account(Integer userId, Integer spendCategoryId, AccountType accountType, Long money, String title, String description, LocalDateTime dateTime, LocalDateTime createAt) {
+    public Account(Integer userId, Integer spendCategoryId, AccountType accountType, Long money, String title, String description, LocalDateTime dateTime, LocalDateTime createdAt) {
         this.userId = userId;
         this.spendCategoryId = spendCategoryId;
         this.accountType = accountType;
@@ -51,7 +51,7 @@ public class Account {
         this.title = title;
         this.description = description;
         this.dateTime = dateTime;
-        this.createAt = createAt;
+        this.createdAt = createdAt;
     }
 
     public void updateAccount(UpdateAccountRequest request) {

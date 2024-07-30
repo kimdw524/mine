@@ -34,7 +34,7 @@ public class AddAccountService {
                 .title(request.getTitle())
                 .description(request.getDescription())
                 .dateTime(request.getDateTime())
-                .createAt(LocalDateTime.now())
+                .createdAt(LocalDateTime.now())
                 .build());
     }
 
