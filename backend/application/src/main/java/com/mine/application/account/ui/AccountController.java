@@ -8,7 +8,7 @@ import com.mine.application.account.ui.dto.AddAccountRequest;
 import com.mine.application.account.ui.dto.GetAccountResponse;
 import com.mine.application.account.ui.dto.UpdateAccountRequest;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +18,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RequiredArgsConstructor
-@RequestMapping("/users/accounts")
+@RequestMapping("/users")
 @RestController
 public class AccountController {
 
@@ -35,25 +35,25 @@ public class AccountController {
         return ResponseEntity.ok().body(accountQueryService.getAccountsBetweenDates(startDate, endDate));
     }
 
-    @GetMapping("/calendar")
+    @GetMapping("/accounts/calendar")
     public ResponseEntity<List<GetAccountResponse>> getSchedulesByContaining(@RequestParam String query) {
         return ResponseEntity.ok(accountQueryService.getAccountsByContaining(query));
     }
 
-    @PostMapping("/calendar")
+    @PostMapping("/accounts/calendar")
     public ResponseEntity<Void> addAccount(@RequestBody @Valid AddAccountRequest addAccountRequest) {
         addAccountService.addAccount(addAccountRequest);
         return ResponseEntity.ok().build();
     }
 
-    @PatchMapping
+    @PatchMapping("/account")
     public ResponseEntity<Void> updateAccount(@RequestBody @Valid UpdateAccountRequest updateAccountRequest) {
         updateAccountService.updateAccount(updateAccountRequest);
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/{accountId}")
-    public ResponseEntity<Void> deleteAccount(@PathVariable @NotBlank int accountId) {
+    @DeleteMapping("/accounts/{accountId}")
+    public ResponseEntity<Void> deleteAccount(@PathVariable @NotNull Integer accountId) {
         deleteAccountService.deleteAccount(accountId);
         return ResponseEntity.ok().build();
     }
