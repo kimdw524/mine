@@ -219,6 +219,26 @@ const avatarHandler = [
       },
     ]);
   }),
+  http.get('/mypage/avatar', async () => {
+    await delay(1000);
+
+    return HttpResponse.json([
+      {
+        name: '내가 그 토비유',
+        birthday: '2024-07-30',
+        personality: '게이름, 천하태평함, 긍정적임',
+        job: '개발자',
+        place: '경상북도 구미시',
+      },
+      {
+        name: '백종원이유',
+        birthday: '2024-08-30',
+        personality: '꼼꼼함, 유쾌함, 재치있음, 즉흥적임',
+        job: '요리 연구가',
+        place: '대전광역시',
+      },
+    ]);
+  }),
 ];
 
 // 하나의 handler 로 관리

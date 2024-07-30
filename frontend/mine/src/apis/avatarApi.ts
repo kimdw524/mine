@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { api } from '../api/interceptors';
 
 export interface QuestionData {
   questionId: number;
@@ -26,4 +27,11 @@ export const getSubjectiveQuestions = () => {
 
 export const getSentences = () => {
   return axios.get<SentenceData[]>('/avatar/sentences');
+};
+
+export const getAvatarInfo = () => {
+  return api({
+    url: '/mypage/avatar',
+    method: 'get',
+  });
 };
