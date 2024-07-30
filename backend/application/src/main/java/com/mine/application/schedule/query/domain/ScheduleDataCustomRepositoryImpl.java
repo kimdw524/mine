@@ -52,7 +52,8 @@ public class ScheduleDataCustomRepositoryImpl implements ScheduleDataCustomRepos
                 .from(scheduleData)
                 .where(scheduleData.title.contains(query)
                         .or(scheduleData.description.contains(query))
-                        .or(scheduleData.where.contains(query)))
+                        .or(scheduleData.where.contains(query))
+                        .and(scheduleData.userId.eq(userId)))
                 .fetch();
     }
 
