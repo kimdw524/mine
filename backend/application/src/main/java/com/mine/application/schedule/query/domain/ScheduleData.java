@@ -1,6 +1,5 @@
 package com.mine.application.schedule.query.domain;
 
-import com.mine.application.schedule.command.domain.ScheduleCategory;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
