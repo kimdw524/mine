@@ -6,6 +6,6 @@ import java.util.Optional;
 
 public interface SpendTypeRepository extends Repository<SpendType, Integer> {
 
-    Optional<SpendType> findById(String name);
+    Optional<SpendType> findById(Integer id);
 
 }
