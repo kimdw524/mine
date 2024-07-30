@@ -9,6 +9,7 @@ import com.mine.application.schedule.ui.dto.GetScheduleResponse;
 import com.mine.application.schedule.ui.dto.UpdateScheduleRequest;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
@@ -53,7 +54,7 @@ public class ScheduleController {
     }
 
     @DeleteMapping("/{scheduleId}")
-    public ResponseEntity<Void> deleteSchedule(@PathVariable @Min(0) int scheduleId) {
+    public ResponseEntity<Void> deleteSchedule(@PathVariable @NotBlank int scheduleId) {
         deleteScheduleService.deleteSchedule(scheduleId);
         return ResponseEntity.ok().build();
     }

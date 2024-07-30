@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Getter
 public class UpdateScheduleRequest {
 
-    @Min(0)
+    @NotBlank
     private Integer scheduleId;
 
     private Integer categoryId;
