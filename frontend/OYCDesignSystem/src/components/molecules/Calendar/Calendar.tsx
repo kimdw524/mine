@@ -5,7 +5,7 @@ import { Typography } from '../../atoms/Typography';
 import { DateData, getDays } from '../../../utils/dayUtils';
 import { Day } from '../../atoms/Day';
 
-interface CalendarProps {
+export interface CalendarProps {
   year?: number;
   month?: number;
   width?: string;
