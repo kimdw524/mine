@@ -12,7 +12,9 @@ import WebView from 'react-native-webview';
 function App(): React.JSX.Element {
   return (
     <SafeAreaView style={{flex: 1}}>
-      <WebView source={{uri: 'https://naver.com'}} />
+      <WebView
+        source={{uri: 'ec2-3-26-2-105.ap-southeast-2.compute.amazonaws.com'}}
+      />
     </SafeAreaView>
   );
 }
