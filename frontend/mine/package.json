@@ -15,7 +15,7 @@
     "@types/react-dom": "^18.3.0",
     "axios": "^1.7.2",
     "eslint-config-react-app": "^7.0.1",
-    "oyc-ds": "^0.0.20",
+    "oyc-ds": "^0.0.22",
     "react": "^18.3.1",
     "react-cookie": "^7.1.4",
     "react-dom": "^18.3.1",

@@ -7,6 +7,7 @@ import TransitionAnimation from '../../../components/common/TransitionAnimation'
 import styles from './Information.module.css';
 import { containerCss } from './style';
 import Achievement from './Achievement';
+import AvatarInfo from './AvatarInfo';
 
 const Information = () => {
   const [curMenu, setCurMenu] = useState<number>(1);
@@ -28,7 +29,7 @@ const Information = () => {
         >
           <Achievement key={0} />
           <UserInfo key={1} />
-          <div key={2}>it is Menu 2</div>
+          <AvatarInfo key={2} />
         </TransitionAnimation>
         <MenuBar page="mypage" menu={curMenu} setCurMenu={setCurMenu} />
       </div>

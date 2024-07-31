@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import React, { useState } from 'react';
+import React, { useImperativeHandle, useState } from 'react';
 import { useTheme } from '@emotion/react';
 import { Button } from '../../atoms/Button';
 import { MenuTabProps } from './MenuTab.types';
@@ -10,20 +10,23 @@ export const MenuTab = ({
   size = 'md',
   variant = 'rounded',
   color = 'primary',
+  onChangeMenu,
   ...props
 }: MenuTabProps) => {
   const theme = useTheme();
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [activeIndex, setActiveIndex] = useState<number>(0);
 
   const handleTabClick = (index: number) => {
     setActiveIndex(index);
+    onChangeMenu(index);
   };
 
   const tabCount = React.Children.count(children);
 
-  return <div css={[tabsCss, variantCss[variant]]} {...props}>
-    <div css={activeCss(activeIndex, theme.colors[color], tabCount)}></div>
-    {React.Children.map(children, (child, index) => (
+  return (
+    <div css={[tabsCss, variantCss[variant]]} {...props}>
+      <div css={activeCss(activeIndex, theme.colors[color], tabCount)}></div>
+      {React.Children.map(children, (child, index) => (
         <Button
           css={btnCss(theme, tabCount, size)}
           onClick={() => handleTabClick(index)}
@@ -33,5 +36,6 @@ export const MenuTab = ({
           {child}
         </Button>
       ))}
-  </div>;
+    </div>
+  );
 };
