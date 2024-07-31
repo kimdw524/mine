@@ -15,7 +15,6 @@ public class SessionDao {
     public void put(SessionConstants key, Object value) {
         httpSession.setAttribute(key.name(), value);
     }
-
     public Optional<Object> get(SessionConstants key) {
         return Optional.ofNullable(httpSession.getAttribute(key.name()));
     }

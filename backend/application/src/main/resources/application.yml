@@ -1,7 +1,8 @@
 spring:
+
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://khj745700.iptime.org:3306/mine
+    url: jdbc:mysql://localhost:3306/mine
     username: developer
     password: qwer1234
 
@@ -37,5 +38,15 @@ spring:
             enable: true
         debug: false
   sql:
-    init:
-      mode: always
+      init:
+        mode: always
+
+  session:
+    expire-seconds: 86400
+
+  ai:
+    openai:
+      api-key: 'sk-None-UMlcbFFlLf7aBiYFMy7YT3BlbkFJbO5ol9peEGHBKmR9Kkue'
+
+  profiles:
+    include: dev

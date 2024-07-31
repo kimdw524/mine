@@ -2,21 +2,19 @@ package com.mine.application.user.command.application;
 
 
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
+import jakarta.validation.constraints.Pattern;
 import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Data
 public class SignupRequest {
     @NotNull
+    @Pattern(regexp = "^[A-Za-z0-9_\\.\\-]+@[A-Za-z0-9\\-]+\\.[A-za-z0-9\\-]+")
     private String email;
     @NotNull
+    @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*[0-9]).{8,}$")
     private String password;
     @NotNull
     private String nickname;
-    @NotNull
-    private String phoneNum;
     @NotNull
     private String gender;
 }
