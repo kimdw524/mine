@@ -10,9 +10,10 @@ import {
 } from './style';
 import { Button, MenuTab } from 'oyc-ds';
 import InfoBox from '../../../../components/molecules/InfoBox/InfoBox';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const AvatarInfoFetch = () => {
+  const nav = useNavigate();
   const [avatar, setAvatar] = useState<number>(0);
 
   const avatarInfoQuery = useSuspenseQuery({
@@ -47,15 +48,36 @@ const AvatarInfoFetch = () => {
         })}
       </div>
       <div css={avatarInfoBtn}>
-        <Link to="/myapge/avatar/name">
-          <Button fullWidth>이름 변경</Button>
-        </Link>
-        <Link to="/mypage/avatar/job">
-          <Button fullWidth>직업 변경</Button>
-        </Link>
-        <Link to="/mypage/avatar/place">
-          <Button fullWidth>거주지 변경</Button>
-        </Link>
+        <Button
+          fullWidth
+          onClick={() =>
+            nav('/mypage/avatar/name', {
+              state: { curName: avatarInfoQuery.data.data[avatar]['name'] },
+            })
+          }
+        >
+          이름 변경
+        </Button>
+        <Button
+          fullWidth
+          onClick={() =>
+            nav('/mypage/avatar/job', {
+              state: { curJob: avatarInfoQuery.data.data[avatar]['job'] },
+            })
+          }
+        >
+          직업 변경
+        </Button>
+        <Button
+          fullWidth
+          onClick={() =>
+            nav('/mypage/avatar/place', {
+              state: { curPlace: avatarInfoQuery.data.data[avatar]['place'] },
+            })
+          }
+        >
+          거주지 변경
+        </Button>
       </div>
     </>
   );

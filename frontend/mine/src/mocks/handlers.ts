@@ -11,14 +11,13 @@ const userHandler = [
     });
   }),
 
-
   http.post('/user/login', async ({ request }) => {
     const result: any = await request.json();
     const data = {
       accessToken: '오늘도 파이팅',
       email: '',
       password: '',
-      nickname:'ssafy',
+      nickname: 'ssafy',
     };
 
     if (result?.email === 'abc@mail.com' && result?.password === 'qwer1234') {
@@ -240,6 +239,12 @@ const avatarHandler = [
         place: '대전광역시',
       },
     ]);
+  }),
+  http.patch('/mypage/avatar/job', () => {
+    return HttpResponse.json(
+      { msg: '직업이 성공적으로 변경되었습니다.' },
+      { status: 200 },
+    );
   }),
 ];
 

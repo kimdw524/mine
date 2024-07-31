@@ -19,6 +19,7 @@ import { Palette } from 'oyc-ds/dist/themes/lightTheme';
 import { INotiInfo, NotificationContext } from './utils/NotificationContext';
 import Schedule from './pages/Schedule';
 import { UserProvider } from './pages/Login/UserContext';
+import JobEdit from './pages/MyPage/EditAvatar/JobEdit';
 
 function App() {
   const [notiInfo, setNotiInfo] = useState<INotiInfo>({
@@ -75,6 +76,7 @@ function App() {
               <Route path="/mypage/nickname" element={<NickEdit />} />
               <Route path="/mypage/password" element={<PwdEdit />} />
               <Route path="/avatar/create" element={<CreateAvatar />} />
+              <Route path="/mypage/avatar/job" element={<JobEdit />} />
               <Route path="/findpassword" element={<FindPassword />} />
 
               <Route path="/schedule" element={<Schedule />} />
