@@ -331,10 +331,63 @@ const scheduleHandler = [
   }),
 ];
 
+const accountHandler = [
+  http.get('/api/users/accounts*', async () => {
+    return HttpResponse.json([
+      {
+        accountId: 26,
+        spendCategoryId: 1,
+        accountType: 'S',
+        money: 50000,
+        title: '점심 식사',
+        description: '직장 근처 식당에서 점심',
+        dateTime: '2024-07-01 12:30:00',
+      },
+      {
+        accountId: 31,
+        spendCategoryId: 3,
+        accountType: 'S',
+        money: 5000,
+        title: '카페',
+        description: '커피 한 잔',
+        dateTime: '2024-07-03 14:00:00',
+      },
+      {
+        accountId: 36,
+        spendCategoryId: 2,
+        accountType: 'S',
+        money: 2500,
+        title: '버스 요금',
+        description: '출장용 버스',
+        dateTime: '2024-07-06 08:00:00',
+      },
+      {
+        accountId: 41,
+        spendCategoryId: 1,
+        accountType: 'S',
+        money: 20000,
+        title: '점심 식사',
+        description: '식당에서 점심',
+        dateTime: '2024-07-08 12:30:00',
+      },
+      {
+        accountId: 46,
+        spendCategoryId: null,
+        accountType: 'I',
+        money: 3000000,
+        title: '월급',
+        description: '7월 월급',
+        dateTime: '2024-07-01 09:00:00',
+      },
+    ]);
+  }),
+];
+
 // 하나의 handler 로 관리
 export const handlers = [
   ...userHandler,
   ...mypageHandler,
   ...avatarHandler,
   ...scheduleHandler,
+  ...accountHandler,
 ];

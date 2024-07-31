@@ -40,21 +40,26 @@ export const iconWrapperCss = css`
 export const bodyCss = css`
   display: flex;
   justify-content: center;
+  flex: 1;
   flex-direction: column;
-  gap: 0.375rem;
-  width: calc(100vw - 6rem);
+  gap: 0.25rem;
 `;
 
-export const categoryCss = css`
-  margin-right: 0.375rem;
-  font-size: 0.875rem;
+export const digitCss = css`
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: 0.25rem;
+  text-align: right;
 `;
 
 export const detailCss = css`
-  display: flex;
-  align-items: center;
   overflow: hidden;
   text-overflow: ellipsis;
   word-break: break-all;
   white-space: nowrap;
+`;
+
+export const operatorCss = css`
+  margin: 0 0.1875rem;
 `;

@@ -22,6 +22,7 @@ import { UserProvider } from './pages/Login/UserContext';
 import JobEdit from './pages/MyPage/EditAvatar/JobEdit';
 import NameEdit from './pages/MyPage/EditAvatar/NameEdit';
 import PlaceEdit from './pages/MyPage/EditAvatar/PlaceEdit';
+import Account from './pages/Account';
 
 function App() {
   const [notiInfo, setNotiInfo] = useState<INotiInfo>({
@@ -84,6 +85,7 @@ function App() {
               <Route path="/findpassword" element={<FindPassword />} />
 
               <Route path="/schedule" element={<Schedule />} />
+              <Route path="/account" element={<Account />} />
             </Routes>
           </NotificationContext.Provider>
         </ThemeProvider>
