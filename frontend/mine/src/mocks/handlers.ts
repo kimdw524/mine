@@ -155,6 +155,93 @@ const mypageHandler = [
       ],
     });
   }),
+  http.get('/mypage/avatar/questions', async () => {
+    await delay(1000);
+
+    return HttpResponse.json([
+      {
+        questionType: 'c',
+        questionId: 1,
+        question: '1. 1번 질문',
+        choices: [
+          {
+            responseId: 1,
+            response: '1번 응답',
+          },
+          {
+            responseId: 2,
+            response: '2번 응답',
+          },
+          {
+            responseId: 3,
+            response: '3번 응답',
+          },
+        ],
+        answer: 1,
+      },
+      {
+        questionType: 'c',
+        questionId: 2,
+        question: '2. 2번 질문?',
+        choices: [
+          {
+            responseId: 4,
+            response: '4번 응답',
+          },
+          {
+            responseId: 5,
+            response: '5번 응답',
+          },
+          {
+            responseId: 6,
+            response: '6번 응답',
+          },
+        ],
+        answer: 2,
+      },
+      {
+        questionType: 'c',
+        questionId: 3,
+        question: '3번 질문',
+        choices: [
+          {
+            responseId: 7,
+            response: '7번 응답',
+          },
+          {
+            responseId: 8,
+            response: '8번 응답',
+          },
+          {
+            responseId: 9,
+            response: '9번 응답',
+          },
+        ],
+        answer: 3,
+      },
+      {
+        questionType: 's',
+        questionId: 4,
+        question: '1. 1번 질문',
+        choices: [],
+        answer: '1번 응답',
+      },
+      {
+        questionType: 's',
+        questionId: 5,
+        question: '2. 2번 질문?',
+        choices: [],
+        answer: '2번 응답',
+      },
+      {
+        questionType: 's',
+        questionId: 6,
+        question: '3번 질문',
+        choices: [],
+        answer: '3번 응답',
+      },
+    ]);
+  }),
 ];
 
 const avatarHandler = [

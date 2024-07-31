@@ -72,3 +72,11 @@ export const changeAvatarPlace = (id: number, newPlace: string) => {
     },
   });
 };
+
+/* 아바타 질문 응답 조회 */
+export const getAvatarQuestionAnswer = (avatarId: number) => {
+  return api({
+    url: '/mypage/avatar/questions',
+    method: 'get',
+  });
+};
