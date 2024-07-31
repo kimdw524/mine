@@ -15,7 +15,14 @@ final class Base64AndFileConverter {
         byte[] binary = Base64.getDecoder().decode(request.getFile());
 
         File target = new File(filePath + fileNameConvert(request.getFileName(), request.getFileExtension()));
-        target.mkdirs();
+        target.getParentFile().mkdirs();
+        try {
+            target.createNewFile();
+            target.setReadable(true);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
 
         try(FileOutputStream fos = new FileOutputStream(target)) {
             fos.write(binary);

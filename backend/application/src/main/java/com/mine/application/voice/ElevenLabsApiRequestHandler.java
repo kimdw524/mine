@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.PathResource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -26,8 +27,8 @@ import java.util.List;
 public class ElevenLabsApiRequestHandler implements VirtualVoiceHandler {
 
     private static final String ELEVEN_LABS_EDIT_URL = "";
-    private static final String ELEVEN_LABS_UPLOAD_URL = "";
-    private static final String API_KEY = "";
+    private static final String ELEVEN_LABS_UPLOAD_URL = "https://api.elevenlabs.io/v1/voices/add";
+    private static final String API_KEY = "sk_6bc08ac561e6c47d29452cb32d54a3afa4c76dc68d171c0d";
 
     @Override
     @EventListener
@@ -35,15 +36,20 @@ public class ElevenLabsApiRequestHandler implements VirtualVoiceHandler {
     public void uploadVoiceFile(FileUploadedEvent event) {
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(createMultipartBody(event.getFile().toPath()), createMultipartFormDataHeader());
 
-        //TODO : avatar ID 찾아오는 로직
+
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> response = restTemplate.postForEntity("ELEVEN_LABS_URL", requestEntity, String.class);
+        //TODO : avatar에 voice 아이디가 없다면  add, else edit
+        ResponseEntity<String> response = restTemplate.postForEntity(ELEVEN_LABS_UPLOAD_URL, requestEntity, String.class);
 
         if(response.getStatusCode().is4xxClientError()) {
             log.error("eleven labs errorMsg : {}", response.getBody());
             log.error("eleven labs errorHeader : {}", response.getHeaders());
         }else {
-            log.info("eleven labs add Voice");
+            log.info("eleven labs add Voice : {}", response.getBody());
+            //TODO : IF avatar에 Voice ID 가 없다면 저장하는 로직
+
+            //파일 삭제.
+            event.getFile().delete();
         }
     }
 
@@ -59,7 +65,7 @@ public class ElevenLabsApiRequestHandler implements VirtualVoiceHandler {
         MultiValueMap<String, Object> body
                 = new LinkedMultiValueMap<>();
         body.add("name", "mine");
-        body.add("files", List.of(new PathResource(path)));
+        body.add("files", new PathResource(path));
         return body;
     }
 
