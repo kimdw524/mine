@@ -246,6 +246,18 @@ const avatarHandler = [
       { status: 200 },
     );
   }),
+  http.patch('/mypage/avatar/name', () => {
+    return HttpResponse.json(
+      { msg: '이름이 성공적으로 변경되었습니다.' },
+      { status: 200 },
+    );
+  }),
+  http.patch('/mypage/avatar/place', () => {
+    return HttpResponse.json(
+      { msg: '거주지가 성공적으로 변경되었습니다.' },
+      { status: 200 },
+    );
+  }),
 ];
 
 const scheduleHandler = [

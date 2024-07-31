@@ -20,6 +20,8 @@ import { INotiInfo, NotificationContext } from './utils/NotificationContext';
 import Schedule from './pages/Schedule';
 import { UserProvider } from './pages/Login/UserContext';
 import JobEdit from './pages/MyPage/EditAvatar/JobEdit';
+import NameEdit from './pages/MyPage/EditAvatar/NameEdit';
+import PlaceEdit from './pages/MyPage/EditAvatar/PlaceEdit';
 
 function App() {
   const [notiInfo, setNotiInfo] = useState<INotiInfo>({
@@ -77,6 +79,8 @@ function App() {
               <Route path="/mypage/password" element={<PwdEdit />} />
               <Route path="/avatar/create" element={<CreateAvatar />} />
               <Route path="/mypage/avatar/job" element={<JobEdit />} />
+              <Route path="/mypage/avatar/name" element={<NameEdit />} />
+              <Route path="/mypage/avatar/place" element={<PlaceEdit />} />
               <Route path="/findpassword" element={<FindPassword />} />
 
               <Route path="/schedule" element={<Schedule />} />
