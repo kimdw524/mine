@@ -6,27 +6,33 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Immutable;
+import org.hibernate.annotations.SQLRestriction;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Entity
 @Table(name="user")
-
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Immutable
+@SQLRestriction("is_deleted = false")
 public class UserData {
     @Id
+    @Column(name = "user_id")
     private Integer id;
 
     @Getter
-    @Column String nickname;
+    @Column(name = "user_nickname")
+    String nickname;
 
     @Getter
-    @Column String email;
+    @Column(name = "user_email")
+    String email;
 
-    @Column String password;
-
-    @Getter
-    @Column(name="phone_num") String phoneNum;
+    @Column(name = "user_password")
+    String password;
 
 
+    public boolean isEqualsPassword(String password, PasswordEncoder encoder) {
+        return encoder.matches(password, this.password);
+    }
 }

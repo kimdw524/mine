@@ -50,3 +50,8 @@
   justify-content: center;
   padding-top: 20px;
 }
+
+.errormsg {
+  white-space: pre-wrap;
+  text-align: center;
+}

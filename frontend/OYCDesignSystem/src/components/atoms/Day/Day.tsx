@@ -1,7 +1,13 @@
 /** @jsxImportSource @emotion/react */
 import React from 'react';
 import { DayType } from '../../../utils/dayUtils';
-import { containerCss, scheduledCss, selectedCss, textCss } from './Day.styles';
+import {
+  circleCss,
+  containerCss,
+  scheduledCss,
+  selectedCss,
+  textCss,
+} from './Day.styles';
 
 export interface DayProps {
   type: DayType;
@@ -25,7 +31,7 @@ export const Day = ({
   return (
     <div css={containerCss} onClick={() => onClick(year, month, day)}>
       <div
-        css={[textCss, selected && selectedCss]}
+        css={textCss}
         style={{
           color: {
             weekday: '#000',
@@ -37,6 +43,7 @@ export const Day = ({
       >
         <span>{day}</span>
         {scheduled && <div css={scheduledCss}></div>}
+        <div css={[circleCss, selected && selectedCss]}></div>
       </div>
     </div>
   );
