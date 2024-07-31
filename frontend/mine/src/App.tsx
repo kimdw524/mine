@@ -12,10 +12,13 @@ import './App.css';
 import PwdEdit from './pages/MyPage/EditUser/PwdEdit';
 import CreateAvatar from './pages/CreateAvatar';
 import FindPassword from './pages/FindPassword';
+import Main from './pages/Main/Main';
 import Notification from './components/common/Notification';
 import { ToastVariant } from 'oyc-ds/dist/components/molecules/Toast/Toast.types';
 import { Palette } from 'oyc-ds/dist/themes/lightTheme';
 import { INotiInfo, NotificationContext } from './utils/NotificationContext';
+import Schedule from './pages/Schedule';
+import { UserProvider } from './pages/Login/UserContext';
 
 function App() {
   const [notiInfo, setNotiInfo] = useState<INotiInfo>({
@@ -51,29 +54,32 @@ function App() {
   return (
     <>
       <GlobalStyle />
-      <ThemeProvider theme={LightTheme}>
-        <NotificationContext.Provider
-          value={{
-            info: notiInfo,
-            update: updateInfo,
-            handle: handleNoti,
-          }}
-        >
-          {notiInfo.notiState && <Notification notiInfo={notiInfo} />}
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/user/signup" element={<Signup />} />
-            <Route path="/user/login" element={<Login />} />
+      <UserProvider>
+        <ThemeProvider theme={LightTheme}>
+          <NotificationContext.Provider
+            value={{
+              info: notiInfo,
+              update: updateInfo,
+              handle: handleNoti,
+            }}
+          >
+            {notiInfo.notiState && <Notification notiInfo={notiInfo} />}
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/user/signup" element={<Signup />} />
+              <Route path="/user/login" element={<Login />} />
+              <Route path="/main" element={<Main />} />
 
-            {/* 마이페이지 */}
-            <Route path="/mypage" element={<Information />} />
-            <Route path="/mypage/nickname" element={<NickEdit />} />
-            <Route path="/mypage/password" element={<PwdEdit />} />
-            <Route path="/avatar/create" element={<CreateAvatar />} />
-            <Route path="/findpassword" element={<FindPassword />} />
-          </Routes>
-        </NotificationContext.Provider>
-      </ThemeProvider>
+              {/* 마이페이지 */}
+              <Route path="/mypage" element={<Information />} />
+              <Route path="/mypage/nickname" element={<NickEdit />} />
+              <Route path="/mypage/password" element={<PwdEdit />} />
+              <Route path="/avatar/create" element={<CreateAvatar />} />
+              <Route path="/findpassword" element={<FindPassword />} />
+            </Routes>
+          </NotificationContext.Provider>
+        </ThemeProvider>
+      </UserProvider>
     </>
   );
 }

@@ -33,5 +33,9 @@ export default meta;
 type Story = StoryObj<typeof Calendar>;
 
 export const Primary: Story = {
-  args: { width: '328px' },
+  args: {
+    width: '328px',
+    selected: ['2024-7-7', '2024-7-8'],
+    scheduled: ['2024-7-2', '2024-7-3'],
+  },
 };
