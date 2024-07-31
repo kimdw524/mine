@@ -17,6 +17,7 @@ import Notification from './components/common/Notification';
 import { ToastVariant } from 'oyc-ds/dist/components/molecules/Toast/Toast.types';
 import { Palette } from 'oyc-ds/dist/themes/lightTheme';
 import { INotiInfo, NotificationContext } from './utils/NotificationContext';
+import Schedule from './pages/Schedule';
 import { UserProvider } from './pages/Login/UserContext';
 
 function App() {

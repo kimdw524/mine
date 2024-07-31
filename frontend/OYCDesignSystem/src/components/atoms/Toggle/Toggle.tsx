@@ -7,6 +7,7 @@ import { base, thumb } from './Toggle.styles';
 export const Toggle = ({
   color = 'primary',
   size = 'sm',
+  onClick = () => {},
   ...props
 }: ToggleProps) => {
   const theme = useTheme();
@@ -16,7 +17,10 @@ export const Toggle = ({
     <div
       css={base(theme, theme.colors[color], isOn, size)}
       {...props}
-      onClick={() => (isOn ? setIsOn(false) : setIsOn(true))}
+      onClick={() => {
+        isOn ? setIsOn(false) : setIsOn(true);
+        onClick(!isOn);
+      }}
     >
       <div css={thumb(isOn, size)}></div>
     </div>

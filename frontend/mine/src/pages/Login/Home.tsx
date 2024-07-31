@@ -64,6 +64,14 @@ const Home = () => {
       >
         마이페이지
       </Button>
+      <Button
+        color="primary"
+        size="xl"
+        variant="contained"
+        onClick={() => nav('schedule')}
+      >
+        일정
+      </Button>
     </>
   );
 };

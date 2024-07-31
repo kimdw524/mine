@@ -32,7 +32,7 @@ export const getDays = (year: number, month: number): DateData[][] => {
   const lastMonthEnd = new Date(year, month - 1, 0);
   const { year: lastYear, month: lastMonth } = getLastMonth(year, month);
   const { year: nextYear, month: nextMonth } = getNextMonth(year, month);
-  const currentMonthEnd = new Date(nextYear, nextMonth, 0);
+  const currentMonthEnd = new Date(year, month, 0);
 
   let day = 1;
 
@@ -63,7 +63,7 @@ export const getDays = (year: number, month: number): DateData[][] => {
   }
 
   for (; day <= currentMonthEnd.getDate(); day++) {
-    if (days.at(-1)!.length >= 7) {
+    if (days.length === 0 || days.at(-1)!.length >= 7) {
       days.push([]);
     }
 
