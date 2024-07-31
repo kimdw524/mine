@@ -13,7 +13,7 @@ const Home = () => {
     removeCookie('Token');
     setUserInfo({});
     localStorage.removeItem('userInfo');
-    nav('/user/login');
+    // nav('/user/login');
   };
 
   console.log(userInfo.nickname);
