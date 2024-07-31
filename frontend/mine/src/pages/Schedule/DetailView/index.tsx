@@ -23,7 +23,6 @@ interface DetailViewProps {
 
 const DetailView = ({ data }: DetailViewProps) => {
   const navigate = useNavigate();
-  console.log(data);
 
   return (
     <div css={modalCss}>

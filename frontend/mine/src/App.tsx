@@ -12,6 +12,7 @@ import './App.css';
 import PwdEdit from './pages/MyPage/EditUser/PwdEdit';
 import CreateAvatar from './pages/CreateAvatar';
 import FindPassword from './pages/FindPassword';
+import Main from './pages/Main/Main';
 import Notification from './components/common/Notification';
 import { ToastVariant } from 'oyc-ds/dist/components/molecules/Toast/Toast.types';
 import { Palette } from 'oyc-ds/dist/themes/lightTheme';
@@ -65,6 +66,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/user/signup" element={<Signup />} />
             <Route path="/user/login" element={<Login />} />
+            <Route path="/main" element={<Main />} />
 
             {/* 마이페이지 */}
             <Route path="/mypage" element={<Information />} />
