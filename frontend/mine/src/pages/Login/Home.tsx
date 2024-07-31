@@ -2,19 +2,28 @@ import React from 'react';
 import { Button } from 'oyc-ds';
 import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
+import { useUser } from './UserContext';
 
 const Home = () => {
-  const [, , removeCookie] = useCookies();
+  const [, , removeCookie] = useCookies(['Token']);
   const nav = useNavigate();
+  const { userInfo, setUserInfo } = useUser();
 
   const handleLogout = () => {
     removeCookie('Token');
-    nav('/user/login');
+    setUserInfo({});
+    localStorage.removeItem('userInfo');
+    // nav('/user/login');
   };
+
+  console.log(userInfo.nickname);
 
   return (
     <>
       <div>Home 화면입니다.</div>
+      {userInfo.nickname && (
+        <div>{userInfo.nickname}님 환영합니다!</div>
+      )}
       <Button
         color="primary"
         size="xl"

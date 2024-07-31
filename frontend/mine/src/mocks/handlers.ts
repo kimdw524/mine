@@ -11,15 +11,17 @@ const userHandler = [
     });
   }),
 
+
   http.post('/user/login', async ({ request }) => {
     const result: any = await request.json();
     const data = {
       accessToken: '오늘도 파이팅',
       email: '',
       password: '',
+      nickname:'ssafy',
     };
 
-    if (result?.email && result?.password) {
+    if (result?.email === 'abc@mail.com' && result?.password === 'qwer1234') {
       return (
         (data.email = result.email),
         (data.password = result.password),
@@ -33,7 +35,7 @@ const userHandler = [
     } else {
       return new HttpResponse(null, {
         status: 400,
-        statusText: 'quthentication_failed',
+        statusText: 'authentication_failed',
       });
     }
   }),
