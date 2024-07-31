@@ -36,4 +36,6 @@ export {
   Toast,
   Calendar,
   Day,
+  Chip,
+  MenuTab,
 };
