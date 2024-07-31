@@ -2,22 +2,23 @@ package com.mine.application.schedule.ui.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
 
 @Getter
-public class AddScheduleRequest {
+public class AddScheduleFromCalendarRequest {
 
     private Integer categoryId;
 
-    @NotBlank
+    @NotNull
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
-    private LocalDateTime startTime;
+    private LocalDateTime startDateTime;
 
-    @NotBlank
+    @NotNull
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
-    private LocalDateTime endTime;
+    private LocalDateTime endDateTime;
 
     @NotBlank
     private String title;
