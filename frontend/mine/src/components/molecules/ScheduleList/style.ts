@@ -47,11 +47,12 @@ export const bodyCss = css`
 
 export const categoryCss = css`
   margin-right: 0.375rem;
-  font-weight: 500;
   font-size: 0.875rem;
 `;
 
 export const detailCss = css`
+  display: flex;
+  align-items: center;
   overflow: hidden;
   text-overflow: ellipsis;
   word-break: break-all;
