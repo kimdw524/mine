@@ -1,5 +1,7 @@
 package com.mine.application.avatar.command.domain.voice;
 
+import com.mine.application.avatar.command.application.Base64FileUploadRequest;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;

@@ -1,5 +1,6 @@
 package com.mine.application.avatar.command.domain.voice;
 
+import com.mine.application.avatar.command.application.Base64FileUploadRequest;
 import com.mine.application.common.event.Events;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

@@ -1,4 +1,4 @@
-package com.mine.application.avatar.command.domain.voice;
+package com.mine.application.avatar.command.application;
 
 import lombok.*;
 
@@ -12,4 +12,5 @@ public class Base64FileUploadRequest {
     private String fileName;
     private String fileExtension;
     private String avatarId;
+    private String chatType;
 }

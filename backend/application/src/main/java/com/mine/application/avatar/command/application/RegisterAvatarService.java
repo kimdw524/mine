@@ -11,7 +11,7 @@ public class RegisterAvatarService {
     private final AvatarRepository avatarRepository;
 
     @Transactional
-    public void createAvatar() {
+    public void createAvatar(RegisterAvatarRequest request) {
 
     }
 }

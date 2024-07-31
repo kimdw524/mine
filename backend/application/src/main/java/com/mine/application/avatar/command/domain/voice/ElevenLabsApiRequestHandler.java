@@ -19,7 +19,7 @@ import java.nio.file.Path;
 @Slf4j
 @RequiredArgsConstructor
 @Component
-public class ElevenLabsApiRequestHandler implements VirtualVoiceHandler {
+class ElevenLabsApiRequestHandler implements VirtualVoiceHandler {
 
     private static final String ELEVEN_LABS_EDIT_URL = "";
     private static final String ELEVEN_LABS_UPLOAD_URL = "https://api.elevenlabs.io/v1/voices/add";

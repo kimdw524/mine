@@ -2,12 +2,17 @@ package com.mine.application.avatar.command.application;
 
 import lombok.*;
 
-//@AllArgsConstructor
+import java.util.List;
+
+@AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Setter
 @Getter
 public class RegisterAvatarRequest {
-//    private
-//    private
+    private String avatarName;
+    private String residence;
+    private String job;
+    private List<RegisterQuestionResRequest> questionResList;
+    private List<Base64FileUploadRequest> voiceFileList;
 }
