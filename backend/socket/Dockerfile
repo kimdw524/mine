@@ -10,6 +10,6 @@ RUN ./gradlew bootJar
 FROM amazoncorretto:21
 COPY --from=builder /socket/build/libs/*.jar /socket.jar
 
-EXPOSE 8082
+EXPOSE 8080
 
 CMD ["java", "-jar", "/socket.jar"]

@@ -1,4 +1,9 @@
 package com.mine.socket.config;
+
+import org.springframework.amqp.core.Binding;
+import org.springframework.amqp.core.BindingBuilder;
+import org.springframework.amqp.core.DirectExchange;
+import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -24,35 +29,49 @@ public class RabbitMQConfig {
     private String rabbitmqPassword;
 
 
-//    @Value("${rabbitmq.queue.name}")
-//    private String queueName;
-//
-//    @Value("${rabbitmq.exchange.name}")
-//    private String exchangeName;
-//
-//    @Value("${rabbitmq.routing.my-key}")
-//    private String routingKey;
+    @Value("${rabbitmq.queue.my-name}")
+    private String queueMyName;
 
-//    /**
+    @Value("${rabbitmq.queue.fastapi-name}")
+    private String queueFastApiName;
+
+
+    @Value("${rabbitmq.exchange.name}")
+    private String exchangeName;
+
+    @Value("${rabbitmq.routing.fast-api-key}")
+    private String routingFastApiKey;
+
+    @Value("${rabbitmq.routing.my-key}")
+    private String routingMyKey;
+
+    //    /**
 //     * 지정된 큐 이름으로 Queue 빈을 생성
 //     *
 //     * @return Queue 빈 객체
 //     */
-//    @Bean
-//    public Queue queue() {
-//        return new Queue(queueName);
-//    }
-//
+    @Bean
+    public Queue queue1() {
+        return new Queue(queueMyName);
+    }
+
+    @Bean
+    public Queue queue2() {
+        return new Queue(queueFastApiName);
+    }
+
+    //
 //    /**
 //     * 지정된 익스체인지 이름으로 DirectExchange 빈을 생성
 //     *
 //     * @return TopicExchange 빈 객체
 //     */
-//    @Bean
-//    public DirectExchange exchange() {
-//        return new DirectExchange(exchangeName);
-//    }
-//
+    @Bean
+    public DirectExchange exchange() {
+        return new DirectExchange(exchangeName);
+    }
+
+    //
 //    /**
 //     * 주어진 큐와 익스체인지를 바인딩하고 라우팅 키를 사용하여 Binding 빈을 생성
 //     *
@@ -60,10 +79,15 @@ public class RabbitMQConfig {
 //     * @param exchange 바인딩할 TopicExchange
 //     * @return Binding 빈 객체
 //     */
-//    @Bean
-//    public Binding binding(Queue queue, DirectExchange exchange) {
-//        return BindingBuilder.bind(queue).to(exchange).with(routingKey);
-//    }
+    @Bean
+    public Binding binding1(Queue queue1, DirectExchange exchange) {
+        return BindingBuilder.bind(queue1).to(exchange).with(routingMyKey);
+    }
+
+    @Bean
+    public Binding binding2(Queue queue2, DirectExchange exchange) {
+        return BindingBuilder.bind(queue2).to(exchange).with(routingFastApiKey);
+    }
 
     /**
      * RabbitMQ 연결을 위한 ConnectionFactory 빈을 생성하여 반환
