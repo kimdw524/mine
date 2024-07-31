@@ -17,6 +17,7 @@ import Notification from './components/common/Notification';
 import { ToastVariant } from 'oyc-ds/dist/components/molecules/Toast/Toast.types';
 import { Palette } from 'oyc-ds/dist/themes/lightTheme';
 import { INotiInfo, NotificationContext } from './utils/NotificationContext';
+import Schedule from './pages/Schedule';
 
 function App() {
   const [notiInfo, setNotiInfo] = useState<INotiInfo>({
@@ -73,6 +74,7 @@ function App() {
             <Route path="/mypage/password" element={<PwdEdit />} />
             <Route path="/avatar/create" element={<CreateAvatar />} />
             <Route path="/findpassword" element={<FindPassword />} />
+            <Route path="/schedule" element={<Schedule />} />
           </Routes>
         </NotificationContext.Provider>
       </ThemeProvider>

@@ -1,0 +1,36 @@
+.enter {
+  transform: translateY(0) !important;
+  opacity: 1 !important;
+  pointer-events: all !important;
+}
+
+.exit {
+  transform: translateY(4rem) !important;
+  opacity: 0 !important;
+}
+
+.modal {
+  position: fixed;
+  inset: 0 0 0 0;
+  overflow-y: scroll;
+  z-index: 100;
+  box-sizing: border-box;
+  opacity: 0;
+  transform: translateY(4rem);
+  transition: all 0.3s ease;
+  transition-property: opacity transform;
+  pointer-events: none;
+}
+
+.unmounted {
+  position: fixed;
+  inset: 0 0 0 0;
+  overflow-y: scroll;
+  z-index: 100;
+  box-sizing: border-box;
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 0.3s ease;
+  transition-property: opacity transform;
+  pointer-events: none;
+}

@@ -221,5 +221,81 @@ const avatarHandler = [
   }),
 ];
 
+const scheduleHandler = [
+  http.get('/schedule/daily/*', async () => {
+    return HttpResponse.json([
+      {
+        scheduleId: 1,
+        categoryId: 1,
+        startDateTime: '2024-08-01T09:00:00',
+        endDateTime: '2024-08-01T10:00:00',
+        title: 'Meeting with Bob',
+        description: 'Discuss quarterly results',
+        where: 'Office',
+      },
+      {
+        scheduleId: 6,
+        categoryId: 2,
+        startDateTime: '2024-08-06T08:00:00',
+        endDateTime: '2024-08-06T09:00:00',
+        title: 'Breakfast with Sarah',
+        description:
+          'Discussing plans \nDiscussing plans \nDiscussing plans Discussing plans Discussing plans ',
+        where: 'Restaurant',
+      },
+      {
+        scheduleId: 11,
+        categoryId: 3,
+        startDateTime: '2024-08-11T17:00:00',
+        endDateTime: '2024-08-11T18:00:00',
+        title: 'Yoga Class',
+        description: 'Evening yoga session',
+        where: 'Studio',
+      },
+      {
+        scheduleId: 16,
+        categoryId: 4,
+        startDateTime: '2024-08-16T13:00:00',
+        endDateTime: '2024-08-16T14:00:00',
+        title: 'Budget Meeting',
+        description: 'Reviewing budget',
+        where: 'Finance Office',
+      },
+      {
+        scheduleId: 160,
+        categoryId: 5,
+        startDateTime: '2024-08-16T13:00:00',
+        endDateTime: '2024-08-16T14:00:00',
+        title: 'Budget Meeting',
+        description: 'Reviewing budget',
+        where: 'Finance Office',
+      },
+      {
+        scheduleId: 1600,
+        categoryId: 6,
+        startDateTime: '2024-08-16T13:00:00',
+        endDateTime: '2024-08-16T14:00:00',
+        title: 'Budget Meeting',
+        description: 'Reviewing budget',
+        where: 'Finance Office',
+      },
+      {
+        scheduleId: 1624,
+        categoryId: 7,
+        startDateTime: '2024-08-16T13:00:00',
+        endDateTime: '2024-08-16T14:00:00',
+        title: 'Budget Meeting',
+        description: 'Reviewing budget',
+        where: 'Finance Office',
+      },
+    ]);
+  }),
+];
+
 // 하나의 handler 로 관리
-export const handlers = [...userHandler, ...mypageHandler, ...avatarHandler];
+export const handlers = [
+  ...userHandler,
+  ...mypageHandler,
+  ...avatarHandler,
+  ...scheduleHandler,
+];
