@@ -2,11 +2,18 @@
 import React, { useState } from 'react';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { getAvatarInfo } from '../../../../apis/avatarApi';
-import { avatarInfoBoxCss, selectBoxCss, selectCss } from './style';
-import { MenuTab } from 'oyc-ds';
+import {
+  avatarInfoBoxCss,
+  avatarInfoBtn,
+  selectBoxCss,
+  selectCss,
+} from './style';
+import { Button, MenuTab } from 'oyc-ds';
 import InfoBox from '../../../../components/molecules/InfoBox/InfoBox';
+import { useNavigate } from 'react-router-dom';
 
 const AvatarInfoFetch = () => {
+  const nav = useNavigate();
   const [avatar, setAvatar] = useState<number>(0);
 
   const avatarInfoQuery = useSuspenseQuery({
@@ -39,6 +46,38 @@ const AvatarInfoFetch = () => {
             />
           );
         })}
+      </div>
+      <div css={avatarInfoBtn}>
+        <Button
+          fullWidth
+          onClick={() =>
+            nav('/mypage/avatar/name', {
+              state: { curName: avatarInfoQuery.data.data[avatar]['name'] },
+            })
+          }
+        >
+          이름 변경
+        </Button>
+        <Button
+          fullWidth
+          onClick={() =>
+            nav('/mypage/avatar/job', {
+              state: { curJob: avatarInfoQuery.data.data[avatar]['job'] },
+            })
+          }
+        >
+          직업 변경
+        </Button>
+        <Button
+          fullWidth
+          onClick={() =>
+            nav('/mypage/avatar/place', {
+              state: { curPlace: avatarInfoQuery.data.data[avatar]['place'] },
+            })
+          }
+        >
+          거주지 변경
+        </Button>
       </div>
     </>
   );
