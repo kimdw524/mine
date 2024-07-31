@@ -15,6 +15,7 @@ import {
   Toast,
   Calendar,
   Day,
+  Chip,
   MenuTab,
 } from './components';
 
@@ -35,5 +36,4 @@ export {
   Toast,
   Calendar,
   Day,
-  MenuTab,
 };
