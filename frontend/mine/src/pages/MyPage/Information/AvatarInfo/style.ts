@@ -28,3 +28,11 @@ export const avatarInfoBoxCss = css`
   margin-right: auto;
   row-gap: 1rem;
 `;
+
+export const avatarInfoBtn = css`
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.5rem;
+  margin-top: 2rem;
+  padding: 0 1rem;
+`;

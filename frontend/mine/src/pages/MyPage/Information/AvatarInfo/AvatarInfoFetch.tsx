@@ -2,9 +2,15 @@
 import React, { useState } from 'react';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { getAvatarInfo } from '../../../../apis/avatarApi';
-import { avatarInfoBoxCss, selectBoxCss, selectCss } from './style';
-import { MenuTab } from 'oyc-ds';
+import {
+  avatarInfoBoxCss,
+  avatarInfoBtn,
+  selectBoxCss,
+  selectCss,
+} from './style';
+import { Button, MenuTab } from 'oyc-ds';
 import InfoBox from '../../../../components/molecules/InfoBox/InfoBox';
+import { Link } from 'react-router-dom';
 
 const AvatarInfoFetch = () => {
   const [avatar, setAvatar] = useState<number>(0);
@@ -39,6 +45,17 @@ const AvatarInfoFetch = () => {
             />
           );
         })}
+      </div>
+      <div css={avatarInfoBtn}>
+        <Link to="/myapge/avatar/name">
+          <Button fullWidth>이름 변경</Button>
+        </Link>
+        <Link to="/mypage/avatar/job">
+          <Button fullWidth>직업 변경</Button>
+        </Link>
+        <Link to="/mypage/avatar/place">
+          <Button fullWidth>거주지 변경</Button>
+        </Link>
       </div>
     </>
   );
