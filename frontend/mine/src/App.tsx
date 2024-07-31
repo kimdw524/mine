@@ -76,6 +76,8 @@ function App() {
               <Route path="/mypage/password" element={<PwdEdit />} />
               <Route path="/avatar/create" element={<CreateAvatar />} />
               <Route path="/findpassword" element={<FindPassword />} />
+
+              <Route path="/schedule" element={<Schedule />} />
             </Routes>
           </NotificationContext.Provider>
         </ThemeProvider>
