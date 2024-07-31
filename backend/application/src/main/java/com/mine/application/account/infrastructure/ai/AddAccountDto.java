@@ -1,4 +1,4 @@
-package com.mine.application.account.infrastructure;
+package com.mine.application.account.infrastructure.ai;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -7,13 +7,13 @@ import lombok.Getter;
 import java.time.LocalDateTime;
 
 @Getter
-public class TestDto {
+public class AddAccountDto {
 
     @JsonProperty("accountType")
     private String accountType;
 
     @JsonProperty("money")
-    private int money;
+    private Long money;
 
     @JsonProperty("title")
     private String title;
