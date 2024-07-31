@@ -1,4 +1,4 @@
-package com.mine.application.voice;
+package com.mine.application.avatar.command.domain.voice;
 
 import lombok.*;
 

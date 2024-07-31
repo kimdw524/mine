@@ -1,50 +1,44 @@
 package com.mine.application.avatar.command.domain;
-// 아바타 테이블과 매핑되는 JPA 엔티티,  객체를 쉽게 생성하기 위한 빌더 패턴
+
+import com.mine.application.avatar.command.domain.question.QuestionRes;
+import com.mine.application.avatar.command.domain.voice.Voice;
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import java.time.LocalDateTime;
+import lombok.experimental.SuperBuilder;
 
-// NoArgsConstructor -> 파라미터가 없는 기본 생성자를 자동으로 생성 함
-@NoArgsConstructor
-@Getter
+import java.util.List;
+
+
+@SuperBuilder
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "avatar")
 @Entity
+@AttributeOverride(name = "created_at", column = @Column(name = "birthday"))
 public class Avatar {
-
-
-    // GeneratedValue -> 기본 키의 값을 DB가 자동으로 생성하게 설정 함
     @Id
-    @Column(name = "avatar_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "avatar_id")
     private Integer id;
 
-    // nullable = false -> 값이 비어 있을 수 없도록 함
-    @Column(name = "user_id", nullable = false)
+    @Column(name = "user_id")
     private Integer userId;
 
-    @Column(name = "avatar_name", nullable = false)
+    @Column(name = "avatar_name")
     private String name;
-
-    @Column(name = "avatar_birthday", nullable = false)
-    private LocalDateTime birthday;
 
     @Column(name = "avatar_personality")
     private String personality;
 
-    @Column(name = "avatar_assistant_id", nullable = false)
-    private String assistantId;
+    @Embedded
+    private Voice voice;
 
-    @Column(name = "avatar_thread_id", nullable = false)
-    private String threadId;
+    @Embedded
+    private Assistant assistant;
 
-    @Column(name = "avatar_voice_id", nullable = false)
-    private String voiceId;
-
-    @Column(name = "is_deleted", nullable = false)
-    private Boolean isDeleted;
-
-    @Column(name = "avatar_model_id", nullable = false)
+    @Column(name = "avatar_model_id")
     private Integer modelId;
 
     @Column(name = "avatar_residence")
@@ -53,34 +47,7 @@ public class Avatar {
     @Column(name = "avatar_job")
     private String job;
 
-    @Builder
-    public Avatar(Integer userId, String name, LocalDateTime birthday, String personality, String assistantId, String threadId, String voiceId, Integer modelId, String residence, String job) {
-        this.userId = userId;
-        this.name = name;
-        this.birthday = birthday;
-        this.personality = personality;
-        this.assistantId = assistantId;
-        this.threadId = threadId;
-        this.voiceId = voiceId;
-        this.modelId = modelId;
-        this.residence = residence;
-        this.isDeleted = false;
-        this.job = job;
-    }
-
-
-    public void update(String name, LocalDateTime birthday, String personality, String voiceId, Integer modelId, String residence, String job) {
-        this.name = name;
-        this.birthday = birthday;
-        this.personality = personality;
-        this.voiceId = voiceId;
-        this.modelId = modelId;
-        this.residence = residence;
-        this.job = job;
-    }
-
-    public void delete() {
-        this.isDeleted = true;
-    }
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    private List<QuestionRes> questionResList;
 
 }

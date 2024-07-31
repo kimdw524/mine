@@ -1,11 +1,8 @@
-package com.mine.application.voice;
+package com.mine.application.avatar.command.domain.voice;
 
-import com.mine.application.avatar.command.domain.AvatarRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
-import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.PathResource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -17,9 +14,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.File;
 import java.nio.file.Path;
-import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor

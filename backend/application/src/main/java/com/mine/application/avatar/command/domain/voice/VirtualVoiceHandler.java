@@ -1,6 +1,4 @@
-package com.mine.application.voice;
-
-import java.io.File;
+package com.mine.application.avatar.command.domain.voice;
 
 public interface VirtualVoiceHandler {
     void uploadVoiceFile(FileUploadedEvent event);

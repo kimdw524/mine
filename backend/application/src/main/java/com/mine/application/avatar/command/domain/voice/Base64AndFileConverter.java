@@ -1,7 +1,6 @@
-package com.mine.application.voice;
+package com.mine.application.avatar.command.domain.voice;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Base64;
