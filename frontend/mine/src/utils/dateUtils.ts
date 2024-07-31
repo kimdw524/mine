@@ -8,6 +8,10 @@ export const formatDate = (dateString: string): string => {
   return `${year}${month}${day}`;
 };
 
+export const apiFormatDate = (date: Date): string => {
+  return `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
+};
+
 export const simpleFormatDate = (date: Date): string => {
   return `${date.getFullYear().toString().slice(-2)}. ${date.getMonth() + 1}. ${date.getDate()}. ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
 };
@@ -49,4 +53,19 @@ export const getMonthDates = (dateString: string): string[] => {
   }
 
   return monthDates;
+};
+
+export const getBetweenDates = (start: Date, end: Date): string[] => {
+  const dates: string[] = [];
+  let diff = end.getTime() - start.getTime();
+
+  while (diff >= 0) {
+    const date = new Date(end.getTime() - diff);
+    diff -= 1000 * 3600 * 24;
+    dates.push(
+      `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`,
+    );
+  }
+
+  return dates;
 };

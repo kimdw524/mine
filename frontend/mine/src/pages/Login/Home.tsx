@@ -72,6 +72,14 @@ const Home = () => {
       >
         일정
       </Button>
+      <Button
+        color="primary"
+        size="xl"
+        variant="contained"
+        onClick={() => nav('account')}
+      >
+        가계부
+      </Button>
     </>
   );
 };

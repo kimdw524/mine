@@ -42,11 +42,11 @@ const ScheduleList = ({
           {title}
         </Typography>
 
-        <Typography color="secondary" size="xs" weight="light">
+        <Typography color="secondary" size="xs">
           {simpleFormatDate(new Date(startDateTime))} ~{' '}
           {simpleFormatDate(new Date(endDateTime))}
         </Typography>
-        <Typography color="secondary" size="sm" weight="light" css={detailCss}>
+        <Typography color="secondary" size="xs" css={detailCss}>
           <span css={categoryCss}>{scheduleCategoryData[category].name}</span>
           {description}
         </Typography>
