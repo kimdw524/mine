@@ -3,6 +3,7 @@ package com.mine.application.avatar.command.domain.question;
 import jakarta.persistence.*;
 import lombok.*;
 
+@Getter
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor

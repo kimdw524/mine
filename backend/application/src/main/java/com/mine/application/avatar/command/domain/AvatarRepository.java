@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public interface AvatarRepository extends Repository<Avatar, Integer> {
 
-    void save(Avatar avatar);
+    Avatar save(Avatar avatar);
 
     Optional<Avatar> findById(Integer id);
 

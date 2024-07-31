@@ -6,7 +6,7 @@ import lombok.*;
 
 @Embeddable
 @Getter
-@AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PACKAGE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 public class Assistant {
@@ -16,6 +16,5 @@ public class Assistant {
 
     @Column(name = "avatar_assistant_id")
     private String assistantId;
-
 
 }

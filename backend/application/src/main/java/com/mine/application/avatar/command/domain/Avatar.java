@@ -8,8 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+import java.util.ArrayList;
 import java.util.List;
-
 
 @SuperBuilder
 @AllArgsConstructor
@@ -47,7 +47,16 @@ public class Avatar {
     @Column(name = "avatar_job")
     private String job;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    private List<QuestionRes> questionResList;
+    @OneToMany(mappedBy = "avatar", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    private List<QuestionRes> questionResList = new ArrayList<>();
 
+    public void putQuestion(QuestionRes questionRes) {
+        questionResList.add(questionRes);
+    }
+
+    public void generateAssistant() {
+        if(assistant == null) {
+            this.assistant = AssistantFactory.createAssistant(questionResList);
+        }
+    }
 }
