@@ -16,6 +16,7 @@ import {
   Calendar,
   Day,
   Chip,
+  MenuTab,
 } from './components';
 
 export {
@@ -36,4 +37,5 @@ export {
   Calendar,
   Day,
   Chip,
+  MenuTab,
 };

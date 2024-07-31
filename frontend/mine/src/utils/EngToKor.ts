@@ -8,4 +8,9 @@ export const engToKor: Record<string, string> = {
   chatting: '채팅',
   home: '홈',
   speech: '말하기',
+  name: '이름',
+  birthday: '생일',
+  personality: '성격',
+  job: '직업',
+  place: '거주지',
 };

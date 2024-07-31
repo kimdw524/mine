@@ -17,9 +17,10 @@ const userHandler = [
       accessToken: '오늘도 파이팅',
       email: '',
       password: '',
+      nickname: 'ssafy',
     };
 
-    if (result?.email && result?.password) {
+    if (result?.email === 'abc@mail.com' && result?.password === 'qwer1234') {
       return (
         (data.email = result.email),
         (data.password = result.password),
@@ -33,7 +34,7 @@ const userHandler = [
     } else {
       return new HttpResponse(null, {
         status: 400,
-        statusText: 'quthentication_failed',
+        statusText: 'authentication_failed',
       });
     }
   }),
@@ -218,6 +219,44 @@ const avatarHandler = [
           'ABCDEFG1245678ABCDEFG1245678ABCDEFG1245678ABCDEFG1245678ABCDEFG1245678',
       },
     ]);
+  }),
+  http.get('/mypage/avatar', async () => {
+    await delay(1000);
+
+    return HttpResponse.json([
+      {
+        name: '내가 그 토비유',
+        birthday: '2024-07-30',
+        personality: '게이름, 천하태평함, 긍정적임',
+        job: '개발자',
+        place: '경상북도 구미시',
+      },
+      {
+        name: '백종원이유',
+        birthday: '2024-08-30',
+        personality: '꼼꼼함, 유쾌함, 재치있음, 즉흥적임',
+        job: '요리 연구가',
+        place: '대전광역시',
+      },
+    ]);
+  }),
+  http.patch('/mypage/avatar/job', () => {
+    return HttpResponse.json(
+      { msg: '직업이 성공적으로 변경되었습니다.' },
+      { status: 200 },
+    );
+  }),
+  http.patch('/mypage/avatar/name', () => {
+    return HttpResponse.json(
+      { msg: '이름이 성공적으로 변경되었습니다.' },
+      { status: 200 },
+    );
+  }),
+  http.patch('/mypage/avatar/place', () => {
+    return HttpResponse.json(
+      { msg: '거주지가 성공적으로 변경되었습니다.' },
+      { status: 200 },
+    );
   }),
 ];
 

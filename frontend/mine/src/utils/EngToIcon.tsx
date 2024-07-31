@@ -8,6 +8,9 @@ import {
   ChatBubbleBottomCenterTextIcon,
   HomeIcon,
   MicrophoneIcon,
+  CakeIcon,
+  BriefcaseIcon,
+  MapIcon,
 } from '@heroicons/react/24/outline';
 
 export const engToIcon: Record<string, ReactNode> = {
@@ -20,4 +23,9 @@ export const engToIcon: Record<string, ReactNode> = {
   chatting: <ChatBubbleBottomCenterTextIcon />,
   home: <HomeIcon />,
   speech: <MicrophoneIcon />,
+  name: <TagIcon />,
+  birthday: <CakeIcon />,
+  personality: <UserIcon />,
+  job: <BriefcaseIcon />,
+  place: <MapIcon />,
 };
