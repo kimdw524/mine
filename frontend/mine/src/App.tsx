@@ -23,6 +23,7 @@ import JobEdit from './pages/MyPage/EditAvatar/JobEdit';
 import NameEdit from './pages/MyPage/EditAvatar/NameEdit';
 import PlaceEdit from './pages/MyPage/EditAvatar/PlaceEdit';
 import Account from './pages/Account';
+import Chat from './pages/Chat';
 
 function App() {
   const [notiInfo, setNotiInfo] = useState<INotiInfo>({
@@ -86,6 +87,8 @@ function App() {
 
               <Route path="/schedule" element={<Schedule />} />
               <Route path="/account" element={<Account />} />
+
+              <Route path="/chat" element={<Chat />} />
             </Routes>
           </NotificationContext.Provider>
         </ThemeProvider>
