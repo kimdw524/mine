@@ -7,6 +7,12 @@ import MenuBar from '../../components/organisms/MenuBar';
 import ChatBox from '../../components/organisms/ChatBox';
 import useChat, { ChatMessageData, ChatType } from '../../hooks/useChat';
 import ChatTextField from '../../components/molecules/ChatTextField';
+import { AccountData } from '../../apis/accountApi';
+import { ScheduleData } from '../../apis/scheduleApi';
+import useModal from '../../hooks/useModal';
+import Modal from '../../hooks/useModal/Modal';
+import EditSchedule from '../Schedule/Edit';
+import EditAccount from '../Account/Edit';
 
 const Chat = () => {
   const navigate = useNavigate();
@@ -27,18 +33,8 @@ const Chat = () => {
       return;
 
     const message = chatRef.current.value;
-
     chat.send(chatTypeRef.current, message, () => {
       addChat({ me: true, message, name: '나', dateTime: new Date().toJSON() });
-
-      setTimeout(() => {
-        addChat({
-          me: false,
-          message,
-          name: '김',
-          dateTime: new Date().toJSON(),
-        });
-      }, 1000);
 
       if (chatRef.current) {
         chatRef.current.value = '';
@@ -71,34 +67,60 @@ const Chat = () => {
       console.log(data);
     };
 
-    chat.connect(handleOpen, handleError, handleClose, handleMessage);
+    const handleAccount = (data: AccountData) => {
+      open({
+        component: <EditAccount data={data} />,
+        name: 'editAccount',
+      });
+    };
+
+    const handleSchedule = (data: ScheduleData) => {
+      open({
+        component: <EditSchedule data={data} />,
+        name: 'editSchedule',
+      });
+    };
+
+    chat.connect(
+      handleOpen,
+      handleError,
+      handleClose,
+      handleMessage,
+      handleAccount,
+      handleSchedule,
+    );
   }, []);
 
+  const { open, modal } = useModal();
+
   return (
-    <div css={containerCss}>
-      <div>
-        <AppBar
-          label="채팅방"
-          onBackClick={() => navigate('/')}
-          onMenuClick={() => {}}
-        />
+    <>
+      <Modal data={modal} />
+      <div css={containerCss}>
+        <div>
+          <AppBar
+            label="채팅방"
+            onBackClick={() => navigate('/')}
+            onMenuClick={() => {}}
+          />
+        </div>
+        <div css={chatLogCss} ref={chatLogRef}>
+          <ChatBox messages={chatLog} />
+        </div>
+        <div css={chatCss}>
+          <ChatTextField
+            ref={chatRef}
+            onKeyDown={handleChatSend}
+            onTypeChange={(type) => {
+              chatTypeRef.current = type;
+            }}
+          />
+        </div>
+        <div css={bottomCss}>
+          <MenuBar menu={curMenu} setCurMenu={setCurMenu} />
+        </div>
       </div>
-      <div css={chatLogCss} ref={chatLogRef}>
-        <ChatBox messages={chatLog} />
-      </div>
-      <div css={chatCss}>
-        <ChatTextField
-          ref={chatRef}
-          onKeyDown={handleChatSend}
-          onTypeChange={(type) => {
-            chatTypeRef.current = type;
-          }}
-        />
-      </div>
-      <div css={bottomCss}>
-        <MenuBar menu={curMenu} setCurMenu={setCurMenu} />
-      </div>
-    </div>
+    </>
   );
 };
 

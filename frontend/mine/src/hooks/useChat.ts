@@ -1,4 +1,7 @@
 import { useRef } from 'react';
+import { api } from '../api/interceptors';
+import { AccountData, addAccountByChat } from '../apis/accountApi';
+import { addScheduleByChat, ScheduleData } from '../apis/scheduleApi';
 
 export type ChatType = 'chat' | 'schedule' | 'account';
 
@@ -9,15 +12,24 @@ export interface ChatMessageData {
   dateTime: string;
 }
 
+type EventCallback<T> = (data: T) => void;
+
 const useChat = (server: string) => {
   const socketRef = useRef<WebSocket>();
+  const accountRef = useRef<EventCallback<AccountData>>(() => {});
+  const scheduleRef = useRef<EventCallback<ScheduleData>>(() => {});
 
   const connect = (
     onOpen: () => void,
     onError: () => void,
     onClose: () => void,
     onMessage: (data: object) => void,
+    onAccount: EventCallback<AccountData>,
+    onSchedule: EventCallback<ScheduleData>,
   ) => {
+    accountRef.current = onAccount;
+    scheduleRef.current = onSchedule;
+    /*
     socketRef.current = new WebSocket(server);
 
     const socket = socketRef.current;
@@ -37,10 +49,42 @@ const useChat = (server: string) => {
     socket.addEventListener('open', () => {
       onOpen();
     });
+    */
   };
 
   const send = async (type: ChatType, content: string, onSend: () => void) => {
-    const socket = socketRef.current;
+    switch (type) {
+      case 'chat': {
+        onSend();
+        await api.post('/chat/test', {
+          assistant_id: 'asst_gzUHR2Orr2KnitbLKcoaU9q3',
+          thread_id: 'thread_l57yNZOhonW5h2vOm8gkzhgw',
+          chat_content: content,
+        });
+        break;
+      }
+      case 'account': {
+        onSend();
+        const result = await addAccountByChat({ query: content });
+        accountRef.current(result.data);
+        break;
+      }
+      case 'schedule': {
+        onSend();
+        const result = await addScheduleByChat({ query: content });
+        scheduleRef.current(result.data);
+        break;
+      }
+    }
+    // console.log(
+    //   await api.post('/chat/test', {
+    //     assistant_id: 'asst_gzUHR2Orr2KnitbLKcoaU9q3',
+    //     thread_id: 'thread_l57yNZOhonW5h2vOm8gkzhgw',
+    //     chat_content: content,
+    //   }),
+    // );
+
+    /*const socket = socketRef.current;
 
     // 지워야함
     onSend();
@@ -50,7 +94,7 @@ const useChat = (server: string) => {
     }
 
     socket.send(JSON.stringify({ type, content }));
-    onSend();
+    onSend();*/
   };
 
   return { connect, send };
