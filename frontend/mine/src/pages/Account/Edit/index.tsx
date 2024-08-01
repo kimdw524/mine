@@ -15,21 +15,30 @@ import {
   typeCss,
 } from './style';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { AccountParam, addAccount } from '../../../apis/accountApi';
+import {
+  AccountData,
+  AccountParam,
+  addAccount,
+  updateAccount,
+} from '../../../apis/accountApi';
 import { apiFormatDateTime } from '../../../utils/dateUtils';
 
-const Create = () => {
+interface EditProps {
+  data: AccountData;
+}
+
+const Edit = ({ data }: EditProps) => {
   const navigate = useNavigate();
-  const dateRef = useRef<Date>(new Date());
-  const [type, setType] = useState<'I' | 'S'>('S');
-  const categoryRef = useRef<number>(1);
+  const dateRef = useRef<Date>(new Date(data.dateTime));
+  const [type, setType] = useState<'I' | 'S'>(data.accountType);
+  const categoryRef = useRef<number>(data.spendCategoryId);
   const titleRef = useRef<HTMLInputElement>(null);
   const descriptionRef = useRef<HTMLInputElement>(null);
   const moneyRef = useRef<HTMLInputElement>(null);
   const queryClient = useQueryClient();
 
   const { mutate } = useMutation({
-    mutationFn: (params: AccountParam) => addAccount(params),
+    mutationFn: (params: AccountData) => updateAccount(params),
     onSuccess: (data) => {
       if (data.status === 200) {
         queryClient.invalidateQueries({ queryKey: ['account'] });
@@ -44,6 +53,7 @@ const Create = () => {
 
   const handleSubmit = () => {
     mutate({
+      accountId: data.accountId,
       spendCategoryId: categoryRef.current,
       accountType: type,
       money: parseInt(moneyRef.current!.value),
@@ -55,7 +65,7 @@ const Create = () => {
 
   return (
     <div css={modalCss}>
-      <AppBar label="가계 추가" />
+      <AppBar label="가계" />
       <div css={containerCss}>
         <div css={typeCss}>
           <Button
@@ -97,14 +107,14 @@ const Create = () => {
             ref={titleRef}
             variant="outlined"
             label="제목"
-            defaultValue=""
+            defaultValue={data.title}
           />
           <TextField
             ref={descriptionRef}
             type="number"
             variant="outlined"
             label="내용"
-            defaultValue=""
+            defaultValue={data.description}
             multiLine
             maxRows={2}
           />
@@ -112,7 +122,7 @@ const Create = () => {
             ref={moneyRef}
             variant="outlined"
             label="금액"
-            defaultValue=""
+            defaultValue={data.money.toString()}
           />
         </div>
         <DateTimePicker
@@ -125,10 +135,10 @@ const Create = () => {
         <Button color="secondary" onClick={() => navigate(-1)}>
           취소
         </Button>
-        <Button onClick={handleSubmit}>등록</Button>
+        <Button onClick={handleSubmit}>수정</Button>
       </div>
     </div>
   );
 };
 
-export default Create;
+export default Edit;
