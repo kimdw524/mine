@@ -4,7 +4,7 @@ import com.mine.application.achievement.command.domain.AchievementState;
 import org.springframework.stereotype.Component;
 
 @Component
-public class QuestionAchievementStateUpdater implements AchievementStateUpdater {
+public class AvatarAchievementStateUpdater implements AchievementStateUpdater {
 
     @Override
     public int updateCount(AchievementState achievementState) {

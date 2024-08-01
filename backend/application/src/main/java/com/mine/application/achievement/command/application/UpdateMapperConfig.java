@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
 public class UpdateMapperConfig {
 
     private final LoginAchievementStateUpdater loginAchievementCountUpdater;
-    private final QuestionAchievementStateUpdater questionAchievementUpdater;
+    private final AvatarAchievementStateUpdater questionAchievementUpdater;
     private final AccountAchievementStateUpdater accountAchievementStateUpdater;
     private final ScheduleAchievementStateUpdater scheduleAchievementUpdater;
     private final EasterEggAchievementStateUpdater easterEggAchievementUpdater;
