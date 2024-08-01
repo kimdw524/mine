@@ -69,13 +69,16 @@ const ChoiceEditFetch = () => {
     [],
   );
 
-  const handleResponse = useCallback((Qidx: number, Aidx: number | string) => {
-    handleTarget(
-      Qidx,
-      !(qnas[Qidx].answer === Number(Aidx) + 1),
-      Number(Aidx) + 1,
-    );
-  }, []);
+  const handleResponse = useCallback(
+    (Qidx: number, Aidx: number | string) => {
+      handleTarget(
+        Qidx,
+        !(qnas[Qidx].answer === Number(Aidx) + 1),
+        Number(Aidx) + 1,
+      );
+    },
+    [qnas],
+  );
 
   const handleSubmit = async () => {
     const newChoices: NewAnsListData = {
