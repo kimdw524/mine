@@ -15,8 +15,8 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RequiredArgsConstructor
-@RequestMapping("/api")
 @RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class AccountController {
 
     private final AccountQueryService accountQueryService;

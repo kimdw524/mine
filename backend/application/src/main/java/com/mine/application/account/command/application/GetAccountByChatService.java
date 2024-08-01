@@ -21,10 +21,10 @@ public class GetAccountByChatService {
     private final AccountAiChat accountAiChat;
 
     public String getAccountsByChat(String query) {
-        Integer userId = (Integer) sessionDao.get(SessionConstants.USER_ID)
-                .orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND));
+//        Integer userId = (Integer) sessionDao.get(SessionConstants.USER_ID)
+//                .orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND));
 
-        List<Account> accounts = accountRepository.findAllByUserId(userId);
+        List<Account> accounts = accountRepository.findAllByUserId(1);
 
         return accountAiChat.getJsonFromQuery(query, accounts);
     }
