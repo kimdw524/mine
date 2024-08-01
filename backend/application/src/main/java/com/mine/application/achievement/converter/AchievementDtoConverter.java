@@ -6,7 +6,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class AchievementConverter {
+public class AchievementDtoConverter {
 
     public static GetAchievementStateResponse convert(AchievementStateData achievementStateData) {
         return GetAchievementStateResponse.builder()
