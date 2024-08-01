@@ -77,7 +77,11 @@ services:
     build: ./nginx/
     ports:
       - "80:80"
+      - "443:443"
     depends_on:
       - app
       - chat
       - rabbitmq
+    volumes:
+      - /home/ubuntu/data/nginx/pki-validation:/usr/share/nginx/html/.well-known/pki-validation
+      - ./data/nginx/ssl:/etc/ssl/i11p106.p.ssafy.io
