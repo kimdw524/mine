@@ -78,6 +78,26 @@ const AvatarInfoFetch = () => {
         >
           거주지 변경
         </Button>
+        <Button
+          fullWidth
+          onClick={() =>
+            nav('/mypage/avatar/choice', {
+              state: { name: avatarInfoQuery.data.data[avatar]['name'] },
+            })
+          }
+        >
+          설문조사
+        </Button>
+        <Button
+          fullWidth
+          onClick={() =>
+            nav('/mypage/avatar/subjective', {
+              state: { name: avatarInfoQuery.data.data[avatar]['name'] },
+            })
+          }
+        >
+          질의응답
+        </Button>
       </div>
     </>
   );
