@@ -30,11 +30,6 @@ export const containerCss = css`
 
 export const iconWrapperCss = css`
   flex-shrink: 0;
-  width: 1.5rem;
-  height: 1.5rem;
-  padding: 0.75rem;
-  border-radius: 50%;
-  background-color: var(--color);
 `;
 
 export const bodyCss = css`

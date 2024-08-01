@@ -8,6 +8,9 @@ import { getBetweenDates } from '../../utils/dateUtils';
 import { ErrorBoundary } from 'react-error-boundary';
 import AccountListFetch from './AccountListFetch';
 import { accountCss, bottomCss, containerCss, periodCss } from './style';
+import Create from './Create';
+import useModal from '../../hooks/useModal';
+import Modal from '../../hooks/useModal/Modal';
 
 const Account = () => {
   const navigate = useNavigate();
@@ -17,6 +20,7 @@ const Account = () => {
   const [selected, setSelected] = useState<string[]>([
     `${start.getFullYear()}-${start.getMonth() + 1}-${start.getDate()}`,
   ]);
+  const { open, modal } = useModal();
 
   const [year, month] = start
     .toLocaleDateString()
@@ -47,8 +51,16 @@ const Account = () => {
     setSelected(getBetweenDates(newStart, date));
   };
 
+  const handleCreateAccount = () => {
+    open({
+      component: <Create />,
+      name: 'createAccount',
+    });
+  };
+
   return (
     <>
+      <Modal data={modal} />
       <div css={containerCss}>
         <div>
           <AppBar label="가계부" onBackClick={() => navigate(-1)} />
@@ -80,7 +92,9 @@ const Account = () => {
           </ErrorBoundary>
         </div>
         <div css={bottomCss}>
-          <Button size="sm">추가</Button>
+          <Button size="sm" onClick={handleCreateAccount}>
+            추가
+          </Button>
         </div>
       </div>
     </>

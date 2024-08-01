@@ -10,6 +10,7 @@ import {
 } from './style';
 import { scheduleCategoryData } from '../../../utils/scheduleUtils';
 import { simpleFormatDate } from '../../../utils/dateUtils';
+import CategoryIcon from '../../atoms/CategoryIcon';
 
 interface ScheduleListProps extends React.ComponentProps<'div'> {
   title: string;
@@ -29,13 +30,10 @@ const ScheduleList = ({
 }: ScheduleListProps) => {
   return (
     <div css={containerCss} {...props}>
-      <div
-        css={iconWrapperCss}
-        style={
-          { '--color': scheduleCategoryData[category].color } as CSSProperties
-        }
-      >
-        {scheduleCategoryData[category].icon}
+      <div css={iconWrapperCss}>
+        <CategoryIcon color={scheduleCategoryData[category].color}>
+          {scheduleCategoryData[category].icon}
+        </CategoryIcon>
       </div>
       <div css={bodyCss}>
         <Typography size="md" color="dark">
