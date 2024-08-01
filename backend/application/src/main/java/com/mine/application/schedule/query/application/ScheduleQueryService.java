@@ -24,21 +24,21 @@ public class ScheduleQueryService {
             LocalDate startDate,
             LocalDate endDate)
     {
-        Integer userId = (Integer) sessionDao.get(SessionConstants.USER_ID)
-                .orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND));
+//        Integer userId = (Integer) sessionDao.get(SessionConstants.USER_ID)
+//                .orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND));
 
         return scheduleDataCustomRepository.findSchedulesBetweenDates(
-                userId,
+                1,
                 startDate.atStartOfDay(),
                 endDate.atTime(LocalTime.MAX)
         );
     }
 
     public List<GetScheduleResponse> getSchedulesByContaining(String query) {
-        Integer userId = (Integer) sessionDao.get(SessionConstants.USER_ID)
-                .orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND));
+//        Integer userId = (Integer) sessionDao.get(SessionConstants.USER_ID)
+//                .orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND));
 
-        return scheduleDataCustomRepository.findSchedulesByContaining(userId, query);
+        return scheduleDataCustomRepository.findSchedulesByContaining(1, query);
     }
 
 }

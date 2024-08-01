@@ -25,20 +25,20 @@ public class AddScheduleService {
 
     @Transactional
     public void addScheduleFromCalendar(AddScheduleFromCalendarRequest request) {
-        Integer userId = (Integer) sessionDao.get(SessionConstants.USER_ID)
-                .orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND));
+//        Integer userId = (Integer) sessionDao.get(SessionConstants.USER_ID)
+//                .orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND));
 
-        scheduleRepository.save(ScheduleDtoConverter.convert(request, userId));
+        scheduleRepository.save(ScheduleDtoConverter.convert(request, 1));
     }
 
     @Transactional
     public AddScheduleFromChatResponse addScheduleFromChat(String query) {
-        Integer userId = (Integer) sessionDao.get(SessionConstants.USER_ID)
-                .orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND));
+//        Integer userId = (Integer) sessionDao.get(SessionConstants.USER_ID)
+//                .orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND));
 
         AddScheduleDto addScheduleDto = scheduleAiChat.getAddScheduleDtoFromQuery(query);
 
-        Schedule schedule = ScheduleDtoConverter.convert(addScheduleDto, userId);
+        Schedule schedule = ScheduleDtoConverter.convert(addScheduleDto, 1);
         scheduleRepository.save(schedule);
 
         return ScheduleDtoConverter.convert(schedule);
