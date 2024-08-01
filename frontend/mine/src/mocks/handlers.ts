@@ -242,6 +242,9 @@ const mypageHandler = [
       },
     ]);
   }),
+  http.patch('/mypage/avatar/newchoice', () => {
+    return HttpResponse.json({ msg: '변경 완료' }, { status: 200 });
+  }),
 ];
 
 const avatarHandler = [

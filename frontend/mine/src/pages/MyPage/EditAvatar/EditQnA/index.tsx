@@ -21,7 +21,7 @@ interface EditQnAProps {
   qna: IEditQnA;
   qidx: number;
   invisible: boolean;
-  onHandleResponse: (Qidx: number, Aidx: number) => void;
+  handleResponse: (Qidx: number, Aidx: number) => void;
 }
 
 const EditQnA = ({
@@ -29,7 +29,7 @@ const EditQnA = ({
   qna,
   qidx,
   invisible,
-  onHandleResponse,
+  handleResponse,
 }: EditQnAProps) => {
   const [selected, setSelected] = useState<string | number>(qna.answer);
 
@@ -54,7 +54,7 @@ const EditQnA = ({
                   size="lg"
                   onClick={() => {
                     setSelected(idx + 1);
-                    onHandleResponse(qidx, idx);
+                    handleResponse(qidx, idx);
                   }}
                 >
                   {item.response}

@@ -17,6 +17,16 @@ export interface SentenceData {
   description: string;
 }
 
+export interface NewChoiceData {
+  questionId: number;
+  choiceId: number;
+}
+
+export interface NewChoiceListData {
+  avatarId: number;
+  choices: NewChoiceData[];
+}
+
 export const getQuestions = () => {
   return axios.get<QuestionData[]>('/avatar/questions');
 };
@@ -78,5 +88,14 @@ export const getAvatarQuestionAnswer = (avatarId: number) => {
   return api({
     url: '/mypage/avatar/questions',
     method: 'get',
+  });
+};
+
+/* 아바타 설문 조사 변경 */
+export const updateAvatarChoice = (newChoices: NewChoiceListData) => {
+  return api({
+    url: '/mypage/avatar/newchoice',
+    method: 'patch',
+    data: newChoices,
   });
 };

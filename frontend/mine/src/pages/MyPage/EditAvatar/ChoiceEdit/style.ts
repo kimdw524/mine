@@ -11,6 +11,10 @@ export const titleCss = css`
 `;
 
 export const questionCss = css`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  flex: 1;
   padding: 0 1rem;
   margin-top: 2rem;
 `;
@@ -27,8 +31,8 @@ export const editBtnCss = css`
   justify-content: end;
   align-items: center;
   row-gap: 0.75rem;
+  padding-bottom: 1rem;
   flex: 1;
-  padding: 1rem;
 `;
 
 export const editListCss = (editTargetLength: number) => css`
