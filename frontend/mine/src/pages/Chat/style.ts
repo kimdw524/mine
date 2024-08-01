@@ -8,8 +8,9 @@ export const containerCss = css`
 
 export const chatLogCss = css`
   flex: 1;
-  border-top: 1px solid #eee;
-  border-bottom: 1px solid #ddd;
+  overflow-y: scroll;
+  border-top: 0.0625rem solid #eee;
+  border-bottom: 0.0625rem solid #ddd;
 `;
 
 export const chatCss = css`
@@ -22,16 +23,4 @@ export const bottomCss = css`
   > div {
     position: static !important;
   }
-`;
-
-export const chatTypeCss = css`
-  padding: 0 0.75rem 0 0;
-  border: 0 !important;
-  + span {
-    display: none;
-  }
-`;
-
-export const chatInputCss = css`
-  flex: 1;
 `;
