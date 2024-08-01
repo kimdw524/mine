@@ -23,7 +23,7 @@ export const containerCss = css`
   transition: all 200ms ease;
   :active {
     background-color: #f1f1f7;
-    transform: scale(0.9);
+    transform: scale(0.95);
   }
   animation: fadeIn var(--duration) ease 1;
 `;
