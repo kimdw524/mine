@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import React, { useEffect, useState } from 'react';
 import { Button, TextField, Typography } from 'oyc-ds';
-import { btnContainerCss, textfieldCss } from './style';
+import { btnContainerCss, containerCss, textfieldCss } from './style';
 
 export interface IQnAResponse {
   responseId: number;
@@ -20,10 +20,17 @@ interface EditQnAProps {
   qnaType: string;
   qna: IEditQnA;
   qidx: number;
+  invisible: boolean;
   onHandleResponse: (Qidx: number, Aidx: number) => void;
 }
 
-const EditQnA = ({ qnaType, qna, qidx, onHandleResponse }: EditQnAProps) => {
+const EditQnA = ({
+  qnaType,
+  qna,
+  qidx,
+  invisible,
+  onHandleResponse,
+}: EditQnAProps) => {
   const [selected, setSelected] = useState<string | number>(qna.answer);
 
   useEffect(() => {
@@ -32,39 +39,41 @@ const EditQnA = ({ qnaType, qna, qidx, onHandleResponse }: EditQnAProps) => {
 
   return (
     <>
-      <Typography size="lg" color="dark">
-        {qna.question}
-      </Typography>
-      {qnaType === 'c' ? (
-        <div css={btnContainerCss}>
-          {qna.choices.map((item, idx) => {
-            return (
-              <Button
-                key={item.responseId}
-                color={selected === idx + 1 ? 'primary' : 'secondary'}
-                variant="outlined"
-                size="lg"
-                onClick={() => {
-                  setSelected(idx + 1);
-                  onHandleResponse(qidx, idx);
-                }}
-              >
-                {item.response}
-              </Button>
-            );
-          })}
-        </div>
-      ) : (
-        <div css={textfieldCss}>
-          <TextField
-            label=""
-            defaultValue={qna.answer + ''}
-            variant="outlined"
-            maxRows={5}
-            multiLine
-          />
-        </div>
-      )}
+      <div css={containerCss(invisible)}>
+        <Typography size="lg" color="dark">
+          {qna.question}
+        </Typography>
+        {qnaType === 'c' ? (
+          <div css={btnContainerCss}>
+            {qna.choices.map((item, idx) => {
+              return (
+                <Button
+                  key={item.responseId}
+                  color={selected === idx + 1 ? 'primary' : 'secondary'}
+                  variant="outlined"
+                  size="lg"
+                  onClick={() => {
+                    setSelected(idx + 1);
+                    onHandleResponse(qidx, idx);
+                  }}
+                >
+                  {item.response}
+                </Button>
+              );
+            })}
+          </div>
+        ) : (
+          <div css={textfieldCss}>
+            <TextField
+              label=""
+              defaultValue={qna.answer + ''}
+              variant="outlined"
+              maxRows={5}
+              multiLine
+            />
+          </div>
+        )}
+      </div>
     </>
   );
 };

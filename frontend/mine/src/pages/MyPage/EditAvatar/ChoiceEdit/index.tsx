@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import React, { Suspense, useCallback, useEffect, useState } from 'react';
+import React, { Suspense, useCallback, useState } from 'react';
 import AppBar from '../../../../components/organisms/AppBar';
 import { useLocation, useNavigate } from 'react-router-dom';
 import {
@@ -22,20 +22,13 @@ const ChoiceEdit = () => {
     new Array(3).fill(false),
   );
 
-  const handleTarget = useCallback(
-    (Qidx: number, value: boolean) => {
-      setEditTarget((prev) => {
-        const newTarget = [...prev];
-        newTarget[Qidx] = value;
-        return [...newTarget];
-      });
-    },
-    [editTarget],
-  );
-
-  useEffect(() => {
-    console.log('after', editTarget);
-  }, [editTarget]);
+  const handleTarget = useCallback((Qidx: number, value: boolean) => {
+    setEditTarget((prev) => {
+      const newTarget = [...prev];
+      newTarget[Qidx] = value;
+      return [...newTarget];
+    });
+  }, []);
 
   return (
     <>
@@ -68,7 +61,7 @@ const ChoiceEdit = () => {
               {editTarget.map((v, i) => (v ? `${i + 1}번 ` : ''))}
             </Typography>
           </div>
-          <Button fullWidth disabled={editTarget.length === 0}>
+          <Button fullWidth disabled={editTarget.filter((v) => v).length === 0}>
             수정하기
           </Button>
         </div>

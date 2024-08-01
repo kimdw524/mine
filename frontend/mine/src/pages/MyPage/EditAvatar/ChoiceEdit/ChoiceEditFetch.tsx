@@ -31,16 +31,20 @@ const ChoiceEditFetch = ({ handleTarget }: IChoiceEditFetch) => {
   return (
     <>
       {/* 문제에게  전달 */}
-      <EditQnA
-        qnaType={'c'}
-        qna={
-          questionQuery.data.data.filter(
-            (qna: IEditQnA) => qna.questionType === 'c',
-          )[index]
-        }
-        qidx={index}
-        onHandleResponse={onHandleResponse}
-      />
+      {questionQuery.data.data
+        .filter((qna: IEditQnA) => qna.questionType === 'c')
+        .map((qna: IEditQnA, idx: number) => {
+          return (
+            <EditQnA
+              key={idx}
+              qnaType={'c'}
+              qna={qna}
+              qidx={idx}
+              invisible={index !== idx}
+              onHandleResponse={onHandleResponse}
+            />
+          );
+        })}
 
       <div css={controlBtnCss}>
         <Button
