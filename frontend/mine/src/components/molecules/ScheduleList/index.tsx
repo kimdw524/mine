@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import React, { CSSProperties } from 'react';
+import React from 'react';
 import { Typography } from 'oyc-ds';
 import {
   bodyCss,

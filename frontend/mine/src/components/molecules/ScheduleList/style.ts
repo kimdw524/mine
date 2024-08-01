@@ -28,10 +28,6 @@ export const containerCss = css`
   animation: fadeIn var(--duration) ease 1;
 `;
 
-export const iconWrapperCss = css`
-  flex-shrink: 0;
-`;
-
 export const bodyCss = css`
   display: flex;
   justify-content: center;
@@ -52,4 +48,8 @@ export const detailCss = css`
   text-overflow: ellipsis;
   word-break: break-all;
   white-space: nowrap;
+`;
+
+export const iconWrapperCss = css`
+  flex-shrink: 0;
 `;
