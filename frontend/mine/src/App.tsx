@@ -23,6 +23,8 @@ import JobEdit from './pages/MyPage/EditAvatar/JobEdit';
 import NameEdit from './pages/MyPage/EditAvatar/NameEdit';
 import PlaceEdit from './pages/MyPage/EditAvatar/PlaceEdit';
 import Account from './pages/Account';
+import Chart from './pages/Statistics/chart';
+import AccountChart from './pages/Statistics/Account/spend';
 
 function App() {
   const [notiInfo, setNotiInfo] = useState<INotiInfo>({
@@ -73,6 +75,8 @@ function App() {
               <Route path="/user/signup" element={<Signup />} />
               <Route path="/user/login" element={<Login />} />
               <Route path="/main" element={<Main />} />
+              <Route path="/chart" element={<Chart />} />
+              <Route path="/accountchart" element={<AccountChart />} />
 
               {/* 마이페이지 */}
               <Route path="/mypage" element={<Information />} />
