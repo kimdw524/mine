@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RequiredArgsConstructor
-@RequestMapping("/user/achievement")
+@RequestMapping("/api/users/achievements")
 @RestController
 public class AchievementController {
 
