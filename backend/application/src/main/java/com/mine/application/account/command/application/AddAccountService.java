@@ -25,20 +25,20 @@ public class AddAccountService {
 
     @Transactional
     public void addAccountFromCalendar(AddAccountFromCalendarRequest request) {
-        Integer userId = (Integer) sessionDao.get(SessionConstants.USER_ID)
-                .orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND));
+//        Integer userId = (Integer) sessionDao.get(SessionConstants.USER_ID)
+//                .orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND));
 
-        accountRepository.save(AccountDtoConverter.convert(request, userId));
+        accountRepository.save(AccountDtoConverter.convert(request, 1));
     }
 
     @Transactional
     public AddAccountFromChatResponse addAccountFromChat(String query) {
-        Integer userId = (Integer) sessionDao.get(SessionConstants.USER_ID)
-                .orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND));
+//        Integer userId = (Integer) sessionDao.get(SessionConstants.USER_ID)
+//                .orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND));
 
         AddAccountDto addAccountDto = accountAiChat.getAddAccountDtoFromQuery(query);
 
-        Account account = AccountDtoConverter.convert(addAccountDto, userId);
+        Account account = AccountDtoConverter.convert(addAccountDto, 1);
         accountRepository.save(account);
 
         return AccountDtoConverter.convert(account);

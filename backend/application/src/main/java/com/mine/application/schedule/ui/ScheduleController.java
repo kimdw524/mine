@@ -4,7 +4,6 @@ import com.mine.application.schedule.command.application.*;
 import com.mine.application.schedule.query.application.ScheduleQueryService;
 import com.mine.application.schedule.ui.dto.*;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -16,8 +15,8 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RequiredArgsConstructor
-@RequestMapping("/api")
 @RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class ScheduleController {
 
     private final ScheduleQueryService scheduleQueryService;

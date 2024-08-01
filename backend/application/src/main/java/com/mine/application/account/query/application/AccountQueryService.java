@@ -24,21 +24,21 @@ public class AccountQueryService {
             LocalDate startDate,
             LocalDate endDate)
     {
-        Integer userId = (Integer) sessionDao.get(SessionConstants.USER_ID)
-                .orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND));
+//        Integer userId = (Integer) sessionDao.get(SessionConstants.USER_ID)
+//                .orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND));
 
         return accountDataCustomRepository.findAccountsBetweenDates(
-                userId,
+                1,
                 startDate.atStartOfDay(),
                 endDate.atTime(LocalTime.MAX)
         );
     }
 
     public List<GetAccountResponse> getAccountsByContaining(String query) {
-        Integer userId = (Integer) sessionDao.get(SessionConstants.USER_ID)
-                .orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND));
+//        Integer userId = (Integer) sessionDao.get(SessionConstants.USER_ID)
+//                .orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND));
 
-        return accountDataCustomRepository.findAccountsByContaining(userId, query);
+        return accountDataCustomRepository.findAccountsByContaining(1, query);
     }
 
 }
