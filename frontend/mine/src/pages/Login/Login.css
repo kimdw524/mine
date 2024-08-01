@@ -36,13 +36,13 @@
 }
 
 .LoginBtn > Button {
-  width: 180px;
-  border-radius: 30px !important;
+  width: 70%;
+  /* border-radius: 30px !important; */
 }
 
 .SignUpBtn > Button {
-  border-radius: 30px !important;
-  width: 180px;
+  /* border-radius: 30px !important; */
+  width: 70%;
 }
 
 .passwordfind {
@@ -51,7 +51,7 @@
   padding-top: 20px;
 }
 
-.errormsg {
+.errormsg2 {
   white-space: pre-wrap;
   text-align: center;
 }

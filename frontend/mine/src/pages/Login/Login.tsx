@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import './Login.css';
 import { useNavigate } from 'react-router-dom';
@@ -6,6 +6,7 @@ import { useCookies } from 'react-cookie';
 import { Button,LabeledCheckBox, Typography, TextField } from 'oyc-ds';
 import { Palette } from 'oyc-ds/dist/themes/lightTheme';
 import { UserContext } from './UserContext';
+import { UserLogin } from '../../apis/loginApi';
 
 interface ColorInfo {
   email: Palette;
@@ -36,23 +37,38 @@ const Login = () => {
     }
   }, [setUserInfo]);
 
-  const EmailValidation = (email: string) => {
+  // const EmailValidation = (email: string) => {
+  //   if (emailCheck.test(email)) {
+  //     setEmailValidation(true); // 검증 성공
+  //     setColor((prevColor) => ({
+  //       ...prevColor,
+  //       email: 'success'
+  //     }));
+  //   } else {
+  //     setEmailValidation(false); // 검증 실패
+  //     setColor((prevColor) => ({
+  //       ...prevColor,
+  //       email: 'danger'
+  //     }));
+  //   }
+  // };
+  const EmailValidation = useCallback(async () => {
     if (emailCheck.test(email)) {
-      setEmailValidation(true); // 검증 성공
+      setEmailValidation(true);
       setColor((prevColor) => ({
         ...prevColor,
         email: 'success'
       }));
     } else {
-      setEmailValidation(false); // 검증 실패
+      setEmailValidation(false);
       setColor((prevColor) => ({
         ...prevColor,
         email: 'danger'
       }));
     }
-  };
+  }, [email])
 
-  const PasswordValidation = (password: string) => {
+  const PasswordValidation = useCallback(async () => {
     if (passwordCheck.test(password)) {
       setPasswordValidation(true);
       setColor((prevColor) => ({
@@ -63,22 +79,22 @@ const Login = () => {
       setPasswordValidation(false);
       setColor((prevColor) => ({
         ...prevColor,
-        email: 'danger'
+        password: 'danger'
       }));
     }
-  };
+  }, [password])
 
   const emailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
     console.log(email);
-    EmailValidation(email);
   };
 
   const passwordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
     console.log(password);
-    PasswordValidation(password);
   };
+
+  
 
   const checkedItemHandler = (ischecked: boolean) => {
     if (!ischecked) {
@@ -95,45 +111,65 @@ const Login = () => {
     if (ischecked) {
       const today = new Date();
       today.setDate(today.getDate() + 1);
-      axios
-        .post('/user/login', { email: email, password: password })
-        .then((res) => {
-          console.log(res.data);
-          setCookie('Token', res.data.accessToken, { expires: today });
-          const userData = {
-            nickname: res.data.nickname,
-            email: res.data.email,
-          };
-          setUserInfo(userData);
-          localStorage.setItem('userInfo', JSON.stringify(userData));
-          nav('/');
-        })
-        .catch((err) => {
-          console.log(err);
+      // axios
+      //   .post('/user/login', { email: email, password: password })
+      //   .then((res) => {
+      //     console.log(res.data);
+      //     setCookie('Token', res.data.accessToken, { expires: today });
+      //     const userData = {
+      //       nickname: res.data.nickname,
+      //       email: res.data.email,
+      //     };
+      //     setUserInfo(userData);
+      //     localStorage.setItem('userInfo', JSON.stringify(userData));
+      //     nav('/');
+      //   })
+      //   .catch((err) => {
+      //     console.log(err);
+      //   });
+      (async () => {
+        await UserLogin(email, password)
+          .then((res) => {
+            console.log(res.data);
+            setCookie('Token', res.data.accessToken, { expires: today });
+            const userData = {
+              nickname: res.data.nickname,
+              email: res.data.email,
+            };
+            setUserInfo(userData);
+            localStorage.setItem('userInfo', JSON.stringify(userData));
+            nav('/');
+          })
+          .catch((err) => {
+            console.log("에러:", err);
+            setLoginResult(
+              `이메일 또는 비밀번호가 잘못되었습니다.\n아이디와 비밀번호를 정확히 입력해주세요.`,
+            )
         });
+      })();
     } else if (!ischecked) {
-      axios
-        .post('/user/login', { email: email, password: password })
-        .then((res) => {
-          console.log(res.data);
-          setCookie('Token', res.data.accessToken, { maxAge: 30 }); // 쿠키에 토큰 저장
-          const userData = {
-            nickname: res.data.nickname,
-            email: res.data.email,
-          };
-          setUserInfo(userData);
-          localStorage.setItem('userInfo', JSON.stringify(userData));
-          nav('/');
-        })
-        .catch((err) => {
-          console.log('에러...:', err);
-          setLoginResult(
-            `이메일 또는 비밀번호가 잘못되었습니다.\n아이디와 비밀번호를 정확히 입력해주세요.`,
-          );
+      (async () => {
+        await UserLogin(email, password)
+          .then((res) => {
+            console.log(res.data);
+            setCookie('Token', res.data.accessToken);
+            const userData = {
+              nickname: res.data.nickname,
+              email: res.data.email,
+            };
+            setUserInfo(userData);
+            localStorage.setItem('userInfo', JSON.stringify(userData));
+            nav('/');
+          })
+          .catch((err) => {
+            console.log("에러:", err);
+            setLoginResult(
+              `이메일 또는 비밀번호가 잘못되었습니다.\n아이디와 비밀번호를 정확히 입력해주세요.`,
+            )
         });
+      })();
     }
-    console.log(cookies);
-  };
+  }
 
   return (
     <div className="Login">
@@ -152,6 +188,7 @@ const Login = () => {
             type="text"
             variant="outlined"
             onChange={emailChange}
+            onKeyUp={EmailValidation}
             required
             value={email}
           />
@@ -177,6 +214,7 @@ const Login = () => {
             type="password"
             variant="outlined"
             onChange={passwordChange}
+            onKeyUp={PasswordValidation}
             value={password}
           />
           {!passwordvalidation && password ? (
@@ -201,7 +239,7 @@ const Login = () => {
         </LabeledCheckBox>
         {loginResult ? (
           <Typography
-            className="errormsg"
+            className="errormsg2"
             color="danger"
             size="xs"
             weight="medium"
