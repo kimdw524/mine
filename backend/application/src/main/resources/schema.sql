@@ -7,6 +7,7 @@ drop table IF EXISTS avatar;
 drop table IF EXISTS login_log;
 drop table IF EXISTS account;
 drop table IF EXISTS spend_category;
+drop table IF EXISTS chat;
 drop table IF EXISTS user;
 
 create table user(
@@ -76,6 +77,19 @@ create table login_log(
     login_log_id   INT AUTO_INCREMENT PRIMARY KEY,
     user_id        INT      NOT NULL,
     login_datetime DATETIME NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES user (user_id)
+);
+
+create table chat(
+    chat_id BINARY(16) NOT NULL PRIMARY KEY,
+    user_id INT NOT NULL,
+    avatar_id INT NOT NULL,
+    chat_category_id INT NOT NULL,
+    created_at DATETIME NOT NULL,
+    chat_content VARCHAR(300) NOT NULL,
+    chat_role CHAR(1) NOT NULL,
+    chat_type CHAR(1) NOT NULL,
+    sended_at DATETIME NOT NULL,
     FOREIGN KEY (user_id) REFERENCES user (user_id)
 );
 
