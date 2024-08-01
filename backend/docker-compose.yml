@@ -69,8 +69,10 @@ services:
     ports:
       - "8000:8000"
     depends_on:
-      - nginx
+      - rabbitmq
       - mysql
+      - chat
+    restart: always
 
   nginx:
     container_name: nginx
@@ -84,4 +86,4 @@ services:
       - rabbitmq
     volumes:
       - /home/ubuntu/data/nginx/pki-validation:/usr/share/nginx/html/.well-known/pki-validation
-      - /home/ubuntu/data/nginx/ssl:/etc/ssl/i11p106.p.ssafy.io
+      - /home/ubuntu/data/nginx/ssl:/etc/ssl/i11d106.p.ssafy.io
