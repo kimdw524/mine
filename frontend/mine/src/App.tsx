@@ -23,6 +23,7 @@ import JobEdit from './pages/MyPage/EditAvatar/JobEdit';
 import NameEdit from './pages/MyPage/EditAvatar/NameEdit';
 import PlaceEdit from './pages/MyPage/EditAvatar/PlaceEdit';
 import Account from './pages/Account';
+import Chat from './pages/Chat';
 import ChoiceEdit from './pages/MyPage/EditAvatar/ChoiceEdit';
 import SubjectiveEdit from './pages/MyPage/EditAvatar/SubjectiveEdit';
 
@@ -93,6 +94,8 @@ function App() {
 
               <Route path="/schedule" element={<Schedule />} />
               <Route path="/account" element={<Account />} />
+
+              <Route path="/chat" element={<Chat />} />
             </Routes>
           </NotificationContext.Provider>
         </ThemeProvider>

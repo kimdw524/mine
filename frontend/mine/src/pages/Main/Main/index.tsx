@@ -13,10 +13,10 @@ const Main = () => {
   const [curMenu, setCurMenu] = useState<number>(1);
   return (
     <>
-        <AppBar
-          label="캐릭터 이름"
-          onBackClick={() => console.log('to main page')}
-        />
+      <AppBar
+        label="캐릭터 이름"
+        onBackClick={() => console.log('to main page')}
+      />
       <div css={containerCss}>
         <TransitionAnimation
           data-key={curMenu.toString()}
@@ -26,12 +26,17 @@ const Main = () => {
             exit: styles['fade-exit'],
           }}
         >
-          <Chat key={0}/>
-          <Home key={1}/>
-          <Voicemail key={2} onSubmit={()=>{setCurMenu(0)}}/>
+          <Chat key={0} />
+          <Home key={1} />
+          <Voicemail
+            key={2}
+            onSubmit={() => {
+              setCurMenu(0);
+            }}
+          />
         </TransitionAnimation>
       </div>
-        <MenuBar page="chat" menu={curMenu} setCurMenu={setCurMenu} />
+      <MenuBar page="chat" menu={curMenu} setCurMenu={setCurMenu} />
     </>
   );
 };
