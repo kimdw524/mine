@@ -22,7 +22,7 @@ interface ColorInfo {
   password: Palette;
 }
 const emailCheck = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-za-z0-9\-]+/;
-const passwordCheck = /^(?=.*[a-zA-Z])(?=.*[0-9]).{7,}$/; // 영문, 숫자, 8글자 이상
+const passwordCheck = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,}$/; // 영문, 숫자, 8글자 이상
 
 const Login = () => {
   const [email, setEmail] = useState<string>('');
@@ -152,7 +152,7 @@ const Login = () => {
             defaultValue=""
             label="비밀번호"
             maxRows={10}
-            placeholder="영문, 숫자 포함 8글자 이상 작성해주세요."
+            placeholder="영문, 숫자 포함 8글자 이상"
             type="password"
             variant="outlined"
             onChange={passwordChange}
