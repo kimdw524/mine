@@ -29,6 +29,8 @@ export const typeCss = css`
   padding: 0 0.375rem 0 0.75rem;
   height: 100%;
   border-right: 0.0625rem solid #d3d3d3;
+  cursor: pointer;
+  user-select: none;
 
   div > span {
     font-size: 0.875rem;
