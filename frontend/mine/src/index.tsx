@@ -21,14 +21,14 @@ const root = ReactDOM.createRoot(
 );
 
 // mocking 여부 확인
-enableMocking().then(() => {
-  root.render(
-    <CookiesProvider>
-      <BrowserRouter>
-        <QueryClientProvider client={queryClient}>
-          <App />
-        </QueryClientProvider>
-      </BrowserRouter>
-    </CookiesProvider>,
-  );
-});
+// enableMocking().then(() => {
+root.render(
+  <CookiesProvider>
+    <BrowserRouter>
+      <QueryClientProvider client={queryClient}>
+        <App />
+      </QueryClientProvider>
+    </BrowserRouter>
+  </CookiesProvider>,
+);
+// });
