@@ -11,6 +11,6 @@ public class Base64FileUploadRequest {
     private String file;
     private String fileName;
     private String fileExtension;
-    private String avatarId;
+    private Integer avatarId;
     private String chatType;
 }

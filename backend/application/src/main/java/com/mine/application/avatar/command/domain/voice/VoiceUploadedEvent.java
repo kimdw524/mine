@@ -9,8 +9,7 @@ import java.io.File;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class FileUploadedEvent {
+public class VoiceUploadedEvent {
     private File file;
-    private String voiceId;
-    private Integer avatarId;
+    private Voice voice;
 }

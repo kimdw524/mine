@@ -1,16 +1,26 @@
 package com.mine.application.avatar.command.domain;
 
+import com.mine.application.avatar.command.application.Base64FileUploadRequest;
 import com.mine.application.avatar.command.domain.question.QuestionRes;
+import com.mine.application.avatar.command.domain.voice.Base64FileUploadedEvent;
+import com.mine.application.avatar.command.domain.voice.VirtualVoiceHandler;
 import com.mine.application.avatar.command.domain.voice.Voice;
+import com.mine.application.avatar.command.domain.voice.VoiceUploadedEvent;
+import com.mine.application.common.erros.errorcode.CommonErrorCode;
+import com.mine.application.common.erros.exception.RestApiException;
+import com.mine.application.common.event.Events;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
 @SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -50,13 +60,16 @@ public class Avatar {
     @OneToMany(mappedBy = "avatar", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<QuestionRes> questionResList = new ArrayList<>();
 
-    public void putQuestion(QuestionRes questionRes) {
-        questionResList.add(questionRes);
+    public String getInstruction() {
+        StringBuilder sb = new StringBuilder();
+        questionResList.forEach(questionRes -> sb.append(questionRes.getInstruction()));
+        return sb.toString();
     }
 
-    public void generateAssistant() {
-        if(assistant == null) {
-            this.assistant = AssistantFactory.createAssistant(questionResList);
+    public void enrollAssistant(Assistant assistant) {
+        if(this.assistant == null) {
+            this.assistant = assistant;
         }
+        throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
     }
 }

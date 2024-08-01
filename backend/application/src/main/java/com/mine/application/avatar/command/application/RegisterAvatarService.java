@@ -1,9 +1,11 @@
 package com.mine.application.avatar.command.application;
 
 
+import com.mine.application.avatar.command.domain.Assistant;
 import com.mine.application.avatar.command.domain.Avatar;
 import com.mine.application.avatar.command.domain.AvatarRepository;
 import com.mine.application.avatar.command.domain.question.QuestionRes;
+import com.mine.application.avatar.command.domain.voice.UploadVoiceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,9 +17,19 @@ import java.util.List;
 public class RegisterAvatarService {
     private final AvatarRepository avatarRepository;
     private final QuestionResFactory questionResFactory;
+    private final UploadVoiceService uploadVoiceService;
+    private final CreateAssistantService createAssistantService;
 
     @Transactional
-    public void avatarGenerate(RegisterAvatarRequest request) {
+    public void generateAvatar(RegisterAvatarRequest request) {
+        Avatar avatar = createAvatar(request);
+        Assistant assistant = createAssistantService.generateAssistant(avatar);
+        avatar.enrollAssistant(assistant);
+
+        avatarRepository.save(avatar);
+    }
+
+    private Avatar createAvatar(RegisterAvatarRequest request) {
         List<QuestionRes> questionResList = request.getQuestionResList().stream()
                 .map(questionResFactory::createEntity).toList();
 
@@ -26,10 +38,10 @@ public class RegisterAvatarService {
                 .job(request.getJob())
                 .modelId(1) // 기본 1
                 .residence(request.getResidence())
+                .voice(uploadVoiceService.generateVoice(request.getVoiceFileList()))
                 .questionResList(questionResList)
                 .build();
 
-        avatar.generateAssistant();
-        avatarRepository.save(avatar);
+        return avatar;
     }
 }

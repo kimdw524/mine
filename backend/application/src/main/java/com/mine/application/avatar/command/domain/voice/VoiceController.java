@@ -15,11 +15,9 @@ public class VoiceController {
 
     private final UploadVoiceService uploadVoiceService;
 
-
-
     @PostMapping("")
-    public ResponseEntity<?> uploadVoiceFile(@RequestBody Base64FileUploadRequest request) {
-        uploadVoiceService.uploadFile(request);
+    public ResponseEntity<?> updateVoiceFile(@RequestBody Base64FileUploadRequest request) {
+        uploadVoiceService.updateVoice(request);
         /** TODO : 채팅 카테고리가 일반이면 그냥 채팅 서버에 저장시키고
          * 아래는 채팅 카테고리 리스트임.
          * 가계등록 :

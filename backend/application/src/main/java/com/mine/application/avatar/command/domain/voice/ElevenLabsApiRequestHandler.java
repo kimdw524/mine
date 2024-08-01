@@ -1,6 +1,8 @@
 package com.mine.application.avatar.command.domain.voice;
 
-import lombok.RequiredArgsConstructor;
+import com.mine.application.common.erros.errorcode.CommonErrorCode;
+import com.mine.application.common.erros.exception.RestApiException;
+import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.io.PathResource;
@@ -15,13 +17,15 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import java.nio.file.Path;
+import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 @RequiredArgsConstructor
 @Component
 class ElevenLabsApiRequestHandler implements VirtualVoiceHandler {
 
-    private static final String ELEVEN_LABS_EDIT_URL = "";
+    private static final String ELEVEN_LABS_EDIT_URL_FORMAT = "https://api.elevenlabs.io/v1/voices/%s/edit";
     private static final String ELEVEN_LABS_UPLOAD_URL = "https://api.elevenlabs.io/v1/voices/add";
     private static final String API_KEY = "sk_6bc08ac561e6c47d29452cb32d54a3afa4c76dc68d171c0d";
 
@@ -29,26 +33,65 @@ class ElevenLabsApiRequestHandler implements VirtualVoiceHandler {
     @Override
     @EventListener
     @Async("VoiceUploadExecutor")
-    public void uploadVoiceFile(FileUploadedEvent event) {
+    public void updateVoice(VoiceUploadedEvent event) {
+        String requestUrl = String.format(ELEVEN_LABS_EDIT_URL_FORMAT, event.getVoice().getVoiceId());
+        uploadFile(event, requestUrl);
+    }
+
+    @Override
+    public Voice generateVoice(List<VoiceUploadedEvent> events) {
+        ResponseEntity<VoiceResponse> voiceResponseEntity = uploadFiles(events);
+
+        return Objects.requireNonNull(voiceResponseEntity.getBody()).toVoice();
+    }
+
+    private ResponseEntity<VoiceResponse> uploadFiles(List<VoiceUploadedEvent> events) {
+        MultiValueMap<String,  Object> map = new LinkedMultiValueMap<>();
+
+        events.forEach(event -> putFileToMultipartBody(event.getFile().toPath(), map));
+
+        HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(map, createMultipartFormDataHeader());
+
+        RestTemplate restTemplate = new RestTemplate();
+
+        ResponseEntity<VoiceResponse> response;
+
+        response = restTemplate.postForEntity(ElevenLabsApiRequestHandler.ELEVEN_LABS_UPLOAD_URL, requestEntity, VoiceResponse.class);
+
+        if(response.getStatusCode().isError()) {
+            log.error("eleven labs errorMsg : {}", response.getBody());
+            log.error("eleven labs errorHeader : {}", response.getHeaders());
+            throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
+        }else {
+            log.info("eleven labs add Voice : {}", response.getBody());
+            //파일 삭제.
+            events.stream().forEach(event -> event.getFile().delete());
+        }
+
+        return response;
+    }
+
+    private void uploadFile(VoiceUploadedEvent event, String url) {
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(createMultipartBody(event.getFile().toPath()), createMultipartFormDataHeader());
 
 
         RestTemplate restTemplate = new RestTemplate();
-        //TODO : avatar에 voice 아이디가 없다면  add, else edit
-        ResponseEntity<String> response = restTemplate.postForEntity(ELEVEN_LABS_UPLOAD_URL, requestEntity, String.class);
 
-        if(response.getStatusCode().is4xxClientError()) {
+        ResponseEntity<String> response;
+
+        response = restTemplate.postForEntity(url, requestEntity, String.class);
+
+        if(response.getStatusCode().isError()) {
             log.error("eleven labs errorMsg : {}", response.getBody());
             log.error("eleven labs errorHeader : {}", response.getHeaders());
+            throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
         }else {
             log.info("eleven labs add Voice : {}", response.getBody());
-            //TODO : IF avatar에 Voice ID 가 없다면 저장하는 로직
-
             //파일 삭제.
             event.getFile().delete();
         }
-    }
 
+    }
 
     private HttpHeaders createMultipartFormDataHeader() {
         HttpHeaders httpHeaders = new HttpHeaders();
@@ -63,6 +106,22 @@ class ElevenLabsApiRequestHandler implements VirtualVoiceHandler {
         body.add("name", "mine");
         body.add("files", new PathResource(path));
         return body;
+    }
+
+    private void putFileToMultipartBody(Path path, MultiValueMap<String, Object> target) {
+        target.add("files", new PathResource(path));
+    }
+
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    private static class VoiceResponse {
+        private String voice_id;
+
+        private Voice toVoice() {
+            return new Voice(voice_id);
+        }
     }
 
 }

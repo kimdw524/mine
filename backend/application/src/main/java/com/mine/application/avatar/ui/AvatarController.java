@@ -15,7 +15,7 @@ public class AvatarController {
 
     @PostMapping("")
     public ResponseEntity<?> addAvatar(@RequestBody RegisterAvatarRequest request) {
-        registerAvatarService.createAvatar(request);
+        registerAvatarService.generateAvatar(request);
         return ResponseEntity.ok().build();
     }
 }
