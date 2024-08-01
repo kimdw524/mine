@@ -34,7 +34,7 @@ public class AchievementController {
     }
 
     @LoginCheck
-    @PutMapping("/{achievementId}")
+    @PatchMapping("/{achievementId}")
     public ResponseEntity<Boolean> updateAchievementState(@PathVariable Integer achievementId) {
         return ResponseEntity.ok().body(updateAchievementStateService.updateAchievementState(achievementId));
     }
