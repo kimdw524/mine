@@ -21,7 +21,7 @@ export const scheduleCategoryData: Record<number, ScheduleCategory> = {
     id: 1,
     name: '미정',
     color: '#eaeff1',
-    icon: <EllipsisHorizontalIcon />,
+    icon: <Square3Stack3DIcon />,
   },
   2: { id: 2, name: '여행', color: '#ff8484', icon: <SunIcon /> },
   3: { id: 3, name: '외식', color: '#fcfca5', icon: <CakeIcon /> },
@@ -38,5 +38,10 @@ export const scheduleCategoryData: Record<number, ScheduleCategory> = {
     icon: <ChatBubbleLeftRightIcon />,
   },
   6: { id: 6, name: '시험', color: '#b8e6ff', icon: <PencilSquareIcon /> },
-  7: { id: 7, name: '기타', color: '#f1f1f1', icon: <Square3Stack3DIcon /> },
+  7: {
+    id: 7,
+    name: '기타',
+    color: '#f1f1f1',
+    icon: <EllipsisHorizontalIcon />,
+  },
 };
