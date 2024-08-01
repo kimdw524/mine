@@ -1,6 +1,8 @@
 import { css } from '@emotion/react';
 
 export const avatarChoiceEditContainerCss = css`
+  display: flex;
+  flex-direction: column;
   height: 100%;
 `;
 
@@ -17,4 +19,21 @@ export const controlBtnCss = css`
   display: flex;
   justify-content: space-between;
   margin-top: 1rem;
+`;
+
+export const editBtnCss = css`
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  align-items: center;
+  row-gap: 0.75rem;
+  flex: 1;
+  padding: 1rem;
+`;
+
+export const editListCss = (editTargetLength: number) => css`
+  display: ${editTargetLength === 0 ? 'none' : 'flex'};
+  justify-content: center;
+  align-items: center;
+  column-gap: 0.25rem;
 `;

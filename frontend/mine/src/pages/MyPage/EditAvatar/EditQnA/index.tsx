@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, TextField, Typography } from 'oyc-ds';
 import { btnContainerCss, textfieldCss } from './style';
 
@@ -19,10 +19,17 @@ export interface IEditQnA {
 interface EditQnAProps {
   qnaType: string;
   qna: IEditQnA;
+  qidx: number;
+  onHandleResponse: (Qidx: number, Aidx: number) => void;
 }
 
-const EditQnA = ({ qnaType, qna }: EditQnAProps) => {
+const EditQnA = ({ qnaType, qna, qidx, onHandleResponse }: EditQnAProps) => {
   const [selected, setSelected] = useState<string | number>(qna.answer);
+
+  useEffect(() => {
+    setSelected(qna.answer);
+  }, [qna]);
+
   return (
     <>
       <Typography size="lg" color="dark">
@@ -37,7 +44,10 @@ const EditQnA = ({ qnaType, qna }: EditQnAProps) => {
                 color={selected === idx + 1 ? 'primary' : 'secondary'}
                 variant="outlined"
                 size="lg"
-                onClick={() => setSelected(idx + 1)}
+                onClick={() => {
+                  setSelected(idx + 1);
+                  onHandleResponse(qidx, idx);
+                }}
               >
                 {item.response}
               </Button>

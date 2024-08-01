@@ -6,7 +6,11 @@ import EditQnA, { IEditQnA } from '../EditQnA';
 import { controlBtnCss } from './style';
 import { Button, Typography } from 'oyc-ds';
 
-const ChoiceEditFetch = () => {
+interface IChoiceEditFetch {
+  handleTarget: (Qidx: number, value: boolean) => void;
+}
+
+const ChoiceEditFetch = ({ handleTarget }: IChoiceEditFetch) => {
   const [index, setIndex] = useState<number>(0);
 
   const questionQuery = useSuspenseQuery({
@@ -18,8 +22,15 @@ const ChoiceEditFetch = () => {
     throw questionQuery.error;
   }
 
+  // Qidx 번 문제가 답이 바뀌어는지 제어
+  const onHandleResponse = useCallback((Qidx: number, Aidx: number) => {
+    // 기존의 답과 같다면 true 를, 다르다면 false 를
+    handleTarget(Qidx, !(questionQuery.data.data[Qidx].answer === Aidx + 1));
+  }, []);
+
   return (
     <>
+      {/* 문제에게  전달 */}
       <EditQnA
         qnaType={'c'}
         qna={
@@ -27,7 +38,10 @@ const ChoiceEditFetch = () => {
             (qna: IEditQnA) => qna.questionType === 'c',
           )[index]
         }
+        qidx={index}
+        onHandleResponse={onHandleResponse}
       />
+
       <div css={controlBtnCss}>
         <Button
           color="secondary"
@@ -39,7 +53,9 @@ const ChoiceEditFetch = () => {
           </Typography>
         </Button>
         <Button
-          onClick={() => setIndex((index) => index + 1)}
+          onClick={() => {
+            setIndex((index) => index + 1);
+          }}
           disabled={
             index ===
             questionQuery.data.data.filter(

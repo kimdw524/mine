@@ -20,14 +20,14 @@ const SubjectEditFetch = () => {
 
   return (
     <>
-      <EditQnA
+      {/*<EditQnA
         qnaType={'s'}
         qna={
           questionQuery.data.data.filter(
             (qna: IEditQnA) => qna.questionType === 's',
           )[index]
         }
-      />
+      />*/}
       <div css={controlBtnCss}>
         <Button
           color="secondary"
