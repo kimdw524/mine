@@ -17,14 +17,14 @@ export interface SentenceData {
   description: string;
 }
 
-export interface NewChoiceData {
+export interface NewAnsData {
   questionId: number;
-  choiceId: number;
+  ansId: string | number;
 }
 
-export interface NewChoiceListData {
+export interface NewAnsListData {
   avatarId: number;
-  choices: NewChoiceData[];
+  anss: NewAnsData[];
 }
 
 export const getQuestions = () => {
@@ -92,10 +92,19 @@ export const getAvatarQuestionAnswer = (avatarId: number) => {
 };
 
 /* 아바타 설문 조사 변경 */
-export const updateAvatarChoice = (newChoices: NewChoiceListData) => {
+export const updateAvatarChoice = (newChoices: NewAnsListData) => {
   return api({
     url: '/mypage/avatar/newchoice',
     method: 'patch',
     data: newChoices,
+  });
+};
+
+/* 아바타 질의 응답 변경 */
+export const updateAvatarSubjective = (newSubjectives: NewAnsListData) => {
+  return api({
+    url: '/mypage/avatar/subjective',
+    method: 'patch',
+    data: newSubjectives,
   });
 };

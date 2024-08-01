@@ -21,7 +21,7 @@ interface EditQnAProps {
   qna: IEditQnA;
   qidx: number;
   invisible: boolean;
-  handleResponse: (Qidx: number, Aidx: number) => void;
+  handleResponse: (Qidx: number, Aidx: number | string) => void;
 }
 
 const EditQnA = ({
@@ -70,6 +70,7 @@ const EditQnA = ({
               variant="outlined"
               maxRows={5}
               multiLine
+              onChange={(e) => handleResponse(qidx, e.target.value)}
             />
           </div>
         )}

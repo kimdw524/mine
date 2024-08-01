@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useState, useContext } from 'react';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import {
   getAvatarQuestionAnswer,
-  NewChoiceListData,
+  NewAnsListData,
   updateAvatarChoice,
 } from '../../../../apis/avatarApi';
 import EditQnA, { IEditQnA } from '../EditQnA';
@@ -69,25 +69,25 @@ const ChoiceEditFetch = () => {
     [],
   );
 
-  const handleResponse = useCallback((Qidx: number, Aidx: number) => {
+  const handleResponse = useCallback((Qidx: number, Aidx: number | string) => {
     handleTarget(
       Qidx,
-      !(questionQuery.data.data[Qidx].answer === Aidx + 1),
-      Aidx + 1,
+      !(qnas[Qidx].answer === Number(Aidx) + 1),
+      Number(Aidx) + 1,
     );
   }, []);
 
   const handleSubmit = async () => {
-    const newChoices: NewChoiceListData = {
+    const newChoices: NewAnsListData = {
       avatarId: 123,
-      choices: [],
+      anss: [],
     };
 
     editTarget.map((target: INewAnswer) => {
       if (target.isNew) {
-        newChoices.choices.push({
+        newChoices.anss.push({
           questionId: target.questionId,
-          choiceId: target.newAns,
+          ansId: target.newAns,
         });
       }
     });

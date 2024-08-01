@@ -10,6 +10,7 @@ import SubjectEditFetch from './SubjectEditFetch';
 const SubjectiveEdit = () => {
   const location = useLocation();
   const nav = useNavigate();
+
   return (
     <>
       <div css={avatarSubjectEditContainerCss}>
