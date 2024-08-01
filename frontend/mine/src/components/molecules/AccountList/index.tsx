@@ -12,6 +12,7 @@ import {
 import { accountCategoryData } from '../../../utils/accountUtils';
 import { simpleFormatDate } from '../../../utils/dateUtils';
 import { AccountData } from '../../../apis/accountApi';
+import CategoryIcon from '../../atoms/CategoryIcon';
 
 interface AccountListProps extends React.ComponentProps<'div'> {
   data: AccountData;
@@ -26,15 +27,12 @@ interface AccountListProps extends React.ComponentProps<'div'> {
 const AccountList = ({ data, ...props }: AccountListProps) => {
   return (
     <div css={containerCss} {...props}>
-      <div
-        css={iconWrapperCss}
-        style={
-          {
-            '--color': accountCategoryData[data.spendCategoryId ?? 99].color,
-          } as CSSProperties
-        }
-      >
-        {accountCategoryData[data.spendCategoryId ?? 99].icon}
+      <div css={iconWrapperCss}>
+        <CategoryIcon
+          color={accountCategoryData[data.spendCategoryId ?? 99].color}
+        >
+          {accountCategoryData[data.spendCategoryId ?? 99].icon}
+        </CategoryIcon>
       </div>
       <div css={bodyCss}>
         <Typography size="md" color="dark">
