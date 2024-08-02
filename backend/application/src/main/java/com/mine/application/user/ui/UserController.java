@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 @Validated
 @RequestMapping("/user")
 @RestController
-@CrossOrigin(origins = "*", allowedHeaders = "*", allowCredentials = "true")
+@CrossOrigin(originPatterns = "*", allowedHeaders = "*", allowCredentials = "true")
 public class UserController {
     private final UserQueryService userQueryService;
     private final ModifyUserInfoService modifyUserInfoService;
