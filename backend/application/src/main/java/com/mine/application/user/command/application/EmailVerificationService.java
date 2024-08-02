@@ -22,10 +22,17 @@ public class EmailVerificationService {
     private final UserRepository userRepository;
     private final SessionDao sessionDao;
 
-    public void emailNumberRequest(EmailVerificationNumRequest request) {
+    public void emailNumberRequestForNotExist(EmailVerificationNumRequest request) {
         if(userRepository.findByEmail(request.getEmail()).isPresent()) {
             throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
         }
+
+        emailNumberRequest(request);
+    }
+
+
+    public void emailNumberRequest(EmailVerificationNumRequest request) {
+
 
         String randomNumStr = GenerateRandomNumber.getStr(6);
 
