@@ -22,14 +22,10 @@ import java.util.Optional;
 public class DummyDataCreator implements ApplicationListener<ContextRefreshedEvent> {
 
     private final UserRepository userRepository;
-    private static final String url = "http://localhost:8080/";
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
         createUsers();
-
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<Object> forEntity = restTemplate.getForEntity(url, null);
-        log.error(forEntity.getStatusCode().toString());
     }
 
 
