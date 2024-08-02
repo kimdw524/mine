@@ -1,3 +1,6 @@
+
+
+
 spring:
 
   datasource:
@@ -50,3 +53,13 @@ spring:
 
   profiles:
     include: dev
+
+server:
+  servlet:
+    session:
+      cookie:
+        http-only: true
+        path: /
+        secure: true
+        same-site: none
+        max-age: 3600

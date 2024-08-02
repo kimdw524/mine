@@ -17,6 +17,7 @@ services:
       SPRING_DATASOURCE_PASSWORD: "qwer1234"
     restart: always
 
+
   chat:
     container_name: chat
     build: ./socket/
@@ -35,8 +36,10 @@ services:
     restart: always
 
 
+
   redis:
     image: redis
+
 
 
   mysql:
@@ -50,7 +53,6 @@ services:
       MYSQL_ROOT_PASSWORD: 'qwer1234'
 
 
-
   rabbitmq:
     container_name: rabbitmq
     image: rabbitmq:3-management-alpine
@@ -61,26 +63,27 @@ services:
       - "5672:5672" # RabbitMQ 기본 포트
       - "15672:15672" # 관리 인터페이스 포트
 
-
   ai:
     container_name: ai
     build: ./ai/
     ports:
       - "8000:8000"
     depends_on:
+      - rabbitmq
       - mysql
       - chat
-
+    restart: always
 
   nginx:
     container_name: nginx
     build: ./nginx/
     ports:
       - "80:80"
+      - "443:443"
     depends_on:
       - app
       - chat
       - rabbitmq
-      - ai
-
-
+    volumes:
+      - /home/ubuntu/data/nginx/pki-validation:/usr/share/nginx/html/.well-known/pki-validation
+      - /home/ubuntu/data/nginx/ssl:/etc/ssl/i11d106.p.ssafy.io

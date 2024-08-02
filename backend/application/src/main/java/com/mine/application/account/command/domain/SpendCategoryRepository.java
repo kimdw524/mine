@@ -4,8 +4,8 @@ import org.springframework.data.repository.Repository;
 
 import java.util.Optional;
 
-public interface SpendTypeRepository extends Repository<SpendType, Integer> {
+public interface SpendCategoryRepository extends Repository<SpendCategory, Integer> {
 
-    Optional<SpendType> findById(Integer id);
+    Optional<SpendCategory> findById(Integer id);
 
 }

@@ -4,6 +4,8 @@ from datetime import datetime
 
 import pika
 from fastapi import FastAPI
+import time
+
 
 from api.assistant_router import router as assistant_router
 from assistant.message_handler import MessageHandler
@@ -15,9 +17,16 @@ CHAT_SPRING_QUEUE_NAME = 'chat-queue-springboot'
 
 def get_connection():
     credentials = pika.PlainCredentials(username="guest", password="guest")
-    connection = pika.BlockingConnection(
-        pika.ConnectionParameters(host=RABBITMQ_HOST, port=5672, credentials=credentials))
-    return connection
+    while True:
+        try:
+            connection = pika.BlockingConnection(
+                pika.ConnectionParameters(host=RABBITMQ_HOST, port=5672, credentials=credentials)
+            )
+            print("Connected to RabbitMQ")
+            return connection
+        except pika.exceptions.AMQPConnectionError:
+            print("Connection failed, retrying in 5 seconds...")
+            time.sleep(5)
 
 
 def send_message_to_assistant(chatContent: str, assistant_id: str, thread_id: str):

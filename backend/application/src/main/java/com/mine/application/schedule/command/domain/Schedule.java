@@ -4,10 +4,12 @@ import com.mine.application.schedule.ui.dto.UpdateScheduleRequest;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class Schedule {
@@ -26,7 +28,7 @@ public class Schedule {
     @Column(name = "schedule_start_datetime")
     private LocalDateTime startDateTime;
 
-    @Column(name = "schedule+end_datetime")
+    @Column(name = "schedule_end_datetime")
     private LocalDateTime endDateTime;
 
     @Column(name = "schedule_title")
@@ -51,8 +53,8 @@ public class Schedule {
 
     public void updateSchedule(UpdateScheduleRequest request) {
         this.categoryId = request.getCategoryId();
-        this.startDateTime = request.getStartTime();
-        this.endDateTime = request.getEndTime();
+        this.startDateTime = request.getStartDateTime();
+        this.endDateTime = request.getEndDateTime();
         this.title = request.getTitle();
         this.description = request.getDescription();
         this.where = request.getWhere();

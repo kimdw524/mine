@@ -6,7 +6,11 @@ import com.mine.application.common.erros.errorcode.CommonErrorCode;
 import com.mine.application.common.erros.exception.RestApiException;
 import com.mine.application.schedule.command.domain.Schedule;
 import com.mine.application.schedule.command.domain.ScheduleRepository;
-import com.mine.application.schedule.ui.dto.AddScheduleRequest;
+import com.mine.application.schedule.converter.ScheduleDtoConverter;
+import com.mine.application.schedule.infrastructure.ai.AddScheduleDto;
+import com.mine.application.schedule.infrastructure.ai.ScheduleAiChat;
+import com.mine.application.schedule.ui.dto.AddScheduleFromCalendarRequest;
+import com.mine.application.schedule.ui.dto.AddScheduleFromChatResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,21 +21,27 @@ public class AddScheduleService {
 
     private final SessionDao sessionDao;
     private final ScheduleRepository scheduleRepository;
+    private final ScheduleAiChat scheduleAiChat;
 
     @Transactional
-    public void addSchedule(AddScheduleRequest request) {
-        Integer userId = (Integer) sessionDao.get(SessionConstants.USER_ID)
-                .orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND));
+    public void addScheduleFromCalendar(AddScheduleFromCalendarRequest request) {
+//        Integer userId = (Integer) sessionDao.get(SessionConstants.USER_ID)
+//                .orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND));
 
-        scheduleRepository.save(Schedule.builder()
-                .userId(userId)
-                .categoryId(request.getCategoryId())
-                .startDateTime(request.getStartTime())
-                .endDateTime(request.getEndTime())
-                .title(request.getTitle())
-                .description(request.getDescription())
-                .where(request.getWhere())
-                .build());
+        scheduleRepository.save(ScheduleDtoConverter.convert(request, 1));
+    }
+
+    @Transactional
+    public AddScheduleFromChatResponse addScheduleFromChat(String query) {
+//        Integer userId = (Integer) sessionDao.get(SessionConstants.USER_ID)
+//                .orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND));
+
+        AddScheduleDto addScheduleDto = scheduleAiChat.getAddScheduleDtoFromQuery(query);
+
+        Schedule schedule = ScheduleDtoConverter.convert(addScheduleDto, 1);
+        scheduleRepository.save(schedule);
+
+        return ScheduleDtoConverter.convert(schedule);
     }
 
 }
