@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RequiredArgsConstructor
-@RequestMapping("/user/achievement")
+@RequestMapping("/users/achievements")
 @RestController
 @CrossOrigin(originPatterns = "*", allowedHeaders = "*", allowCredentials = "true")
 public class AchievementController {
@@ -21,7 +21,7 @@ public class AchievementController {
     private final AddAchievementStatesService addAchievementStatesService;
     private final UpdateAchievementStateService updateAchievementStateService;
 
-    @LoginCheck
+//    @LoginCheck
     @GetMapping
     public ResponseEntity<List<GetAchievementStateResponse>> getAchievementStates() {
         return ResponseEntity.ok().body(achievementStateQueryService.getAchievementStates());
