@@ -24,11 +24,7 @@ const AchievementBox = ({ info }: IAchievementBox) => {
   return (
     <div css={achievementBoxCss}>
       <BackDrop opacity={0.3} blur={1} css={achievedCss(info.achievedDate)}>
-        <div css={achievedInfoCss}>
-          <Icon size="xl" css={achievedIconCss}>
-            <TrophyIcon />
-          </Icon>
-        </div>
+        <div css={achievedInfoCss}>CLEAR</div>
       </BackDrop>
       <div css={achieveInfoCss}>
         <Typography size="md">{info.title}</Typography>

@@ -64,16 +64,15 @@ export const achievedInfoCss = css`
   row-gap: 0.5rem;
   width: 100%;
   height: 100%;
-`;
-
-export const achievedIconCss = css`
+  color: #fdd835;
+  font-weight: 900;
+  font-size: 3rem;
   animation-name: scale-down, shake;
   animation-delay: 0s, 1s;
   animation-duration: 1s, 1s;
   animation-timing-function: ease, ease-in-out;
   animation-iteration-count: 1, infinite;
   animation-direction: normal, alternate-reverse;
-  color: #fdd835;
 
   @keyframes shake {
     from {
@@ -95,3 +94,5 @@ export const achievedIconCss = css`
     }
   }
 `;
+
+export const achievedIconCss = css``;
