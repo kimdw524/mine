@@ -62,3 +62,4 @@ server:
         path: /
         secure: true
         same-site: none
+        max-age: 3600
