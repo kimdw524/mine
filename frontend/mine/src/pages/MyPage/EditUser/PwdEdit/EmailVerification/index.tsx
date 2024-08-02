@@ -8,7 +8,7 @@ import {
   nextStepBtnCss,
 } from './style';
 import { Palette } from 'oyc-ds/dist/themes/lightTheme';
-import { sendCode } from '../../../../../apis/mypageApi';
+import { sendCode, verifyCode } from '../../../../../apis/mypageApi';
 import { NotificationContext } from '../../../../../utils/NotificationContext';
 
 interface EmailVerificationProps {
@@ -100,7 +100,7 @@ const EmailVerification = ({ nextStep }: EmailVerificationProps) => {
             size="md"
             disabled={!(codeColor === 'success')}
             onClick={async () => {
-              await sendCode(code)
+              await verifyCode(email, code)
                 .then(() => setStep(2))
                 .catch(() => {
                   notificationContext.handle(
