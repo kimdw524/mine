@@ -1,8 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import React, { Suspense } from 'react';
-import { userInfoTitle, userInfoBtn } from './style';
-import { Button, Typography } from 'oyc-ds';
-import { Link } from 'react-router-dom';
+import { userInfoTitle } from './style';
+import { Typography } from 'oyc-ds';
 import { ErrorBoundary } from 'react-error-boundary';
 import UserInfoFetch from './UserInfoFetch';
 
@@ -19,14 +18,6 @@ const UserInfo = () => {
           <UserInfoFetch />
         </Suspense>
       </ErrorBoundary>
-      <div css={userInfoBtn}>
-        <Link to="/mypage/nickname">
-          <Button fullWidth>닉네임 변경</Button>
-        </Link>
-        <Link to="/mypage/password">
-          <Button fullWidth>비밀번호 변경</Button>
-        </Link>
-      </div>
     </>
   );
 };

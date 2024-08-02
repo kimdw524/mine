@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import React from 'react';
 import { useSuspenseQuery } from '@tanstack/react-query';
-import { getAchievement } from '../../../../api/myPageApi';
+import { getAchievement } from '../../../../apis/mypageApi';
 import { achievementListBox } from './style';
 import AchievementBox from './AchievementBox';
 

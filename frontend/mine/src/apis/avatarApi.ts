@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { api } from '../api/interceptors';
+import { api } from './interceptors';
 
 export interface QuestionData {
   questionId: number;
