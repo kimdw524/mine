@@ -10,11 +10,10 @@ import {
   progressBarCss,
   achievedCss,
   achievedInfoCss,
-  achievedIconCss,
 } from './style';
 import { BackDrop, Icon, Typography } from 'oyc-ds';
 import { css } from '@emotion/react';
-import { AcademicCapIcon, TrophyIcon } from '@heroicons/react/24/solid';
+import { AcademicCapIcon } from '@heroicons/react/24/solid';
 import dayjs from 'dayjs';
 
 interface IAchievementBox {
