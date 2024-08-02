@@ -130,11 +130,7 @@ const Chat = () => {
       <Modal data={modal} />
       <div css={containerCss}>
         <div>
-          <AppBar
-            label="채팅방"
-            onBackClick={() => navigate('/')}
-            onMenuClick={() => {}}
-          />
+          <AppBar label="채팅방" onBackClick={() => navigate('/')} />
         </div>
         <div css={chatLogCss} ref={chatLogRef}>
           <ChatBox messages={chatLog} />

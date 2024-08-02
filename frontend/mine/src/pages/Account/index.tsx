@@ -11,6 +11,7 @@ import { accountCss, bottomCss, containerCss, periodCss } from './style';
 import Create from './Create';
 import useModal from '../../hooks/useModal';
 import Modal from '../../hooks/useModal/Modal';
+import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 
 const Account = () => {
   const navigate = useNavigate();
@@ -63,7 +64,11 @@ const Account = () => {
       <Modal data={modal} />
       <div css={containerCss}>
         <div>
-          <AppBar label="가계부" onBackClick={() => navigate(-1)} />
+          <AppBar
+            label="가계부"
+            onBackClick={() => navigate(-1)}
+            menu={[{ icon: <MagnifyingGlassIcon />, onClick: () => alert(1) }]}
+          />
         </div>
         <div>
           <Calendar
