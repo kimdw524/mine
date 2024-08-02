@@ -3,6 +3,7 @@ package com.mine.application.schedule.ui;
 import com.mine.application.schedule.command.application.*;
 import com.mine.application.schedule.query.application.ScheduleQueryService;
 import com.mine.application.schedule.ui.dto.*;
+import jakarta.annotation.Nullable;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
@@ -27,11 +28,13 @@ public class ScheduleController {
     private final GetScheduleCategoryService getScheduleCategoryService;
 
     @GetMapping("/users/schedules")
-    public ResponseEntity<List<GetScheduleResponse>> getSchedulesBetweenDates(
+    public ResponseEntity<List<GetScheduleResponse>> getSchedulesByCategoryIdAndDates(
+            @RequestParam @Nullable Integer categoryId,
             @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
             @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate)
     {
-        return ResponseEntity.ok().body(scheduleQueryService.getSchedulesBetweenDates(startDate, endDate));
+        return ResponseEntity.ok().body(scheduleQueryService
+                .getSchedulesByCategoryIdAndDates(categoryId, startDate, endDate));
     }
 
     @GetMapping("/users/schedules/calendar")

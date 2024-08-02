@@ -4,6 +4,7 @@ import static com.mine.application.schedule.query.domain.QScheduleData.scheduleD
 
 import com.mine.application.schedule.ui.dto.GetScheduleResponse;
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -18,8 +19,9 @@ public class ScheduleDataCustomRepositoryImpl implements ScheduleDataCustomRepos
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public List<GetScheduleResponse> findSchedulesBetweenDates(
+    public List<GetScheduleResponse> findSchedulesByCategoryIdAndDates(
             Integer userId,
+            Integer categoryId,
             LocalDateTime startDateTime,
             LocalDateTime endDateTime)
     {
@@ -34,7 +36,8 @@ public class ScheduleDataCustomRepositoryImpl implements ScheduleDataCustomRepos
                         scheduleData.where))
                 .from(scheduleData)
                 .where(scheduleData.startDateTime.between(startDateTime, endDateTime)
-                        .and(scheduleData.userId.eq(userId)))
+                        .and(scheduleData.userId.eq(userId))
+                        .and(categoryIdEq(categoryId)))
                 .fetch();
     }
 
@@ -55,6 +58,11 @@ public class ScheduleDataCustomRepositoryImpl implements ScheduleDataCustomRepos
                         .or(scheduleData.where.contains(query))
                         .and(scheduleData.userId.eq(userId)))
                 .fetch();
+    }
+
+    private BooleanExpression categoryIdEq(Integer categoryId) {
+        return categoryId != null ?
+                scheduleData.categoryId.eq(categoryId) : null;
     }
 
 }
