@@ -54,9 +54,9 @@ export const updatePassword = (password: string) => {
 };
 
 /* 업적 조회 */
-export const getAchievement = () => {
+export const getUserAchievement = () => {
   return api({
-    url: '/mypage/achievement',
+    url: '/api/users/achievements',
     method: 'get',
   });
 };

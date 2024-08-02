@@ -1,4 +1,4 @@
-import { api } from '../api/interceptors';
+import { api } from './interceptors';
 
 export interface SignupParam {
   email: string;
