@@ -86,6 +86,14 @@ const Home = () => {
       >
         채팅
       </Button>
+      <Button
+        color="primary"
+        size="xl"
+        variant="contained"
+        onClick={() => nav('accountchart')}
+      >
+        통계
+      </Button>
     </>
   );
 };
