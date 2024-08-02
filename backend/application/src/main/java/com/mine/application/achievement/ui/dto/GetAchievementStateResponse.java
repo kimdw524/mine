@@ -19,6 +19,6 @@ public class GetAchievementStateResponse {
 
     private int count;
 
-    private LocalDateTime achieved_date;
+    private LocalDateTime achievedDate;
 
 }
