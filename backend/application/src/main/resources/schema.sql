@@ -125,3 +125,10 @@ VALUES (5, "연속 출석 5회", "연속 출석 5회 해줘!!"),
        (10, "가계 등록 10회", "가계 등록 10회 해줘!!"),
        (10, "일정 등록 10회", "일정 등록 10회 해줘!!"),
        (3, "이스터 에그", "이스터 에그 찾아줘!!");
+
+INSERT INTO achievement_state (user_id, achievement_id, achievement_count, achievement_date, is_achieved)
+VALUES (2, 1, 2, null, 0),
+       (2, 2, 1, now(), 1),
+       (2, 3, 5, null, 0),
+       (2, 4, 6, null, 0),
+       (2, 5, 0, null, 0);
