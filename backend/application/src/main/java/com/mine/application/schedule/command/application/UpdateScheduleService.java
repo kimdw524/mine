@@ -1,5 +1,7 @@
 package com.mine.application.schedule.command.application;
 
+import com.mine.application.common.domain.SessionConstants;
+import com.mine.application.common.domain.SessionDao;
 import com.mine.application.common.erros.errorcode.CommonErrorCode;
 import com.mine.application.common.erros.exception.RestApiException;
 import com.mine.application.schedule.command.domain.Schedule;
@@ -13,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class UpdateScheduleService {
 
+    private final SessionDao sessionDao;
     private final ScheduleRepository scheduleRepository;
 
     @Transactional
@@ -21,6 +24,13 @@ public class UpdateScheduleService {
                 .orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND));
 
         schedule.updateSchedule(request);
+    }
+
+    private void validateWriterOrElseThrow(int scheduleId) {
+        int userId = (Integer) sessionDao.get(SessionConstants.USER_ID)
+                .orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND));
+
+
     }
 
 }
