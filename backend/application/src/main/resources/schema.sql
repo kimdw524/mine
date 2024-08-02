@@ -119,7 +119,7 @@ create table avatar(
     avatar_personality VARCHAR(100),
     avatar_assistant_id VARCHAR(60) NOT NULL ,
     avatar_thread_id VARCHAR(60) NOT NULL ,
-    avatar_voice_id VARCHAR(60) NOT NULL ,
+    avatar_voice_id VARCHAR(60),
     is_deleted BOOL NOT NULL default FALSE ,
     avatar_model_id TINYINT NOT NULL ,
     avatar_residence VARCHAR(40),
@@ -207,3 +207,18 @@ INSERT INTO question(question_id, question_num, question_description, question_t
 INSERT INTO question(question_id, question_num, question_description, question_type) VALUES (8, 8, '평소에 자주 먹는 음식 종류는 무엇인가요?(피자, 찌개, 국수 등)', 's');
 INSERT INTO question(question_id, question_num, question_description, question_type) VALUES (9, 9, '주말에 주로 무엇을 하나요?', 's');
 INSERT INTO question(question_id, question_num, question_description, question_type) VALUES (10, 10, '특별히 추천받고 싶은 분야가 있나요?', 's');
+
+INSERT INTO avatar(avatar_id, user_id, avatar_name, avatar_birthday, avatar_personality, avatar_assistant_id, avatar_thread_id, avatar_voice_id, is_deleted, avatar_model_id, avatar_residence, avatar_job)
+VALUES (1,1,'김다운', '2024-08-02', '지랄맞음', 'asst_gzUHR2Orr2KnitbLKcoaU9q3', 'thread_l57yNZOhonW5h2vOm8gkzhgw', 'CrvDGrP4g0jagWAqURm5', false, 1, '경북구미', '프톤트엔드엔지니어');
+
+INSERT INTO question_res(question_res_id, question_id, avatar_id, question_choice_id, subjective_ans, question_type) VALUES
+(1, 1, 1, 1, null, 'c'),
+(2, 2, 1, 9, null, 'c'),
+(3, 3, 1, 13, null, 'c'),
+(4, 4, 1, 18, null, 'c'),
+(5, 5, 1, 29, null, 'c'),
+(6, 6, 1, 34, null, 'c'),
+(7, 7, 1, null, '집', 's'),
+(8, 8, 1, null, '찌개', 's'),
+(9, 9, 1, null, '휴식', 's'),
+(10, 10, 1, null, '시 짓기', 's');
