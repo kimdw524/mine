@@ -1,5 +1,4 @@
-import { api } from '../api/interceptors';
-
+import { api } from './interceptors';
 
 /* 로그인 */
 export const UserLogin = (email: string, password: string) => {
@@ -9,8 +8,6 @@ export const UserLogin = (email: string, password: string) => {
     data: {
       email: email,
       password: password,
-    }
+    },
   });
 };
-
-
