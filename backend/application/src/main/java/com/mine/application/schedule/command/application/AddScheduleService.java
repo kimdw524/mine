@@ -1,15 +1,12 @@
 package com.mine.application.schedule.command.application;
 
-import com.mine.application.common.domain.SessionConstants;
 import com.mine.application.common.domain.SessionDao;
-import com.mine.application.common.erros.errorcode.CommonErrorCode;
-import com.mine.application.common.erros.exception.RestApiException;
 import com.mine.application.schedule.command.domain.Schedule;
 import com.mine.application.schedule.command.domain.ScheduleRepository;
 import com.mine.application.schedule.converter.ScheduleDtoConverter;
 import com.mine.application.schedule.infrastructure.ai.AddScheduleDto;
 import com.mine.application.schedule.infrastructure.ai.ScheduleAiChat;
-import com.mine.application.schedule.ui.dto.AddScheduleFromCalendarRequest;
+import com.mine.application.schedule.ui.dto.AddScheduleByCalendarRequest;
 import com.mine.application.schedule.ui.dto.AddScheduleFromChatResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,7 +21,7 @@ public class AddScheduleService {
     private final ScheduleAiChat scheduleAiChat;
 
     @Transactional
-    public void addScheduleFromCalendar(AddScheduleFromCalendarRequest request) {
+    public void addScheduleByCalendar(AddScheduleByCalendarRequest request) {
 //        Integer userId = (Integer) sessionDao.get(SessionConstants.USER_ID)
 //                .orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND));
 
@@ -32,7 +29,7 @@ public class AddScheduleService {
     }
 
     @Transactional
-    public AddScheduleFromChatResponse addScheduleFromChat(String query) {
+    public AddScheduleFromChatResponse addScheduleByChat(String query) {
 //        Integer userId = (Integer) sessionDao.get(SessionConstants.USER_ID)
 //                .orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND));
 

@@ -47,14 +47,14 @@ public class ScheduleController {
     }
 
     @PostMapping("/users/schedules/calendar")
-    public ResponseEntity<Void> addScheduleFromCalendar(@RequestBody @Valid AddScheduleFromCalendarRequest addScheduleFromCalendarRequest) {
-        addScheduleService.addScheduleFromCalendar(addScheduleFromCalendarRequest);
+    public ResponseEntity<Void> addScheduleByCalendar(@RequestBody @Valid AddScheduleByCalendarRequest addScheduleByCalendarRequest) {
+        addScheduleService.addScheduleByCalendar(addScheduleByCalendarRequest);
         return ResponseEntity.ok().build();
     }
 
     @PostMapping("/users/schedules/chat")
-    public ResponseEntity<AddScheduleFromChatResponse> addScheduleFromChat(@RequestBody @Valid AddScheduleFromChatRequest addScheduleFromChatRequest) {
-        return ResponseEntity.ok().body(addScheduleService.addScheduleFromChat(addScheduleFromChatRequest.getQuery()));
+    public ResponseEntity<AddScheduleFromChatResponse> addScheduleByChat(@RequestBody @Valid AddScheduleByChatRequest addScheduleByChatRequest) {
+        return ResponseEntity.ok().body(addScheduleService.addScheduleByChat(addScheduleByChatRequest.getQuery()));
     }
 
     @PatchMapping("/users/schedule")

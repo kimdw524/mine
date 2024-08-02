@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 
 @Getter
-public class AddScheduleFromChatRequest {
+public class AddScheduleByChatRequest {
 
     @NotBlank
     private String query;
