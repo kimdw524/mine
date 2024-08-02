@@ -2,31 +2,18 @@
 import React, { useCallback, useContext, useState } from 'react';
 import { Button, TextField, Typography } from 'oyc-ds';
 import { contentCss } from './style';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Palette } from 'oyc-ds/dist/themes/lightTheme';
-import {
-  changeNickname,
-  getUserNickname,
-  nicknameDuplicate,
-} from '../../../../api/myPageApi';
-import { useSuspenseQuery } from '@tanstack/react-query';
+import { updateNickname } from '../../../../apis/mypageApi';
 import { NotificationContext } from '../../../../utils/NotificationContext';
 
 const NickEditFetch = () => {
   const nav = useNavigate();
+  const location = useLocation();
   const notificationContext = useContext(NotificationContext);
   const [newNick, setNewNick] = useState<string>('');
   const [color, setColor] = useState<Palette>('primary');
   const [label, setLabel] = useState<string>('');
-
-  const curNick = useSuspenseQuery({
-    queryKey: ['userinfo'],
-    queryFn: async () => await getUserNickname(),
-  });
-
-  if (curNick.error && !curNick.isFetching) {
-    throw curNick.error;
-  }
 
   const handleInputChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -42,31 +29,24 @@ const NickEditFetch = () => {
     } else if (newNick.length > 10) {
       setColor('danger');
       setLabel('10자 이하의 닉네임');
-    } else if (newNick === curNick.data.data.nickname) {
+    } else if (newNick === location.state.curNick) {
       setColor('danger');
       setLabel('동일한 닉네임');
     } else {
-      await nicknameDuplicate(newNick)
-        .then(() => {
-          setColor('success');
-          setLabel('사용 가능한 닉네임');
-        })
-        .catch(() => {
-          setColor('danger');
-          setLabel('중복된 닉네임');
-        });
+      setColor('success');
+      setLabel('사용 가능한 닉네임');
     }
   }, [newNick]);
 
   const handleNicknameChange = async () => {
-    await changeNickname(newNick)
+    await updateNickname(newNick)
       .then(() => {
-        nav('/mypage');
         notificationContext.handle(
           'contained',
           'success',
           '닉네임이 성공적으로 변경되었습니다',
         );
+        nav('/mypage');
       })
       .catch(() => {
         notificationContext.handle('contained', 'danger', '다시 시도해주세요');
@@ -76,7 +56,7 @@ const NickEditFetch = () => {
   return (
     <div css={contentCss}>
       <Typography size="lg" color="dark">
-        현재 닉네임 : {curNick.data.data.nickname}
+        현재 닉네임 : {location.state.curNick}
       </Typography>
       <TextField
         color={color}

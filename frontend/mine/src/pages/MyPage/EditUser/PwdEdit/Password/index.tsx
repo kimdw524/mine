@@ -3,9 +3,9 @@ import { Button, TextField, Typography } from 'oyc-ds';
 import React, { useCallback, useContext, useState } from 'react';
 import { pwdVerificationCss } from './style';
 import { Palette } from 'oyc-ds/dist/themes/lightTheme';
-import { changePwd } from '../../../../../api/myPageApi';
 import { useNavigate } from 'react-router-dom';
 import { NotificationContext } from '../../../../../utils/NotificationContext';
+import { updatePassword } from '../../../../../apis/mypageApi';
 
 const Password = () => {
   const notificationContext = useContext(NotificationContext);
@@ -44,7 +44,7 @@ const Password = () => {
         <Button
           disabled={!(color === 'success')}
           onClick={async () => {
-            await changePwd(pwd)
+            await updatePassword(pwd)
               .then(() => {
                 notificationContext.handle(
                   'contained',

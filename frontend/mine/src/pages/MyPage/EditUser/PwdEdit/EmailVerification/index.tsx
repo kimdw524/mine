@@ -8,7 +8,7 @@ import {
   nextStepBtnCss,
 } from './style';
 import { Palette } from 'oyc-ds/dist/themes/lightTheme';
-import { sendEmail, sendCode } from '../../../../../api/myPageApi';
+import { sendCode } from '../../../../../apis/mypageApi';
 import { NotificationContext } from '../../../../../utils/NotificationContext';
 
 interface EmailVerificationProps {
@@ -70,13 +70,13 @@ const EmailVerification = ({ nextStep }: EmailVerificationProps) => {
             size="md"
             disabled={!(emailColor === 'success')}
             onClick={async () => {
-              await sendEmail(email)
+              await sendCode(email)
                 .then(() => setStep(1))
                 .catch(() => {
                   notificationContext.handle(
                     'contained',
                     'danger',
-                    '이메일 전송에 실패했습니다',
+                    '존재하지 않는 이메일입니다',
                   );
                 });
             }}
