@@ -1,6 +1,5 @@
 import { css } from '@emotion/react';
 
-//style={{ padding: '20px', maxWidth: '600px', margin: 'auto', border: '1px solid black' }}
 export const containerCss = css`
   padding: 1.25rem;
   margin: 0 auto;

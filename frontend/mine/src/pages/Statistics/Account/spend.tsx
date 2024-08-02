@@ -66,6 +66,9 @@ const AccountChart = () => {
     plugins: {
       legend: { display: false },
       // tooltip: { enabled: false },
+      datalabels: {
+        display: false, // 데이터 레이블 비활성화
+      },
     },
     scales: {
       x: {
