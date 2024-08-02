@@ -4,15 +4,16 @@ import ScheduleList from '../../components/molecules/ScheduleList';
 import { css } from '@emotion/react';
 import { SchedulePeriod } from '.';
 import { useSuspenseQuery } from '@tanstack/react-query';
-import { getDailySchedules } from '../../apis/scheduleApi';
-import { formatDate } from '../../utils/dateUtils';
-import DetailView from './DetailView';
+import { getSchedules } from '../../apis/scheduleApi';
+import { apiFormatDate } from '../../utils/dateUtils';
 import useModal from '../../hooks/useModal';
 import Modal from '../../hooks/useModal/Modal';
+import Edit from './Edit';
 
 interface ScheduleListFetchProps {
   type: SchedulePeriod;
-  date: string;
+  start: Date;
+  end: Date;
 }
 
 const containerCss = css`
@@ -25,13 +26,16 @@ const containerCss = css`
 
 export const ScheduleListFetch = ({
   type,
-  date,
-  ...props
+  start,
+  end,
 }: ScheduleListFetchProps) => {
-  const formattedDate = formatDate(date);
   const { data, error, isFetching } = useSuspenseQuery({
-    queryKey: ['schedule', formattedDate],
-    queryFn: () => getDailySchedules(formattedDate),
+    queryKey: [
+      'schedule',
+      start.toLocaleDateString(),
+      end.toLocaleDateString(),
+    ],
+    queryFn: () => getSchedules(apiFormatDate(start), apiFormatDate(end)),
   });
 
   if (error && !isFetching) {
@@ -43,7 +47,7 @@ export const ScheduleListFetch = ({
   return (
     <>
       <Modal data={modal} />
-      <div css={containerCss} {...props}>
+      <div css={containerCss}>
         {data.data.map((data, index) => (
           <ScheduleList
             key={data.scheduleId}
@@ -54,8 +58,8 @@ export const ScheduleListFetch = ({
             endDateTime={data.endDateTime}
             onClick={() =>
               open({
-                component: <DetailView data={data} />,
-                name: 'detailView',
+                component: <Edit data={data} />,
+                name: 'editSchedule',
               })
             }
             style={

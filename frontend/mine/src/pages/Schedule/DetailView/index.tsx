@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import React, { CSSProperties } from 'react';
+import React from 'react';
 import {
   buttonCss,
   containerCss,
@@ -12,10 +12,10 @@ import {
 import { ScheduleData } from '../../../apis/scheduleApi';
 import AppBar from '../../../components/organisms/AppBar';
 import { useNavigate } from 'react-router-dom';
-import { iconWrapperCss } from '../../../components/molecules/ScheduleList/style';
 import { scheduleCategoryData } from '../../../utils/scheduleUtils';
 import { Button, Typography } from 'oyc-ds';
 import { simpleFormatDate } from '../../../utils/dateUtils';
+import CategoryIcon from '../../../components/atoms/CategoryIcon';
 
 interface DetailViewProps {
   data: ScheduleData;
@@ -29,16 +29,9 @@ const DetailView = ({ data }: DetailViewProps) => {
       <AppBar label="내 일정" onBackClick={() => navigate(-1)} />
       <div css={containerCss}>
         <div css={headCss}>
-          <div
-            css={iconWrapperCss}
-            style={
-              {
-                '--color': scheduleCategoryData[data.categoryId].color,
-              } as CSSProperties
-            }
-          >
+          <CategoryIcon color={scheduleCategoryData[data.categoryId].color}>
             {scheduleCategoryData[data.categoryId].icon}
-          </div>
+          </CategoryIcon>
           <div css={infoCss}>
             <Typography color="dark" size="lg">
               {data.title}

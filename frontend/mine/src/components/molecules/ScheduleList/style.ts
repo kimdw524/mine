@@ -23,18 +23,9 @@ export const containerCss = css`
   transition: all 200ms ease;
   :active {
     background-color: #f1f1f7;
-    transform: scale(0.9);
+    transform: scale(0.95);
   }
   animation: fadeIn var(--duration) ease 1;
-`;
-
-export const iconWrapperCss = css`
-  flex-shrink: 0;
-  width: 1.5rem;
-  height: 1.5rem;
-  padding: 0.75rem;
-  border-radius: 50%;
-  background-color: var(--color);
 `;
 
 export const bodyCss = css`
@@ -57,4 +48,8 @@ export const detailCss = css`
   text-overflow: ellipsis;
   word-break: break-all;
   white-space: nowrap;
+`;
+
+export const iconWrapperCss = css`
+  flex-shrink: 0;
 `;

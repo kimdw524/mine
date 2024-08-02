@@ -27,7 +27,6 @@ const Schedule = () => {
     .toLocaleDateString()
     .replaceAll('.', '')
     .split(' ');
-
   const handlePeriodChange = (e: React.FormEvent<HTMLSelectElement>) => {
     const period = (e.target as HTMLSelectElement).value as SchedulePeriod;
     setPeriod(period);
@@ -103,7 +102,8 @@ const Schedule = () => {
               <ScheduleListFetch
                 key={`${date}${period}`}
                 type={period}
-                date={date[0]}
+                start={new Date(selectedRef.current[0])}
+                end={new Date(selectedRef.current.at(-1) || '')}
               />
             </Suspense>
           </ErrorBoundary>

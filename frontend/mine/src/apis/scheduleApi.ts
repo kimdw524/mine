@@ -1,4 +1,4 @@
-import axios from 'axios';
+import { api } from '../api/interceptors';
 
 export interface ScheduleData {
   scheduleId: number;
@@ -10,6 +10,22 @@ export interface ScheduleData {
   where: string;
 }
 
-export const getDailySchedules = (date: string) => {
-  return axios.get<ScheduleData[]>(`/schedule/daily/${date}`);
+export type ScheduleParam = Omit<ScheduleData, 'scheduleId'>;
+
+export const getSchedules = (startDate: string, endDate: string) => {
+  return api.get<ScheduleData[]>(
+    `/api/users/schedules?startDate=${startDate}&endDate=${endDate}`,
+  );
+};
+
+export const addSchedule = (param: ScheduleParam) => {
+  return api.post('/api/users/schedules/calendar', param);
+};
+
+export const addScheduleByChat = (param: { query: string }) => {
+  return api.post<ScheduleData>('/api/users/schedules/chat', param);
+};
+
+export const updateSchedule = (param: ScheduleData) => {
+  return api.patch('/api/users/schedule', param);
 };

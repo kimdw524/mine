@@ -21,9 +21,7 @@ const Home = () => {
   return (
     <>
       <div>Home 화면입니다.</div>
-      {userInfo.nickname && (
-        <div>{userInfo.nickname}님 환영합니다!</div>
-      )}
+      {userInfo.nickname && <div>{userInfo.nickname}님 환영합니다!</div>}
       <Button
         color="primary"
         size="xl"
@@ -79,6 +77,14 @@ const Home = () => {
         onClick={() => nav('account')}
       >
         가계부
+      </Button>
+      <Button
+        color="primary"
+        size="xl"
+        variant="contained"
+        onClick={() => nav('chat')}
+      >
+        채팅
       </Button>
     </>
   );

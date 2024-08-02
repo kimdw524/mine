@@ -23,6 +23,9 @@ import JobEdit from './pages/MyPage/EditAvatar/JobEdit';
 import NameEdit from './pages/MyPage/EditAvatar/NameEdit';
 import PlaceEdit from './pages/MyPage/EditAvatar/PlaceEdit';
 import Account from './pages/Account';
+import Chat from './pages/Chat';
+import ChoiceEdit from './pages/MyPage/EditAvatar/ChoiceEdit';
+import SubjectiveEdit from './pages/MyPage/EditAvatar/SubjectiveEdit';
 import Chart from './pages/Statistics/chart';
 import AccountChart from './pages/Statistics/Account/spend';
 
@@ -86,10 +89,17 @@ function App() {
               <Route path="/mypage/avatar/job" element={<JobEdit />} />
               <Route path="/mypage/avatar/name" element={<NameEdit />} />
               <Route path="/mypage/avatar/place" element={<PlaceEdit />} />
+              <Route path="/mypage/avatar/choice" element={<ChoiceEdit />} />
+              <Route
+                path="/mypage/avatar/subjective"
+                element={<SubjectiveEdit />}
+              />
               <Route path="/findpassword" element={<FindPassword />} />
 
               <Route path="/schedule" element={<Schedule />} />
               <Route path="/account" element={<Account />} />
+
+              <Route path="/chat" element={<Chat />} />
             </Routes>
           </NotificationContext.Provider>
         </ThemeProvider>
