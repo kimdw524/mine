@@ -21,7 +21,7 @@ public class AchievementController {
     private final AddAchievementStatesService addAchievementStatesService;
     private final UpdateAchievementStateService updateAchievementStateService;
 
-//    @LoginCheck
+    @LoginCheck
     @GetMapping
     public ResponseEntity<List<GetAchievementStateResponse>> getAchievementStates() {
         return ResponseEntity.ok().body(achievementStateQueryService.getAchievementStates());
