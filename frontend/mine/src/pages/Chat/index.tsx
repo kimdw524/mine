@@ -13,6 +13,8 @@ import useModal from '../../hooks/useModal';
 import Modal from '../../hooks/useModal/Modal';
 import EditSchedule from '../Schedule/Edit';
 import EditAccount from '../Account/Edit';
+import { Button } from 'oyc-ds';
+import EventMessage from '../../components/molecules/EventMessage';
 
 const Chat = () => {
   const navigate = useNavigate();
@@ -63,22 +65,52 @@ const Chat = () => {
       console.log('연결 끊김');
     };
 
-    const handleMessage = (data: object) => {
-      console.log(data);
-    };
+    const handleMessage = (data: object) => {};
 
     const handleAccount = (data: AccountData) => {
-      open({
-        component: <EditAccount data={data} />,
-        name: 'editAccount',
-      });
+      setChatLog((chatLog) => [
+        ...chatLog,
+        {
+          me: false,
+          message: (
+            <EventMessage
+              title={data.title}
+              value="가계부 보기"
+              onClick={() =>
+                open({
+                  component: <EditAccount data={data} />,
+                  name: 'editAccount',
+                })
+              }
+            />
+          ),
+          name: '아바타',
+          dateTime: new Date().toJSON(),
+        },
+      ]);
     };
 
     const handleSchedule = (data: ScheduleData) => {
-      open({
-        component: <EditSchedule data={data} />,
-        name: 'editSchedule',
-      });
+      setChatLog((chatLog) => [
+        ...chatLog,
+        {
+          me: false,
+          message: (
+            <EventMessage
+              title={data.title}
+              value="일정 보기"
+              onClick={() =>
+                open({
+                  component: <EditSchedule data={data} />,
+                  name: 'editSchedule',
+                })
+              }
+            />
+          ),
+          name: '아바타',
+          dateTime: new Date().toJSON(),
+        },
+      ]);
     };
 
     chat.connect(

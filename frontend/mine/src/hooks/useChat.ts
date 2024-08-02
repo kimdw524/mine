@@ -1,13 +1,14 @@
-import { useRef } from 'react';
+import { ReactNode, useRef } from 'react';
 import { api } from '../api/interceptors';
 import { AccountData, addAccountByChat } from '../apis/accountApi';
 import { addScheduleByChat, ScheduleData } from '../apis/scheduleApi';
+import { apiFormatDateTime } from '../utils/dateUtils';
 
 export type ChatType = 'chat' | 'schedule' | 'account';
 
 export interface ChatMessageData {
   name: string;
-  message: string;
+  message: ReactNode;
   me: boolean;
   dateTime: string;
 }
