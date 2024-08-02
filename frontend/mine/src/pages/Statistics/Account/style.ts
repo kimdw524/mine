@@ -1,5 +1,4 @@
 import { css } from '@emotion/react';
-import { expenses } from './spend';
 
 //style={{ padding: '20px', maxWidth: '600px', margin: 'auto', border: '1px solid black' }}
 export const containerCss = css`

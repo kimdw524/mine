@@ -9,7 +9,10 @@ import { Typography, MenuTab } from 'oyc-ds';
 import AppBar from '../../../components/organisms/AppBar';
 import { useNavigate } from "react-router-dom";
 import { filterExpenses } from '../../../utils/expensefilter';
+import Analysis from './analysis';
+
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+
 
 export const expenses = spend
 
@@ -186,7 +189,7 @@ const AccountChart = () => {
             const percentage = totalexpenditure > 0 ? (
               (expense.money / totalexpenditure) * 100).toFixed(2) : 0;
             return (
-                <section css = {itemsCss}>
+                <section key = {expense.id} css = {itemsCss}>
                   <div css = {itembarCss} style={{backgroundColor: expense.color}}/>
                   <div css = {itemlabelCss}>
                     <Typography color="dark" size="md" weight="medium">
@@ -204,6 +207,7 @@ const AccountChart = () => {
           })}
         </div>
       </div>
+      <Analysis/>
     </>
   );
 };
