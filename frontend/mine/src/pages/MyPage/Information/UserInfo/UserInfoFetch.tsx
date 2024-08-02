@@ -33,14 +33,7 @@ const UserInfoFetch = () => {
           label={'nickname'}
           content={userInfoQuery.data.data.nickname}
         />
-        <InfoBox
-          label={'gender'}
-          content={
-            userInfoQuery.data.data.gender
-              ? userInfoQuery.data.data.gender
-              : '남성'
-          }
-        />
+        <InfoBox label={'gender'} content={userInfoQuery.data.data.gender} />
       </div>
       <div css={userInfoBtn}>
         <Button fullWidth onClick={handleNickname}>
