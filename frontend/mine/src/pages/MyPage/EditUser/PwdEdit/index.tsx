@@ -6,8 +6,10 @@ import styles from './PwdEdit.module.css';
 import TransitionAnimation from '../../../../components/common/TransitionAnimation';
 import EmailVerification from './EmailVerification';
 import Password from './Password';
+import { useNavigate } from 'react-router-dom';
 
 const PwdEdit = () => {
+  const nav = useNavigate();
   const [step, setStep] = useState<number>(0);
 
   return (
@@ -15,7 +17,7 @@ const PwdEdit = () => {
       <div css={pwdEditContainerCss}>
         <AppBar
           label="비밀번호 변경"
-          onBackClick={() => console.log('to main page')}
+          onBackClick={() => nav('/mypage', { state: { step: 1 } })}
         >
           <AppBar.Progress value={step + 1} max={2} />
         </AppBar>

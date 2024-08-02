@@ -1,8 +1,8 @@
 import { ReactNode, useRef } from 'react';
-import { api } from '../api/interceptors';
 import { AccountData, addAccountByChat } from '../apis/accountApi';
 import { addScheduleByChat, ScheduleData } from '../apis/scheduleApi';
 import { apiFormatDateTime } from '../utils/dateUtils';
+import { api } from '../apis/interceptors';
 
 export type ChatType = 'chat' | 'schedule' | 'account';
 
