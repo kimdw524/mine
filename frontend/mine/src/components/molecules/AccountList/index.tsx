@@ -1,6 +1,10 @@
 /** @jsxImportSource @emotion/react */
-import React, { CSSProperties } from 'react';
 import { Typography } from 'oyc-ds';
+import React from 'react';
+import { AccountData } from '../../../apis/accountApi';
+import { accountCategoryData } from '../../../utils/accountUtils';
+import { simpleFormatDate } from '../../../utils/dateUtils';
+import CategoryIcon from '../../atoms/CategoryIcon';
 import {
   bodyCss,
   containerCss,
@@ -9,39 +13,31 @@ import {
   iconWrapperCss,
   operatorCss,
 } from './style';
-import { accountCategoryData } from '../../../utils/accountUtils';
-import { simpleFormatDate } from '../../../utils/dateUtils';
-import { AccountData } from '../../../apis/accountApi';
 
 interface AccountListProps extends React.ComponentProps<'div'> {
   data: AccountData;
 }
-/*
-
-        <Typography color="secondary" size="xs" weight="light">
-          {simpleFormatDate(new Date(data.dateTime))}
-        </Typography>
-*/
 
 const AccountList = ({ data, ...props }: AccountListProps) => {
   return (
     <div css={containerCss} {...props}>
-      <div
-        css={iconWrapperCss}
-        style={
-          {
-            '--color': accountCategoryData[data.spendCategoryId ?? 99].color,
-          } as CSSProperties
-        }
-      >
-        {accountCategoryData[data.spendCategoryId ?? 99].icon}
+      <div css={iconWrapperCss}>
+        <CategoryIcon
+          color={accountCategoryData[data.spendCategoryId ?? 99].color}
+        >
+          {accountCategoryData[data.spendCategoryId ?? 99].icon}
+        </CategoryIcon>
       </div>
       <div css={bodyCss}>
         <Typography size="md" color="dark">
           {data.title}
         </Typography>
         <Typography color="secondary" size="sm" weight="medium" css={detailCss}>
-          {accountCategoryData[data.spendCategoryId ?? 99].name}
+          {
+            accountCategoryData[
+              data.accountType === 'I' ? 99 : data.spendCategoryId
+            ].name
+          }
         </Typography>
       </div>
       <div css={digitCss}>

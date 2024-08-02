@@ -31,6 +31,10 @@ const GlobalStyle = () => {
             font-family: 'GmarketSans';
             font-size: 16px;
             -webkit-tap-highlight-color: transparent !important;
+
+            ::-webkit-scrollbar {
+              width: 0;
+            }
           }
 
           body,
@@ -41,10 +45,6 @@ const GlobalStyle = () => {
             overscroll-behavior: contain;
             overflow-y: scroll;
             -ms-overflow-style: none;
-
-            ::-webkit-scrollbar {
-              width: 0;
-            }
 
             input::-webkit-outer-spin-button,
             input::-webkit-inner-spin-button {

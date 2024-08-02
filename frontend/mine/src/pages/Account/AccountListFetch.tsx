@@ -7,6 +7,7 @@ import useModal from '../../hooks/useModal';
 import Modal from '../../hooks/useModal/Modal';
 import { getAccounts } from '../../apis/accountApi';
 import AccountList from '../../components/molecules/AccountList';
+import Edit from './Edit';
 
 interface AccountListFetchProps {
   start: Date;
@@ -41,6 +42,12 @@ const AccountListFetch = ({ start, end }: AccountListFetchProps) => {
           <AccountList
             key={data.accountId}
             data={data}
+            onClick={() =>
+              open({
+                component: <Edit data={data} />,
+                name: 'editAccount',
+              })
+            }
             style={
               {
                 '--duration': `${Math.min(800, index * 200 + 300)}ms`,

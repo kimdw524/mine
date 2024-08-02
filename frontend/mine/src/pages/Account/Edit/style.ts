@@ -11,15 +11,6 @@ export const containerCss = css`
   padding: 1rem;
 `;
 
-export const periodCss = css`
-  display: flex;
-  padding: 1rem 0;
-
-  > div {
-    width: 50%;
-  }
-`;
-
 export const bottomCss = css`
   display: flex;
   flex-direction: row;
@@ -40,4 +31,10 @@ export const textContainerCss = css`
 
 export const categoryCss = css`
   margin-bottom: 0.5rem;
+`;
+
+export const typeCss = css`
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
 `;

@@ -12,16 +12,37 @@ interface DateToggleProps {
 }
 
 const containerCss = css`
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+  position: relative;
   padding: 1rem;
-  border-radius: 0.5rem;
-  transition: all 200ms ease;
+`;
+
+const backgroundCss = css`
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 0.1875rem;
+  border-radius: 1rem;
+  background-color: ${colorPalette.deepPurple['A200']};
+  opacity: 0.33;
+  transition: all 0.2s ease;
 `;
 
 const selectedCss = css`
-  background-color: ${colorPalette.deepPurple[50]};
+  width: 100%;
+  opacity: 1;
+`;
+
+const foregroundCss = css`
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  opacity: 0.5;
+  transition: all 0.2s ease;
+`;
+
+const foregroundSelectedCss = css`
+  opacity: 1;
 `;
 
 const DateToggle = ({
@@ -31,13 +52,16 @@ const DateToggle = ({
   onClick,
 }: DateToggleProps) => {
   return (
-    <div css={[containerCss, selected && selectedCss]} onClick={onClick}>
-      <Typography size="md" color="dark">
-        {label}
-      </Typography>
-      <Typography size="sm" color="secondary">
-        {`${date.toLocaleDateString()} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`}
-      </Typography>
+    <div css={containerCss} onClick={onClick}>
+      <div css={[backgroundCss, selected && selectedCss]}></div>
+      <div css={[foregroundCss, selected && foregroundSelectedCss]}>
+        <Typography size="md" color="dark">
+          {label}
+        </Typography>
+        <Typography size="sm" color="secondary">
+          {`${date.toLocaleDateString()} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`}
+        </Typography>
+      </div>
     </div>
   );
 };

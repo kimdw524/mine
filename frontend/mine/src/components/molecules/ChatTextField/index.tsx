@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import React, { forwardRef, useState } from 'react';
+import React, { forwardRef, useEffect, useState } from 'react';
 import { ChatType } from '../../../hooks/useChat';
 import { containerCss, focusCss, textCss, typeCss } from './style';
 import TransitionAnimation from '../../common/TransitionAnimation';
@@ -13,6 +13,11 @@ const ChatTextField = forwardRef<HTMLInputElement, ChatTextFieldProps>(
   ({ onTypeChange, ...props }, ref) => {
     const [type, setType] = useState<ChatType>('chat');
     const [focus, setFocus] = useState<boolean>(false);
+
+    useEffect(() => {
+      onTypeChange(type);
+    }, [type]);
+
     return (
       <div css={[containerCss, focus && focusCss]}>
         <div css={typeCss}>
@@ -28,10 +33,10 @@ const ChatTextField = forwardRef<HTMLInputElement, ChatTextFieldProps>(
               채팅
             </span>
             <span key="schedule" onClick={() => setType('account')}>
-              가계
+              일정
             </span>
             <span key="account" onClick={() => setType('chat')}>
-              일정
+              가계
             </span>
           </TransitionAnimation>
         </div>

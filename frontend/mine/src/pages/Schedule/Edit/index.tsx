@@ -17,21 +17,27 @@ import { useNavigate } from 'react-router-dom';
 import CategorySelect from '../../../components/molecules/CategorySelect';
 import { apiFormatDateTime } from '../../../utils/dateUtils';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { addSchedule, ScheduleParam } from '../../../apis/scheduleApi';
+import { ScheduleData, updateSchedule } from '../../../apis/scheduleApi';
 
-const Create = () => {
+interface EditProps {
+  data: ScheduleData;
+}
+
+const Edit = ({ data }: EditProps) => {
   const navigate = useNavigate();
   const [dateType, setDateType] = useState<'start' | 'end'>('start');
-  const [startDate, setStartDate] = useState<Date>(new Date());
-  const [endDate, setEndDate] = useState<Date>(new Date());
-  const categoryRef = useRef<number>(1);
+  const [startDate, setStartDate] = useState<Date>(
+    new Date(data.startDateTime),
+  );
+  const [endDate, setEndDate] = useState<Date>(new Date(data.endDateTime));
+  const categoryRef = useRef<number>(data.categoryId);
   const titleRef = useRef<HTMLInputElement>(null);
   const descriptionRef = useRef<HTMLInputElement>(null);
   const whereRef = useRef<HTMLInputElement>(null);
   const queryClient = useQueryClient();
 
   const { mutate } = useMutation({
-    mutationFn: (params: ScheduleParam) => addSchedule(params),
+    mutationFn: (params: ScheduleData) => updateSchedule(params),
     onSuccess: (data) => {
       if (data.status === 200) {
         queryClient.invalidateQueries({ queryKey: ['schedule'] });
@@ -61,6 +67,7 @@ const Create = () => {
 
   const handleSubmit = () => {
     mutate({
+      scheduleId: data.scheduleId,
       categoryId: categoryRef.current,
       startDateTime: apiFormatDateTime(startDate),
       endDateTime: apiFormatDateTime(endDate),
@@ -72,7 +79,7 @@ const Create = () => {
 
   return (
     <div css={modalCss}>
-      <AppBar label="일정 추가" />
+      <AppBar label="일정" />
       <div css={containerCss}>
         <div css={categoryCss}>
           <CategorySelect
@@ -96,13 +103,13 @@ const Create = () => {
             ref={titleRef}
             variant="outlined"
             label="제목"
-            defaultValue=""
+            defaultValue={data.title || ''}
           />
           <TextField
             ref={descriptionRef}
             variant="outlined"
             label="내용"
-            defaultValue=""
+            defaultValue={data.description || ''}
             multiLine
             maxRows={2}
           />
@@ -110,7 +117,7 @@ const Create = () => {
             ref={whereRef}
             variant="outlined"
             label="장소"
-            defaultValue=""
+            defaultValue={data.where || ''}
           />
         </div>
         <div css={periodCss}>
@@ -137,10 +144,10 @@ const Create = () => {
         <Button color="secondary" onClick={() => navigate(-1)}>
           취소
         </Button>
-        <Button onClick={handleSubmit}>등록</Button>
+        <Button onClick={handleSubmit}>수정</Button>
       </div>
     </div>
   );
 };
 
-export default Create;
+export default Edit;

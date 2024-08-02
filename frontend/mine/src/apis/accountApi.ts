@@ -1,4 +1,4 @@
-import axios from 'axios';
+import { api } from '../api/interceptors';
 
 export interface AccountData {
   accountId: number;
@@ -10,8 +10,22 @@ export interface AccountData {
   dateTime: string;
 }
 
+export type AccountParam = Omit<AccountData, 'accountId'>;
+
 export const getAccounts = (startDate: string, endDate: string) => {
-  return axios.get<AccountData[]>(
+  return api.get<AccountData[]>(
     `/api/users/accounts?startDate=${startDate}&endDate=${endDate}`,
   );
+};
+
+export const addAccount = (param: AccountParam) => {
+  return api.post('/api/users/accounts/calendar', param);
+};
+
+export const addAccountByChat = (param: { query: string }) => {
+  return api.post<AccountData>('/api/users/accounts/chat', param);
+};
+
+export const updateAccount = (param: AccountData) => {
+  return api.patch('/api/users/account', param);
 };
