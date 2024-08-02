@@ -27,6 +27,7 @@ public class DummyDataCreator implements ApplicationListener<ContextRefreshedEve
 
     private void createUsers() {
         createUserIfNotNull(1, "khj745700@naver.com", "testtest1", "M", "테스트객체");
+        createUserIfNotNull(2, "yoha6865@gmail.com", "password1234", "F", "멍청이");
     }
 
     private void createUserIfNotNull(Integer id, String email, String password, String gender, String nickname) {
