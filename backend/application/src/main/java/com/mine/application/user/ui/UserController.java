@@ -3,14 +3,12 @@ package com.mine.application.user.ui;
 import com.mine.application.common.aop.LoginCheck;
 import com.mine.application.common.domain.SessionConstants;
 import com.mine.application.common.domain.SessionDao;
-import com.mine.application.user.command.application.ModifyPasswordRequest;
 import com.mine.application.user.command.application.ModifyUserInfoRequest;
 import com.mine.application.user.command.application.ModifyUserInfoService;
-import com.mine.application.user.query.PasswordDto;
+import com.mine.application.user.query.UserData;
 import com.mine.application.user.query.UserQueryService;
-import jakarta.validation.Valid;
+import com.mine.application.user.ui.dto.GetUserInfoResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +26,15 @@ public class UserController {
     @GetMapping("/info")
     @LoginCheck
     public ResponseEntity<?> getUserInfo() {
-        return ResponseEntity.ok().body(userQueryService.getUserData((String) sessionDao.get(SessionConstants.EMAIL).get()));
+        UserData user = userQueryService.getUserData((String) sessionDao.get(SessionConstants.EMAIL).get());
+        GetUserInfoResponse response = GetUserInfoResponse.builder()
+                .id(user.getId())
+                .email(user.getEmail())
+                .nickname(user.getNickname())
+                .gender("M".equals(user.getGender()) ? "남성" : "여성")
+                .build();
+
+        return ResponseEntity.ok().body(response);
     }
 
     @PatchMapping("/info")
