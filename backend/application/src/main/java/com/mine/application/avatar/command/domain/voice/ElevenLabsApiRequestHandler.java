@@ -47,7 +47,7 @@ class ElevenLabsApiRequestHandler implements VirtualVoiceHandler {
 
     private ResponseEntity<VoiceResponse> uploadFiles(List<VoiceUploadedEvent> events) {
         MultiValueMap<String,  Object> map = new LinkedMultiValueMap<>();
-
+        map.add("name", "mine");
         events.forEach(event -> putFileToMultipartBody(event.getFile().toPath(), map));
 
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(map, createMultipartFormDataHeader());

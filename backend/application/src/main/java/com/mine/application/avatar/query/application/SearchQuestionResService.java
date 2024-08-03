@@ -18,6 +18,24 @@ public class SearchQuestionResService {
     private final SearchQuestionService searchQuestionService;
 
     @Transactional(readOnly = true)
+    public String getInstruction(Integer avatarId) {
+        List<QuestionResDto> questionResDtos = questionResData(avatarId);
+
+        StringBuilder sb = new StringBuilder();
+        for (QuestionResDto questionResDto : questionResDtos) {
+            sb.append(questionResDto.getQuestion()).append(" 라는 질문에는 `");
+            if (questionResDto.getQuestionType().equals('c')) {
+                sb.append(questionResDto.getChoiceAnswer().getDescription());
+            } else {
+                sb.append(questionResDto.getSubjectiveAnswer());
+            }
+            sb.append("`라고 답했어. \n");
+        }
+
+        return sb.toString();
+    }
+
+    @Transactional(readOnly = true)
     public List<QuestionResDto> questionResData(Integer avatarId) {
         List<QuestionResData> questionResDataList = questionResDataRepository.findAllByAvatarIdOrderByQuestionData(avatarId);
         List<QuestionData> questionAll = searchQuestionService.findAll();

@@ -40,13 +40,13 @@ public class QuestionRes {
 
     public String getInstruction() {
         StringBuilder sb = new StringBuilder();
-        sb.append(question.getDescription()).append("라는 질문에는");
+        sb.append(question.getDescription()).append("라는 질문에는 ");
         if (questionType.equals(QuestionType.CHOICE)) {
             sb.append(questionChoice.getDescription());
         } else {
             sb.append(subjectiveAns);
         }
-        sb.append("라고 답했어.");
+        sb.append(" 라고 답했어.");
         sb.append('\n');
         return sb.toString();
     }

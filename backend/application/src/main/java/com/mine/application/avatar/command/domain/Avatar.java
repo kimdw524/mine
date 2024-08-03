@@ -6,10 +6,7 @@ import com.mine.application.common.domain.BaseEntity;
 import com.mine.application.common.erros.errorcode.CommonErrorCode;
 import com.mine.application.common.erros.exception.RestApiException;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.util.ArrayList;
@@ -21,7 +18,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "avatar")
 @Entity
-@AttributeOverride(name = "created_at", column = @Column(name = "birthday"))
+@AttributeOverride(name = "createdAt", column = @Column(name = "avatar_birthday"))
 public class Avatar extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -53,17 +50,14 @@ public class Avatar extends BaseEntity {
     private String job;
 
     @OneToMany(mappedBy = "avatar", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @Builder.Default
     private List<QuestionRes> questionResList = new ArrayList<>();
 
-    public String getInstruction() {
-        StringBuilder sb = new StringBuilder();
-        questionResList.forEach(questionRes -> sb.append(questionRes.getInstruction()));
-        return sb.toString();
-    }
 
     public void enrollAssistant(Assistant assistant) {
         if (this.assistant == null) {
             this.assistant = assistant;
+            return;
         }
         throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
     }
