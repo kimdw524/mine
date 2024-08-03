@@ -15,4 +15,5 @@ public class QuestionResDto {
     private String question;
     private List<QuestionChoiceData> questionChoices;
     private QuestionChoiceData choiceAnswer;
+    private String subjectiveAnswer;
 }

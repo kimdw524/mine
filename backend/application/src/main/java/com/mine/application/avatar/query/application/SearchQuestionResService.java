@@ -33,6 +33,7 @@ public class SearchQuestionResService {
                             .questionType(questionData.getType())
                             .question(questionData.getDescription())
                             .questionId(questionData.getId())
+                            .subjectiveAnswer(questionResData.getSubjectiveAns())
                             .build();
                     dtos.add(dto);
                     break;
