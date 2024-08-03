@@ -39,5 +39,6 @@ public class AvatarData {
     @Getter
     private String job;
 
-
+    @Column(name = "is_deleted")
+    private Boolean isDeleted;
 }

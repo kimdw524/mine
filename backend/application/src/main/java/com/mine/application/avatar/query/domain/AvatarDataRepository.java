@@ -8,6 +8,6 @@ import java.util.List;
 
 public interface AvatarDataRepository extends Repository<AvatarData, Integer> {
 
-    @Query("SELECT a FROM Avatar a WHERE a.isDeleted = false AND a.userId = :userId")
+    @Query("SELECT a FROM AvatarData a WHERE a.isDeleted = false AND a.userId = :userId")
     List<AvatarData> findAllByUserId(@Param("userId")Integer userId);
 }
