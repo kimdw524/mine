@@ -1,5 +1,6 @@
 package com.mine.application.avatar.command.domain;
 
+import com.mine.application.avatar.command.application.ModifyAvatarRequest;
 import com.mine.application.avatar.command.domain.question.QuestionRes;
 import com.mine.application.avatar.command.domain.voice.Voice;
 import com.mine.application.common.domain.BaseEntity;
@@ -71,5 +72,23 @@ public class Avatar extends BaseEntity {
 
     public void delete() {
         super.delete();
+    }
+
+    public void modifyAvatarInfo(ModifyAvatarRequest request) {
+        if(request.getAvatarName() != null) {
+            this.name = request.getAvatarName();
+        }
+
+        if(request.getJob() != null) {
+            this.job = request.getJob();
+        }
+
+        if(request.getResidence() != null) {
+            this.residence = request.getResidence();
+        }
+
+        if(request.getModelId() != null) {
+            this.modelId = request.getModelId();
+        }
     }
 }
