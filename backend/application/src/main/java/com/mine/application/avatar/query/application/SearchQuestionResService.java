@@ -1,18 +1,45 @@
 package com.mine.application.avatar.query.application;
 
+import com.mine.application.avatar.query.domain.QuestionData;
 import com.mine.application.avatar.query.domain.QuestionResData;
 import com.mine.application.avatar.query.domain.QuestionResDataRepository;
+import com.mine.application.avatar.query.domain.QuestionResDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class SearchQuestionResService {
     private final QuestionResDataRepository questionResDataRepository;
+    private final SearchQuestionService searchQuestionService;
 
-    public List<QuestionResData> questionResData(Integer avatarId) {
-        return questionResDataRepository.findAllBy(avatarId);
+    @Transactional(readOnly = true)
+    public List<QuestionResDto> questionResData(Integer avatarId) {
+        List<QuestionResData> questionResDataList = questionResDataRepository.findAllByAvatarIdOrderByQuestionData(avatarId);
+        List<QuestionData> questionAll = searchQuestionService.findAll();
+
+        List<QuestionResDto> dtos = new ArrayList<>();
+
+        for (QuestionData questionData : questionAll) {
+            for (QuestionResData questionResData : questionResDataList) {
+                if (questionData.getId().equals(questionResData.getId())) {
+                    QuestionResDto dto = QuestionResDto.builder()
+                            .questionChoices(questionData.getQuestionChoiceList())
+                            .choiceAnswer(questionResData.getChoice())
+                            .questionType(questionData.getType())
+                            .question(questionData.getDescription())
+                            .questionId(questionData.getId())
+                            .build();
+                    dtos.add(dto);
+                    break;
+                }
+            }
+        }
+
+        return dtos;
     }
 }

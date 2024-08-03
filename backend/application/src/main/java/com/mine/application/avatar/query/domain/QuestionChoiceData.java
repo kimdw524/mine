@@ -12,7 +12,6 @@ import org.hibernate.annotations.Immutable;
 @Immutable
 @Table(name = "question_choice")
 @Entity
-
 public class QuestionChoiceData {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

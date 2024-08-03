@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-@Table
+@Table(name = "question_res")
 @Entity
 public class QuestionResData {
 
@@ -19,17 +19,16 @@ public class QuestionResData {
     @Column(name = "question_res_id")
     private Integer id;
 
-
+    @Getter
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "question_id")
     private QuestionData questionData;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "avatar_id")
-    private AvatarData avatarData;
+    @Column(name = "avatar_id")
+    private Integer avatarId;
 
     @Getter
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "question_choice_id")
     private QuestionChoiceData choice;
 

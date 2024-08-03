@@ -43,7 +43,7 @@ public class LoginService {
     }
 
     public void loginCheck() {
-        if(sessionDao.get(SessionConstants.EMAIL).isEmpty()) {
+        if (sessionDao.get(SessionConstants.EMAIL).isEmpty()) {
             throw new RestApiException(CommonErrorCode.UNAUTHORIZED);
         }
     }

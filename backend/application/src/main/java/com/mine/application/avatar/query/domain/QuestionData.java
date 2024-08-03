@@ -1,7 +1,5 @@
 package com.mine.application.avatar.query.domain;
 
-import com.mine.application.avatar.command.domain.question.QuestionType;
-import com.mine.application.avatar.command.domain.question.QuestionTypeConverter;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -34,7 +32,7 @@ public class QuestionData {
     @Column(name = "question_type")
     private Character type;
 
-    @OneToMany(mappedBy = "questionData")
-    private Set<QuestionChoiceData> questionChoiceList = new HashSet<>();
+    @OneToMany(mappedBy = "questionData", fetch = FetchType.LAZY)
+    private List<QuestionChoiceData> questionChoiceList = new ArrayList<>();
 
 }
