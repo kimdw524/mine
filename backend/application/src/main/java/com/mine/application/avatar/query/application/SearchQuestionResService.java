@@ -37,7 +37,7 @@ public class SearchQuestionResService {
 
     @Transactional(readOnly = true)
     public List<QuestionResDto> questionResData(Integer avatarId) {
-        List<QuestionResData> questionResDataList = questionResDataRepository.findAllByAvatarIdOrderByQuestionData(avatarId);
+        List<QuestionResData> questionResDataList = questionResDataRepository.findAllByAvatarId(avatarId);
         List<QuestionData> questionAll = searchQuestionService.findAll();
 
         List<QuestionResDto> dtos = new ArrayList<>();

@@ -30,7 +30,7 @@ public class RegisterAvatarService {
     @Transactional
     public void generateAvatar(RegisterAvatarRequest request) {
         Integer userId = (Integer) sessionDao.get(SessionConstants.USER_ID).get();
-        if (avatarRepository.countAvatarByUserId(userId) > 2) {
+        if (avatarRepository.countAvatarByUserId(userId) >= 2) {
             throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
         }
 

@@ -68,4 +68,8 @@ public class Avatar extends BaseEntity {
             this.questionResList.add(questionRes);
         }
     }
+
+    public void delete() {
+        super.delete();
+    }
 }

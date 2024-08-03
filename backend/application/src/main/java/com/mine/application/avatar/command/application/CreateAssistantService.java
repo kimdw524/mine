@@ -24,10 +24,10 @@ import org.springframework.web.client.RestTemplate;
 @RequiredArgsConstructor
 @Service
 public class CreateAssistantService {
-    private final static String FAST_API_REQUEST_ASSISTANT_CREATE_URL = "http://ai:8000/api/avatar";
+    private static final String FAST_API_REQUEST_ASSISTANT_CREATE_URL = "http://ai:8000/api/avatar";
     private final AvatarRepository avatarRepository;
     private final SearchQuestionResService searchQuestionResService;
-    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+    private final ObjectMapper objectMapper;
 
     @Transactional(readOnly = true)
     public Assistant generateAssistant(Avatar avatar) {
@@ -57,7 +57,7 @@ public class CreateAssistantService {
         HttpHeaders httpHeaders = createHttpHeader();
 
         try {
-            return new HttpEntity<>(OBJECT_MAPPER.writeValueAsString(requestBody), httpHeaders);
+            return new HttpEntity<>(objectMapper.writeValueAsString(requestBody), httpHeaders);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }

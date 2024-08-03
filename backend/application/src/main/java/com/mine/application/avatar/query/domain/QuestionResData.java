@@ -24,8 +24,9 @@ public class QuestionResData {
     @JoinColumn(name = "question_id")
     private QuestionData questionData;
 
-    @Column(name = "avatar_id")
-    private Integer avatarId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "avatar_id")
+    private AvatarData avatar;
 
     @Getter
     @ManyToOne(fetch = FetchType.EAGER)

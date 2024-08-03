@@ -23,6 +23,10 @@ public class AvatarData {
     @Column(name = "user_id")
     private Integer userId;
 
+    @Getter
+    @Column(name = "avatar_name")
+    private String avatarName;
+
     @Column(name = "avatar_birthday")
     @Getter
     private LocalDateTime birthday;

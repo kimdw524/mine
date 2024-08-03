@@ -2,6 +2,7 @@ package com.mine.application.avatar.ui;
 // HTTP 요청을 처리하고 아바타 생성 서비스를 호출하는 컨트롤러 클래스
 
 import com.mine.application.avatar.command.application.CreateAssistantService;
+import com.mine.application.avatar.command.application.DeleteAvatarService;
 import com.mine.application.avatar.command.application.RegisterAvatarRequest;
 import com.mine.application.avatar.command.application.RegisterAvatarService;
 import com.mine.application.avatar.command.domain.AvatarRepository;
@@ -23,6 +24,7 @@ public class AvatarController {
     private final SessionDao sessionDao;
     private final CreateAssistantService createAssistantService;
     private final AvatarRepository avatarRepository;
+    private final DeleteAvatarService deleteAvatarService;
 
     @PostMapping("")
     @LoginCheck
@@ -38,4 +40,11 @@ public class AvatarController {
         return ResponseEntity.ok(searchAvatarService.findAllAvatarByUserId(userId));
     }
 
+    @DeleteMapping("/{avatarId}")
+    @LoginCheck
+    public ResponseEntity<?> deleteAvatar(@PathVariable Integer avatarId) {
+        Integer userId = (Integer) sessionDao.get(SessionConstants.USER_ID).get();
+        deleteAvatarService.removeAvatar(avatarId, userId);
+        return ResponseEntity.noContent().build();
+    }
 }
