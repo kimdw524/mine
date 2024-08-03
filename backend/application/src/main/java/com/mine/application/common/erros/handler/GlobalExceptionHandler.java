@@ -2,6 +2,7 @@ package com.mine.application.common.erros.handler;
 
 import com.mine.application.common.erros.errorcode.CommonErrorCode;
 import com.mine.application.common.erros.errorcode.ErrorCode;
+import com.mine.application.common.erros.exception.RestApiException;
 import com.mine.application.common.erros.response.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -20,12 +21,12 @@ import java.util.stream.Collectors;
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
-//
-//    @ExceptionHandler(RestApiException.class)
-//    public ResponseEntity<Object> handleRestApiException(final RestApiException e) {
-//        final ErrorCode errorCode = e.getErrorCode();
-//        return handleExceptionInternal(errorCode);
-//    }
+
+    @ExceptionHandler(RestApiException.class)
+    public ResponseEntity<Object> handleRestApiException(final RestApiException e) {
+        final ErrorCode errorCode = e.getErrorCode();
+        return handleExceptionInternal(errorCode);
+    }
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<Object> handleIllegalArgument(final IllegalArgumentException e) {
