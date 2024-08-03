@@ -10,6 +10,7 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 public class QuestionResDto {
+    private Integer questionResId;
     private Character questionType;
     private Integer questionId;
     private String question;

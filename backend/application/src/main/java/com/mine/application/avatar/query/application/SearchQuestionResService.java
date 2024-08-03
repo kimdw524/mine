@@ -28,6 +28,7 @@ public class SearchQuestionResService {
             for (QuestionResData questionResData : questionResDataList) {
                 if (questionData.getId().equals(questionResData.getId())) {
                     QuestionResDto dto = QuestionResDto.builder()
+                            .questionResId(questionResData.getId())
                             .questionChoices(questionData.getQuestionChoiceList())
                             .choiceAnswer(questionResData.getChoice())
                             .questionType(questionData.getType())
