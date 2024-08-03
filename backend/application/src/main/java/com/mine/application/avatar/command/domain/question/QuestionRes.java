@@ -1,5 +1,6 @@
 package com.mine.application.avatar.command.domain.question;
 
+import com.mine.application.avatar.command.application.ModifyQuestionResRequest;
 import com.mine.application.avatar.command.domain.Avatar;
 import jakarta.persistence.*;
 import lombok.*;
@@ -20,6 +21,7 @@ public class QuestionRes {
     @JoinColumn(name = "question_id")
     private Question question;
 
+    @Setter
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "avatar_id")
     private Avatar avatar;
@@ -47,5 +49,10 @@ public class QuestionRes {
         sb.append("라고 답했어.");
         sb.append('\n');
         return sb.toString();
+    }
+
+    public void updateRes(ModifyQuestionResRequest resRequest, QuestionChoice questionChoice) {
+        this.subjectiveAns = resRequest.getSubjectiveAns();
+        this.questionChoice = questionChoice;
     }
 }

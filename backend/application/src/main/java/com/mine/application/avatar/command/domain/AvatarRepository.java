@@ -14,6 +14,10 @@ public interface AvatarRepository extends Repository<Avatar, Integer> {
 
     Optional<Avatar> findById(Integer id);
 
+    @Query("SELECT a FROM Avatar a JOIN FETCH a.questionResList WHERE a.id = :id AND a.userId = :userId")
+    Optional<Avatar> findAvatarInAllDataByIdAndUserId(@Param("id") Integer id, @Param("userId") Integer userId);
+
     @Query("SELECT COUNT(id) FROM Avatar WHERE userId = :userId")
     Integer countAvatarByUserId(@Param(value = "userId") Integer userId);
+
 }

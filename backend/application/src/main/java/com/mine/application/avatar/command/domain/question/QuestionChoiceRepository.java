@@ -6,5 +6,5 @@ import java.util.Optional;
 
 public interface QuestionChoiceRepository extends Repository<QuestionChoice, Integer> {
 
-    Optional<QuestionChoice> findByQuestionId(Integer questionId);
+    Optional<QuestionChoice> findById(Integer questionChoiceId);
 }

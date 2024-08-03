@@ -6,7 +6,6 @@ import com.mine.application.common.erros.exception.RestApiException;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor(access = AccessLevel.MODULE)
 @Component
@@ -20,7 +19,7 @@ final class QuestionResFactory {
         QuestionChoice questionChoice = null;
 
         if(question.getQuestionType().equals(QuestionType.CHOICE)) {
-            questionChoice = questionChoiceRepository.findByQuestionId(request.getQuestionChoiceId()).orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND));
+            questionChoice = questionChoiceRepository.findById(request.getQuestionChoiceId()).orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND));
         }
         return QuestionRes.builder()
                 .question(question)

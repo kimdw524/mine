@@ -1,14 +1,10 @@
 package com.mine.application.avatar.command.domain;
 
-import com.mine.application.avatar.command.application.Base64FileUploadRequest;
 import com.mine.application.avatar.command.domain.question.QuestionRes;
-import com.mine.application.avatar.command.domain.voice.Base64FileUploadedEvent;
-import com.mine.application.avatar.command.domain.voice.VirtualVoiceHandler;
 import com.mine.application.avatar.command.domain.voice.Voice;
-import com.mine.application.avatar.command.domain.voice.VoiceUploadedEvent;
+import com.mine.application.common.domain.BaseEntity;
 import com.mine.application.common.erros.errorcode.CommonErrorCode;
 import com.mine.application.common.erros.exception.RestApiException;
-import com.mine.application.common.event.Events;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -16,18 +12,17 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @SuperBuilder
-@AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "avatar")
 @Entity
 @AttributeOverride(name = "created_at", column = @Column(name = "birthday"))
-public class Avatar {
+public class Avatar extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "avatar_id")
@@ -67,9 +62,16 @@ public class Avatar {
     }
 
     public void enrollAssistant(Assistant assistant) {
-        if(this.assistant == null) {
+        if (this.assistant == null) {
             this.assistant = assistant;
         }
         throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
+    }
+
+    public void setQuestionResList(List<QuestionRes> questionResList) {
+        for (QuestionRes questionRes : questionResList) {
+            questionRes.setAvatar(this);
+            this.questionResList.add(questionRes);
+        }
     }
 }

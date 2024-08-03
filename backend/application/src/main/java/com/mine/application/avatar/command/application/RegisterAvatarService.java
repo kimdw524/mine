@@ -33,6 +33,12 @@ public class RegisterAvatarService {
         }
 
         Avatar avatar = createAvatar(request);
+
+        List<QuestionRes> questionResList = request.getQuestionResList().stream()
+                .map(questionResFactory::createEntity).toList();
+
+        avatar.setQuestionResList(questionResList);
+
         Assistant assistant = createAssistantService.generateAssistant(avatar);
         avatar.enrollAssistant(assistant);
 
@@ -40,18 +46,12 @@ public class RegisterAvatarService {
     }
 
     private Avatar createAvatar(RegisterAvatarRequest request) {
-        List<QuestionRes> questionResList = request.getQuestionResList().stream()
-                .map(questionResFactory::createEntity).toList();
-
-        Avatar avatar = Avatar.builder()
+        return Avatar.builder()
                 .name(request.getAvatarName())
                 .job(request.getJob())
                 .modelId(1) // 기본 1
                 .residence(request.getResidence())
                 .voice(uploadVoiceService.generateVoice(request.getVoiceFileList()))
-                .questionResList(questionResList)
                 .build();
-
-        return avatar;
     }
 }
