@@ -1,14 +1,10 @@
 package com.mine.application.avatar.query.domain;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.Immutable;
 
 import java.time.LocalDateTime;
-
 
 
 @Builder
@@ -21,21 +17,26 @@ public class AvatarData {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "avatar_id")
-    private Integer id;
+    @Getter
+    private Integer avatarId;
 
     @Column(name = "user_id")
     private Integer userId;
 
     @Column(name = "avatar_birthday")
+    @Getter
     private LocalDateTime birthday;
 
     @Column(name = "avatar_model_id")
+    @Getter
     private Integer modelId;
 
     @Column(name = "avatar_residence")
+    @Getter
     private String residence;
 
     @Column(name = "avatar_job")
+    @Getter
     private String job;
 
 

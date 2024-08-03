@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
-@RequestMapping("/avatar")
+@RequestMapping("/avatars")
 @RestController
 public class AvatarController {
 

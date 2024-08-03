@@ -8,6 +8,6 @@ import java.util.List;
 public interface QuestionDataRepository extends Repository<QuestionData, Integer> {
 
 
-    @Query("SELECT DISTINCT qd FROM QuestionData qd LEFT JOIN FETCH qd.questionChoiceList ORDER BY qd.id")
+    @Query("SELECT DISTINCT qd FROM QuestionData qd LEFT JOIN FETCH qd.questionChoiceList ORDER BY qd.questionId")
     List<QuestionData> queryAll();
 }

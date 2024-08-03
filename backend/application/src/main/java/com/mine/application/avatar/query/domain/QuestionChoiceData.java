@@ -17,7 +17,7 @@ public class QuestionChoiceData {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "question_choice_id")
     @Getter
-    private Integer id;
+    private Integer questionChoiceId;
 
     @ManyToOne
     @JoinColumn(name = "question_id")

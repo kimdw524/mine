@@ -26,14 +26,14 @@ public class SearchQuestionResService {
 
         for (QuestionData questionData : questionAll) {
             for (QuestionResData questionResData : questionResDataList) {
-                if (questionData.getId().equals(questionResData.getId())) {
+                if (questionData.getQuestionId().equals(questionResData.getQuestionData().getQuestionId())) {
                     QuestionResDto dto = QuestionResDto.builder()
-                            .questionResId(questionResData.getId())
+                            .questionResId(questionResData.getQuestionResId())
                             .questionChoices(questionData.getQuestionChoiceList())
                             .choiceAnswer(questionResData.getChoice())
                             .questionType(questionData.getType())
                             .question(questionData.getDescription())
-                            .questionId(questionData.getId())
+                            .questionId(questionData.getQuestionId())
                             .subjectiveAnswer(questionResData.getSubjectiveAns())
                             .build();
                     dtos.add(dto);

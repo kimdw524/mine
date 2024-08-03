@@ -21,7 +21,7 @@ public class QuestionData {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "question_id")
-    private Integer id;
+    private Integer questionId;
 
     @Column(name = "question_num")
     private Integer num;

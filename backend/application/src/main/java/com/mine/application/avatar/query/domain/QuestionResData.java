@@ -17,7 +17,7 @@ public class QuestionResData {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "question_res_id")
-    private Integer id;
+    private Integer questionResId;
 
     @Getter
     @ManyToOne(fetch = FetchType.LAZY)
