@@ -14,7 +14,7 @@ public class AchievementConverter {
                 .description(achievementStateData.getAchievement().getDescription())
                 .amount(achievementStateData.getAchievement().getAmount())
                 .count(achievementStateData.getCount())
-                .date(achievementStateData.getDate())
+                .achievedDate(achievementStateData.getDate())
                 .build();
     }
 

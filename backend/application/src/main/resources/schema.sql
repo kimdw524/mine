@@ -119,6 +119,20 @@ VALUES ('미정'),
        ('시험'),
        ('기타');
 
+INSERT INTO achievement(achievement_required_amount, achievement_title, achievement_description)
+VALUES (5, "연속 출석 5회", "연속 출석 5회 해줘!!"),
+       (1, "아바타 생성", "아바타 생성해줘!!"),
+       (10, "가계 등록 10회", "가계 등록 10회 해줘!!"),
+       (10, "일정 등록 10회", "일정 등록 10회 해줘!!"),
+       (3, "이스터 에그", "이스터 에그 찾아줘!!");
+
+INSERT INTO achievement_state (user_id, achievement_id, achievement_count, achievement_date, is_achieved)
+VALUES (2, 1, 2, null, 0),
+       (2, 2, 1, now(), 1),
+       (2, 3, 5, null, 0),
+       (2, 4, 6, null, 0),
+       (2, 5, 0, null, 0);
+
 create table avatar
 (
     avatar_id           INT         NOT NULL AUTO_INCREMENT PRIMARY KEY,
