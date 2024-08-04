@@ -20,7 +20,14 @@ export interface IAnswer {
 }
 
 export interface INewAnswer {
+  questionResId: number;
   questionId: number;
   isNew: boolean;
   newAns: number | string;
+}
+
+export interface IAnswerData {
+  questionResId: number;
+  questionChoiceId: string | number | null;
+  subjectiveAns: string | number | null;
 }

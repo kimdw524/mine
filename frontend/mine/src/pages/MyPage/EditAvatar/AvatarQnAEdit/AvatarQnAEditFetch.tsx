@@ -1,15 +1,23 @@
 /** @jsxImportSource @emotion/react */
 import React, { useCallback, useEffect, useState, useContext } from 'react';
 import { useSuspenseQueries } from '@tanstack/react-query';
-import { NewAnsListData, updateAvatarChoice } from '../../../../apis/avatarApi';
 import EditQnA from '../EditQnA';
 import { controlBtnCss, editBtnCss, editListCss } from './style';
 import { Button, Typography, Icon } from 'oyc-ds';
 import { HashtagIcon } from '@heroicons/react/24/solid';
 import { NotificationContext } from '../../../../utils/NotificationContext';
 import { useNavigate } from 'react-router-dom';
-import { getAnswers, getQuestions } from '../../../../apis/mypageApi';
-import { IAnswer, INewAnswer, IQuestion } from '../../../../types/qnaType';
+import {
+  getAnswers,
+  getQuestions,
+  updateQnA,
+} from '../../../../apis/mypageApi';
+import {
+  IAnswer,
+  IAnswerData,
+  INewAnswer,
+  IQuestion,
+} from '../../../../types/qnaType';
 
 interface IAvatarQnAEditFetchProps {
   avatarId: number;
@@ -53,8 +61,9 @@ const AvatarQnAEditFetch = ({
 
   useEffect(() => {
     const newAns: INewAnswer[] = [];
-    questions.map((q: IQuestion) => {
+    questions.map((q: IQuestion, idx: number) => {
       newAns.push({
+        questionResId: answers[idx].questionResId,
         questionId: q.questionId,
         isNew: false,
         newAns: questionType === 'c' ? -1 : '',
@@ -66,11 +75,8 @@ const AvatarQnAEditFetch = ({
     (Qidx: number, isNew: boolean, newAns: number | string) => {
       setEditTarget((prev) => {
         const newTarget = [...prev];
-        newTarget[Qidx] = {
-          questionId: prev[Qidx].questionId,
-          isNew: isNew,
-          newAns: newAns,
-        };
+        newTarget[Qidx].isNew = isNew;
+        newTarget[Qidx].newAns = newAns;
         return [...newTarget];
       });
     },
@@ -92,26 +98,24 @@ const AvatarQnAEditFetch = ({
   );
 
   const handleSubmit = async () => {
-    const newChoices: NewAnsListData = {
-      avatarId: 123,
-      anss: [],
-    };
+    const answerDatas: IAnswerData[] = [];
 
     editTarget.map((target: INewAnswer) => {
       if (target.isNew) {
-        newChoices.anss.push({
-          questionId: target.questionId,
-          ansId: target.newAns,
+        answerDatas.push({
+          questionResId: target.questionResId,
+          questionChoiceId: questionType === 'c' ? target.newAns : null,
+          subjectiveAns: questionType === 's' ? target.newAns : null,
         });
       }
     });
 
-    await updateAvatarChoice(newChoices)
+    await updateQnA(avatarId, answerDatas)
       .then(() => {
         notificationContext.handle(
           'contained',
           'success',
-          '설문조사가 성공적으로 변경되었습니다',
+          `${questionType === 'c' ? '설문조사' : '질의응답'}가 성공적으로 변경되었습니다`,
         );
         nav('/mypage');
       })

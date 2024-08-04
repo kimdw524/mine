@@ -16,7 +16,7 @@ const AvatarQnAEdit = () => {
       <div css={avatarQnAEditContainerCss}>
         <AppBar
           label={location.state.name}
-          onBackClick={() => nav('/mypage')}
+          onBackClick={() => nav('/mypage', { state: { step: 2 } })}
         />
         <div css={titleCss}>
           <Typography size="md" color="dark">

@@ -1,3 +1,4 @@
+import { IAnswerData } from '../types/qnaType';
 import { api } from './interceptors';
 
 /* 사용자 정보 조회 */
@@ -97,5 +98,16 @@ export const getAnswers = (avatarId: number) => {
   return api({
     url: `/api/avatars/${avatarId}/questions`,
     method: 'get',
+  });
+};
+
+/* 아바타 질문 재응답 */
+export const updateQnA = (avatarId: number, answerDatas: IAnswerData[]) => {
+  return api({
+    url: `/api/avatars/${avatarId}/questions`,
+    method: 'patch',
+    data: {
+      lists: answerDatas,
+    },
   });
 };

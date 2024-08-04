@@ -66,7 +66,10 @@ const AvatarInfoEdit = () => {
   return (
     <>
       <div css={avatarInfoEditContainerCss}>
-        <AppBar label={`${colName} 변경`} onBackClick={() => nav('/mypage')} />
+        <AppBar
+          label={`${colName} 변경`}
+          onBackClick={() => nav('/mypage', { state: { step: 2 } })}
+        />
         <div css={contentCss}>
           <Typography size="lg" color="dark">
             현재 {colName} : {location.state.oldInfo}
