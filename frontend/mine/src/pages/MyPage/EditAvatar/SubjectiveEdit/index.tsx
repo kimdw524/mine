@@ -26,7 +26,7 @@ const SubjectiveEdit = () => {
         <div css={questionCss}>
           <ErrorBoundary fallback={<>에러</>}>
             <Suspense fallback={<>로딩중</>}>
-              <SubjectEditFetch />
+              <SubjectEditFetch avatarId={location.state.avatarId} />
             </Suspense>
           </ErrorBoundary>
         </div>

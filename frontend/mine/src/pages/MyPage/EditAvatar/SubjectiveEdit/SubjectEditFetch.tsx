@@ -1,58 +1,63 @@
 /** @jsxImportSource @emotion/react */
 import React, { useCallback, useContext, useEffect, useState } from 'react';
-import { useSuspenseQuery } from '@tanstack/react-query';
+import { useSuspenseQueries } from '@tanstack/react-query';
 import {
-  getAvatarQuestionAnswer,
   NewAnsListData,
   updateAvatarSubjective,
 } from '../../../../apis/avatarApi';
-import EditQnA, { IEditQnA } from '../EditQnA';
+import EditQnA from '../EditQnA';
 import { controlBtnCss, editBtnCss, editListCss } from './style';
 import { Button, Icon, Typography } from 'oyc-ds';
 import { NotificationContext } from '../../../../utils/NotificationContext';
 import { useNavigate } from 'react-router-dom';
 import { HashtagIcon } from '@heroicons/react/24/solid';
+import { getQuestions, getAnswers } from '../../../../apis/mypageApi';
+import { IAnswer, INewAnswer, IQuestion } from '../../../../types/qnaType';
 
-interface INewAnswer {
-  questionId: number;
-  isNew: boolean;
-  newAns: string;
+interface ISubjectEditFetchProps {
+  avatarId: number;
 }
 
-const SubjectEditFetch = () => {
-  const questionQuery = useSuspenseQuery({
-    queryKey: ['questions'],
-    queryFn: () => getAvatarQuestionAnswer(0),
+const SubjectEditFetch = ({ avatarId }: ISubjectEditFetchProps) => {
+  const [questionQuery, answerQuery] = useSuspenseQueries({
+    queries: [
+      { queryKey: ['questions'], queryFn: () => getQuestions() },
+      { queryKey: ['answers'], queryFn: () => getAnswers(avatarId) },
+    ],
   });
 
-  if (questionQuery.error && !questionQuery.isFetching) {
-    throw questionQuery.error;
-  }
+  [questionQuery, answerQuery].some((query) => {
+    if (query.error && !query.isFetching) {
+      throw query.error;
+    }
+  });
 
   const notificationContext = useContext(NotificationContext);
   const nav = useNavigate();
   const [index, setIndex] = useState<number>(0);
-  const [qnas, setQnas] = useState<IEditQnA[]>([]);
+  const [questions, setQuestions] = useState<IQuestion[]>([]);
+  const [answers, setAnswers] = useState<IAnswer[]>([]);
   const [editTarget, setEditTarget] = useState<INewAnswer[]>([]);
 
   useEffect(() => {
-    const newQnAs: IEditQnA[] = [];
-    const newAns: INewAnswer[] = [];
-
-    questionQuery.data.data.map((qna: IEditQnA) => {
-      if (qna.questionType === 's') {
-        newQnAs.push(qna);
-        newAns.push({
-          questionId: qna.questionId,
-          isNew: false,
-          newAns: '',
-        });
-      }
-    });
-
-    setQnas(() => [...newQnAs]);
-    setEditTarget(() => [...newAns]);
+    setQuestions(
+      questionQuery.data.data.filter((q: IQuestion) => q.type === 's'),
+    );
+    setAnswers(
+      answerQuery.data.data.filter((a: IAnswer) => a.questionType === 's'),
+    );
   }, []);
+
+  useEffect(() => {
+    const newAns: INewAnswer[] = [];
+    questions.map((q: IQuestion) => {
+      newAns.push({
+        questionId: q.questionId,
+        isNew: false,
+        newAns: '',
+      });
+    });
+  }, [questions]);
 
   const handleTarget = useCallback(
     (Qidx: number, isNew: boolean, newAns: string) => {
@@ -71,9 +76,9 @@ const SubjectEditFetch = () => {
 
   const handleResponse = useCallback(
     (Qidx: number, ans: string | number) => {
-      handleTarget(Qidx, !(qnas[Qidx].answer === ans), String(ans));
+      handleTarget(Qidx, !(answers[Qidx].answer === ans), String(ans));
     },
-    [qnas],
+    [answers],
   );
 
   const handleSubmit = async () => {
@@ -107,12 +112,12 @@ const SubjectEditFetch = () => {
 
   return (
     <>
-      {qnas.map((qna: IEditQnA, idx: number) => {
+      {questions.map((q: IQuestion, idx: number) => {
         return (
           <EditQnA
             key={idx}
-            qnaType={'s'}
-            qna={qna}
+            question={q}
+            answer={answers[idx]}
             qidx={idx}
             invisible={index !== idx}
             handleResponse={handleResponse}
@@ -131,7 +136,7 @@ const SubjectEditFetch = () => {
         </Button>
         <Button
           onClick={() => setIndex((index) => index + 1)}
-          disabled={index === qnas.length - 1}
+          disabled={index === questions.length - 1}
         >
           <Typography size="sm" color="light">
             다음

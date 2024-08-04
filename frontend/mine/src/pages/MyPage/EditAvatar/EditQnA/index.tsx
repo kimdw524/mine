@@ -1,54 +1,38 @@
 /** @jsxImportSource @emotion/react */
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Button, TextField, Typography } from 'oyc-ds';
 import { btnContainerCss, containerCss, textfieldCss } from './style';
-
-export interface IQnAResponse {
-  responseId: number;
-  response: string;
-}
-
-export interface IEditQnA {
-  questionType: string;
-  questionId: number;
-  question: string;
-  choices: IQnAResponse[];
-  answer: string | number;
-}
+import { IAnswer, IChoice, IQuestion } from '../../../../types/qnaType';
 
 interface EditQnAProps {
-  qnaType: string;
-  qna: IEditQnA;
-  qidx: number;
+  question: IQuestion;
+  answer: IAnswer;
   invisible: boolean;
+  qidx: number;
   handleResponse: (Qidx: number, Aidx: number | string) => void;
 }
 
 const EditQnA = ({
-  qnaType,
-  qna,
-  qidx,
+  question,
+  answer,
   invisible,
+  qidx,
   handleResponse,
 }: EditQnAProps) => {
-  const [selected, setSelected] = useState<string | number>(qna.answer);
-
-  useEffect(() => {
-    setSelected(qna.answer);
-  }, [qna]);
+  const [selected, setSelected] = useState<string | number>(answer.answer);
 
   return (
     <>
       <div css={containerCss(invisible)}>
         <Typography size="lg" color="dark">
-          {qna.question}
+          {question.description}
         </Typography>
-        {qnaType === 'c' ? (
+        {question.type === 'c' ? (
           <div css={btnContainerCss}>
-            {qna.choices.map((item, idx) => {
+            {question.questionChoiceList.map((item: IChoice, idx: number) => {
               return (
                 <Button
-                  key={item.responseId}
+                  key={item.questionChoiceId}
                   color={selected === idx + 1 ? 'primary' : 'secondary'}
                   variant="outlined"
                   size="lg"
@@ -57,7 +41,7 @@ const EditQnA = ({
                     handleResponse(qidx, idx);
                   }}
                 >
-                  {item.response}
+                  {item.description}
                 </Button>
               );
             })}
@@ -66,7 +50,7 @@ const EditQnA = ({
           <div css={textfieldCss}>
             <TextField
               label=""
-              defaultValue={qna.answer + ''}
+              defaultValue={answer.answer + ''}
               variant="outlined"
               maxRows={5}
               multiLine

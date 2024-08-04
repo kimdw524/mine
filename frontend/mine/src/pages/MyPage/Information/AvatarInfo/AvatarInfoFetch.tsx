@@ -114,7 +114,10 @@ const AvatarInfoFetch = () => {
           fullWidth
           onClick={() =>
             nav('/mypage/avatar/choice', {
-              state: { name: avatarInfoQuery.data.data[avatar].avatarName },
+              state: {
+                avatarId: avatarInfoQuery.data.data[avatar].avatarId,
+                name: avatarInfoQuery.data.data[avatar].avatarName,
+              },
             })
           }
         >
@@ -124,7 +127,10 @@ const AvatarInfoFetch = () => {
           fullWidth
           onClick={() =>
             nav('/mypage/avatar/subjective', {
-              state: { name: avatarInfoQuery.data.data[avatar].avatarName },
+              state: {
+                avatarId: avatarInfoQuery.data.data[avatar].avatarId,
+                name: avatarInfoQuery.data.data[avatar].avatarName,
+              },
             })
           }
         >

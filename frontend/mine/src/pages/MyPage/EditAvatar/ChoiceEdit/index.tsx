@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import React, { Suspense } from 'react';
+import React, { Suspense, useState } from 'react';
 import AppBar from '../../../../components/organisms/AppBar';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { avatarChoiceEditContainerCss, questionCss, titleCss } from './style';
@@ -26,7 +26,7 @@ const ChoiceEdit = () => {
         <div css={questionCss}>
           <ErrorBoundary fallback={<>에러</>}>
             <Suspense fallback={<>로딩중</>}>
-              <ChoiceEditFetch />
+              <ChoiceEditFetch avatarId={location.state.avatarId} />
             </Suspense>
           </ErrorBoundary>
         </div>

@@ -83,3 +83,19 @@ export const updateAvatarInfo = (
     },
   });
 };
+
+/* 아바타 질문 조회 */
+export const getQuestions = () => {
+  return api({
+    url: `/api/questions`,
+    method: 'get',
+  });
+};
+
+/* 아바타 질문 응답 조회 */
+export const getAnswers = (avatarId: number) => {
+  return api({
+    url: `/api/avatars/${avatarId}/questions`,
+    method: 'get',
+  });
+};
