@@ -5,6 +5,8 @@ export const containerCss = css`
   margin: 0 auto;
   /* border: 1px solid black; */
   max-width: 600px;
+  display: flex;
+  flex-direction: column; /* 추가된 부분 */
 `;
 
 export const spendCss = css`
@@ -33,4 +35,14 @@ export const itemlabelCss = css`
 export const itempriceCss = css`
   margin-left: auto;
   font-weight: 10px;
+`
+
+export const typeCss = css`
+  width: 130px;
+  height: 35px;
+  margin-left: auto;
+`
+
+export const allbtnCss = css`
+  margin-left: auto; /* 추가된 부분 */
 `

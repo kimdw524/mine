@@ -8,6 +8,12 @@ export type Spend = {
   color: string;
 };
 
+export type Income = {
+  id: number;
+  money: number; // 금액
+  date: string; // 생성일시
+}
+
 // id만 제공 id로 name을 찾아서 연결
 
 export const spend: Spend[] = [
@@ -27,6 +33,24 @@ export const spend: Spend[] = [
   { id: 14, name: '주거', money: 300000, date: '2024-08-09' , color: '#6f78c7'},
   { id: 15, name: '기타', money: 20000, date: '2024-08-10' , color: '#535d90'},
 ];
+// export const income: Income[] = [
+//   { id: 1, money: 10000, date: '2024-07-18'},
+//   { id: 2, money: 100000, date: '2024-07-19'},
+//   { id: 3, money: 50000, date: '2024-07-20' },
+//   { id: 4, money: 170000, date: '2024-07-21'},
+//   { id: 5, money: 30000, date: '2024-07-22' },
+//   { id: 6, money: 100000, date: '2024-07-23'},
+//   { id: 7, money: 10000, date: '2024-07-24' },
+//   { id: 8, money: 20000, date: '2024-07-29' },
+//   { id: 9, money: 10000, date: '2024-08-01' },
+//   { id: 10, money: 30000, date: '2024-08-02'},
+//   { id: 11, money: 40000, date: '2024-08-06'},
+//   { id: 12, money: 50000, date: '2024-08-07'},
+//   { id: 13, money: 20000, date: '2024-08-08'},
+//   { id: 14, money: 300000, date: '2024-08-09'},
+//   { id: 15, money: 20000, date: '2024-08-10' },
+// ];
+
 
 export const income: Spend[] = [
   { id: 1, name: '미정', money: 10000, date: '2024-07-18', color: '#FFB0C4'},

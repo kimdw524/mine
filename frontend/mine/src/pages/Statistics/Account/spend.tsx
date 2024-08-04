@@ -1,11 +1,11 @@
 /** @jsxImportSource @emotion/react */
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
 import { spend, income, Spend } from '../../../utils/SpendData';
-import { containerCss, itemsCss, spendCss, itembarCss, itemlabelCss, itempriceCss } from './style';
+import { containerCss, itemsCss, spendCss, itembarCss, itemlabelCss, itempriceCss, typeCss, allbtnCss } from './style';
 import DataTab from '../datatab';
-import { Typography, MenuTab } from 'oyc-ds';
+import { Typography, MenuTab, Button } from 'oyc-ds';
 import AppBar from '../../../components/organisms/AppBar';
 import { useNavigate } from "react-router-dom";
 import { filterExpenses } from '../../../utils/expensefilter';
@@ -20,6 +20,7 @@ const AccountChart = () => {
   const [period, setPeriod] = useState('weekly'); // 선택된 기간 상태 관리
   const [offset, setOffset] = useState(0); // 이전 주 또는 달 선택을 위한 오프셋 상태
   const [dataType, setDataType] = useState('spend'); // 지출/수입 데이터 타입 상태
+  const [showAll, setShowAll] = useState(false); // 전체 보기 상태
   const nav = useNavigate();
 
   const handleMenuChange = (menu: number) => {
@@ -41,8 +42,17 @@ const AccountChart = () => {
     }
   };
 
-  const handleDataTypeChange = (type: string) => {
-    setDataType(type);
+  const handleDataTypeChange = (menu: number) => {
+    switch (menu) {
+      case 0:
+        setDataType('spend');
+        break;
+      case 1:
+        setDataType('income');
+        break;
+      default:
+        break;
+    }
   };
 
   const data = dataType === 'spend' ? expenses : incomes;
@@ -50,9 +60,18 @@ const AccountChart = () => {
     .sort((a, b) => b.money - a.money) as Spend[];
   const totalexpenditure = filteredData.reduce((acc, expense) => acc + expense.money, 0);
 
+  const topCategories = filteredData.slice(0, 4);
+  const otherCategories = filteredData.slice(4);
+  const otherTotal = otherCategories.reduce((acc, item) => acc + item.money, 0);
+
+  // 카테고리가 6개 이상일 때만 otherCategory 추가
+  const displayData = showAll || filteredData.length <= 5 
+    ? filteredData 
+    : [...topCategories, { id: 'other', name: '카테고리 없음', money: otherTotal, color: '#cccccc' }];
+
   const chartData = {
     labels: ['비율'],
-    datasets: filteredData.map((expense, index) => ({
+    datasets: displayData.map((expense, index) => ({
       label: expense.name,
       data: totalexpenditure > 0 ? [(expense.money / totalexpenditure) * 100] : [0],
       backgroundColor: expense.color,
@@ -60,8 +79,8 @@ const AccountChart = () => {
       borderRadius: {
         topLeft: index === 0 ? 8 : 0,
         bottomLeft: index === 0 ? 8 : 0,
-        topRight: index === filteredData.length - 1 ? 8 : 0,
-        bottomRight: index === filteredData.length - 1 ? 8 : 0,
+        topRight: index === displayData.length - 1 ? 8 : 0,
+        bottomRight: index === displayData.length - 1 ? 8 : 0,
       },
       stack: 'stack1',
     })),
@@ -161,10 +180,6 @@ const AccountChart = () => {
           <div>월별</div>
           <div>연별</div>
         </MenuTab>
-        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px' }}>
-          <button onClick={() => handleDataTypeChange('spend')}>지출</button>
-          <button onClick={() => handleDataTypeChange('income')}>수입</button>
-        </div>
         <DataTab
           title={getDisplayTimeframe()}
           leftChild={<Typography
@@ -184,6 +199,16 @@ const AccountChart = () => {
             {`>`}
           </Typography>}
         />
+        <MenuTab
+          color="primary"
+          size="sm"
+          variant="rounded"
+          onChangeMenu={handleDataTypeChange}
+          css={typeCss}
+        >
+          <div>지출</div>
+          <div>수입</div>
+        </MenuTab>
         <Typography color="dark" size="lg" weight="bold" css={spendCss}>
           총 {totalexpenditure.toLocaleString()}원을
           <br />
@@ -191,7 +216,7 @@ const AccountChart = () => {
         </Typography>
         <Bar data={chartData} options={options} height={"50%"} />
         <div>
-          {filteredData.map((item) => {
+          {displayData.map((item) => {
             const percentage = totalexpenditure > 0 ? (
               (item.money / totalexpenditure) * 100).toFixed(2) : 0;
             return (
@@ -212,6 +237,17 @@ const AccountChart = () => {
             );
           })}
         </div>
+        {filteredData.length > 5 && (
+          <Button
+            color="primary"
+            size="sm"
+            variant="contained"
+            onClick={() => setShowAll(!showAll)}
+            css={allbtnCss}
+          >
+            {showAll ? '접기' : '카테고리 전체 보기'}
+          </Button>
+        )}
       </div>
       <Analysis />
     </>
