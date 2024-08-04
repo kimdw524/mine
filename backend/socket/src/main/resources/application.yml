@@ -2,6 +2,8 @@ spring:
   session:
     expire-seconds: 86400 #
     store-type: redis
+  redis:
+    namespace: mine:session
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -11,7 +13,7 @@ spring:
 
   data:
     redis:
-      host: khj745700.iptime.org
+      host: redis
       port: 6379
 
   rabbitmq:
@@ -28,3 +30,14 @@ rabbitmq:
   routing.fast-api-key: fast-api-server
   routing.fast-api-batch-key: fast-api-server-batch
   routing.my-key: spring-chat-server
+
+
+server:
+  servlet:
+    session:
+      cookie:
+        http-only: true
+        path: /
+        secure: true
+        same-site: none
+        max-age: 3600

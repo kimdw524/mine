@@ -11,6 +11,7 @@ import org.springframework.web.socket.server.HandshakeInterceptor;
 
 import java.util.Map;
 
+@Slf4j
 @Component
 public class LoginCheckInterceptor implements HandshakeInterceptor {
 
@@ -19,7 +20,9 @@ public class LoginCheckInterceptor implements HandshakeInterceptor {
 
     @Override
     public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, Map<String, Object> attributes) throws Exception {
-        return ((Integer)httpSession.getAttribute("USER_ID")) == null;
+        log.info("session Id : {} ", httpSession.getId());
+        log.info("beforeHandshake : {} ", httpSession.getAttribute("USER_ID"));
+        return ((Integer) httpSession.getAttribute("USER_ID")) == null;
     }
 
     @Override
