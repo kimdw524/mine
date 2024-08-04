@@ -21,8 +21,6 @@ import Schedule from './pages/Schedule';
 import { UserProvider } from './pages/Login/UserContext';
 import Account from './pages/Account';
 import Chat from './pages/Chat';
-import ChoiceEdit from './pages/MyPage/EditAvatar/ChoiceEdit';
-import SubjectiveEdit from './pages/MyPage/EditAvatar/SubjectiveEdit';
 import Chart from './pages/Statistics/chart';
 import AccountChart from './pages/Statistics/Account/spend';
 import AvatarInfoEdit from './pages/MyPage/EditAvatar/AvatarInfoEdit';
@@ -86,11 +84,6 @@ function App() {
               <Route path="/mypage/password" element={<PwdEdit />} />
               <Route path="/avatar/create" element={<CreateAvatar />} />
               <Route path="/mypage/avatar/info" element={<AvatarInfoEdit />} />
-              <Route path="/mypage/avatar/choice" element={<ChoiceEdit />} />
-              <Route
-                path="/mypage/avatar/subjective"
-                element={<SubjectiveEdit />}
-              />
               <Route path="/mypage/avatar/qna" element={<AvatarQnAEdit />} />
               <Route path="/findpassword" element={<FindPassword />} />
 
