@@ -15,12 +15,7 @@ import {
   typeCss,
 } from './style';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import {
-  AccountData,
-  AccountParam,
-  addAccount,
-  updateAccount,
-} from '../../../apis/accountApi';
+import { AccountData, updateAccount } from '../../../apis/accountApi';
 import { apiFormatDateTime } from '../../../utils/dateUtils';
 
 interface EditProps {

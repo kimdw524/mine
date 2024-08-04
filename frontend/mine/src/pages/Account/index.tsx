@@ -12,6 +12,7 @@ import Create from './Create';
 import useModal from '../../hooks/useModal';
 import Modal from '../../hooks/useModal/Modal';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
+import Search from './Search';
 
 const Account = () => {
   const navigate = useNavigate();
@@ -59,6 +60,13 @@ const Account = () => {
     });
   };
 
+  const handleSearchClick = () => {
+    open({
+      component: <Search />,
+      name: 'searchAccount',
+    });
+  };
+
   return (
     <>
       <Modal data={modal} />
@@ -67,7 +75,9 @@ const Account = () => {
           <AppBar
             label="가계부"
             onBackClick={() => navigate(-1)}
-            menu={[{ icon: <MagnifyingGlassIcon />, onClick: () => alert(1) }]}
+            menu={[
+              { icon: <MagnifyingGlassIcon />, onClick: handleSearchClick },
+            ]}
           />
         </div>
         <div>

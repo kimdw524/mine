@@ -24,7 +24,7 @@ const Modal = ({ data }: ModalProps) => {
       if (data === null) {
         wrapperRef.current.className = classNames.modal;
       } else if (data.show) {
-        wrapperRef.current.className = `${classNames.modal} ${classNames.enter}`;
+        wrapperRef.current.className = `${classNames.enter}`;
       } else {
         wrapperRef.current.className = classNames.unmounted;
         const reflow = wrapperRef.current.offsetTop;
