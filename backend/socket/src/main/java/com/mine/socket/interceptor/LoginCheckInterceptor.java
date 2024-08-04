@@ -1,6 +1,7 @@
 package com.mine.socket.interceptor;
 
 import jakarta.servlet.http.HttpSession;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
@@ -18,7 +19,7 @@ public class LoginCheckInterceptor implements HandshakeInterceptor {
 
     @Override
     public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, Map<String, Object> attributes) throws Exception {
-        return httpSession.getAttribute("email") != null;
+        return ((Integer)httpSession.getAttribute("USER_ID")) == null;
     }
 
     @Override
