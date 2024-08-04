@@ -87,7 +87,7 @@ export const updateAvatarInfo = (
 /* 아바타 질문 조회 */
 export const getQuestions = () => {
   return api({
-    url: `/api/questions`,
+    url: `/api/question`,
     method: 'get',
   });
 };
