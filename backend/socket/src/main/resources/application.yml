@@ -11,7 +11,7 @@ spring:
 
   data:
     redis:
-      host: localhost
+      host: khj745700.iptime.org
       port: 6379
 
   rabbitmq:
