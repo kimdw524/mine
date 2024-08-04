@@ -7,6 +7,7 @@ import useModal from '../../../hooks/useModal';
 import AccountList from '../../../components/molecules/AccountList';
 import Edit from '../Edit';
 import { css } from '@emotion/react';
+import NoResult from '../../../components/molecules/NoResult';
 
 interface SearchListFetchProps {
   query: string;
@@ -16,6 +17,7 @@ interface SearchListFetchProps {
 const containerCss = css`
   overflow-x: hidden;
   margin-top: 1rem;
+  min-height: 100%;
 
   > div {
     padding: 1rem;
@@ -41,25 +43,29 @@ const SearchListFetch = ({ query, type }: SearchListFetchProps) => {
 
   return (
     <>
-      <div css={containerCss}>
-        {data.data.map((data, index) => (
-          <AccountList
-            key={data.accountId}
-            data={data}
-            onClick={() =>
-              push({
-                component: <Edit data={data} />,
-                name: 'editAccountBySearch',
-              })
-            }
-            style={
-              {
-                '--duration': `${Math.min(800, index * 200 + 300)}ms`,
-              } as CSSProperties
-            }
-          />
-        ))}
-      </div>
+      {data.data.length === 0 ? (
+        <NoResult />
+      ) : (
+        <div css={containerCss}>
+          {data.data.map((data, index) => (
+            <AccountList
+              key={data.accountId}
+              data={data}
+              onClick={() =>
+                push({
+                  component: <Edit data={data} />,
+                  name: 'editAccountBySearch',
+                })
+              }
+              style={
+                {
+                  '--duration': `${Math.min(800, index * 200 + 300)}ms`,
+                } as CSSProperties
+              }
+            />
+          ))}
+        </div>
+      )}
     </>
   );
 };

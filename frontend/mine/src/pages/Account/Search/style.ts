@@ -8,11 +8,20 @@ export const modalCss = css`
 `;
 
 export const containerCss = css`
-  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
 `;
 
 export const searchCss = css`
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  padding: 1rem 1rem 0.5rem 1rem;
+`;
+
+export const resultCss = css`
+  flex: 1;
+  overflow-y: scroll;
+  padding-bottom: 0.5rem;
 `;
