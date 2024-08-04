@@ -31,7 +31,7 @@ public class WebSocketConfig extends AbstractSessionWebSocketMessageBrokerConfig
     public void configureStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/stomp/chat") // ex ) ws://localhost:8080/stomp/chat
                 .addInterceptors(loginCheckInterceptor)
-                .setAllowedOriginPatterns("*").withSockJS().setSuppressCors(false);
+                .setAllowedOriginPatterns("*").withSockJS().setSuppressCors(true);
     }
 
     @Override
