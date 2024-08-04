@@ -74,10 +74,11 @@ const AvatarInfoFetch = () => {
         <Button
           fullWidth
           onClick={() =>
-            nav('/mypage/avatar/name', {
+            nav('/mypage/avatar/info', {
               state: {
                 avatarId: avatarInfoQuery.data.data[avatar].avatarId,
-                curName: avatarInfoQuery.data.data[avatar].avatarName,
+                colName: 'avatarName',
+                oldInfo: avatarInfoQuery.data.data[avatar].avatarName,
               },
             })
           }
@@ -87,10 +88,11 @@ const AvatarInfoFetch = () => {
         <Button
           fullWidth
           onClick={() =>
-            nav('/mypage/avatar/job', {
+            nav('/mypage/avatar/info', {
               state: {
                 avatarId: avatarInfoQuery.data.data[avatar].avatarId,
-                curJob: avatarInfoQuery.data.data[avatar].job,
+                colName: 'job',
+                oldInfo: avatarInfoQuery.data.data[avatar].job,
               },
             })
           }
@@ -100,10 +102,11 @@ const AvatarInfoFetch = () => {
         <Button
           fullWidth
           onClick={() =>
-            nav('/mypage/avatar/residence', {
+            nav('/mypage/avatar/info', {
               state: {
                 avatarId: avatarInfoQuery.data.data[avatar].avatarId,
-                curResidence: avatarInfoQuery.data.data[avatar].residence,
+                colName: 'residence',
+                oldInfo: avatarInfoQuery.data.data[avatar].residence,
               },
             })
           }

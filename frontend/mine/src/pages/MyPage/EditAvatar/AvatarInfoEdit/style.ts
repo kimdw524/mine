@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-export const avatarJobEditContainerCss = css`
+export const avatarInfoEditContainerCss = css`
   height: 100%;
 `;
 
