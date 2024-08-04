@@ -28,6 +28,7 @@ import ChoiceEdit from './pages/MyPage/EditAvatar/ChoiceEdit';
 import SubjectiveEdit from './pages/MyPage/EditAvatar/SubjectiveEdit';
 import Chart from './pages/Statistics/chart';
 import AccountChart from './pages/Statistics/Account/spend';
+import ScheduleChart from './pages/Statistics/Schedule';
 
 function App() {
   const [notiInfo, setNotiInfo] = useState<INotiInfo>({
@@ -80,6 +81,7 @@ function App() {
               <Route path="/main" element={<Main />} />
               <Route path="/chart" element={<Chart />} />
               <Route path="/accountchart" element={<AccountChart />} />
+              <Route path="/schedulechart" element={<ScheduleChart />} />
 
               {/* 마이페이지 */}
               <Route path="/mypage" element={<Information />} />

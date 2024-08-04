@@ -2,8 +2,9 @@ import { css } from '@emotion/react';
 
 export const containerCss = css`
   padding: 1.25rem;
-  margin: 0 auto;
-  max-width: 600px;
+  /* margin: 0 auto; */
+  /* max-width: 600px; */
+  margin: 0.5rem 1rem;
   border: 1px solid;
   .Bar {
     max-width: 90%;
