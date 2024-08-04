@@ -29,3 +29,17 @@ export const addScheduleByChat = (param: { query: string }) => {
 export const updateSchedule = (param: ScheduleData) => {
   return api.patch('/api/users/schedule', param);
 };
+
+export const searchSchedules = (query: string) => {
+  return api.get<ScheduleData[]>(
+    `/api/users/schedules/calendar?query=${query}`,
+  );
+};
+
+export const searchSchedulesByChat = (query: string) => {
+  return api.get<ScheduleData[]>(`/api/users/schedules/chat?query=${query}`);
+};
+
+export const deleteSchedule = (scheduleId: number) => {
+  return api.delete(`/api/users/schedules/${scheduleId}`);
+};
