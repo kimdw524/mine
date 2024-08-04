@@ -60,3 +60,26 @@ export const getUserAchievement = () => {
     method: 'get',
   });
 };
+
+/* 사용자 아바타 조회 */
+export const getUserAvatars = () => {
+  return api({
+    url: '/api/avatars',
+    method: 'get',
+  });
+};
+
+/* 사용자 아바타 기본정보 수정 */
+export const updateAvatarInfo = (
+  avatarId: number,
+  infoType: string,
+  value: string,
+) => {
+  return api({
+    url: `/api/avatars/${avatarId}`,
+    method: 'patch',
+    data: {
+      [infoType]: value,
+    },
+  });
+};

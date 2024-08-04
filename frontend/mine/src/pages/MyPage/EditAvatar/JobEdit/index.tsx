@@ -1,12 +1,12 @@
 /** @jsxImportSource @emotion/react */
-import React, { useCallback, useContext, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import AppBar from '../../../../components/organisms/AppBar';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { NotificationContext } from '../../../../utils/NotificationContext';
 import { Palette } from 'oyc-ds/dist/themes/lightTheme';
 import { avatarJobEditContainerCss, contentCss } from './style';
-import { changeAvatarJob } from '../../../../apis/avatarApi';
 import { Button, TextField, Typography } from 'oyc-ds';
+import { updateAvatarInfo } from '../../../../apis/mypageApi';
 
 const JobEdit = () => {
   const nav = useNavigate();
@@ -40,7 +40,7 @@ const JobEdit = () => {
   }, [newJob]);
 
   const handleAvatarJobChange = async () => {
-    await changeAvatarJob(1, newJob)
+    await updateAvatarInfo(location.state.avatarId, 'job', newJob)
       .then(() => {
         nav('/mypage');
         notificationContext.handle(
@@ -53,6 +53,11 @@ const JobEdit = () => {
         notificationContext.handle('contained', 'danger', '다시 시도해주세요');
       });
   };
+
+  useEffect(() => {
+    const info = location.state;
+    console.log(info);
+  }, []);
 
   return (
     <>

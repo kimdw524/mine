@@ -88,7 +88,7 @@ function App() {
               <Route path="/avatar/create" element={<CreateAvatar />} />
               <Route path="/mypage/avatar/job" element={<JobEdit />} />
               <Route path="/mypage/avatar/name" element={<NameEdit />} />
-              <Route path="/mypage/avatar/place" element={<PlaceEdit />} />
+              <Route path="/mypage/avatar/residence" element={<PlaceEdit />} />
               <Route path="/mypage/avatar/choice" element={<ChoiceEdit />} />
               <Route
                 path="/mypage/avatar/subjective"

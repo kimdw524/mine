@@ -27,5 +27,5 @@ export const engToIcon: Record<string, ReactNode> = {
   birthday: <CakeIcon />,
   personality: <UserIcon />,
   job: <BriefcaseIcon />,
-  place: <MapIcon />,
+  residence: <MapIcon />,
 };

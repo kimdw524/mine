@@ -12,5 +12,5 @@ export const engToKor: Record<string, string> = {
   birthday: '생일',
   personality: '성격',
   job: '직업',
-  place: '거주지',
+  residence: '거주지',
 };

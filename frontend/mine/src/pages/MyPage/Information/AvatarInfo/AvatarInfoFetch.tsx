@@ -1,7 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import React, { useState } from 'react';
 import { useSuspenseQuery } from '@tanstack/react-query';
-import { getAvatarInfo } from '../../../../apis/avatarApi';
 import {
   avatarInfoBoxCss,
   avatarInfoBtn,
@@ -11,6 +10,17 @@ import {
 import { Button, MenuTab } from 'oyc-ds';
 import InfoBox from '../../../../components/molecules/InfoBox/InfoBox';
 import { useNavigate } from 'react-router-dom';
+import { getUserAvatars } from '../../../../apis/mypageApi';
+import dayjs from 'dayjs';
+
+interface IAvatarInfo {
+  avatarId: number;
+  avatarName: string;
+  birthday: string;
+  modelId: number;
+  job: string;
+  residence: string;
+}
 
 const AvatarInfoFetch = () => {
   const nav = useNavigate();
@@ -18,7 +28,7 @@ const AvatarInfoFetch = () => {
 
   const avatarInfoQuery = useSuspenseQuery({
     queryKey: ['avatarinfo'],
-    queryFn: async () => await getAvatarInfo(),
+    queryFn: async () => await getUserAvatars(),
   });
 
   if (avatarInfoQuery.error && !avatarInfoQuery.isFetching) {
@@ -30,29 +40,45 @@ const AvatarInfoFetch = () => {
       <div css={selectCss}>
         <div css={selectBoxCss}>
           <MenuTab onChangeMenu={(menu: number) => setAvatar(menu)}>
-            {avatarInfoQuery.data.data.length > 1
-              ? ['1번 아바타', '2번 아바타']
-              : ['1번 아바타']}
+            {avatarInfoQuery.data.data.map(
+              (avatar: IAvatarInfo) => avatar.avatarName,
+            )}
           </MenuTab>
         </div>
       </div>
       <div css={avatarInfoBoxCss}>
-        {Object.keys(avatarInfoQuery.data.data[avatar]).map((v: string) => {
-          return (
-            <InfoBox
-              key={v}
-              label={v}
-              content={avatarInfoQuery.data.data[avatar][v]}
-            />
-          );
-        })}
+        <InfoBox
+          label={'name'}
+          content={avatarInfoQuery.data.data[avatar].avatarName}
+        />
+        <InfoBox
+          label={'birthday'}
+          content={dayjs(avatarInfoQuery.data.data[avatar].birthday).format(
+            'YYYY-MM-DD',
+          )}
+        />
+        <InfoBox
+          label={'personality'}
+          content={avatarInfoQuery.data.data[avatar].personality}
+        />
+        <InfoBox
+          label={'job'}
+          content={avatarInfoQuery.data.data[avatar].job}
+        />
+        <InfoBox
+          label={'residence'}
+          content={avatarInfoQuery.data.data[avatar].residence}
+        />
       </div>
       <div css={avatarInfoBtn}>
         <Button
           fullWidth
           onClick={() =>
             nav('/mypage/avatar/name', {
-              state: { curName: avatarInfoQuery.data.data[avatar]['name'] },
+              state: {
+                avatarId: avatarInfoQuery.data.data[avatar].avatarId,
+                curName: avatarInfoQuery.data.data[avatar].avatarName,
+              },
             })
           }
         >
@@ -62,7 +88,10 @@ const AvatarInfoFetch = () => {
           fullWidth
           onClick={() =>
             nav('/mypage/avatar/job', {
-              state: { curJob: avatarInfoQuery.data.data[avatar]['job'] },
+              state: {
+                avatarId: avatarInfoQuery.data.data[avatar].avatarId,
+                curJob: avatarInfoQuery.data.data[avatar].job,
+              },
             })
           }
         >
@@ -71,8 +100,11 @@ const AvatarInfoFetch = () => {
         <Button
           fullWidth
           onClick={() =>
-            nav('/mypage/avatar/place', {
-              state: { curPlace: avatarInfoQuery.data.data[avatar]['place'] },
+            nav('/mypage/avatar/residence', {
+              state: {
+                avatarId: avatarInfoQuery.data.data[avatar].avatarId,
+                curResidence: avatarInfoQuery.data.data[avatar].residence,
+              },
             })
           }
         >
@@ -82,7 +114,7 @@ const AvatarInfoFetch = () => {
           fullWidth
           onClick={() =>
             nav('/mypage/avatar/choice', {
-              state: { name: avatarInfoQuery.data.data[avatar]['name'] },
+              state: { name: avatarInfoQuery.data.data[avatar].avatarName },
             })
           }
         >
@@ -92,7 +124,7 @@ const AvatarInfoFetch = () => {
           fullWidth
           onClick={() =>
             nav('/mypage/avatar/subjective', {
-              state: { name: avatarInfoQuery.data.data[avatar]['name'] },
+              state: { name: avatarInfoQuery.data.data[avatar].avatarName },
             })
           }
         >

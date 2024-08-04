@@ -5,8 +5,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { NotificationContext } from '../../../../utils/NotificationContext';
 import { Palette } from 'oyc-ds/dist/themes/lightTheme';
 import { avatarNameEditContainerCss, contentCss } from './style';
-import { changeAvatarName } from '../../../../apis/avatarApi';
 import { Button, TextField, Typography } from 'oyc-ds';
+import { updateAvatarInfo } from '../../../../apis/mypageApi';
 
 const NameEdit = () => {
   const nav = useNavigate();
@@ -40,7 +40,7 @@ const NameEdit = () => {
   }, [newName]);
 
   const handleAvatarNameChange = async () => {
-    await changeAvatarName(1, newName)
+    await updateAvatarInfo(location.state.avatarId, 'avatarName', newName)
       .then(() => {
         nav('/mypage');
         notificationContext.handle(
