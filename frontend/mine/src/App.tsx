@@ -26,6 +26,7 @@ import SubjectiveEdit from './pages/MyPage/EditAvatar/SubjectiveEdit';
 import Chart from './pages/Statistics/chart';
 import AccountChart from './pages/Statistics/Account/spend';
 import AvatarInfoEdit from './pages/MyPage/EditAvatar/AvatarInfoEdit';
+import AvatarQnAEdit from './pages/MyPage/EditAvatar/AvatarQnAEdit';
 
 function App() {
   const [notiInfo, setNotiInfo] = useState<INotiInfo>({
@@ -90,6 +91,7 @@ function App() {
                 path="/mypage/avatar/subjective"
                 element={<SubjectiveEdit />}
               />
+              <Route path="/mypage/avatar/qna" element={<AvatarQnAEdit />} />
               <Route path="/findpassword" element={<FindPassword />} />
 
               <Route path="/schedule" element={<Schedule />} />

@@ -1,24 +1,25 @@
 /** @jsxImportSource @emotion/react */
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState, useContext } from 'react';
 import { useSuspenseQueries } from '@tanstack/react-query';
-import {
-  NewAnsListData,
-  updateAvatarSubjective,
-} from '../../../../apis/avatarApi';
+import { NewAnsListData, updateAvatarChoice } from '../../../../apis/avatarApi';
 import EditQnA from '../EditQnA';
 import { controlBtnCss, editBtnCss, editListCss } from './style';
-import { Button, Icon, Typography } from 'oyc-ds';
+import { Button, Typography, Icon } from 'oyc-ds';
+import { HashtagIcon } from '@heroicons/react/24/solid';
 import { NotificationContext } from '../../../../utils/NotificationContext';
 import { useNavigate } from 'react-router-dom';
-import { HashtagIcon } from '@heroicons/react/24/solid';
-import { getQuestions, getAnswers } from '../../../../apis/mypageApi';
+import { getAnswers, getQuestions } from '../../../../apis/mypageApi';
 import { IAnswer, INewAnswer, IQuestion } from '../../../../types/qnaType';
 
-interface ISubjectEditFetchProps {
+interface IAvatarQnAEditFetchProps {
   avatarId: number;
+  questionType: string;
 }
 
-const SubjectEditFetch = ({ avatarId }: ISubjectEditFetchProps) => {
+const AvatarQnAEditFetch = ({
+  avatarId,
+  questionType,
+}: IAvatarQnAEditFetchProps) => {
   const [questionQuery, answerQuery] = useSuspenseQueries({
     queries: [
       { queryKey: ['questions'], queryFn: () => getQuestions() },
@@ -41,10 +42,12 @@ const SubjectEditFetch = ({ avatarId }: ISubjectEditFetchProps) => {
 
   useEffect(() => {
     setQuestions(
-      questionQuery.data.data.filter((q: IQuestion) => q.type === 's'),
+      questionQuery.data.data.filter((q: IQuestion) => q.type === questionType),
     );
     setAnswers(
-      answerQuery.data.data.filter((a: IAnswer) => a.questionType === 's'),
+      answerQuery.data.data.filter(
+        (a: IAnswer) => a.questionType === questionType,
+      ),
     );
   }, []);
 
@@ -54,13 +57,13 @@ const SubjectEditFetch = ({ avatarId }: ISubjectEditFetchProps) => {
       newAns.push({
         questionId: q.questionId,
         isNew: false,
-        newAns: '',
+        newAns: questionType === 'c' ? -1 : '',
       });
     });
   }, [questions]);
 
   const handleTarget = useCallback(
-    (Qidx: number, isNew: boolean, newAns: string) => {
+    (Qidx: number, isNew: boolean, newAns: number | string) => {
       setEditTarget((prev) => {
         const newTarget = [...prev];
         newTarget[Qidx] = {
@@ -75,33 +78,40 @@ const SubjectEditFetch = ({ avatarId }: ISubjectEditFetchProps) => {
   );
 
   const handleResponse = useCallback(
-    (Qidx: number, ans: string | number) => {
-      handleTarget(Qidx, !(answers[Qidx].answer === ans), String(ans));
+    (Qidx: number, ans: number | string) => {
+      handleTarget(
+        Qidx,
+        !(
+          answers[Qidx].answer ===
+          (questionType === 'c' ? Number(ans) + 1 : String(ans))
+        ),
+        questionType === 'c' ? Number(ans) + 1 : String(ans),
+      );
     },
     [answers],
   );
 
   const handleSubmit = async () => {
-    const newSubjectives: NewAnsListData = {
+    const newChoices: NewAnsListData = {
       avatarId: 123,
       anss: [],
     };
 
     editTarget.map((target: INewAnswer) => {
       if (target.isNew) {
-        newSubjectives.anss.push({
+        newChoices.anss.push({
           questionId: target.questionId,
           ansId: target.newAns,
         });
       }
     });
 
-    await updateAvatarSubjective(newSubjectives)
+    await updateAvatarChoice(newChoices)
       .then(() => {
         notificationContext.handle(
           'contained',
           'success',
-          '질의응답이 성공적으로 변경되었습니다',
+          '설문조사가 성공적으로 변경되었습니다',
         );
         nav('/mypage');
       })
@@ -135,7 +145,9 @@ const SubjectEditFetch = ({ avatarId }: ISubjectEditFetchProps) => {
           </Typography>
         </Button>
         <Button
-          onClick={() => setIndex((index) => index + 1)}
+          onClick={() => {
+            setIndex((index) => index + 1);
+          }}
           disabled={index === questions.length - 1}
         >
           <Typography size="sm" color="light">
@@ -170,4 +182,4 @@ const SubjectEditFetch = ({ avatarId }: ISubjectEditFetchProps) => {
   );
 };
 
-export default SubjectEditFetch;
+export default AvatarQnAEditFetch;

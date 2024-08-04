@@ -1,32 +1,35 @@
 /** @jsxImportSource @emotion/react */
-import React, { Suspense, useState } from 'react';
+import React, { Suspense } from 'react';
 import AppBar from '../../../../components/organisms/AppBar';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { avatarChoiceEditContainerCss, questionCss, titleCss } from './style';
+import { avatarQnAEditContainerCss, questionCss, titleCss } from './style';
 import { Typography } from 'oyc-ds';
-import ChoiceEditFetch from './ChoiceEditFetch';
+import AvatarQnAEditFetch from './AvatarQnAEditFetch';
 import { ErrorBoundary } from 'react-error-boundary';
 
-const ChoiceEdit = () => {
+const AvatarQnAEdit = () => {
   const location = useLocation();
   const nav = useNavigate();
 
   return (
     <>
-      <div css={avatarChoiceEditContainerCss}>
+      <div css={avatarQnAEditContainerCss}>
         <AppBar
           label={location.state.name}
           onBackClick={() => nav('/mypage')}
         />
         <div css={titleCss}>
           <Typography size="md" color="dark">
-            설문조사
+            {location.state.questionType === 'c' ? '설문조사' : '질의응답'}
           </Typography>
         </div>
         <div css={questionCss}>
           <ErrorBoundary fallback={<>에러</>}>
             <Suspense fallback={<>로딩중</>}>
-              <ChoiceEditFetch avatarId={location.state.avatarId} />
+              <AvatarQnAEditFetch
+                avatarId={location.state.avatarId}
+                questionType={location.state.questionType}
+              />
             </Suspense>
           </ErrorBoundary>
         </div>
@@ -35,4 +38,4 @@ const ChoiceEdit = () => {
   );
 };
 
-export default ChoiceEdit;
+export default AvatarQnAEdit;

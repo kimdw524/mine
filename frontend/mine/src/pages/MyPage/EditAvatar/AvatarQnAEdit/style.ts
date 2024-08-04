@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-export const avatarSubjectEditContainerCss = css`
+export const avatarQnAEditContainerCss = css`
   display: flex;
   flex-direction: column;
   height: 100%;
