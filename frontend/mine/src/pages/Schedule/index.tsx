@@ -9,6 +9,8 @@ import { ErrorBoundary } from 'react-error-boundary';
 import { getMonthDates, getWeekDates } from '../../utils/dateUtils';
 import Create from './Create';
 import useModal from '../../hooks/useModal';
+import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
+import Search from './Search';
 
 export type SchedulePeriod = 'daily' | 'weekly' | 'monthly';
 
@@ -45,6 +47,13 @@ const Schedule = () => {
     });
   };
 
+  const handleSearchClick = () => {
+    push({
+      component: <Search />,
+      name: 'searchSchedule',
+    });
+  };
+
   const updateSelected = (date: string, period: SchedulePeriod) => {
     switch (period) {
       case 'daily': {
@@ -66,7 +75,13 @@ const Schedule = () => {
     <>
       <div css={containerCss}>
         <div>
-          <AppBar label="일정 관리" onBackClick={() => navigate('/')} />
+          <AppBar
+            label="일정 관리"
+            onBackClick={() => navigate(-1)}
+            menu={[
+              { icon: <MagnifyingGlassIcon />, onClick: handleSearchClick },
+            ]}
+          />
           <div>
             <Calendar
               year={parseInt(year)}
