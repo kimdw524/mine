@@ -69,3 +69,98 @@ export const income: Spend[] = [
   { id: 14, name: '주거', money: 300000, date: '2024-08-09' , color: '#6f78c7'},
   { id: 15, name: '기타', money: 20000, date: '2024-08-10' , color: '#535d90'},
 ];
+
+export type SheduleData = {
+  id: number;
+  name: string;
+  count: number;
+  date: string;
+  color: string;
+}
+
+export const scheduleData: SheduleData[] = [
+  {id: 1, name: '미정', count: 1, date: '2024-07-18', color: '#eaeff1'},
+  {id: 2, name: '여행', count: 2, date: '2024-07-19', color: '#ff8484'},
+  {id: 3, name: '외식', count: 7, date: '2024-07-20', color: '#fcfca5'},
+  {id: 4, name: '업무', count: 4, date: '2024-08-01', color: '#d3e0f7'},
+  {id: 5, name: '약속', count: 5, date: '2024-08-02', color: '#d0ffc7'},
+  {id: 6, name: '시험', count: 6, date: '2024-08-03', color: '#b8e6ff'},
+  {id: 7, name: '기타', count: 7, date: '2024-08-04', color: '#f1f1f1'},
+]
+
+export const getDisplayTimeframe = (period:any, offset:any): JSX.Element => {
+  const today = new Date();
+  let displayText: JSX.Element = <div></div>;
+
+  if (period === 'monthly') {
+    const currentMonth = today.getMonth();
+    const monthNames = [
+      '1월', '2월', '3월', '4월', '5월', '6월', 
+      '7월', '8월', '9월', '10월', '11월', '12월'
+    ];
+    displayText = (
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <span style={{ fontWeight: 'bold' }}>{monthNames[currentMonth - offset]}</span>
+      </div>
+    );
+  } else if (period === 'weekly') {
+    const currentWeekStart = new Date(today);
+    currentWeekStart.setDate(today.getDate() - today.getDay());
+
+    const previousWeekStart = new Date(currentWeekStart);
+    previousWeekStart.setDate(previousWeekStart.getDate() - 7 * offset);
+
+    const nextWeekStart = new Date(currentWeekStart);
+    nextWeekStart.setDate(nextWeekStart.getDate() + 7 * (offset + 1));
+
+    const formatDate = (date: Date) => date.toLocaleDateString('ko-KR', { month: 'numeric', day: 'numeric' });
+
+    const currentWeekEnd = new Date(currentWeekStart);
+    currentWeekEnd.setDate(currentWeekStart.getDate() + 6);
+
+    const previousWeekEnd = new Date(previousWeekStart);
+    previousWeekEnd.setDate(previousWeekStart.getDate() + 6);
+
+    const nextWeekEnd = new Date(nextWeekStart);
+    nextWeekEnd.setDate(nextWeekStart.getDate() + 6);
+
+    displayText = (
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <span style={{ fontWeight: 'bold' }}>
+          {formatDate(previousWeekStart)}~{formatDate(previousWeekEnd)}
+        </span>
+      </div>
+    );
+  } else if (period === 'yearly') {
+    const currentYear = today.getFullYear();
+    displayText = (
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <span style={{ fontWeight: 'bold' }}>{currentYear - offset}년</span>
+      </div>
+    );
+  }
+
+  return displayText;
+};
+
+export const getDateRange = (period: string, offset: number) => {
+  const today = new Date();
+  
+  if (period === 'monthly') {
+    const year = today.getFullYear();
+    const month = today.getMonth();
+    const startDate = new Date(year, month - offset, 1);
+    const endDate = new Date(year, month - offset + 1, 0);
+    return { startDate, endDate };
+  }
+
+  if (period === 'yearly') {
+    const year = today.getFullYear();
+    const startDate = new Date(year - offset, 0, 1);
+    const endDate = new Date(year - offset + 1, 0, 0);
+    return { startDate, endDate };
+  }
+
+  // 기본값
+  return { startDate: today, endDate: today };
+};

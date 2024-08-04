@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Doughnut } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -14,8 +14,10 @@ import AppBar from '../../../components/organisms/AppBar';
 import { useNavigate } from 'react-router-dom';
 import { MenuTab, Typography } from 'oyc-ds';
 import DataTab from '../datatab';
-import { chartCss, manymsgCss } from './style';
+import { boxCss, chartCss, labelboxCss, labelCss, manymsgCss, percentCss } from './style';
+import { getDisplayTimeframe, scheduleData, getDateRange } from '../../../utils/SpendData';
 
+// Chart.js 플러그인 및 설정 등록
 ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 
 const customLegendPlugin: Plugin<'doughnut'> = {
@@ -47,9 +49,26 @@ const customLegendPlugin: Plugin<'doughnut'> = {
 
 ChartJS.register(customLegendPlugin);
 
+// 데이터 변환 함수
+const transformScheduleData = (data: any[]) => {
+  const labels = data.map(item => item.name);
+  const counts = data.map(item => item.count);
+  const backgroundColor = data.map(item => item.color);
+
+  return {
+    labels,
+    datasets: [{
+      label: '일정 분포',
+      data: counts,
+      backgroundColor,
+      hoverOffset: 4,
+    }],
+  };
+};
+
 const Schedule = () => {
   const [offset, setOffset] = useState(0);
-  const [period, setPeriod] = useState('weekly');
+  const [period, setPeriod] = useState('monthly');
   const nav = useNavigate();
   const chartRef = useRef<ChartJS<'doughnut'>>(null);
 
@@ -68,57 +87,29 @@ const Schedule = () => {
     }
   };
 
-  const getDisplayTimeframe = (): JSX.Element => {
-    const today = new Date();
-    let displayText: JSX.Element = <div></div>;
+  // 날짜 범위 계산
+  const { startDate, endDate } = getDateRange(period, offset);
 
-    if (period === 'monthly') {
-      const currentMonth = today.getMonth();
-      const monthNames = [
-        '1월', '2월', '3월', '4월', '5월', '6월', 
-        '7월', '8월', '9월', '10월', '11월', '12월'
-      ];
-      displayText = (
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <span style={{ fontWeight: 'bold' }}>
-            {monthNames[currentMonth - offset]}
-          </span>
-        </div>
-      );
-    } else if (period === 'yearly') {
-      const currentYear = today.getFullYear();
-      displayText = (
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <span style={{ fontWeight: 'bold' }}>{currentYear - offset}년</span>
-        </div>
-      );
-    }
+  // 데이터 필터링
+  const filteredScheduleData = scheduleData.filter((item) => {
+    const itemDate = new Date(item.date);
+    return itemDate >= startDate && itemDate <= endDate;
+  });
 
-    return displayText;
-  };
+  // 필터링된 데이터가 없다면 로그를 찍어 확인
+  useEffect(() => {
+    console.log('Filtered Data:', filteredScheduleData);
+  }, [offset, period]);
 
-  const scheduleData = {
-    labels: ['회의', '업무', '교육', '휴식', '기타'],
-    datasets: [
-      {
-        label: '일정 분포',
-        data: [10, 20, 30, 25, 15],
-        backgroundColor: [
-          '#FF6384',
-          '#36A2EB',
-          '#FFCE56',
-          '#4BC0C0',
-          '#9966FF',
-        ],
-        hoverOffset: 4,
-      },
-    ],
-  };
+  // 데이터 변환
+  const scheduledata = transformScheduleData(filteredScheduleData);
 
-  const maxIndex = scheduleData.datasets[0].data.indexOf(
-    Math.max(...scheduleData.datasets[0].data),
-  );
-  const maxLabel = scheduleData.labels[maxIndex];
+  // 필터링된 데이터가 없으면 기본값 설정
+  const maxIndex = scheduledata.datasets[0]?.data.indexOf(
+    Math.max(...scheduledata.datasets[0]?.data || [0]),
+  ) || 0;
+  const maxLabel = scheduledata.labels[maxIndex] || '없음';
+  const maxColor = scheduledata.datasets[0]?.backgroundColor[maxIndex] || '#FFFFFF';
 
   const options: ChartOptions<'doughnut'> = {
     plugins: {
@@ -126,15 +117,14 @@ const Schedule = () => {
         display: false,
       },
       datalabels: {
-        display: true,
-        // 다른 옵션들을 여기에 추가할 수 있습니다.
+        display: false,
       },
     },
   };
 
   return (
     <>
-      <AppBar label="가계 통계" onBackClick={() => nav('/')} />
+      <AppBar label="일정 통계" onBackClick={() => nav('/')} />
       <MenuTab
         color="light"
         size="sm"
@@ -145,7 +135,7 @@ const Schedule = () => {
         <div>연간</div>
       </MenuTab>
       <DataTab
-        title={getDisplayTimeframe()}
+        title={getDisplayTimeframe(period, offset)}
         leftChild={
           <Typography
             color="dark"
@@ -167,49 +157,47 @@ const Schedule = () => {
           </Typography>
         }
       />
-      <div css={manymsgCss}><span className='maxLabel'>{maxLabel}</span> 일정이 가장 많았어요!</div>
-      <div style={{ display: 'flex', alignItems: 'flex-start', margin: '1rem', border:'1px solid #EEE', padding: '0.2rem'}}>
-  <div style={{ flex: '1', marginRight: '20px', textAlign: 'center' }}>
-    <h3>카테고리 비율</h3>
-    <Doughnut ref={chartRef} data={scheduleData} options={options} css={chartCss} />
-  </div>
-  <div style={{ flex: '1', display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '50px' }}>
-    {scheduleData.labels.map((label, index) => {
-      const value = scheduleData.datasets[0].data[index];
-      const total = scheduleData.datasets[0].data.reduce(
-        (acc, val) => acc + val,
-        0,
-      );
-      const percentage = ((value / total) * 100).toFixed(2);
-      return (
-        <div
-          key={index}
+      <Typography
+        color="dark"
+        size="sm"
+        weight="medium"
+        css={manymsgCss}
+      >
+        <span
+          className='maxLabel'
           style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            marginBottom: '10px',
-           
+            backgroundColor: maxColor,
           }}
         >
-          <span>
-            <span  
-              style={{
-                padding: '0.2rem 1rem',
-                borderRadius: '20px',
-                backgroundColor: scheduleData.datasets[0].backgroundColor[index],
-                marginRight: '10px',
-              }}>
-              {label}
-            </span> {percentage}%
-          </span>
+          {maxLabel}
+        </span> 일정이 가장 많았어요!
+      </Typography>
+      <section css={boxCss}>
+        <div className='title' style={{ flex: '1', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <Typography
+            color="dark"
+            size="md"
+            weight="bold"
+          >
+            카테고리 비율
+          </Typography>
+          <Doughnut ref={chartRef} data={scheduledata} options={options} css={chartCss} />
         </div>
-      );
-    })}
-  </div>
-</div>
-
-
+        <div css={labelboxCss} style={{ flex: '1', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          {scheduledata.labels.map((label, index) => {
+            const value = scheduledata.datasets[0]?.data[index] || 0;
+            const total = scheduledata.datasets[0]?.data.reduce((acc, val) => acc + val, 0) || 1;
+            const percentage = ((value / total) * 100).toFixed(2);
+            return (
+              <div key={index} css={labelCss}>
+                <span css={percentCss} style={{ backgroundColor: scheduledata.datasets[0]?.backgroundColor[index] }}>
+                  {label}
+                </span> {percentage}%
+              </div>
+            );
+          })}
+        </div>
+      </section>
     </>
   );
 };

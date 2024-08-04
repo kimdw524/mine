@@ -10,12 +10,12 @@ import AppBar from '../../../components/organisms/AppBar';
 import { useNavigate } from "react-router-dom";
 import { filterExpenses } from '../../../utils/expensefilter';
 import Analysis from './analysis';
+import { getDisplayTimeframe } from '../../../utils/SpendData';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 export const expenses = spend;
 export const incomes = income;
-
 const AccountChart = () => {
   const [period, setPeriod] = useState('weekly'); // 선택된 기간 상태 관리
   const [offset, setOffset] = useState(0); // 이전 주 또는 달 선택을 위한 오프셋 상태
@@ -108,60 +108,6 @@ const AccountChart = () => {
     },
   };
 
-  const getDisplayTimeframe = (): JSX.Element => {
-    const today = new Date();
-    let displayText: JSX.Element = <div></div>;
-
-    if (period === 'monthly') {
-      const currentMonth = today.getMonth();
-      const monthNames = [
-        '1월', '2월', '3월', '4월', '5월', '6월', 
-        '7월', '8월', '9월', '10월', '11월', '12월'
-      ];
-      displayText = (
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <span style={{ fontWeight: 'bold' }}>{monthNames[currentMonth - offset]}</span>
-        </div>
-      );
-    } else if (period === 'weekly') {
-      const currentWeekStart = new Date(today);
-      currentWeekStart.setDate(today.getDate() - today.getDay());
-
-      const previousWeekStart = new Date(currentWeekStart);
-      previousWeekStart.setDate(previousWeekStart.getDate() - 7 * offset);
-
-      const nextWeekStart = new Date(currentWeekStart);
-      nextWeekStart.setDate(nextWeekStart.getDate() + 7 * (offset + 1));
-
-      const formatDate = (date: Date) => date.toLocaleDateString('ko-KR', { month: 'numeric', day: 'numeric' });
-
-      const currentWeekEnd = new Date(currentWeekStart);
-      currentWeekEnd.setDate(currentWeekStart.getDate() + 6);
-
-      const previousWeekEnd = new Date(previousWeekStart);
-      previousWeekEnd.setDate(previousWeekStart.getDate() + 6);
-
-      const nextWeekEnd = new Date(nextWeekStart);
-      nextWeekEnd.setDate(nextWeekStart.getDate() + 6);
-
-      displayText = (
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <span style={{ fontWeight: 'bold' }}>
-            {formatDate(previousWeekStart)}~{formatDate(previousWeekEnd)}
-          </span>
-        </div>
-      );
-    } else if (period === 'yearly') {
-      const currentYear = today.getFullYear();
-      displayText = (
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <span style={{ fontWeight: 'bold' }}>{currentYear - offset}년</span>
-        </div>
-      );
-    }
-
-    return displayText;
-  };
 
   return (
     <>
@@ -181,7 +127,7 @@ const AccountChart = () => {
           <div>연별</div>
         </MenuTab>
         <DataTab
-          title={getDisplayTimeframe()}
+          title={getDisplayTimeframe(period, offset)}
           leftChild={<Typography
             color="dark"
             size="md"
