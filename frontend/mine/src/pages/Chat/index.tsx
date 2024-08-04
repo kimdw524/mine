@@ -10,7 +10,6 @@ import TypeTextField from '../../components/molecules/TypeTextField';
 import { AccountData } from '../../apis/accountApi';
 import { ScheduleData } from '../../apis/scheduleApi';
 import useModal from '../../hooks/useModal';
-import Modal from '../../hooks/useModal/Modal';
 import EditSchedule from '../Schedule/Edit';
 import EditAccount from '../Account/Edit';
 import EventMessage from '../../components/molecules/EventMessage';
@@ -22,7 +21,7 @@ const Chat = () => {
   const chatLogRef = useRef<HTMLDivElement>(null);
   const [chatLog, setChatLog] = useState<ChatMessageData[]>([]);
   const chatTypeRef = useRef<ChatType>('chat');
-
+  const { push } = useModal();
   const chat = useChat('ws://127.0.0.1:3001');
 
   const addChat = (data: ChatMessageData) => {
@@ -76,7 +75,7 @@ const Chat = () => {
               title={data.title}
               value="가계부 보기"
               onClick={() =>
-                open({
+                push({
                   component: <EditAccount data={data} />,
                   name: 'editAccount',
                 })
@@ -99,7 +98,7 @@ const Chat = () => {
               title={data.title}
               value="일정 보기"
               onClick={() =>
-                open({
+                push({
                   component: <EditSchedule data={data} />,
                   name: 'editSchedule',
                 })
@@ -122,11 +121,8 @@ const Chat = () => {
     );
   }, []);
 
-  const { open, modal } = useModal();
-
   return (
     <>
-      <Modal data={modal} />
       <div css={containerCss}>
         <div>
           <AppBar label="채팅방" onBackClick={() => navigate('/')} />

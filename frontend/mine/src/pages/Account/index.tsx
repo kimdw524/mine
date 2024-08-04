@@ -10,7 +10,6 @@ import AccountListFetch from './AccountListFetch';
 import { accountCss, bottomCss, containerCss, periodCss } from './style';
 import Create from './Create';
 import useModal from '../../hooks/useModal';
-import Modal from '../../hooks/useModal/Modal';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import Search from './Search';
 
@@ -22,7 +21,7 @@ const Account = () => {
   const [selected, setSelected] = useState<string[]>([
     `${start.getFullYear()}-${start.getMonth() + 1}-${start.getDate()}`,
   ]);
-  const { open, modal } = useModal();
+  const { push } = useModal();
 
   const [year, month] = start
     .toLocaleDateString()
@@ -54,14 +53,14 @@ const Account = () => {
   };
 
   const handleCreateAccount = () => {
-    open({
+    push({
       component: <Create />,
       name: 'createAccount',
     });
   };
 
   const handleSearchClick = () => {
-    open({
+    push({
       component: <Search />,
       name: 'searchAccount',
     });
@@ -69,7 +68,6 @@ const Account = () => {
 
   return (
     <>
-      <Modal data={modal} />
       <div css={containerCss}>
         <div>
           <AppBar

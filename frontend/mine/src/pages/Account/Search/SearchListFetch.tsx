@@ -4,7 +4,6 @@ import { useSuspenseQuery } from '@tanstack/react-query';
 import { AccountSearchType } from '.';
 import { searchAccounts, searchAccountsByChat } from '../../../apis/accountApi';
 import useModal from '../../../hooks/useModal';
-import Modal from '../../../hooks/useModal/Modal';
 import AccountList from '../../../components/molecules/AccountList';
 import Edit from '../Edit';
 import { css } from '@emotion/react';
@@ -38,18 +37,17 @@ const SearchListFetch = ({ query, type }: SearchListFetchProps) => {
     throw error;
   }
 
-  const { open, modal } = useModal();
+  const { push } = useModal();
 
   return (
     <>
-      <Modal data={modal} />
       <div css={containerCss}>
         {data.data.map((data, index) => (
           <AccountList
             key={data.accountId}
             data={data}
             onClick={() =>
-              open({
+              push({
                 component: <Edit data={data} />,
                 name: 'editAccountBySearch',
               })
