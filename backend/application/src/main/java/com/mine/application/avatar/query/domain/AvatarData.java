@@ -31,6 +31,10 @@ public class AvatarData {
     @Getter
     private LocalDateTime birthday;
 
+    @Column(name = "avatar_personality")
+    @Getter
+    private String personality;
+
     @Column(name = "avatar_model_id")
     @Getter
     private Integer modelId;
