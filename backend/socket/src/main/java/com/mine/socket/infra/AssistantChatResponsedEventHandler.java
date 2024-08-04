@@ -26,6 +26,7 @@ public class AssistantChatResponsedEventHandler {
     private final AvatarRepository avatarRepository;
 
     private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
     @Transactional
     @RabbitListener(queues = "${rabbitmq.queue.my-name}")
     public void receiveChatMessageFromFastAPI(ChatReceiveDto chatReceiveDto) {
@@ -37,6 +38,7 @@ public class AssistantChatResponsedEventHandler {
                 .avatarId(chatReceiveDto.getAvatarId())
                 .userId(chatReceiveDto.getUserId())
                 .chatRole("b")
+                .created_at(LocalDateTime.now())
                 .sendedAt(LocalDateTime.parse(chatReceiveDto.getSendedAt(), dateTimeFormatter))
                 .build();
 
@@ -52,6 +54,7 @@ public class AssistantChatResponsedEventHandler {
                 .sendedDate(chat.getSendedAt())
                 .build();
 
+        log.info(response.toString());
         messagingTemplate.convertAndSend("/chat/" + chatReceiveDto.getAvatarId(), response);
     }
 }
