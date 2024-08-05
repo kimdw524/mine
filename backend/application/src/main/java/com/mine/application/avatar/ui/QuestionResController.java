@@ -25,7 +25,7 @@ public class QuestionResController {
     @GetMapping("")
     @LoginCheck
     public ResponseEntity<?> findAllByAvatarId(@PathVariable Integer avatarId) {
-        return ResponseEntity.ok(searchQuestionResService.questionResData(avatarId));
+        return ResponseEntity.ok(searchQuestionResService.getQueastionResDataV2(avatarId));
     }
 
     @PatchMapping("")
