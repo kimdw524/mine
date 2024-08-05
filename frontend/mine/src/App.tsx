@@ -26,7 +26,6 @@ import ScheduleChart from './pages/Statistics/Schedule/index';
 import AvatarInfoEdit from './pages/MyPage/EditAvatar/AvatarInfoEdit';
 import AvatarQnAEdit from './pages/MyPage/EditAvatar/AvatarQnAEdit';
 import { ModalProvider } from './hooks/useModal';
-import AvatarTest from './pages/AvatarTest';
 
 function App() {
   const [notiInfo, setNotiInfo] = useState<INotiInfo>({
@@ -97,8 +96,6 @@ function App() {
                 <Route path="/account" element={<Account />} />
 
                 <Route path="/chat" element={<Chat />} />
-
-                <Route path="/avatartest" element={<AvatarTest />} />
               </Routes>
             </NotificationContext.Provider>
           </ModalProvider>
