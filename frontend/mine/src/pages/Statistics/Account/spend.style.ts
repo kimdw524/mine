@@ -1,7 +1,6 @@
 import { css } from '@emotion/react';
 
 export const containerCss = css`
-  padding: 1.25rem;
   /* margin: 0 auto; */
   /* border: 1px solid black; */
   /* max-width: 600px; */
