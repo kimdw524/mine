@@ -3,6 +3,7 @@ package com.mine.application.avatar.command.application;
 
 import com.mine.application.avatar.command.domain.Assistant;
 import com.mine.application.avatar.command.domain.Avatar;
+import com.mine.application.avatar.command.domain.AvatarModel;
 import com.mine.application.avatar.command.domain.AvatarRepository;
 import com.mine.application.avatar.command.domain.question.QuestionRes;
 import com.mine.application.avatar.command.domain.voice.UploadVoiceService;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -38,6 +40,8 @@ public class RegisterAvatarService {
         for (RegisterQuestionResRequest resRequest : request.getQuestionResList()) {
             log.error(resRequest.toString());
         }
+
+
         List<QuestionRes> questionResList = request.getQuestionResList().stream()
                 .map(questionResFactory::createEntity).toList();
 
@@ -47,6 +51,10 @@ public class RegisterAvatarService {
         avatar.enrollAssistant(assistant);
 
         avatarRepository.save(avatar);
+
+        Optional<Avatar> avatarByUserIdAndNotAvatarId = avatarRepository.findAvatarByUserIdAndNotAvatarId(userId, avatar.getId());
+        avatarByUserIdAndNotAvatarId.ifPresent(avatarByUserId -> {avatarByUserId.modifyAvatarInfo(ModifyAvatarRequest.builder().isMain(false).build());});
+
     }
 
     private Avatar createAvatar(RegisterAvatarRequest request) {
@@ -55,9 +63,11 @@ public class RegisterAvatarService {
                 .userId(userId)
                 .name(request.getAvatarName())
                 .job(request.getJob())
-                .modelId(1) // 기본 1
+                .model(AvatarModel.COW) // 기본 1
                 .residence(request.getResidence())
                 .voice(uploadVoiceService.generateVoice(request.getVoiceFileList()))
+                .model(AvatarModel.valueOf(request.getAvatarModel().toUpperCase()))
+                .isMain(true)
                 .build();
     }
 }

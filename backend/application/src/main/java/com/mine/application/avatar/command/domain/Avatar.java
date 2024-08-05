@@ -41,8 +41,9 @@ public class Avatar extends BaseEntity {
     @Embedded
     private Assistant assistant;
 
-    @Column(name = "avatar_model_id")
-    private Integer modelId;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "avatar_model")
+    private AvatarModel model;
 
     @Column(name = "avatar_residence")
     private String residence;
@@ -54,6 +55,8 @@ public class Avatar extends BaseEntity {
     @Builder.Default
     private List<QuestionRes> questionResList = new ArrayList<>();
 
+    @Column(name = "is_main")
+    private Boolean isMain;
 
     public void enrollAssistant(Assistant assistant) {
         if (this.assistant == null) {
@@ -87,8 +90,16 @@ public class Avatar extends BaseEntity {
             this.residence = request.getResidence();
         }
 
-        if(request.getModelId() != null) {
-            this.modelId = request.getModelId();
+        if(request.getModel() != null) {
+            for(AvatarModel avatarModel : AvatarModel.values()) {
+                if(request.getModel().equalsIgnoreCase(avatarModel.name())) {
+                    this.model = avatarModel;
+                    break;
+                }
+            }
+        }
+        if(request.getIsMain() != null) {
+            this.isMain = request.getIsMain();
         }
     }
 }

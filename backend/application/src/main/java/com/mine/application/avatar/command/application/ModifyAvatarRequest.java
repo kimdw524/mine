@@ -11,6 +11,7 @@ public class ModifyAvatarRequest {
     private String avatarName;
     private String job;
     private String residence;
-    private Integer modelId;
+    private String model;
+    private Boolean isMain;
 
 }

@@ -36,9 +36,9 @@ public class AvatarData {
     @Getter
     private String personality;
 
-    @Column(name = "avatar_model_id")
+    @Column(name = "avatar_model")
     @Getter
-    private Integer modelId;
+    private String avatarModel;
 
     @Column(name = "avatar_residence")
     @Getter
@@ -53,6 +53,10 @@ public class AvatarData {
 
     @Column(name = "is_deleted")
     private Boolean isDeleted;
+
+    @Getter
+    @Column(name = "is_main")
+    private Boolean isMain;
 
     public String getVoiceId() {
         return voiceId.getVoiceId();

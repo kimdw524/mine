@@ -144,9 +144,10 @@ create table avatar
     avatar_thread_id    VARCHAR(60) NOT NULL,
     avatar_voice_id     VARCHAR(60),
     is_deleted          BOOL        NOT NULL default FALSE,
-    avatar_model_id     TINYINT     NOT NULL,
+    avatar_model        VARCHAR(6)     NOT NULL,
     avatar_residence    VARCHAR(40),
     avatar_job          VARCHAR(40),
+    is_main             BOOL,
     FOREIGN KEY (user_id) REFERENCES user (user_id)
 );
 
@@ -267,9 +268,9 @@ INSERT INTO question(question_id, question_num, question_description, question_t
 VALUES (10, 10, '특별히 추천받고 싶은 분야가 있나요?', 's');
 
 INSERT INTO avatar(avatar_id, user_id, avatar_name, avatar_birthday, avatar_personality, avatar_assistant_id,
-                   avatar_thread_id, avatar_voice_id, is_deleted, avatar_model_id, avatar_residence, avatar_job)
+                   avatar_thread_id, avatar_voice_id, is_deleted, avatar_model, avatar_residence, avatar_job, is_main)
 VALUES (1, 1, '김다운', '2024-08-02', '지랄맞음', 'asst_gzUHR2Orr2KnitbLKcoaU9q3', 'thread_l57yNZOhonW5h2vOm8gkzhgw',
-        'CrvDGrP4g0jagWAqURm5', false, 1, '경북구미', '프톤트엔드엔지니어');
+        'CrvDGrP4g0jagWAqURm5', false, "COW", '경북구미', '프톤트엔드엔지니어', true);
 
 INSERT INTO question_res(question_res_id, question_id, avatar_id, question_choice_id, subjective_ans, question_type)
 VALUES (1, 1, 1, 1, null, 'c'),
