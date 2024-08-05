@@ -107,7 +107,7 @@ export const updateQnA = (avatarId: number, answerDatas: IAnswerData[]) => {
     url: `/api/avatars/${avatarId}/questions`,
     method: 'patch',
     data: {
-      lists: answerDatas,
+      list: answerDatas,
     },
   });
 };

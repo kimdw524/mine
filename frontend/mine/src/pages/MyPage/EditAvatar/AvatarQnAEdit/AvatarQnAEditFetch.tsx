@@ -61,6 +61,7 @@ const AvatarQnAEditFetch = ({
 
   useEffect(() => {
     const newAns: INewAnswer[] = [];
+
     questions.map((q: IQuestion, idx: number) => {
       newAns.push({
         questionResId: answers[idx].questionResId,
@@ -69,14 +70,19 @@ const AvatarQnAEditFetch = ({
         newAns: questionType === 'c' ? -1 : '',
       });
     });
+
+    setEditTarget([...newAns]);
   }, [questions]);
 
   const handleTarget = useCallback(
     (Qidx: number, isNew: boolean, newAns: number | string) => {
       setEditTarget((prev) => {
         const newTarget = [...prev];
-        newTarget[Qidx].isNew = isNew;
-        newTarget[Qidx].newAns = newAns;
+        newTarget[Qidx] = {
+          ...newTarget[Qidx],
+          isNew: isNew,
+          newAns: newAns,
+        };
         return [...newTarget];
       });
     },
@@ -88,7 +94,7 @@ const AvatarQnAEditFetch = ({
       handleTarget(
         Qidx,
         !(
-          answers[Qidx].answer ===
+          answers[Qidx].answer ==
           (questionType === 'c' ? Number(ans) + 1 : String(ans))
         ),
         questionType === 'c' ? Number(ans) + 1 : String(ans),
@@ -100,12 +106,17 @@ const AvatarQnAEditFetch = ({
   const handleSubmit = async () => {
     const answerDatas: IAnswerData[] = [];
 
-    editTarget.map((target: INewAnswer) => {
+    editTarget.map((target: INewAnswer, idx: number) => {
       if (target.isNew) {
         answerDatas.push({
           questionResId: target.questionResId,
           questionChoiceId: questionType === 'c' ? target.newAns : null,
           subjectiveAns: questionType === 's' ? target.newAns : null,
+        });
+        setAnswers((prev) => {
+          const oldAnswers = [...prev];
+          oldAnswers[idx].answer = target.newAns;
+          return oldAnswers;
         });
       }
     });
@@ -117,7 +128,7 @@ const AvatarQnAEditFetch = ({
           'success',
           `${questionType === 'c' ? '설문조사' : '질의응답'}가 성공적으로 변경되었습니다`,
         );
-        nav('/mypage');
+        nav('/mypage', { state: { step: 2 } });
       })
       .catch(() => {
         notificationContext.handle('contained', 'danger', '다시 시도해주세요');

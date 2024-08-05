@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, TextField, Typography } from 'oyc-ds';
 import { btnContainerCss, containerCss, textfieldCss } from './style';
 import { IAnswer, IChoice, IQuestion } from '../../../../types/qnaType';
@@ -21,6 +21,10 @@ const EditQnA = ({
 }: EditQnAProps) => {
   const [selected, setSelected] = useState<string | number>(answer.answer);
 
+  useEffect(() => {
+    console.log(answer);
+  }, []);
+
   return (
     <>
       <div css={containerCss(invisible)}>
@@ -33,7 +37,7 @@ const EditQnA = ({
               return (
                 <Button
                   key={item.questionChoiceId}
-                  color={selected === idx + 1 ? 'primary' : 'secondary'}
+                  color={selected == idx + 1 ? 'primary' : 'secondary'}
                   variant="outlined"
                   size="lg"
                   onClick={() => {
