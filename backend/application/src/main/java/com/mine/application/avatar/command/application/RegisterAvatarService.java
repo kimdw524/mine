@@ -63,7 +63,6 @@ public class RegisterAvatarService {
                 .userId(userId)
                 .name(request.getAvatarName())
                 .job(request.getJob())
-                .model(AvatarModel.COW) // 기본 1
                 .residence(request.getResidence())
                 .voice(uploadVoiceService.generateVoice(request.getVoiceFileList()))
                 .model(AvatarModel.valueOf(request.getAvatarModel().toUpperCase()))
