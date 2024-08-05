@@ -21,8 +21,8 @@ public class GetScheduleByChatService {
     private final ScheduleAiChat scheduleAiChat;
 
     public String getScheduleByChat(String query) {
-        Integer userId = (Integer) sessionDao.get(SessionConstants.USER_ID)
-                .orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND));
+        int userId = (Integer) sessionDao.get(SessionConstants.USER_ID)
+                .orElseThrow(() -> new RestApiException(CommonErrorCode.UNAUTHORIZED));
         List<Schedule> schedules = scheduleRepository.findAllByUserId(userId);
         return scheduleAiChat.getJsonFromQuery(query, schedules);
     }
