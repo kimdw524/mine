@@ -21,7 +21,6 @@ const Home = () => {
   return (
     <>
       <div>Home 화면입니다.</div>
-      {userInfo.nickname && <div>{userInfo.nickname}님 환영합니다!</div>}
       <Button
         color="primary"
         size="xl"
