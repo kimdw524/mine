@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface ScheduleDataCustomRepository {
 
-    List<GetScheduleResponse> findSchedulesBetweenDates(Integer userId, LocalDateTime startDate, LocalDateTime endDate);
+    List<GetScheduleResponse> findSchedulesByCategoryIdAndDates(Integer userId, Integer categoryId, LocalDateTime startDate, LocalDateTime endDate);
 
     List<GetScheduleResponse> findSchedulesByContaining(Integer userId, String query);
 

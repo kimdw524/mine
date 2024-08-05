@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Getter
 @Builder
 @AllArgsConstructor
-public class AddScheduleFromChatResponse {
+public class AddScheduleByChatResponse {
 
     private Integer scheduleId;
 

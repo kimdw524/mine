@@ -8,8 +8,9 @@ import lombok.Getter;
 import java.time.LocalDateTime;
 
 @Getter
-public class AddScheduleFromCalendarRequest {
+public class AddScheduleByCalendarRequest {
 
+    @NotNull
     private Integer categoryId;
 
     @NotNull
