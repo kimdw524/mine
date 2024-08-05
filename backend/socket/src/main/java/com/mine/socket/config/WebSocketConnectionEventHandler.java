@@ -35,7 +35,7 @@ public class WebSocketConnectionEventHandler implements ApplicationListener<Sess
     public void onApplicationEvent(SessionConnectEvent event) {
         // WebSocket 연결 시 세션 TTL을 무한으로 설정
         //세션 정보를 정확하게 가져오는지 확인 필요.
-        log.info("websocket connect : {}", httpSession.getAttribute("email").toString());
+        log.info("websocket connect : {}", httpSession.getAttribute("USER_ID").toString());
         httpSession.setMaxInactiveInterval(-1);
 
         BoundSetOperations<String, Object> stringObjectBoundSetOperations = redisTemplate.boundSetOps("session-list");

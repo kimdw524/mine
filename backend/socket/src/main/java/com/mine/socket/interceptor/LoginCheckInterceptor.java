@@ -22,7 +22,7 @@ public class LoginCheckInterceptor implements HandshakeInterceptor {
     public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, Map<String, Object> attributes) throws Exception {
         log.info("session Id : {} ", httpSession.getId());
         log.info("beforeHandshake : {} ", httpSession.getAttribute("USER_ID"));
-        return ((Integer) httpSession.getAttribute("USER_ID")) == null;
+        return ((Integer) httpSession.getAttribute("USER_ID")) != null;
     }
 
     @Override
