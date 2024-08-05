@@ -7,7 +7,7 @@ import TypeTextField from '../../../components/molecules/TypeTextField';
 import { Typography } from 'oyc-ds';
 import { ErrorBoundary } from 'react-error-boundary';
 import SearchListFetch from './SearchListFetch';
-import Loading from '../../../components/common/Loading';
+import Loading from '../../../components/molecules/Loading';
 
 export type ScheduleSearchType = 'keyword' | 'ai';
 
