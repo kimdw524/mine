@@ -40,7 +40,7 @@ public final class AccountDtoConverter {
         return AddAccountByChatResponse.builder()
                 .accountId(account.getId())
                 .spendCategoryId(account.getSpendCategoryId())
-                .accountType(account.getAccountType().getType().getValue())
+                .accountType(account.getAccountType().getCode())
                 .money(account.getMoney())
                 .title(account.getTitle())
                 .description(account.getDescription())

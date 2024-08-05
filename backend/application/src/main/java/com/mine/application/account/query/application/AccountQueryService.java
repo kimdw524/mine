@@ -43,7 +43,7 @@ public class AccountQueryService {
         int userId = getUserIdOrElseThrow();
         return accountDataCustomRepository.findAccountsByDatesAndCategory(
                 userId,
-                AccountType.Type.INCOME.getValue(),
+                AccountType.INCOME.getCode(),
                 null,
                 getStartOfDay(startDate),
                 getEndOfDay(endDate)
@@ -58,7 +58,7 @@ public class AccountQueryService {
         int userId = getUserIdOrElseThrow();
         return accountDataCustomRepository.findAccountsByDatesAndCategory(
                 userId,
-                AccountType.Type.SPEND.getValue(),
+                AccountType.SPEND.getCode(),
                 categoryId,
                 getStartOfDay(startDate),
                 getEndOfDay(endDate)
