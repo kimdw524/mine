@@ -14,7 +14,9 @@ export default [
     rules: {
       'react/no-unknown-property': [
         'error',
-        { ignore: ['css', 'object', 'attach', 'args', 'intensity'] },
+        {
+          ignore: ['css', 'object', 'attach', 'args', 'intensity', 'position'],
+        },
       ],
     },
   },
