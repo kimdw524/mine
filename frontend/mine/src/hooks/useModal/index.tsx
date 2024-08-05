@@ -8,11 +8,17 @@ import React, {
 } from 'react';
 import Modal from './Modal';
 
-export interface ModalData {
+export type ModalType = 'modal' | 'alert';
+
+export interface ModalPushProps {
   name: string;
   component: ReactElement;
+  type?: ModalType;
   show?: boolean;
+  onClose?: () => void;
 }
+
+export type ModalData = Required<ModalPushProps>;
 
 interface ModalContextType {
   modals: ModalData[];
@@ -27,24 +33,30 @@ export const ModalContext = createContext<ModalContextType>(
 export const ModalProvider = (props: { children: ReactNode }) => {
   const [modals, setModals] = useState<ModalData[]>([]);
 
-  const push = (data: ModalData) => {
-    setModals((modals) => [...modals, data]);
-    window.history.pushState(
-      { ...window.history.state, type: 'modal', name: data.name },
-      '',
-      '',
-    );
+  const push = ({
+    component,
+    name,
+    show = true,
+    type = 'modal',
+    onClose = () => {},
+  }: ModalPushProps) => {
+    setModals((modals) => [
+      ...modals,
+      { component, name, show, type, onClose },
+    ]);
+    window.history.pushState({ ...window.history.state, type, name }, '', '');
   };
 
   const pop = (name: string) => {
-    setModals((modals) => {
-      for (let i = modals.length - 1; i >= 0; i--) {
-        if (!modals[i].show && modals[i].name === name) {
-          return [...modals.slice(0, i), ...modals.slice(i + 1)];
+    setModals((modals) =>
+      modals.filter((modal) => {
+        if (modal.name === name) {
+          modal.onClose();
+          return false;
         }
-      }
-      return modals;
-    });
+        return true;
+      }),
+    );
   };
 
   const hide = () => {
@@ -92,8 +104,14 @@ const useModal = () => {
     window.history.back();
   };
 
-  const push = (data: ModalData) => {
-    modalContext.push({ ...data, show: true });
+  const push = ({
+    component,
+    name,
+    show = true,
+    type = 'modal',
+    onClose = () => {},
+  }: ModalPushProps) => {
+    modalContext.push({ component, name, show, type, onClose });
   };
 
   return { push, pop };

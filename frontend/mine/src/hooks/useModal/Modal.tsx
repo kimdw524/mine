@@ -3,15 +3,19 @@ import { ModalData } from '.';
 import styles from './Modal.module.css';
 
 interface ModalProps extends React.ComponentProps<'div'> {
-  data: ModalData | null;
+  data: ModalData;
   onFadeOutEnd: () => void;
 }
 
 const classNames = {
-  modal: styles.modal,
-  unmounted: styles.unmounted,
-  enter: styles.enter,
-  exit: styles.exit,
+  modal: {
+    enter: styles.enter,
+    exit: styles.exit,
+  },
+  alert: {
+    enter: styles['alert-enter'],
+    exit: styles['alert-exit'],
+  },
 };
 
 const Modal = ({ data, onFadeOutEnd }: ModalProps) => {
@@ -23,10 +27,10 @@ const Modal = ({ data, onFadeOutEnd }: ModalProps) => {
     }
 
     if (data?.show === true) {
-      wrapperRef.current.className = classNames.enter;
+      wrapperRef.current.className = classNames[data.type].enter;
       return;
     }
-    wrapperRef.current.className = classNames.exit;
+    wrapperRef.current.className = classNames[data.type].exit;
   }, [data?.show, wrapperRef]);
 
   const handleTransitionEnd = (e: React.TransitionEvent) => {
