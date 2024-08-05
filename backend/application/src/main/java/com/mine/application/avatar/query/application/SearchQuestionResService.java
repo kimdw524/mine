@@ -1,9 +1,6 @@
 package com.mine.application.avatar.query.application;
 
-import com.mine.application.avatar.query.domain.QuestionData;
-import com.mine.application.avatar.query.domain.QuestionResData;
-import com.mine.application.avatar.query.domain.QuestionResDataRepository;
-import com.mine.application.avatar.query.domain.QuestionResDto;
+import com.mine.application.avatar.query.domain.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +13,20 @@ import java.util.List;
 public class SearchQuestionResService {
     private final QuestionResDataRepository questionResDataRepository;
     private final SearchQuestionService searchQuestionService;
+
+
+    @Transactional(readOnly = true)
+    public List<QuestionResDtoV2> getQueastionResDataV2(Integer avatarId) {
+        List<QuestionResDto> questionResDtos = questionResData(avatarId);
+
+        return questionResDtos.stream().map(questionResDto ->
+            QuestionResDtoV2.builder().questionResId(questionResDto.getQuestionResId())
+                    .questionType(questionResDto.getQuestionType())
+                    .questionId(questionResDto.getQuestionId())
+                    .answer(questionResDto.getQuestionType().equals('c') ? questionResDto.getChoiceAnswer().getNumber().toString() : questionResDto.getSubjectiveAnswer() )
+                    .build()
+        ).toList();
+    }
 
     @Transactional(readOnly = true)
     public String getInstruction(Integer avatarId) {

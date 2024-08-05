@@ -10,4 +10,6 @@ public interface QuestionResDataRepository extends Repository<QuestionResData, I
 
     @Query("SELECT qrd FROM QuestionResData qrd JOIN AvatarData a ON qrd.avatar.avatarId = a.avatarId WHERE a.avatarId = :avatarId AND a.isDeleted = false")
     List<QuestionResData> findAllByAvatarId(@Param("avatarId") Integer avatarId);
+
+
 }

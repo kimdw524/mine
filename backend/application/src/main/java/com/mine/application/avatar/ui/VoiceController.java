@@ -1,18 +1,18 @@
-package com.mine.application.avatar.command.domain.voice;
+package com.mine.application.avatar.ui;
 
 import com.mine.application.avatar.command.application.Base64FileUploadRequest;
+import com.mine.application.avatar.command.domain.voice.UploadVoiceService;
+import com.mine.application.avatar.query.application.SearchAvatarVoiceService;
+import com.mine.application.common.aop.LoginCheck;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/voice")
+@RequestMapping("/avatars/{avatarId}/voice")
 @RequiredArgsConstructor
 public class VoiceController {
-
+    private final SearchAvatarVoiceService searchAvatarVoiceService;
     private final UploadVoiceService uploadVoiceService;
 
     @PostMapping("")
@@ -26,5 +26,11 @@ public class VoiceController {
          * 일정등록 :
          */
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("")
+    @LoginCheck
+    public ResponseEntity<?> getVoiceId(@PathVariable Integer avatarId) {
+        return ResponseEntity.ok(searchAvatarVoiceService.getVoice(avatarId));
     }
 }
