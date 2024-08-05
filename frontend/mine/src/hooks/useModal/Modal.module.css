@@ -20,56 +20,60 @@
   }
 }
 
-.enter {
+.base {
   position: fixed;
   inset: 0 0 0 0;
   overflow-y: scroll;
   z-index: 100;
   box-sizing: border-box;
+  transition: all 0.3s ease;
+  transform: translateY(4rem);
+  opacity: 0;
+}
+
+.enter {
+  transform: translateY(0);
   opacity: 1;
-  animation: fadeIn 0.3s ease 1;
 }
 
 .exit {
-  position: fixed;
-  inset: 0 0 0 0;
-  overflow-y: scroll;
-  z-index: 100;
-  box-sizing: border-box;
   opacity: 1;
-  transition: all 0.3s ease;
   transform: translateY(4rem);
   opacity: 0 !important;
   pointer-events: none;
 }
 
-.alert-enter {
+.alert-base {
   position: fixed;
   inset: 0 0 0 0;
   overflow-y: scroll;
   z-index: 100;
   box-sizing: border-box;
-  opacity: 1;
-  animation: fadeIn2 0.2s ease 1;
+  transition: all 0.2s ease;
+  opacity: 0;
 
   > div > div > div {
-    animation: fadeIn 0.2s ease 1;
+    transition: all 0.2s ease;
+    opacity: 0;
+    transform: translateY(4rem);
+  }
+}
+
+.alert-enter {
+  opacity: 1;
+
+  > div > div > div {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
 .alert-exit {
-  position: fixed;
-  inset: 0 0 0 0;
-  overflow-y: scroll;
-  z-index: 100;
-  box-sizing: border-box;
   opacity: 1;
-  transition: all 0.2s ease;
   opacity: 0 !important;
   pointer-events: none;
 
   > div > div > div {
-    transition: all 0.2s ease;
     opacity: 0;
   }
 }

@@ -11,9 +11,10 @@ import {
 
 interface AlertProps {
   children: ReactNode;
+  onYesClick: () => void;
 }
 
-const Alert = ({ children }: AlertProps) => {
+const Confirm = ({ children, onYesClick }: AlertProps) => {
   const handleBackDropClick = () => {
     window.history.go(-1);
   };
@@ -33,8 +34,11 @@ const Alert = ({ children }: AlertProps) => {
         <div css={alertCss} onClick={handleAlertClick}>
           <div css={messageCss}>{children}</div>
           <div css={buttonContainerCss}>
-            <Button onClick={handleBackDropClick} size="sm">
-              확인
+            <Button onClick={() => onYesClick()} size="sm" color="primary">
+              예
+            </Button>
+            <Button onClick={handleBackDropClick} color="secondary" size="sm">
+              아니오
             </Button>
           </div>
         </div>
@@ -43,4 +47,4 @@ const Alert = ({ children }: AlertProps) => {
   );
 };
 
-export default Alert;
+export default Confirm;

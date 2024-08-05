@@ -8,7 +8,7 @@ import React, {
 } from 'react';
 import Modal from './Modal';
 
-export type ModalType = 'modal' | 'alert';
+export type ModalType = 'modal' | 'alert' | 'confirm';
 
 export interface ModalPushProps {
   name: string;
@@ -48,15 +48,15 @@ export const ModalProvider = (props: { children: ReactNode }) => {
   };
 
   const pop = (name: string) => {
-    setModals((modals) =>
-      modals.filter((modal) => {
-        if (modal.name === name) {
-          modal.onClose();
-          return false;
+    setModals((modals) => {
+      for (let i = modals.length - 1; i >= 0; i--) {
+        if (!modals[i].show && modals[i].name === name) {
+          modals[i].onClose();
+          return [...modals.slice(0, i), ...modals.slice(i + 1)];
         }
-        return true;
-      }),
-    );
+      }
+      return modals;
+    });
   };
 
   const hide = () => {
