@@ -4,7 +4,6 @@ import { css } from '@emotion/react';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { apiFormatDate } from '../../utils/dateUtils';
 import useModal from '../../hooks/useModal';
-import Modal from '../../hooks/useModal/Modal';
 import { getAccounts } from '../../apis/accountApi';
 import AccountList from '../../components/molecules/AccountList';
 import Edit from './Edit';
@@ -32,18 +31,17 @@ const AccountListFetch = ({ start, end }: AccountListFetchProps) => {
     throw error;
   }
 
-  const { open, modal } = useModal();
+  const { push } = useModal();
 
   return (
     <>
-      <Modal data={modal} />
       <div css={containerCss}>
         {data.data.map((data, index) => (
           <AccountList
             key={data.accountId}
             data={data}
             onClick={() =>
-              open({
+              push({
                 component: <Edit data={data} />,
                 name: 'editAccount',
               })

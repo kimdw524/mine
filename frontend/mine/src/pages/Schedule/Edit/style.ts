@@ -23,13 +23,24 @@ export const periodCss = css`
 export const bottomCss = css`
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
-  gap: 0.5rem;
+  justify-content: space-between;
   position: sticky;
   bottom: 0;
   padding: 0.75rem;
   border-top: 0.0625rem solid #e6e6e6;
   background-color: #fff;
+`;
+
+export const leftSideCss = css`
+  display: flex;
+  justify-content: flex-start;
+  gap: 0.5rem;
+`;
+
+export const rightSideCss = css`
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
 `;
 
 export const textContainerCss = css`

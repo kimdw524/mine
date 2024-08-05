@@ -1,9 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { ModalData } from '.';
 import styles from './Modal.module.css';
 
 interface ModalProps extends React.ComponentProps<'div'> {
   data: ModalData | null;
+  onFadeOutEnd: () => void;
 }
 
 const classNames = {
@@ -13,39 +14,31 @@ const classNames = {
   exit: styles.exit,
 };
 
-const Modal = ({ data }: ModalProps) => {
-  const [modal, setModal] = useState<ModalData | null>(null);
+const Modal = ({ data, onFadeOutEnd }: ModalProps) => {
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    setModal(data);
-
-    if (wrapperRef.current) {
-      if (data === null) {
-        wrapperRef.current.className = classNames.modal;
-      } else if (data.show) {
-        wrapperRef.current.className = `${classNames.modal} ${classNames.enter}`;
-      } else {
-        wrapperRef.current.className = classNames.unmounted;
-        const reflow = wrapperRef.current.offsetTop;
-        wrapperRef.current.className = `${classNames.unmounted} ${classNames.exit}`;
-      }
+    if (!wrapperRef.current) {
+      return;
     }
-  }, [data]);
+
+    if (data?.show === true) {
+      wrapperRef.current.className = classNames.enter;
+      return;
+    }
+    wrapperRef.current.className = classNames.exit;
+  }, [data?.show, wrapperRef]);
 
   const handleTransitionEnd = (e: React.TransitionEvent) => {
-    if (
-      wrapperRef.current?.classList.contains(classNames.exit) &&
-      e.propertyName === 'opacity'
-    ) {
-      setModal(null);
+    if (!data?.show && e.propertyName === 'opacity') {
+      onFadeOutEnd();
     }
   };
 
   return (
     <>
       <div ref={wrapperRef} onTransitionEnd={handleTransitionEnd}>
-        {modal?.component}
+        {data?.component}
       </div>
     </>
   );

@@ -9,7 +9,8 @@ import { ErrorBoundary } from 'react-error-boundary';
 import { getMonthDates, getWeekDates } from '../../utils/dateUtils';
 import Create from './Create';
 import useModal from '../../hooks/useModal';
-import Modal from '../../hooks/useModal/Modal';
+import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
+import Search from './Search';
 
 export type SchedulePeriod = 'daily' | 'weekly' | 'monthly';
 
@@ -22,7 +23,7 @@ const Schedule = () => {
   const [date, setDate] = useState<string>(today);
   const [period, setPeriod] = useState<SchedulePeriod>('daily');
   const selectedRef = useRef<string[]>([today]);
-  const { open, modal } = useModal();
+  const { push } = useModal();
   const [year, month] = new Date(date)
     .toLocaleDateString()
     .replaceAll('.', '')
@@ -40,9 +41,16 @@ const Schedule = () => {
   };
 
   const handleCreateSchedule = () => {
-    open({
+    push({
       component: <Create />,
       name: 'createSchedule',
+    });
+  };
+
+  const handleSearchClick = () => {
+    push({
+      component: <Search />,
+      name: 'searchSchedule',
     });
   };
 
@@ -65,10 +73,15 @@ const Schedule = () => {
 
   return (
     <>
-      <Modal data={modal} />
       <div css={containerCss}>
         <div>
-          <AppBar label="일정 관리" onBackClick={() => navigate('/')} />
+          <AppBar
+            label="일정 관리"
+            onBackClick={() => navigate(-1)}
+            menu={[
+              { icon: <MagnifyingGlassIcon />, onClick: handleSearchClick },
+            ]}
+          />
           <div>
             <Calendar
               year={parseInt(year)}
