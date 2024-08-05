@@ -12,6 +12,7 @@ import Create from './Create';
 import useModal from '../../hooks/useModal';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import Search from './Search';
+import Error from '../../components/molecules/Error';
 
 const Account = () => {
   const navigate = useNavigate();
@@ -94,7 +95,7 @@ const Account = () => {
           </div>
         </div>
         <div css={accountCss}>
-          <ErrorBoundary fallback={<>error</>}>
+          <ErrorBoundary fallbackRender={(props) => <Error {...props} />}>
             <Suspense fallback={<></>}>
               <AccountListFetch
                 key={`${start.toLocaleDateString()}-${end.toLocaleDateString()}`}

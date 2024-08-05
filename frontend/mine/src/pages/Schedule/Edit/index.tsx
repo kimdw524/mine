@@ -24,6 +24,7 @@ import {
   ScheduleData,
   updateSchedule,
 } from '../../../apis/scheduleApi';
+import useDialog from '../../../hooks/useDialog';
 
 interface EditProps {
   data: ScheduleData;
@@ -41,6 +42,7 @@ const Edit = ({ data }: EditProps) => {
   const descriptionRef = useRef<HTMLInputElement>(null);
   const whereRef = useRef<HTMLInputElement>(null);
   const queryClient = useQueryClient();
+  const { confirm, alert } = useDialog();
 
   const { mutate } = useMutation({
     mutationFn: (params: ScheduleData) => updateSchedule(params),
@@ -51,7 +53,7 @@ const Edit = ({ data }: EditProps) => {
       }
     },
     onError: (error) => {
-      alert('error');
+      alert('오류가 발생하였습니다.');
       console.error(error);
     },
   });
@@ -65,7 +67,7 @@ const Edit = ({ data }: EditProps) => {
       }
     },
     onError: (error) => {
-      alert('error');
+      alert('오류가 발생하였습니다.');
       console.error(error);
     },
   });
@@ -97,8 +99,8 @@ const Edit = ({ data }: EditProps) => {
     });
   };
 
-  const handleDelete = () => {
-    if (!window.confirm('정말로 삭제하시겠습니까?')) {
+  const handleDelete = async () => {
+    if (!(await confirm('정말로 삭제하시겠습니까?'))) {
       return;
     }
 
