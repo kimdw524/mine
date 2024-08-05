@@ -12,7 +12,10 @@ export default [
   pluginReactConfig,
   {
     rules: {
-      'react/no-unknown-property': ['error', { ignore: ['css'] }],
+      'react/no-unknown-property': [
+        'error',
+        { ignore: ['css', 'object', 'attach', 'args', 'intensity'] },
+      ],
     },
   },
 ];
