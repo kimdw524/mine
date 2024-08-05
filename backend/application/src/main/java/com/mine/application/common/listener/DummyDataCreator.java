@@ -33,6 +33,7 @@ public class DummyDataCreator implements ApplicationListener<ContextRefreshedEve
         createUserIfNotNull(1, "khj745700@naver.com", "testtest1", "M", "테스트객체");
         createUserIfNotNull(2, "yoha6865@naver.com", "password1234", "F", "토스개발자");
         createUserIfNotNull(3, "tjs2194@naver.com", "password1", "F", "미래의토스인");
+        createUserIfNotNull(4, "dydwls9703@naver.com", "test123123", "M", "토스트뱅크");
     }
 
     private void createUserIfNotNull(Integer id, String email, String password, String gender, String nickname) {
