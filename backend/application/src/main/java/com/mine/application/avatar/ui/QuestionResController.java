@@ -1,8 +1,7 @@
 package com.mine.application.avatar.ui;
 
-import com.mine.application.avatar.command.application.ModifyQuestionResRequest;
+import com.mine.application.avatar.command.ModifyQuestionResRequestListWrapper;
 import com.mine.application.avatar.command.application.ModifyQuestionResService;
-import com.mine.application.avatar.command.domain.question.Question;
 import com.mine.application.avatar.query.application.SearchQuestionResService;
 import com.mine.application.common.aop.LoginCheck;
 import com.mine.application.common.domain.SessionConstants;
@@ -10,8 +9,6 @@ import com.mine.application.common.domain.SessionDao;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @CrossOrigin(originPatterns = "*", allowedHeaders = "*", allowCredentials = "true")
 @RequiredArgsConstructor
@@ -30,9 +27,9 @@ public class QuestionResController {
 
     @PatchMapping("")
     @LoginCheck
-    public ResponseEntity<?> updateQuestions(@PathVariable Integer avatarId, @RequestBody List<ModifyQuestionResRequest> requestList) {
+    public ResponseEntity<?> updateQuestions(@PathVariable Integer avatarId, @RequestBody ModifyQuestionResRequestListWrapper requestList) {
         Integer userId = (Integer) sessionDao.get(SessionConstants.USER_ID).get();
-        modifyQuestionResService.updateQuestionRes(avatarId, userId, requestList);
+        modifyQuestionResService.updateQuestionRes(avatarId, userId, requestList.getList());
         return ResponseEntity.accepted().build();
     }
 }
