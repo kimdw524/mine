@@ -20,4 +20,7 @@ public interface AvatarRepository extends Repository<Avatar, Integer> {
     @Query("SELECT COUNT(id) FROM Avatar WHERE userId = :userId AND isDeleted = false")
     Integer countAvatarByUserId(@Param(value = "userId") Integer userId);
 
+    @Query("SELECT avatar FROM Avatar avatar WHERE avatar.userId = :userId AND avatar.isDeleted = false AND avatar.id != :avatarId")
+    Optional<Avatar> findAvatarByUserIdAndNotAvatarId(@Param(value = "userId")Integer userId, @Param(value = "avatarId") Integer avatarId);
+
 }

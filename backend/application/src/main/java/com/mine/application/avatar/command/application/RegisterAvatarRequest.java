@@ -13,6 +13,7 @@ public class RegisterAvatarRequest {
     private String avatarName;
     private String residence;
     private String job;
+    private String avatarModel;
     private List<RegisterQuestionResRequest> questionResList;
     private List<Base64FileUploadRequest> voiceFileList;
 }

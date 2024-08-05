@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @RequiredArgsConstructor
 @Service
 public class ModifyAvatarService {
@@ -23,6 +25,12 @@ public class ModifyAvatarService {
         if(!avatar.getUserId().equals(userId)) {
             throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
         }
-        avatar.modifyAvatarInfo(request);
+
+        if(request.getIsMain() != null && avatar.getIsMain() != request.getIsMain()) {
+            avatar.modifyAvatarInfo(request);
+            Optional<Avatar> avatarByUserIdAndNotAvatarId = avatarRepository.findAvatarByUserIdAndNotAvatarId(userId, avatar.getId());
+            avatarByUserIdAndNotAvatarId.ifPresent(another -> another.modifyAvatarInfo(ModifyAvatarRequest.builder().isMain(false).build()));
+        }
+
     }
 }
