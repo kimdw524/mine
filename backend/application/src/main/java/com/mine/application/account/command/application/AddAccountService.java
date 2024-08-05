@@ -42,7 +42,7 @@ public class AddAccountService {
 
     private int getUserIdOrElseThrow() {
         return (Integer) sessionDao.get(SessionConstants.USER_ID)
-                .orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND));
+                .orElseThrow(() -> new RestApiException(CommonErrorCode.UNAUTHORIZED));
 
     }
 
