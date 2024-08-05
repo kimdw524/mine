@@ -7,7 +7,8 @@ import TypeTextField from '../../../components/molecules/TypeTextField';
 import { Typography } from 'oyc-ds';
 import { ErrorBoundary } from 'react-error-boundary';
 import SearchListFetch from './SearchListFetch';
-import Loading from '../../../components/common/Loading';
+import Loading from '../../../components/molecules/Loading';
+import Error from '../../../components/molecules/Error';
 
 export type ScheduleSearchType = 'keyword' | 'ai';
 
@@ -60,9 +61,13 @@ const Search = () => {
         </div>
         <div css={resultCss}>
           {search.query && (
-            <ErrorBoundary fallback={<>error</>}>
+            <ErrorBoundary fallbackRender={(props) => <Error {...props} />}>
               <Suspense fallback={<Loading />}>
-                <SearchListFetch query={search.query} type={search.type} />
+                <SearchListFetch
+                  key={JSON.stringify(search)}
+                  query={search.query}
+                  type={search.type}
+                />
               </Suspense>
             </ErrorBoundary>
           )}

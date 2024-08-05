@@ -21,8 +21,8 @@ import Schedule from './pages/Schedule';
 import { UserProvider } from './pages/Login/UserContext';
 import Account from './pages/Account';
 import Chat from './pages/Chat';
-import Chart from './pages/Statistics/chart';
-import AccountChart from './pages/Statistics/Account/spend';
+import AccountChart from './pages/Statistics/Account/index';
+import ScheduleChart from './pages/Statistics/Schedule/index';
 import AvatarInfoEdit from './pages/MyPage/EditAvatar/AvatarInfoEdit';
 import AvatarQnAEdit from './pages/MyPage/EditAvatar/AvatarQnAEdit';
 import { ModalProvider } from './hooks/useModal';
@@ -78,8 +78,8 @@ function App() {
                 <Route path="/user/signup" element={<Signup />} />
                 <Route path="/user/login" element={<Login />} />
                 <Route path="/main" element={<Main />} />
-                <Route path="/chart" element={<Chart />} />
                 <Route path="/accountchart" element={<AccountChart />} />
+                <Route path="/schedulechart" element={<ScheduleChart />} />
 
                 {/* 마이페이지 */}
                 <Route path="/mypage" element={<Information />} />

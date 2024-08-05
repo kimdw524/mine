@@ -8,11 +8,16 @@ import { containerCss } from './style';
 interface LoadingProps {
   size?: Size;
   color?: Palette;
+  height?: string;
 }
 
-const Loading = ({ size = 'md', color = 'primary' }: LoadingProps) => {
+const Loading = ({
+  size = 'md',
+  color = 'primary',
+  height = '100%',
+}: LoadingProps) => {
   return (
-    <div css={containerCss}>
+    <div css={containerCss} style={{ height }}>
       <Spinner size={size} color={color} />
     </div>
   );
