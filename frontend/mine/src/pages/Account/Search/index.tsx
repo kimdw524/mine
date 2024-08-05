@@ -8,6 +8,7 @@ import { Typography } from 'oyc-ds';
 import { ErrorBoundary } from 'react-error-boundary';
 import SearchListFetch from './SearchListFetch';
 import Loading from '../../../components/molecules/Loading';
+import Error from '../../../components/molecules/Error';
 
 export type AccountSearchType = 'keyword' | 'ai';
 
@@ -60,7 +61,7 @@ const Search = () => {
         </div>
         <div css={resultCss}>
           {search.query && (
-            <ErrorBoundary fallback={<>error</>}>
+            <ErrorBoundary fallbackRender={(props) => <Error {...props} />}>
               <Suspense fallback={<Loading />}>
                 <SearchListFetch
                   key={JSON.stringify(search)}

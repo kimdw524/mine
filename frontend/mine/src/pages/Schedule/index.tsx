@@ -11,6 +11,7 @@ import Create from './Create';
 import useModal from '../../hooks/useModal';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import Search from './Search';
+import Error from '../../components/molecules/Error';
 
 export type SchedulePeriod = 'daily' | 'weekly' | 'monthly';
 
@@ -110,7 +111,7 @@ const Schedule = () => {
               </Dropdown>
             </div>
           </div>
-          <ErrorBoundary fallback={<>error</>}>
+          <ErrorBoundary fallbackRender={(props) => <Error {...props} />}>
             <Suspense fallback={<></>}>
               <ScheduleListFetch
                 key={`${date}${period}`}
