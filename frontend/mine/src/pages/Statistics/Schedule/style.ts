@@ -1,8 +1,16 @@
 import { css } from '@emotion/react';
 
+export const containerCss = css`
+  padding: 1.25rem;
+  /* margin: 0 auto; */
+  /* border: 1px solid black; */
+  /* max-width: 600px; */
+  display: flex;
+  flex-direction: column; /* 추가된 부분 */
+`;
+
 export const manymsgCss = css`
   background-color: #F0F0F0;
-  margin: 1rem;
   padding: 2rem;
   text-align: center;
 
@@ -17,7 +25,7 @@ export const manymsgCss = css`
 export const boxCss = css`
   display: flex;
   align-items: flex-start;
-  margin: 1rem;
+  margin: 1rem 0;
   border: 1px solid #EEE;
   padding: 1rem;
 

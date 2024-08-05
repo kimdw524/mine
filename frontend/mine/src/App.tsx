@@ -26,9 +26,8 @@ import Account from './pages/Account';
 import Chat from './pages/Chat';
 import ChoiceEdit from './pages/MyPage/EditAvatar/ChoiceEdit';
 import SubjectiveEdit from './pages/MyPage/EditAvatar/SubjectiveEdit';
-import Chart from './pages/Statistics/chart';
-import AccountChart from './pages/Statistics/Account/spend';
-import ScheduleChart from './pages/Statistics/Schedule';
+import AccountChart from './pages/Statistics/Account/index';
+import ScheduleChart from './pages/Statistics/Schedule/index';
 
 function App() {
   const [notiInfo, setNotiInfo] = useState<INotiInfo>({
@@ -79,7 +78,6 @@ function App() {
               <Route path="/user/signup" element={<Signup />} />
               <Route path="/user/login" element={<Login />} />
               <Route path="/main" element={<Main />} />
-              <Route path="/chart" element={<Chart />} />
               <Route path="/accountchart" element={<AccountChart />} />
               <Route path="/schedulechart" element={<ScheduleChart />} />
 
