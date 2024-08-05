@@ -1,10 +1,18 @@
 import axios from 'axios';
 import { api } from './interceptors';
 
+export interface QuestionChoice {
+  questionChoiceId: number;
+  number: number;
+  description: string;
+}
+
 export interface QuestionData {
   questionId: number;
+  num: number;
   description: string;
-  choices: string[];
+  type: 'c' | 's';
+  questionChoiceList: QuestionChoice[];
 }
 
 export interface SubjectiveQuestionData {
@@ -28,7 +36,7 @@ export interface NewAnsListData {
 }
 
 export const getQuestions = () => {
-  return axios.get<QuestionData[]>('/avatar/questions');
+  return api.get<QuestionData[]>('/api/question');
 };
 
 export const getSubjectiveQuestions = () => {

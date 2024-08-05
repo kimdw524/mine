@@ -3,10 +3,11 @@ import React, { useState } from 'react';
 import { buttonContainerCss, questionCss } from './style';
 import { Button, TextField, Typography } from 'oyc-ds';
 import MultipleChoice from '../../../components/molecules/MultipleChoice';
+import { QuestionChoice } from '../../../apis/avatarApi';
 
 interface QnAProps {
   question: string;
-  choices?: string[];
+  choices?: QuestionChoice[];
   onSubmit: (index: number) => void;
 }
 

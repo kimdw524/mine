@@ -3,12 +3,7 @@ import { Progress, Typography } from 'oyc-ds';
 import React, { useState } from 'react';
 import { descCss } from './style';
 import QnA from '../../../components/organisms/QnA';
-
-export interface QuestionData {
-  questionId: number;
-  description: string;
-  choices: string[];
-}
+import { QuestionData } from '../../../apis/avatarApi';
 
 interface ChoiceProps {
   items: QuestionData[];
@@ -39,7 +34,7 @@ const Choice = ({ items, onSubmit }: ChoiceProps) => {
       <QnA
         key={index}
         question={items[index].description}
-        choices={items[index].choices}
+        choices={items[index].questionChoiceList}
         onSubmit={handleSubmit}
       />
     </>
