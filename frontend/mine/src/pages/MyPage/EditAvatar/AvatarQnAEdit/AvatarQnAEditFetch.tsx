@@ -1,65 +1,85 @@
 /** @jsxImportSource @emotion/react */
 import React, { useCallback, useEffect, useState, useContext } from 'react';
-import { useSuspenseQuery } from '@tanstack/react-query';
-import {
-  getAvatarQuestionAnswer,
-  NewAnsListData,
-  updateAvatarChoice,
-} from '../../../../apis/avatarApi';
-import EditQnA, { IEditQnA } from '../EditQnA';
+import { useSuspenseQueries } from '@tanstack/react-query';
+import EditQnA from '../EditQnA';
 import { controlBtnCss, editBtnCss, editListCss } from './style';
 import { Button, Typography, Icon } from 'oyc-ds';
 import { HashtagIcon } from '@heroicons/react/24/solid';
 import { NotificationContext } from '../../../../utils/NotificationContext';
 import { useNavigate } from 'react-router-dom';
+import {
+  getAnswers,
+  getQuestions,
+  updateQnA,
+} from '../../../../apis/mypageApi';
+import {
+  IAnswer,
+  IAnswerData,
+  INewAnswer,
+  IQuestion,
+} from '../../../../types/qnaType';
 
-interface INewAnswer {
-  questionId: number;
-  isNew: boolean;
-  newAns: number;
+interface IAvatarQnAEditFetchProps {
+  avatarId: number;
+  questionType: string;
 }
 
-const ChoiceEditFetch = () => {
-  const questionQuery = useSuspenseQuery({
-    queryKey: ['questions'],
-    queryFn: () => getAvatarQuestionAnswer(0),
+const AvatarQnAEditFetch = ({
+  avatarId,
+  questionType,
+}: IAvatarQnAEditFetchProps) => {
+  const [questionQuery, answerQuery] = useSuspenseQueries({
+    queries: [
+      { queryKey: ['questions'], queryFn: () => getQuestions() },
+      { queryKey: ['answers'], queryFn: () => getAnswers(avatarId) },
+    ],
   });
 
-  if (questionQuery.error && !questionQuery.isFetching) {
-    throw questionQuery.error;
-  }
+  [questionQuery, answerQuery].some((query) => {
+    if (query.error && !query.isFetching) {
+      throw query.error;
+    }
+  });
 
   const notificationContext = useContext(NotificationContext);
   const nav = useNavigate();
   const [index, setIndex] = useState<number>(0);
-  const [qnas, setQnas] = useState<IEditQnA[]>([]);
+  const [questions, setQuestions] = useState<IQuestion[]>([]);
+  const [answers, setAnswers] = useState<IAnswer[]>([]);
   const [editTarget, setEditTarget] = useState<INewAnswer[]>([]);
 
   useEffect(() => {
-    const newQnAs: IEditQnA[] = [];
-    const newAns: INewAnswer[] = [];
-
-    questionQuery.data.data.map((qna: IEditQnA) => {
-      if (qna.questionType === 'c') {
-        newQnAs.push(qna);
-        newAns.push({
-          questionId: qna.questionId,
-          isNew: false,
-          newAns: -1,
-        });
-      }
-    });
-
-    setQnas(() => [...newQnAs]);
-    setEditTarget(() => [...newAns]);
+    setQuestions(
+      questionQuery.data.data.filter((q: IQuestion) => q.type === questionType),
+    );
+    setAnswers(
+      answerQuery.data.data.filter(
+        (a: IAnswer) => a.questionType === questionType,
+      ),
+    );
   }, []);
 
+  useEffect(() => {
+    const newAns: INewAnswer[] = [];
+
+    questions.map((q: IQuestion, idx: number) => {
+      newAns.push({
+        questionResId: answers[idx].questionResId,
+        questionId: q.questionId,
+        isNew: false,
+        newAns: questionType === 'c' ? -1 : '',
+      });
+    });
+
+    setEditTarget([...newAns]);
+  }, [questions]);
+
   const handleTarget = useCallback(
-    (Qidx: number, isNew: boolean, newAns: number) => {
+    (Qidx: number, isNew: boolean, newAns: number | string) => {
       setEditTarget((prev) => {
         const newTarget = [...prev];
         newTarget[Qidx] = {
-          questionId: prev[Qidx].questionId,
+          ...newTarget[Qidx],
           isNew: isNew,
           newAns: newAns,
         };
@@ -70,39 +90,45 @@ const ChoiceEditFetch = () => {
   );
 
   const handleResponse = useCallback(
-    (Qidx: number, Aidx: number | string) => {
+    (Qidx: number, ans: number | string) => {
       handleTarget(
         Qidx,
-        !(qnas[Qidx].answer === Number(Aidx) + 1),
-        Number(Aidx) + 1,
+        !(
+          answers[Qidx].answer ==
+          (questionType === 'c' ? Number(ans) + 1 : String(ans))
+        ),
+        questionType === 'c' ? Number(ans) + 1 : String(ans),
       );
     },
-    [qnas],
+    [answers],
   );
 
   const handleSubmit = async () => {
-    const newChoices: NewAnsListData = {
-      avatarId: 123,
-      anss: [],
-    };
+    const answerDatas: IAnswerData[] = [];
 
-    editTarget.map((target: INewAnswer) => {
+    editTarget.map((target: INewAnswer, idx: number) => {
       if (target.isNew) {
-        newChoices.anss.push({
-          questionId: target.questionId,
-          ansId: target.newAns,
+        answerDatas.push({
+          questionResId: target.questionResId,
+          questionChoiceId: questionType === 'c' ? target.newAns : null,
+          subjectiveAns: questionType === 's' ? target.newAns : null,
+        });
+        setAnswers((prev) => {
+          const oldAnswers = [...prev];
+          oldAnswers[idx].answer = target.newAns;
+          return oldAnswers;
         });
       }
     });
 
-    await updateAvatarChoice(newChoices)
+    await updateQnA(avatarId, answerDatas)
       .then(() => {
         notificationContext.handle(
           'contained',
           'success',
-          '설문조사가 성공적으로 변경되었습니다',
+          `${questionType === 'c' ? '설문조사' : '질의응답'}가 성공적으로 변경되었습니다`,
         );
-        nav('/mypage');
+        nav('/mypage', { state: { step: 2 } });
       })
       .catch(() => {
         notificationContext.handle('contained', 'danger', '다시 시도해주세요');
@@ -111,12 +137,12 @@ const ChoiceEditFetch = () => {
 
   return (
     <>
-      {qnas.map((qna: IEditQnA, idx: number) => {
+      {questions.map((q: IQuestion, idx: number) => {
         return (
           <EditQnA
             key={idx}
-            qnaType={'c'}
-            qna={qna}
+            question={q}
+            answer={answers[idx]}
             qidx={idx}
             invisible={index !== idx}
             handleResponse={handleResponse}
@@ -137,7 +163,7 @@ const ChoiceEditFetch = () => {
           onClick={() => {
             setIndex((index) => index + 1);
           }}
-          disabled={index === qnas.length - 1}
+          disabled={index === questions.length - 1}
         >
           <Typography size="sm" color="light">
             다음
@@ -171,4 +197,4 @@ const ChoiceEditFetch = () => {
   );
 };
 
-export default ChoiceEditFetch;
+export default AvatarQnAEditFetch;

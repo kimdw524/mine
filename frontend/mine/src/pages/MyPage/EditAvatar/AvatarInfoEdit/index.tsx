@@ -1,46 +1,55 @@
 /** @jsxImportSource @emotion/react */
 import React, { useCallback, useContext, useState } from 'react';
-import AppBar from '../../../../components/organisms/AppBar';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { NotificationContext } from '../../../../utils/NotificationContext';
 import { Palette } from 'oyc-ds/dist/themes/lightTheme';
-import { avatarNameEditContainerCss, contentCss } from './style';
-import { changeAvatarName } from '../../../../apis/avatarApi';
+import { updateAvatarInfo } from '../../../../apis/mypageApi';
+import { avatarInfoEditContainerCss, contentCss } from './style';
+import AppBar from '../../../../components/organisms/AppBar';
 import { Button, TextField, Typography } from 'oyc-ds';
 
-const NameEdit = () => {
+const AvatarInfoEdit = () => {
   const nav = useNavigate();
   const location = useLocation();
   const notificationContext = useContext(NotificationContext);
-  const [newName, setNewName] = useState<string>('');
+  const [newInfo, setNewInfo] = useState<string>('');
   const [color, setColor] = useState<Palette>('primary');
   const [label, setLabel] = useState<string>('');
+  const [colName, setColName] = useState<string>(
+    location.state.colName === 'avatarName'
+      ? '이름'
+      : location.state.colName === 'job'
+        ? '직업'
+        : '거주지',
+  );
 
   const handleInputChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setNewName(e.target.value);
-    },
+    (e: React.ChangeEvent<HTMLInputElement>) => setNewInfo(e.target.value),
     [],
   );
 
-  const nameValidation = useCallback(() => {
-    if (newName.length === 0) {
+  const validator = useCallback(() => {
+    if (newInfo.length === 0) {
       setColor('danger');
-      setLabel('이름을 입력해주세요');
-    } else if (newName.length > 10) {
+      setLabel(`${colName}을 입력해주세요`);
+    } else if (newInfo.length > 10) {
       setColor('danger');
-      setLabel('10자 이하의 이름');
-    } else if (newName === location.state.curName) {
+      setLabel(`10자 이하의 ${colName}`);
+    } else if (newInfo === location.state.oldInfo) {
       setColor('danger');
-      setLabel('동일한 이름');
+      setLabel(`동일한 ${colName}`);
     } else {
       setColor('success');
-      setLabel('사용 가능한 이름');
+      setLabel(`사용 가능한 ${colName}`);
     }
-  }, [newName]);
+  }, [newInfo]);
 
-  const handleAvatarNameChange = async () => {
-    await changeAvatarName(1, newName)
+  const handleAvatarInfoChange = async () => {
+    await updateAvatarInfo(
+      location.state.avatarId,
+      location.state.colName,
+      newInfo,
+    )
       .then(() => {
         nav('/mypage');
         notificationContext.handle(
@@ -56,25 +65,28 @@ const NameEdit = () => {
 
   return (
     <>
-      <div css={avatarNameEditContainerCss}>
-        <AppBar label="이름 변경" onBackClick={() => nav('/mypage')} />
+      <div css={avatarInfoEditContainerCss}>
+        <AppBar
+          label={`${colName} 변경`}
+          onBackClick={() => nav('/mypage', { state: { step: 2 } })}
+        />
         <div css={contentCss}>
           <Typography size="lg" color="dark">
-            현재 이름 : {location.state.curName}
+            현재 {colName} : {location.state.oldInfo}
           </Typography>
           <TextField
             color={color}
             variant="outlined"
             label={label}
             defaultValue=""
-            placeholder="이름을 입력해주세요"
+            placeholder={`${colName}을 입력해주세요`}
             onChange={handleInputChange}
-            onKeyUp={nameValidation}
+            onKeyUp={validator}
           />
           <Button
             fullWidth
             disabled={!(color === 'success')}
-            onClick={async () => await handleAvatarNameChange()}
+            onClick={async () => await handleAvatarInfoChange()}
           >
             변경하기
           </Button>
@@ -84,4 +96,4 @@ const NameEdit = () => {
   );
 };
 
-export default NameEdit;
+export default AvatarInfoEdit;

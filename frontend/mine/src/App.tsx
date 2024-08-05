@@ -19,15 +19,12 @@ import { Palette } from 'oyc-ds/dist/themes/lightTheme';
 import { INotiInfo, NotificationContext } from './utils/NotificationContext';
 import Schedule from './pages/Schedule';
 import { UserProvider } from './pages/Login/UserContext';
-import JobEdit from './pages/MyPage/EditAvatar/JobEdit';
-import NameEdit from './pages/MyPage/EditAvatar/NameEdit';
-import PlaceEdit from './pages/MyPage/EditAvatar/PlaceEdit';
 import Account from './pages/Account';
 import Chat from './pages/Chat';
-import ChoiceEdit from './pages/MyPage/EditAvatar/ChoiceEdit';
-import SubjectiveEdit from './pages/MyPage/EditAvatar/SubjectiveEdit';
 import Chart from './pages/Statistics/chart';
 import AccountChart from './pages/Statistics/Account/spend';
+import AvatarInfoEdit from './pages/MyPage/EditAvatar/AvatarInfoEdit';
+import AvatarQnAEdit from './pages/MyPage/EditAvatar/AvatarQnAEdit';
 import { ModalProvider } from './hooks/useModal';
 
 function App() {
@@ -88,14 +85,11 @@ function App() {
                 <Route path="/mypage/nickname" element={<NickEdit />} />
                 <Route path="/mypage/password" element={<PwdEdit />} />
                 <Route path="/avatar/create" element={<CreateAvatar />} />
-                <Route path="/mypage/avatar/job" element={<JobEdit />} />
-                <Route path="/mypage/avatar/name" element={<NameEdit />} />
-                <Route path="/mypage/avatar/place" element={<PlaceEdit />} />
-                <Route path="/mypage/avatar/choice" element={<ChoiceEdit />} />
                 <Route
-                  path="/mypage/avatar/subjective"
-                  element={<SubjectiveEdit />}
+                  path="/mypage/avatar/info"
+                  element={<AvatarInfoEdit />}
                 />
+                <Route path="/mypage/avatar/qna" element={<AvatarQnAEdit />} />
                 <Route path="/findpassword" element={<FindPassword />} />
 
                 <Route path="/schedule" element={<Schedule />} />
