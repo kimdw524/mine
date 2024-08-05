@@ -27,21 +27,21 @@ public class ScheduleQueryService {
     {
         int userId = getUserIdOrElseThrow();
         return scheduleDataCustomRepository.findSchedulesByCategoryIdAndDates(
-                1,
+                userId,
                 categoryId,
                 startDate.atStartOfDay(),
-                endDate.atTime(LocalTime.MAX)
+                endDate.atTime(LocalTime.MAX).withNano(0)
         );
     }
 
     public List<GetScheduleResponse> searchSchedules(String query) {
         int userId = getUserIdOrElseThrow();
-        return scheduleDataCustomRepository.findSchedulesByContaining(1, query);
+        return scheduleDataCustomRepository.findSchedulesByContaining(userId, query);
     }
 
     private int getUserIdOrElseThrow() {
         return (Integer) sessionDao.get(SessionConstants.USER_ID)
-                .orElseThrow(() -> new RestApiException(CommonErrorCode.FORBIDDEN));
+                .orElseThrow(() -> new RestApiException(CommonErrorCode.UNAUTHORIZED));
     }
 
 }

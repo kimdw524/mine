@@ -80,7 +80,7 @@ public class AccountQueryService {
     }
 
     private LocalDateTime getEndOfDay(LocalDate date) {
-        return date.atTime(LocalTime.MAX);
+        return date.atTime(LocalTime.MAX).withNano(0);
     }
 
 }

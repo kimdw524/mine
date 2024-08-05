@@ -34,7 +34,7 @@ public class UpdateAchievementStateService {
 
     private AchievementState getAchievementStateOrElseThrow(int achievementId) {
         Integer userId = (Integer) sessionDao.get(SessionConstants.USER_ID)
-                .orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND));
+                .orElseThrow(() -> new RestApiException(CommonErrorCode.UNAUTHORIZED));
 
         return achievementStateRepository.findByUserIdAndAchievement_Id(userId, achievementId)
                 .orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND));
