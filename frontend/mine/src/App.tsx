@@ -85,14 +85,11 @@ function App() {
                 <Route path="/mypage/nickname" element={<NickEdit />} />
                 <Route path="/mypage/password" element={<PwdEdit />} />
                 <Route path="/avatar/create" element={<CreateAvatar />} />
-                <Route path="/mypage/avatar/job" element={<JobEdit />} />
-                <Route path="/mypage/avatar/name" element={<NameEdit />} />
-                <Route path="/mypage/avatar/place" element={<PlaceEdit />} />
-                <Route path="/mypage/avatar/choice" element={<ChoiceEdit />} />
                 <Route
-                  path="/mypage/avatar/subjective"
-                  element={<SubjectiveEdit />}
+                  path="/mypage/avatar/info"
+                  element={<AvatarInfoEdit />}
                 />
+                <Route path="/mypage/avatar/qna" element={<AvatarQnAEdit />} />
                 <Route path="/findpassword" element={<FindPassword />} />
 
                 <Route path="/schedule" element={<Schedule />} />
