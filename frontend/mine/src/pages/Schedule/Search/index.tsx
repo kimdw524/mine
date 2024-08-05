@@ -62,7 +62,11 @@ const Search = () => {
           {search.query && (
             <ErrorBoundary fallback={<>error</>}>
               <Suspense fallback={<Loading />}>
-                <SearchListFetch query={search.query} type={search.type} />
+                <SearchListFetch
+                  key={JSON.stringify(search)}
+                  query={search.query}
+                  type={search.type}
+                />
               </Suspense>
             </ErrorBoundary>
           )}
