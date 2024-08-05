@@ -17,6 +17,7 @@ import {
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AccountParam, addAccount } from '../../../apis/accountApi';
 import { apiFormatDateTime } from '../../../utils/dateUtils';
+import useDialog from '../../../hooks/useDialog';
 
 const Create = () => {
   const navigate = useNavigate();
@@ -27,6 +28,7 @@ const Create = () => {
   const descriptionRef = useRef<HTMLInputElement>(null);
   const moneyRef = useRef<HTMLInputElement>(null);
   const queryClient = useQueryClient();
+  const { alert } = useDialog();
 
   const { mutate } = useMutation({
     mutationFn: (params: AccountParam) => addAccount(params),
@@ -37,7 +39,7 @@ const Create = () => {
       }
     },
     onError: (error) => {
-      alert('error');
+      alert('오류가 발생하였습니다.');
       console.error(error);
     },
   });

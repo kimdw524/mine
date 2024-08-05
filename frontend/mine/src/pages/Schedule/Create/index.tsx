@@ -18,6 +18,7 @@ import CategorySelect from '../../../components/molecules/CategorySelect';
 import { apiFormatDateTime } from '../../../utils/dateUtils';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { addSchedule, ScheduleParam } from '../../../apis/scheduleApi';
+import useDialog from '../../../hooks/useDialog';
 
 const Create = () => {
   const navigate = useNavigate();
@@ -29,6 +30,7 @@ const Create = () => {
   const descriptionRef = useRef<HTMLInputElement>(null);
   const whereRef = useRef<HTMLInputElement>(null);
   const queryClient = useQueryClient();
+  const { alert } = useDialog();
 
   const { mutate } = useMutation({
     mutationFn: (params: ScheduleParam) => addSchedule(params),
@@ -39,7 +41,7 @@ const Create = () => {
       }
     },
     onError: (error) => {
-      alert('error');
+      alert('오류가 발생하였습니다.');
       console.error(error);
     },
   });
