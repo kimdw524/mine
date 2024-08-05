@@ -22,15 +22,17 @@ public class UpdateScheduleService {
     public void updateSchedule(UpdateScheduleRequest request) {
         Schedule schedule = scheduleRepository.findById(request.getScheduleId())
                 .orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND));
-
+        validateWriterOrElseThrow(schedule);
         schedule.updateSchedule(request);
     }
 
-    private void validateWriterOrElseThrow(int scheduleId) {
+    private void validateWriterOrElseThrow(Schedule schedule) {
         int userId = (Integer) sessionDao.get(SessionConstants.USER_ID)
-                .orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND));
+                .orElseThrow(() -> new RestApiException(CommonErrorCode.UNAUTHORIZED));
 
-
+        if (userId != schedule.getUserId()) {
+            throw new RestApiException(CommonErrorCode.FORBIDDEN);
+        }
     }
 
 }

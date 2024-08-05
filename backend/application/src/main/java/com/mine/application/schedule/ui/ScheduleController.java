@@ -1,5 +1,6 @@
 package com.mine.application.schedule.ui;
 
+import com.mine.application.common.aop.LoginCheck;
 import com.mine.application.schedule.command.application.*;
 import com.mine.application.schedule.query.application.ScheduleQueryService;
 import com.mine.application.schedule.ui.dto.*;
@@ -27,21 +28,24 @@ public class ScheduleController {
     private final DeleteScheduleService deleteScheduleService;
     private final GetScheduleCategoryService getScheduleCategoryService;
 
+    @LoginCheck
     @GetMapping("/users/schedules")
-    public ResponseEntity<List<GetScheduleResponse>> getSchedulesByCategoryIdAndDates(
+    public ResponseEntity<List<GetScheduleResponse>> getSchedulesByCategory(
             @RequestParam @Nullable Integer categoryId,
             @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
             @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate)
     {
         return ResponseEntity.ok().body(scheduleQueryService
-                .getSchedulesByCategoryIdAndDates(categoryId, startDate, endDate));
+                .getSchedulesByCategory(categoryId, startDate, endDate));
     }
 
+    @LoginCheck
     @GetMapping("/users/schedules/calendar")
-    public ResponseEntity<List<GetScheduleResponse>> getSchedulesByContaining(@RequestParam String query) {
-        return ResponseEntity.ok(scheduleQueryService.getSchedulesByContaining(query));
+    public ResponseEntity<List<GetScheduleResponse>> searchSchedules(@RequestParam String query) {
+        return ResponseEntity.ok(scheduleQueryService.searchSchedules(query));
     }
 
+    @LoginCheck
     @GetMapping("/users/schedules/chat")
     public ResponseEntity<String> getSchedulesByChat(@RequestParam String query) {
         return ResponseEntity.ok()
@@ -49,23 +53,27 @@ public class ScheduleController {
                 .body(getScheduleByChatService.getScheduleByChat(query));
     }
 
+    @LoginCheck
     @PostMapping("/users/schedules/calendar")
     public ResponseEntity<Void> addScheduleByCalendar(@RequestBody @Valid AddScheduleByCalendarRequest addScheduleByCalendarRequest) {
         addScheduleService.addScheduleByCalendar(addScheduleByCalendarRequest);
         return ResponseEntity.ok().build();
     }
 
+    @LoginCheck
     @PostMapping("/users/schedules/chat")
-    public ResponseEntity<AddScheduleFromChatResponse> addScheduleByChat(@RequestBody @Valid AddScheduleByChatRequest addScheduleByChatRequest) {
+    public ResponseEntity<AddScheduleByChatResponse> addScheduleByChat(@RequestBody @Valid AddScheduleByChatRequest addScheduleByChatRequest) {
         return ResponseEntity.ok().body(addScheduleService.addScheduleByChat(addScheduleByChatRequest.getQuery()));
     }
 
+    @LoginCheck
     @PatchMapping("/users/schedule")
     public ResponseEntity<Void> updateSchedule(@RequestBody @Valid UpdateScheduleRequest updateScheduleRequest) {
         updateScheduleService.updateSchedule(updateScheduleRequest);
         return ResponseEntity.ok().build();
     }
 
+    @LoginCheck
     @DeleteMapping("/users/schedules/{scheduleId}")
     public ResponseEntity<Void> deleteSchedule(@PathVariable @NotNull int scheduleId) {
         deleteScheduleService.deleteSchedule(scheduleId);

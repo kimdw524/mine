@@ -14,10 +14,9 @@ public class GetSpendCategoryService {
     private final SpendCategoryRepository spendCategoryRepository;
 
     public String getSpendCategory(int id) {
-        SpendCategory spendCategory = spendCategoryRepository.findById(id)
-                .orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND));
-
-        return spendCategory.getName();
+        return spendCategoryRepository.findById(id)
+                .orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND))
+                .getName();
     }
 
 }
