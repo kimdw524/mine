@@ -29,3 +29,15 @@ export const addAccountByChat = (param: { query: string }) => {
 export const updateAccount = (param: AccountData) => {
   return api.patch('/api/users/account', param);
 };
+
+export const searchAccounts = (query: string) => {
+  return api.get<AccountData[]>(`/api/users/accounts/calendar?query=${query}`);
+};
+
+export const searchAccountsByChat = (query: string) => {
+  return api.get<AccountData[]>(`/api/users/accounts/chat?query=${query}`);
+};
+
+export const deleteAccount = (accountId: number) => {
+  return api.delete(`/api/users/accounts/${accountId}`);
+};

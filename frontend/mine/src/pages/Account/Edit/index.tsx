@@ -10,15 +10,16 @@ import {
   bottomCss,
   categoryCss,
   containerCss,
+  leftSideCss,
   modalCss,
+  rightSideCss,
   textContainerCss,
   typeCss,
 } from './style';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import {
   AccountData,
-  AccountParam,
-  addAccount,
+  deleteAccount,
   updateAccount,
 } from '../../../apis/accountApi';
 import { apiFormatDateTime } from '../../../utils/dateUtils';
@@ -51,6 +52,20 @@ const Edit = ({ data }: EditProps) => {
     },
   });
 
+  const { mutate: deleteItem } = useMutation({
+    mutationFn: (accountId: number) => deleteAccount(accountId),
+    onSuccess: (data) => {
+      if (data.status === 200) {
+        queryClient.invalidateQueries({ queryKey: ['account'] });
+        navigate(-1);
+      }
+    },
+    onError: (error) => {
+      alert('error');
+      console.error(error);
+    },
+  });
+
   const handleSubmit = () => {
     mutate({
       accountId: data.accountId,
@@ -63,9 +78,17 @@ const Edit = ({ data }: EditProps) => {
     });
   };
 
+  const handleDelete = () => {
+    if (!window.confirm('정말로 삭제하시겠습니까?')) {
+      return;
+    }
+
+    deleteItem(data.accountId);
+  };
+
   return (
     <div css={modalCss}>
-      <AppBar label="가계" />
+      <AppBar label="가계부" />
       <div css={containerCss}>
         <div css={typeCss}>
           <Button
@@ -132,10 +155,17 @@ const Edit = ({ data }: EditProps) => {
       </div>
 
       <div css={bottomCss}>
-        <Button color="secondary" onClick={() => navigate(-1)}>
-          취소
-        </Button>
-        <Button onClick={handleSubmit}>수정</Button>
+        <div css={leftSideCss}>
+          <Button color="danger" onClick={handleDelete}>
+            삭제
+          </Button>
+        </div>
+        <div css={rightSideCss}>
+          <Button color="secondary" onClick={() => navigate(-1)}>
+            취소
+          </Button>
+          <Button onClick={handleSubmit}>수정</Button>
+        </div>
       </div>
     </div>
   );

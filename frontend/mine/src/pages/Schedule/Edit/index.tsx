@@ -5,8 +5,10 @@ import {
   bottomCss,
   categoryCss,
   containerCss,
+  leftSideCss,
   modalCss,
   periodCss,
+  rightSideCss,
   textContainerCss,
 } from './style';
 import { Button, TextField } from 'oyc-ds';
@@ -17,7 +19,11 @@ import { useNavigate } from 'react-router-dom';
 import CategorySelect from '../../../components/molecules/CategorySelect';
 import { apiFormatDateTime } from '../../../utils/dateUtils';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { ScheduleData, updateSchedule } from '../../../apis/scheduleApi';
+import {
+  deleteSchedule,
+  ScheduleData,
+  updateSchedule,
+} from '../../../apis/scheduleApi';
 
 interface EditProps {
   data: ScheduleData;
@@ -38,6 +44,20 @@ const Edit = ({ data }: EditProps) => {
 
   const { mutate } = useMutation({
     mutationFn: (params: ScheduleData) => updateSchedule(params),
+    onSuccess: (data) => {
+      if (data.status === 200) {
+        queryClient.invalidateQueries({ queryKey: ['schedule'] });
+        navigate(-1);
+      }
+    },
+    onError: (error) => {
+      alert('error');
+      console.error(error);
+    },
+  });
+
+  const { mutate: deleteItem } = useMutation({
+    mutationFn: (scheduleId: number) => deleteSchedule(scheduleId),
     onSuccess: (data) => {
       if (data.status === 200) {
         queryClient.invalidateQueries({ queryKey: ['schedule'] });
@@ -75,6 +95,14 @@ const Edit = ({ data }: EditProps) => {
       description: descriptionRef.current!.value,
       where: whereRef.current!.value,
     });
+  };
+
+  const handleDelete = () => {
+    if (!window.confirm('정말로 삭제하시겠습니까?')) {
+      return;
+    }
+
+    deleteItem(data.scheduleId);
   };
 
   return (
@@ -141,10 +169,17 @@ const Edit = ({ data }: EditProps) => {
       </div>
 
       <div css={bottomCss}>
-        <Button color="secondary" onClick={() => navigate(-1)}>
-          취소
-        </Button>
-        <Button onClick={handleSubmit}>수정</Button>
+        <div css={leftSideCss}>
+          <Button color="danger" onClick={handleDelete}>
+            삭제
+          </Button>
+        </div>
+        <div css={rightSideCss}>
+          <Button color="secondary" onClick={() => navigate(-1)}>
+            취소
+          </Button>
+          <Button onClick={handleSubmit}>수정</Button>
+        </div>
       </div>
     </div>
   );
