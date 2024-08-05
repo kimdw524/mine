@@ -16,6 +16,7 @@ export default {
     children: {
       control: { type: 'object' },
     },
+
   },
 } as Meta<MenuTabProps>;
 
@@ -35,6 +36,7 @@ export const Primary = {
     size: 'md',
     color: 'primary',
     children: ['Tab1', 'Tab2', 'Tab3'],
-    variant: 'rounded',
+    variant: 'contained',
+    border:'rounded'
   },
 };
