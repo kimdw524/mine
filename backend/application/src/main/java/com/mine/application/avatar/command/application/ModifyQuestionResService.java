@@ -5,6 +5,7 @@ import com.mine.application.avatar.command.domain.AvatarRepository;
 import com.mine.application.avatar.command.domain.question.QuestionChoice;
 import com.mine.application.avatar.command.domain.question.QuestionChoiceRepository;
 import com.mine.application.avatar.command.domain.question.QuestionRes;
+import com.mine.application.avatar.command.domain.question.QuestionType;
 import com.mine.application.common.erros.errorcode.CommonErrorCode;
 import com.mine.application.common.erros.exception.RestApiException;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +28,9 @@ public class ModifyQuestionResService {
         for(ModifyQuestionResRequest request : requests) {
             for(QuestionRes questionRes : avatar.getQuestionResList()) {
                 if(questionRes.getId().equals(request.getQuestionResId())) {
-                    QuestionChoice findChoice =  questionChoiceRepository.findById(request.getQuestionChoiceId()).orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND));
+                    QuestionChoice findChoice = null;
+                    if(questionRes.getQuestionType().equals(QuestionType.CHOICE))
+                        findChoice =  questionChoiceRepository.findById(request.getQuestionChoiceId()).orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND));
                     questionRes.updateRes(request, findChoice);
                     break;
                 }
