@@ -12,8 +12,8 @@ import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 
 
 @Configuration
-@EnableWebSocketMessageBroker
 @EnableScheduling
+@EnableWebSocketMessageBroker
 public class WebSocketConfig extends AbstractSessionWebSocketMessageBrokerConfigurer<Session> {
 
     @Autowired
@@ -32,4 +32,10 @@ public class WebSocketConfig extends AbstractSessionWebSocketMessageBrokerConfig
                 .setAllowedOriginPatterns("*").withSockJS();
     }
 
+//    @Override
+//    public void configureWebSocketTransport(WebSocketTransportRegistration registration) {
+//        registration.setMessageSizeLimit(8192) // 메세지 크기 제한 설정
+//                .setSendTimeLimit(20 * 10000) // 전송 시간 제한 설정
+//                .setSendBufferSizeLimit(3 * 512 * 1024); // 버퍼 크기 제한 설정
+//    }
 }

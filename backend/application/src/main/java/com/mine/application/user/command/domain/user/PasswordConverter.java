@@ -15,7 +15,7 @@ class PasswordConverter implements AttributeConverter<Password, byte[]> {
     }
     @Override
     public byte[] convertToDatabaseColumn(Password password) {
-        if(password.isEncoded()) {
+        if (password.isEncoded()) {
             return password.getValue().getBytes(StandardCharsets.UTF_8);
         }
         return encoder.encode(password.getValue()).getBytes(StandardCharsets.UTF_8);
