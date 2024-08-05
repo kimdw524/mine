@@ -1,5 +1,6 @@
 package com.mine.application.avatar.query.domain;
 
+import com.mine.application.avatar.command.domain.voice.Voice;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Immutable;
@@ -43,10 +44,17 @@ public class AvatarData {
     @Getter
     private String residence;
 
+    @Embedded
+    private Voice voiceId;
+
     @Column(name = "avatar_job")
     @Getter
     private String job;
 
     @Column(name = "is_deleted")
     private Boolean isDeleted;
+
+    public String getVoiceId() {
+        return voiceId.getVoiceId();
+    }
 }
