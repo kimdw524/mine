@@ -12,6 +12,7 @@ import java.util.Objects;
 public class AccountType {
     private Type type;
 
+    @Getter
     public enum Type {
         SPEND("S"),
         INCOME("I"),
@@ -22,9 +23,6 @@ public class AccountType {
             this.value = value;
         }
 
-        public String getValue() {
-            return value;
-        }
     }
 
     public AccountType(Type type) {

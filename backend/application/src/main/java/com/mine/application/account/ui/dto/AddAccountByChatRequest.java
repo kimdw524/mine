@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 
 @Getter
-public class AddAccountFromChatRequest {
+public class AddAccountByChatRequest {
 
     @NotBlank
     private String query;

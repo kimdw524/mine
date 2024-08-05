@@ -8,7 +8,7 @@ import lombok.Getter;
 import java.time.LocalDateTime;
 
 @Getter
-public class AddAccountFromCalendarRequest {
+public class AddAccountByCalendarRequest {
 
     @NotNull
     private Integer spendCategoryId;

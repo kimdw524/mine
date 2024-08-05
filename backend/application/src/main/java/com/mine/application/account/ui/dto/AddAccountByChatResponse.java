@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Getter
 @Builder
 @AllArgsConstructor
-public class AddAccountFromChatResponse {
+public class AddAccountByChatResponse {
 
     private Integer accountId;
 
