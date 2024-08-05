@@ -22,7 +22,7 @@ const Chat = () => {
   const [chatLog, setChatLog] = useState<ChatMessageData[]>([]);
   const chatTypeRef = useRef<ChatType>('chat');
   const { push } = useModal();
-  const chat = useChat('ws://127.0.0.1:3001');
+  const chat = useChat('https://i11d106.p.ssafy.io/chat/stomp/chat', 1);
 
   const addChat = (data: ChatMessageData) => {
     setChatLog((chatLog) => [...chatLog, data]);
@@ -111,14 +111,14 @@ const Chat = () => {
       ]);
     };
 
-    chat.connect(
-      handleOpen,
-      handleError,
-      handleClose,
-      handleMessage,
-      handleAccount,
-      handleSchedule,
-    );
+    chat.connect({
+      onOpen: handleOpen,
+      onError: handleError,
+      onClose: handleClose,
+      onMessage: handleMessage,
+      onAccount: handleAccount,
+      onSchedule: handleSchedule,
+    });
   }, []);
 
   return (
