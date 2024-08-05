@@ -18,6 +18,8 @@ export const labelCss = css`
 `;
 
 export const menuCss = css`
+  display: flex;
+  gap: 0.25rem;
   position: absolute;
   right: 1rem;
 `;

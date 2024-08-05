@@ -26,6 +26,7 @@ export const textCss = css`
 `;
 
 export const typeCss = css`
+  flex-shrink: 0;
   padding: 0 0.375rem 0 0.75rem;
   height: 100%;
   border-right: 0.0625rem solid #d3d3d3;

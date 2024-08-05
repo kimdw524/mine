@@ -19,15 +19,13 @@ import { Palette } from 'oyc-ds/dist/themes/lightTheme';
 import { INotiInfo, NotificationContext } from './utils/NotificationContext';
 import Schedule from './pages/Schedule';
 import { UserProvider } from './pages/Login/UserContext';
-import JobEdit from './pages/MyPage/EditAvatar/JobEdit';
-import NameEdit from './pages/MyPage/EditAvatar/NameEdit';
-import PlaceEdit from './pages/MyPage/EditAvatar/PlaceEdit';
 import Account from './pages/Account';
 import Chat from './pages/Chat';
-import ChoiceEdit from './pages/MyPage/EditAvatar/ChoiceEdit';
-import SubjectiveEdit from './pages/MyPage/EditAvatar/SubjectiveEdit';
 import AccountChart from './pages/Statistics/Account/index';
 import ScheduleChart from './pages/Statistics/Schedule/index';
+import AvatarInfoEdit from './pages/MyPage/EditAvatar/AvatarInfoEdit';
+import AvatarQnAEdit from './pages/MyPage/EditAvatar/AvatarQnAEdit';
+import { ModalProvider } from './hooks/useModal';
 
 function App() {
   const [notiInfo, setNotiInfo] = useState<INotiInfo>({
@@ -65,43 +63,42 @@ function App() {
       <GlobalStyle />
       <UserProvider>
         <ThemeProvider theme={LightTheme}>
-          <NotificationContext.Provider
-            value={{
-              info: notiInfo,
-              update: updateInfo,
-              handle: handleNoti,
-            }}
-          >
-            {notiInfo.notiState && <Notification notiInfo={notiInfo} />}
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/user/signup" element={<Signup />} />
-              <Route path="/user/login" element={<Login />} />
-              <Route path="/main" element={<Main />} />
-              <Route path="/accountchart" element={<AccountChart />} />
-              <Route path="/schedulechart" element={<ScheduleChart />} />
+          <ModalProvider>
+            <NotificationContext.Provider
+              value={{
+                info: notiInfo,
+                update: updateInfo,
+                handle: handleNoti,
+              }}
+            >
+              {notiInfo.notiState && <Notification notiInfo={notiInfo} />}
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/user/signup" element={<Signup />} />
+                <Route path="/user/login" element={<Login />} />
+                <Route path="/main" element={<Main />} />
+                <Route path="/accountchart" element={<AccountChart />} />
+                <Route path="/schedulechart" element={<ScheduleChart />} />
 
-              {/* 마이페이지 */}
-              <Route path="/mypage" element={<Information />} />
-              <Route path="/mypage/nickname" element={<NickEdit />} />
-              <Route path="/mypage/password" element={<PwdEdit />} />
-              <Route path="/avatar/create" element={<CreateAvatar />} />
-              <Route path="/mypage/avatar/job" element={<JobEdit />} />
-              <Route path="/mypage/avatar/name" element={<NameEdit />} />
-              <Route path="/mypage/avatar/place" element={<PlaceEdit />} />
-              <Route path="/mypage/avatar/choice" element={<ChoiceEdit />} />
-              <Route
-                path="/mypage/avatar/subjective"
-                element={<SubjectiveEdit />}
-              />
-              <Route path="/findpassword" element={<FindPassword />} />
+                {/* 마이페이지 */}
+                <Route path="/mypage" element={<Information />} />
+                <Route path="/mypage/nickname" element={<NickEdit />} />
+                <Route path="/mypage/password" element={<PwdEdit />} />
+                <Route path="/avatar/create" element={<CreateAvatar />} />
+                <Route
+                  path="/mypage/avatar/info"
+                  element={<AvatarInfoEdit />}
+                />
+                <Route path="/mypage/avatar/qna" element={<AvatarQnAEdit />} />
+                <Route path="/findpassword" element={<FindPassword />} />
 
-              <Route path="/schedule" element={<Schedule />} />
-              <Route path="/account" element={<Account />} />
+                <Route path="/schedule" element={<Schedule />} />
+                <Route path="/account" element={<Account />} />
 
-              <Route path="/chat" element={<Chat />} />
-            </Routes>
-          </NotificationContext.Provider>
+                <Route path="/chat" element={<Chat />} />
+              </Routes>
+            </NotificationContext.Provider>
+          </ModalProvider>
         </ThemeProvider>
       </UserProvider>
     </>

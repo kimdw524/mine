@@ -6,14 +6,12 @@ import { bottomCss, chatCss, chatLogCss, containerCss } from './style';
 import MenuBar from '../../components/organisms/MenuBar';
 import ChatBox from '../../components/organisms/ChatBox';
 import useChat, { ChatMessageData, ChatType } from '../../hooks/useChat';
-import ChatTextField from '../../components/molecules/ChatTextField';
+import TypeTextField from '../../components/molecules/TypeTextField';
 import { AccountData } from '../../apis/accountApi';
 import { ScheduleData } from '../../apis/scheduleApi';
 import useModal from '../../hooks/useModal';
-import Modal from '../../hooks/useModal/Modal';
 import EditSchedule from '../Schedule/Edit';
 import EditAccount from '../Account/Edit';
-import { Button } from 'oyc-ds';
 import EventMessage from '../../components/molecules/EventMessage';
 
 const Chat = () => {
@@ -23,7 +21,7 @@ const Chat = () => {
   const chatLogRef = useRef<HTMLDivElement>(null);
   const [chatLog, setChatLog] = useState<ChatMessageData[]>([]);
   const chatTypeRef = useRef<ChatType>('chat');
-
+  const { push } = useModal();
   const chat = useChat('ws://127.0.0.1:3001');
 
   const addChat = (data: ChatMessageData) => {
@@ -77,7 +75,7 @@ const Chat = () => {
               title={data.title}
               value="가계부 보기"
               onClick={() =>
-                open({
+                push({
                   component: <EditAccount data={data} />,
                   name: 'editAccount',
                 })
@@ -100,7 +98,7 @@ const Chat = () => {
               title={data.title}
               value="일정 보기"
               onClick={() =>
-                open({
+                push({
                   component: <EditSchedule data={data} />,
                   name: 'editSchedule',
                 })
@@ -123,28 +121,26 @@ const Chat = () => {
     );
   }, []);
 
-  const { open, modal } = useModal();
-
   return (
     <>
-      <Modal data={modal} />
       <div css={containerCss}>
         <div>
-          <AppBar
-            label="채팅방"
-            onBackClick={() => navigate('/')}
-            onMenuClick={() => {}}
-          />
+          <AppBar label="채팅방" onBackClick={() => navigate('/')} />
         </div>
         <div css={chatLogCss} ref={chatLogRef}>
           <ChatBox messages={chatLog} />
         </div>
         <div css={chatCss}>
-          <ChatTextField
+          <TypeTextField
             ref={chatRef}
+            types={[
+              { name: '채팅', value: 'chat' },
+              { name: '일정', value: 'schedule' },
+              { name: '가계', value: 'account' },
+            ]}
             onKeyDown={handleChatSend}
             onTypeChange={(type) => {
-              chatTypeRef.current = type;
+              chatTypeRef.current = type as ChatType;
             }}
           />
         </div>

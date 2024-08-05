@@ -1,17 +1,22 @@
 /** @jsxImportSource @emotion/react */
 import React, { forwardRef, useEffect, useState } from 'react';
-import { ChatType } from '../../../hooks/useChat';
 import { containerCss, focusCss, textCss, typeCss } from './style';
 import TransitionAnimation from '../../common/TransitionAnimation';
-import styles from './ChatTextField.module.css';
+import styles from './TypeTextField.module.css';
 
-interface ChatTextFieldProps extends React.ComponentProps<'input'> {
-  onTypeChange: (type: ChatType) => void;
+interface TextType {
+  name: string;
+  value: string;
 }
 
-const ChatTextField = forwardRef<HTMLInputElement, ChatTextFieldProps>(
-  ({ onTypeChange, ...props }, ref) => {
-    const [type, setType] = useState<ChatType>('chat');
+interface TypeTextFieldProps extends React.ComponentProps<'input'> {
+  onTypeChange: (type: string) => void;
+  types: TextType[];
+}
+
+const TypeTextField = forwardRef<HTMLInputElement, TypeTextFieldProps>(
+  ({ onTypeChange, types, ...props }, ref) => {
+    const [type, setType] = useState<string>(types[0]?.value || '');
     const [focus, setFocus] = useState<boolean>(false);
 
     useEffect(() => {
@@ -29,15 +34,16 @@ const ChatTextField = forwardRef<HTMLInputElement, ChatTextFieldProps>(
               exit: styles['fade-exit'],
             }}
           >
-            <span key="chat" onClick={() => setType('schedule')}>
-              채팅
-            </span>
-            <span key="schedule" onClick={() => setType('account')}>
-              일정
-            </span>
-            <span key="account" onClick={() => setType('chat')}>
-              가계
-            </span>
+            {types.map((type, index) => (
+              <span
+                key={type.value}
+                onClick={() => {
+                  setType(types[(index + 1) % types.length].value);
+                }}
+              >
+                {type.name}
+              </span>
+            ))}
           </TransitionAnimation>
         </div>
         <input
@@ -53,6 +59,6 @@ const ChatTextField = forwardRef<HTMLInputElement, ChatTextFieldProps>(
   },
 );
 
-ChatTextField.displayName = 'ChatTextField';
+TypeTextField.displayName = 'TypeTextField';
 
-export default ChatTextField;
+export default TypeTextField;

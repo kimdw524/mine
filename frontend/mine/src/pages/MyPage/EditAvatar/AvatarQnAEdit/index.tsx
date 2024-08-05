@@ -2,31 +2,34 @@
 import React, { Suspense } from 'react';
 import AppBar from '../../../../components/organisms/AppBar';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { avatarSubjectEditContainerCss, questionCss, titleCss } from './style';
+import { avatarQnAEditContainerCss, questionCss, titleCss } from './style';
 import { Typography } from 'oyc-ds';
+import AvatarQnAEditFetch from './AvatarQnAEditFetch';
 import { ErrorBoundary } from 'react-error-boundary';
-import SubjectEditFetch from './SubjectEditFetch';
 
-const SubjectiveEdit = () => {
+const AvatarQnAEdit = () => {
   const location = useLocation();
   const nav = useNavigate();
 
   return (
     <>
-      <div css={avatarSubjectEditContainerCss}>
+      <div css={avatarQnAEditContainerCss}>
         <AppBar
           label={location.state.name}
-          onBackClick={() => nav('/mypage')}
+          onBackClick={() => nav('/mypage', { state: { step: 2 } })}
         />
         <div css={titleCss}>
           <Typography size="md" color="dark">
-            질의응답
+            {location.state.questionType === 'c' ? '설문조사' : '질의응답'}
           </Typography>
         </div>
         <div css={questionCss}>
           <ErrorBoundary fallback={<>에러</>}>
             <Suspense fallback={<>로딩중</>}>
-              <SubjectEditFetch />
+              <AvatarQnAEditFetch
+                avatarId={location.state.avatarId}
+                questionType={location.state.questionType}
+              />
             </Suspense>
           </ErrorBoundary>
         </div>
@@ -35,4 +38,4 @@ const SubjectiveEdit = () => {
   );
 };
 
-export default SubjectiveEdit;
+export default AvatarQnAEdit;

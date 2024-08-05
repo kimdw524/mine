@@ -1,16 +1,21 @@
 /** @jsxImportSource @emotion/react */
 import { Icon, IconButton, Typography } from 'oyc-ds';
 import { containerCss, labelCss, menuCss } from './style';
-import { ChevronLeftIcon, Bars3Icon } from '@heroicons/react/24/solid';
+import { ChevronLeftIcon } from '@heroicons/react/24/solid';
 import { useTheme } from '@emotion/react';
 import Progress from './Progress';
 import React, { ReactNode } from 'react';
+
+interface Menu {
+  icon: ReactNode;
+  onClick: () => void;
+}
 
 interface AppBarProps extends React.ComponentProps<'div'> {
   children?: ReactNode;
   label: string;
   onBackClick?: () => void | undefined;
-  onMenuClick?: () => void | undefined;
+  menu?: Menu[];
 }
 
 /**
@@ -20,7 +25,7 @@ const AppBar = ({
   children,
   label,
   onBackClick,
-  onMenuClick,
+  menu = [],
   ...props
 }: AppBarProps) => {
   const theme = useTheme();
@@ -39,19 +44,21 @@ const AppBar = ({
           {label}
         </Typography>
       </div>
-      {onMenuClick && (
-        <IconButton
-          css={menuCss}
-          size="lg"
-          color="dark"
-          circular
-          onClick={onMenuClick}
-        >
-          <Icon size="sm" color="dark">
-            <Bars3Icon />
-          </Icon>
-        </IconButton>
-      )}
+      <div css={menuCss}>
+        {menu.map((item, index) => (
+          <IconButton
+            key={index}
+            size="lg"
+            color="dark"
+            onClick={item.onClick}
+            circular
+          >
+            <Icon size="sm" color="dark">
+              {item.icon}
+            </Icon>
+          </IconButton>
+        ))}
+      </div>
       {children}
     </div>
   );

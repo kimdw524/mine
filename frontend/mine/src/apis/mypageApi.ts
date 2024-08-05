@@ -1,3 +1,4 @@
+import { IAnswerData } from '../types/qnaType';
 import { api } from './interceptors';
 
 /* 사용자 정보 조회 */
@@ -58,5 +59,55 @@ export const getUserAchievement = () => {
   return api({
     url: '/api/users/achievements',
     method: 'get',
+  });
+};
+
+/* 사용자 아바타 조회 */
+export const getUserAvatars = () => {
+  return api({
+    url: '/api/avatars',
+    method: 'get',
+  });
+};
+
+/* 사용자 아바타 기본정보 수정 */
+export const updateAvatarInfo = (
+  avatarId: number,
+  infoType: string,
+  value: string,
+) => {
+  return api({
+    url: `/api/avatars/${avatarId}`,
+    method: 'patch',
+    data: {
+      [infoType]: value,
+    },
+  });
+};
+
+/* 아바타 질문 조회 */
+export const getQuestions = () => {
+  return api({
+    url: `/api/question`,
+    method: 'get',
+  });
+};
+
+/* 아바타 질문 응답 조회 */
+export const getAnswers = (avatarId: number) => {
+  return api({
+    url: `/api/avatars/${avatarId}/questions`,
+    method: 'get',
+  });
+};
+
+/* 아바타 질문 재응답 */
+export const updateQnA = (avatarId: number, answerDatas: IAnswerData[]) => {
+  return api({
+    url: `/api/avatars/${avatarId}/questions`,
+    method: 'patch',
+    data: {
+      list: answerDatas,
+    },
   });
 };

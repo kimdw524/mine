@@ -7,7 +7,6 @@ import { useSuspenseQuery } from '@tanstack/react-query';
 import { getSchedules } from '../../apis/scheduleApi';
 import { apiFormatDate } from '../../utils/dateUtils';
 import useModal from '../../hooks/useModal';
-import Modal from '../../hooks/useModal/Modal';
 import Edit from './Edit';
 
 interface ScheduleListFetchProps {
@@ -42,22 +41,17 @@ export const ScheduleListFetch = ({
     throw error;
   }
 
-  const { open, modal } = useModal();
+  const { push } = useModal();
 
   return (
     <>
-      <Modal data={modal} />
       <div css={containerCss}>
         {data.data.map((data, index) => (
           <ScheduleList
             key={data.scheduleId}
-            title={data.title}
-            description={data.description}
-            category={data.categoryId}
-            startDateTime={data.startDateTime}
-            endDateTime={data.endDateTime}
+            data={data}
             onClick={() =>
-              open({
+              push({
                 component: <Edit data={data} />,
                 name: 'editSchedule',
               })
