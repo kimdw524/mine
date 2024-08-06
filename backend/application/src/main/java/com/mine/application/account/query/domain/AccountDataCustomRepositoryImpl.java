@@ -2,7 +2,6 @@ package com.mine.application.account.query.domain;
 
 import static com.mine.application.account.query.domain.QAccountData.accountData;
 
-import com.mine.application.account.command.domain.AccountType;
 import com.mine.application.account.ui.dto.GetAccountResponse;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;

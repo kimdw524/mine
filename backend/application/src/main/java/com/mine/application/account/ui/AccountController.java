@@ -54,8 +54,8 @@ public class AccountController {
             @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
             @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate)
     {
-        return ResponseEntity.ok().body(accountQueryService
-                .getSpendAccountsByCategory(spendCategoryId, startDate, endDate));
+        return ResponseEntity.ok()
+                .body(accountQueryService.getSpendAccountsByCategory(spendCategoryId, startDate, endDate));
     }
 
     @LoginCheck
@@ -84,8 +84,8 @@ public class AccountController {
     public ResponseEntity<AddAccountByChatResponse> addAccountByChat(
             @RequestBody @Valid AddAccountByChatRequest addAccountByChatRequest)
     {
-        return ResponseEntity.ok().body(addAccountService
-                .addAccountByChat(addAccountByChatRequest.getQuery()));
+        return ResponseEntity.ok()
+                .body(addAccountService.addAccountByChat(addAccountByChatRequest.getQuery()));
     }
 
     @LoginCheck
