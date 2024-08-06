@@ -1,10 +1,10 @@
 /** @jsxImportSource @emotion/react */
-import React, { Suspense, useRef, useState } from 'react';
+import React, { Suspense, useEffect, useRef, useState } from 'react';
 import AppBar from '../../components/organisms/AppBar';
 import { useNavigate } from 'react-router-dom';
 import { Button, Calendar, Chip } from 'oyc-ds';
 import Period, { PeriodSelected } from '../../components/molecules/Period';
-import { getBetweenDates } from '../../utils/dateUtils';
+import { getBetweenDates, getCalendarDate } from '../../utils/dateUtils';
 import { ErrorBoundary } from 'react-error-boundary';
 import AccountListFetch from './AccountListFetch';
 import { accountCss, bottomCss, containerCss, menuCss } from './style';
@@ -15,16 +15,35 @@ import Search from './Search';
 import Error from '../../components/molecules/Error';
 import ChipList from '../../components/molecules/ChipList';
 import SelectCategory from './SelectCategory';
+import { accountCategoryData } from '../../utils/accountUtils';
+import { getAccounts } from '../../apis/accountApi';
+import { useQuery } from '@tanstack/react-query';
 
 const Account = () => {
   const navigate = useNavigate();
   const periodSelectedRef = useRef<PeriodSelected>('start');
+  const [category, setCategory] = useState<number>(0);
   const [start, setStart] = useState<Date>(new Date());
   const [end, setEnd] = useState<Date>(new Date());
+  const calendarPeriodRef = useRef<string[]>(['', '']);
   const [selected, setSelected] = useState<string[]>([
     `${start.getFullYear()}-${start.getMonth() + 1}-${start.getDate()}`,
   ]);
+  const [scheduled, setScheduled] = useState<string[]>([]);
   const { push } = useModal();
+
+  const { data, isFetching, refetch } = useQuery({
+    queryKey: [
+      'account',
+      '0',
+      calendarPeriodRef.current[0],
+      calendarPeriodRef.current[1],
+    ],
+    queryFn: () =>
+      getAccounts(calendarPeriodRef.current[0], calendarPeriodRef.current[1]),
+    refetchOnWindowFocus: false,
+    enabled: false,
+  });
 
   const [year, month] = start
     .toLocaleDateString()
@@ -71,10 +90,29 @@ const Account = () => {
 
   const handleSelectCategory = () => {
     push({
-      component: <SelectCategory selected={[]} />,
+      component: (
+        <SelectCategory
+          selected={category}
+          onChange={(selected) => {
+            setCategory(selected);
+          }}
+        />
+      ),
       name: 'selectAccountCategory',
     });
   };
+
+  const handleCalendarChange = (
+    year: number,
+    month: number,
+    start: string,
+    end: string,
+  ) => {
+    calendarPeriodRef.current = [start, end];
+    refetch();
+  };
+
+  console.log(data?.data);
 
   return (
     <>
@@ -93,7 +131,9 @@ const Account = () => {
             year={year}
             month={month}
             selected={selected}
+            scheduled={scheduled}
             onClick={handleCalendarClick}
+            onChange={handleCalendarChange}
           />
           <div css={menuCss}>
             <Period
@@ -102,12 +142,21 @@ const Account = () => {
               end={end}
             />
             <ChipList onClick={handleSelectCategory}>
-              <Chip size="sm" fill="#014bf8">
-                수입
-              </Chip>
-              <Chip size="sm" fill="#ff0000">
-                지출
-              </Chip>
+              {(category === 0 || category === 99) && (
+                <Chip size="sm" fill="#0087ff">
+                  수입
+                </Chip>
+              )}
+              {(category === 0 || category === 100) && (
+                <Chip size="sm" fill="#ff3f3f">
+                  지출
+                </Chip>
+              )}
+              {category !== 0 && category < 99 && (
+                <Chip size="sm" fill="#ff3f3f">
+                  {accountCategoryData[category].name}
+                </Chip>
+              )}
             </ChipList>
           </div>
         </div>
@@ -118,6 +167,7 @@ const Account = () => {
                 key={`${start.toLocaleDateString()}-${end.toLocaleDateString()}`}
                 start={start}
                 end={end}
+                category={category}
               />
             </Suspense>
           </ErrorBoundary>
