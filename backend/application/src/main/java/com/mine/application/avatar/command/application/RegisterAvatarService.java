@@ -65,7 +65,7 @@ public class RegisterAvatarService {
                 .job(request.getJob())
                 .residence(request.getResidence())
                 .voice(uploadVoiceService.generateVoice(request.getVoiceFileList()))
-                .model(AvatarModel.valueOf(request.getAvatarModel().toUpperCase()))
+                .model(AvatarModel.valueOf(request.getAvatarModel().toLowerCase()))
                 .isMain(true)
                 .build();
     }
