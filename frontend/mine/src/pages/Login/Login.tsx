@@ -1,7 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import React, { useContext, useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useCookies } from 'react-cookie';
 import { Button, LabeledCheckBox, Typography, TextField } from 'oyc-ds';
 import { Palette } from 'oyc-ds/dist/themes/lightTheme';
 import { UserContext } from './UserContext';
@@ -15,7 +14,11 @@ import {
   signupBtnCss,
   pwfindCss,
   failmsgCss,
+  eyesCss,
 } from './Login.styles';
+import {
+  EyeIcon, EyeSlashIcon
+} from '@heroicons/react/24/outline';
 
 interface ColorInfo {
   email: Palette;
@@ -28,16 +31,20 @@ const Login = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const nav = useNavigate();
-  const [, setCookie] = useCookies();
   const [ischecked, setIsChecked] = useState(false);
-  const [emailvalidation, setEmailValidation] = useState<boolean>(false);
+  const [emailvalidation, setEmailValidation] = useState<boolean>(true);
   const [passwordvalidation, setPasswordValidation] = useState<boolean>(false);
   const [loginResult, setLoginResult] = useState('');
   const { setUserInfo } = useContext(UserContext);
+  const [hide, setHide] = useState<boolean>(false);
   const [color, setColor] = useState<ColorInfo>({
     email: 'primary',
     password: 'primary',
   });
+
+  const onToggleHide = () => {
+    setHide(prevHide => !prevHide); // 현재 상태를 반전
+  };
 
   useEffect(() => {
     const storedUserInfo = localStorage.getItem('userInfo');
@@ -98,18 +105,13 @@ const Login = () => {
     }
 
     try {
-      const res = await UserLogin(email, password);
-      setCookie('Token', res.data.accessToken, { expires: ischecked ? today : undefined });
-      const userData = {
-        nickname: res.data.nickname,
-        email: res.data.email,
-      };
-      setUserInfo(userData);
-      localStorage.setItem('userInfo', JSON.stringify(userData));
+      await UserLogin(email, password);
       nav('/');
     } catch (err) {
-      console.log("에러:", err);
-      setLoginResult('이메일 또는 비밀번호가 잘못되었습니다.\n아이디와 비밀번호를 정확히 입력해주세요.');
+      console.log('에러:', err);
+      setLoginResult(
+        '이메일 또는 비밀번호가 잘못되었습니다.\n아이디와 비밀번호를 정확히 입력해주세요.',
+      );
     }
   };
 
@@ -153,12 +155,24 @@ const Login = () => {
             label="비밀번호"
             maxRows={10}
             placeholder="영문, 숫자 포함 8글자 이상"
-            type="password"
+            type={hide ? 'password': 'text'}
             variant="outlined"
             onChange={passwordChange}
             onKeyUp={PasswordValidation}
             value={password}
           />
+          <div style={{  
+            position: 'absolute', 
+            right: '10px', 
+            top: '50%', 
+            transform: 'translateY(-50%)',
+            cursor: 'pointer'}}>
+            {hide ? (
+              <EyeSlashIcon style={{ width: '30px', height: '30px' }} onClick={onToggleHide}/>
+            ) : (
+              <EyeIcon style={{ width: '30px', height: '30px' }} onClick={onToggleHide}/>
+            )}
+          </div>
           {!passwordvalidation && password ? (
             <Typography
               css={errmsgCss}
@@ -170,7 +184,7 @@ const Login = () => {
             </Typography>
           ) : null}
         </div>
-        <LabeledCheckBox
+        {/* <LabeledCheckBox
           color="primary"
           labelColor="dark"
           size="sm"
@@ -178,7 +192,7 @@ const Login = () => {
           onChange={checkedItemHandler}
         >
           자동 로그인
-        </LabeledCheckBox>
+        </LabeledCheckBox> */}
         {loginResult ? (
           <Typography css={failmsgCss} color="danger" size="xs" weight="medium">
             {loginResult}
