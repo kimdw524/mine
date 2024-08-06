@@ -2,17 +2,19 @@
 import React, { Suspense, useRef, useState } from 'react';
 import AppBar from '../../components/organisms/AppBar';
 import { useNavigate } from 'react-router-dom';
-import { Button, Calendar } from 'oyc-ds';
+import { Button, Calendar, Chip } from 'oyc-ds';
 import Period, { PeriodSelected } from '../../components/molecules/Period';
 import { getBetweenDates } from '../../utils/dateUtils';
 import { ErrorBoundary } from 'react-error-boundary';
 import AccountListFetch from './AccountListFetch';
-import { accountCss, bottomCss, containerCss, periodCss } from './style';
+import { accountCss, bottomCss, containerCss, menuCss } from './style';
 import Create from './Create';
 import useModal from '../../hooks/useModal';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import Search from './Search';
 import Error from '../../components/molecules/Error';
+import ChipList from '../../components/molecules/ChipList';
+import SelectCategory from './SelectCategory';
 
 const Account = () => {
   const navigate = useNavigate();
@@ -67,6 +69,13 @@ const Account = () => {
     });
   };
 
+  const handleSelectCategory = () => {
+    push({
+      component: <SelectCategory selected={[]} />,
+      name: 'selectAccountCategory',
+    });
+  };
+
   return (
     <>
       <div css={containerCss}>
@@ -86,12 +95,20 @@ const Account = () => {
             selected={selected}
             onClick={handleCalendarClick}
           />
-          <div css={periodCss}>
+          <div css={menuCss}>
             <Period
               onClick={(selected) => (periodSelectedRef.current = selected)}
               start={start}
               end={end}
             />
+            <ChipList onClick={handleSelectCategory}>
+              <Chip size="sm" fill="#014bf8">
+                수입
+              </Chip>
+              <Chip size="sm" fill="#ff0000">
+                지출
+              </Chip>
+            </ChipList>
           </div>
         </div>
         <div css={accountCss}>
