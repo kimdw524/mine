@@ -110,7 +110,7 @@ const Login = () => {
       };
       setUserInfo(userData);
       localStorage.setItem('userInfo', JSON.stringify(userData));
-      queryClient.invalidateQueries();
+      queryClient.clear();
       nav('/');
     } catch (err) {
       console.log('에러:', err);
