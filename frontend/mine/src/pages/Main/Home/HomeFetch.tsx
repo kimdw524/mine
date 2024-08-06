@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import React, { useState } from 'react';
 import { useSuspenseQueries } from '@tanstack/react-query';
-import { getUserAvatars, getUserInfo } from '../../../../apis/mypageApi';
+import { getUserAvatars, getUserInfo } from '../../../apis/mypageApi';
 import { Button, Toggle, Typography } from 'oyc-ds';
 import {
   avatarContainerCss,

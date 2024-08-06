@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import React,{useState} from 'react';
+import React, { useState } from 'react';
 import Chat from '../Chat';
 import { BackDrop, Typography, Button } from 'oyc-ds';
 import {
@@ -9,15 +9,15 @@ import {
   modalcancelCss,
   modalsendCss,
   modalwindowCss,
-  modalcontentCss
+  modalcontentCss,
 } from './style';
-import Record from '../../../CreateAvatar/ReadSentence/Record';
+import Record from '../../CreateAvatar/ReadSentence/Record';
 
 interface VoicecancelProps {
   onSubmit: () => void;
 }
 
-const Voicemail = ({onSubmit}:VoicecancelProps) => {
+const Voicemail = ({ onSubmit }: VoicecancelProps) => {
   const [, setAudio] = useState<string>('');
 
   const handleRecord = (data: string) => {
@@ -41,7 +41,7 @@ const Voicemail = ({onSubmit}:VoicecancelProps) => {
             음성 메시지
           </Typography>
           <div css={modalcontentCss}>
-            <Record onRecord={handleRecord}/>
+            <Record onRecord={handleRecord} />
           </div>
           <div css={modalbtnCss}>
             <Button

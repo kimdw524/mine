@@ -3,7 +3,7 @@ import { css } from '@emotion/react';
 export const containerCss = css`
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: 100%;
 `;
 
 export const chatLogCss = css`
@@ -17,10 +17,4 @@ export const chatCss = css`
   display: flex;
   align-items: center;
   padding: 1rem;
-`;
-
-export const bottomCss = css`
-  > div {
-    position: static !important;
-  }
 `;
