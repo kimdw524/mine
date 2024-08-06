@@ -2,12 +2,12 @@
 import React, { useState } from 'react';
 import MenuBar from '../../../components/organisms/MenuBar';
 import AppBar from '../../../components/organisms/AppBar';
-import { containerCss } from './style';
 import TransitionAnimation from '../../../components/common/TransitionAnimation';
 import styles from './Main.module.css';
 import Chat from './Chat';
 import Voicemail from './Voicemail';
 import Home from './Home';
+import { containerCss } from './style';
 
 const Main = () => {
   const [curMenu, setCurMenu] = useState<number>(1);
@@ -36,6 +36,7 @@ const Main = () => {
           />
         </TransitionAnimation>
       </div>
+
       <MenuBar page="chat" menu={curMenu} setCurMenu={setCurMenu} />
     </>
   );

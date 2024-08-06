@@ -16,6 +16,7 @@ import {
   failmsgCss,
   eyesCss,
 } from './Login.styles';
+import { useQueryClient } from '@tanstack/react-query';
 import {
   EyeIcon, EyeSlashIcon
 } from '@heroicons/react/24/outline';
@@ -28,6 +29,7 @@ const emailCheck = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-za-z0-9\-]+/;
 const passwordCheck = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,}$/; // 영문, 숫자, 8글자 이상
 
 const Login = () => {
+  const queryClient = useQueryClient();
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const nav = useNavigate();
@@ -106,6 +108,7 @@ const Login = () => {
 
     try {
       await UserLogin(email, password);
+      queryClient.clear();
       nav('/');
     } catch (err) {
       console.log('에러:', err);
