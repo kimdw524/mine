@@ -70,7 +70,6 @@ const CreateAvatarFetch = ({ step, onChangeStep }: CreateAvatarFetchProps) => {
     mutationFn: (data: CreateAvatarRequest) => createAvatar(data),
     onSuccess: (data) => {
       if (data.status === 200) {
-        console.log(data);
         onChangeStep(5);
       }
     },

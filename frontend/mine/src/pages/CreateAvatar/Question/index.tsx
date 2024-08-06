@@ -14,7 +14,7 @@ const Question = ({ items, onSubmit }: QuestionProps) => {
   const [index, setIndex] = useState<number>(0);
   const answersRef = useRef<QuestionAnswer[]>([]);
 
-  const handleSubmit = (choice: number, answer: string) => {
+  const handleSubmit = (choice: number | null, answer: string | null) => {
     answersRef.current.push({
       questionId: items[index].questionId,
       questionChoiceId: choice,

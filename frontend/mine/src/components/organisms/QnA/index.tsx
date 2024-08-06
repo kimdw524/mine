@@ -9,7 +9,7 @@ import useDialog from '../../../hooks/useDialog';
 interface QnAProps {
   question: string;
   choices?: QuestionChoice[];
-  onSubmit: (choice: number, answer: string) => void;
+  onSubmit: (choice: number | null, answer: string | null) => void;
 }
 
 /**
@@ -29,7 +29,10 @@ const QnA = ({ question, choices = [], onSubmit }: QnAProps) => {
       return;
     }
 
-    onSubmit(selected + 1, answer);
+    onSubmit(
+      choices.length ? choices[selected].questionChoiceId : null,
+      choices.length ? null : answer,
+    );
   };
 
   return (

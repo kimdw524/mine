@@ -26,7 +26,7 @@ const Read = ({ items, onSubmit }: ReadProps) => {
     filesRef.current.push({
       file: audio,
       fileName: `audio${index + 1}`,
-      fileExtension: 'ogg',
+      fileExtension: 'webm',
     });
 
     if (index >= items.length - 1) {

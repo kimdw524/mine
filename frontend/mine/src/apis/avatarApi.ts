@@ -30,7 +30,7 @@ export interface AvatarData {
 
 export interface QuestionAnswer {
   questionId: number;
-  questionChoiceId: number;
+  questionChoiceId: number | null;
   subjectiveAns: string | null;
 }
 
