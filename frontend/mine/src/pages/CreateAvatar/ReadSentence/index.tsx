@@ -4,11 +4,11 @@ import Intro from './Intro';
 import TransitionAnimation from '../../../components/common/TransitionAnimation';
 import styles from './ReadSentence.module.css';
 import Read from './Read';
-import { SentenceData } from '../../../apis/avatarApi';
+import { SentenceData, VoiceFile } from '../../../apis/avatarApi';
 
 interface ReadSentenceProps {
   items: SentenceData[];
-  onSubmit: () => void;
+  onSubmit: (result: VoiceFile[]) => void;
 }
 
 const ReadSentence = ({ items, onSubmit }: ReadSentenceProps) => {

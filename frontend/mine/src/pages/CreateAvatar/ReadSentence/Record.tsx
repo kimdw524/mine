@@ -4,6 +4,7 @@ import RecordButton from '../../../components/molecules/RecordButton';
 import useUserAudio from '../../../hooks/useUserAudio';
 import { Typography } from 'oyc-ds';
 import { css } from '@emotion/react';
+import useDialog from '../../../hooks/useDialog';
 
 interface RecordProps {
   onRecord: (result: string) => void;
@@ -21,6 +22,7 @@ const Record = ({ onRecord }: RecordProps) => {
   const [active, setActive] = useState<boolean>(false);
   const [tip, setTip] = useState<string>('');
   const userAudio = useUserAudio();
+  const { alert } = useDialog();
 
   const handleClick = () => {
     if (active) {
@@ -30,7 +32,7 @@ const Record = ({ onRecord }: RecordProps) => {
           onRecord(result as string);
         })
         .catch(() => {
-          alert('오류가 발생하였습니다.');
+          alert('오류가 발생하여 녹음을 하지 못했습니다.');
         });
       setActive(false);
       setTip('버튼을 한 번 더 누르면 다시 녹음할 수 있어요.');

@@ -11,3 +11,13 @@ export const UserLogin = (email: string, password: string) => {
     },
   });
 };
+
+
+// 로그아웃
+export const Logout = () => {
+  return api({
+    url: '/api/auth/logout',
+    method:'delete',
+    data : {},
+  })
+} 
