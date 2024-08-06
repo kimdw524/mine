@@ -4,40 +4,46 @@ import MenuBar from '../../components/organisms/MenuBar';
 import AppBar from '../../components/organisms/AppBar';
 import TransitionAnimation from '../../components/common/TransitionAnimation';
 import styles from './Main.module.css';
-import Chat from './Chat';
-import Voicemail from './Voicemail';
 import Home from './Home';
-import { containerCss } from './style';
+import { containerCss, contentCss } from './style';
+import Chat from './Chat';
+import MypageV2 from './MypageV2';
+import { useLocation } from 'react-router-dom';
 
 const Main = () => {
-  const [curMenu, setCurMenu] = useState<number>(1);
+  const location = useLocation();
+  const [curMenu, setCurMenu] = useState<number>(
+    location.state?.step ? location.state.step : 1,
+  );
+
   return (
     <>
-      <AppBar
-        label="캐릭터 이름"
-        onBackClick={() => console.log('to main page')}
-      />
       <div css={containerCss}>
-        <TransitionAnimation
-          data-key={curMenu.toString()}
-          className={{
-            normal: styles.fade,
-            enter: styles['fade-enter'],
-            exit: styles['fade-exit'],
-          }}
-        >
-          <Chat key={0} />
-          <Home key={1} />
-          <Voicemail
-            key={2}
-            onSubmit={() => {
-              setCurMenu(0);
+        <AppBar
+          label={
+            curMenu === 0
+              ? '채팅방'
+              : curMenu === 1
+                ? '메인 화면'
+                : '마이페이지'
+          }
+        />
+        <div css={contentCss}>
+          <TransitionAnimation
+            data-key={curMenu.toString()}
+            className={{
+              normal: styles.fade,
+              enter: styles['fade-enter'],
+              exit: styles['fade-exit'],
             }}
-          />
-        </TransitionAnimation>
+          >
+            <Chat key={0} />
+            <Home key={1} />
+            <MypageV2 key={2} />
+          </TransitionAnimation>
+        </div>
+        <MenuBar page="chat" menu={curMenu} setCurMenu={setCurMenu} />
       </div>
-
-      <MenuBar page="chat" menu={curMenu} setCurMenu={setCurMenu} />
     </>
   );
 };

@@ -4,7 +4,7 @@ export const containerCss = css`
   display: flex;
   justify-content: center;
   align-items: center;
-  position: absolute;
+  position: sticky;
   bottom: 0;
   z-index: 30;
   width: 100%;

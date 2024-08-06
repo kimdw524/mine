@@ -13,8 +13,7 @@ export const containerCss = (theme: Theme) => css`
 `;
 
 export const labelCss = css`
-  pointer-events: none;
-  user-select: none;
+  border: none;
 `;
 
 export const menuCss = css`

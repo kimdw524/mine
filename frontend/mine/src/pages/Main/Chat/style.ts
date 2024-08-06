@@ -1,8 +1,20 @@
 import { css } from '@emotion/react';
 
-export const chatbarCss = css`
-  position : fixed;
-  bottom : 5rem;
-  width: calc(100% - 4.3rem);
-  margin-left: rem;
-`
+export const containerCss = css`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+`;
+
+export const chatLogCss = css`
+  flex: 1;
+  overflow-y: scroll;
+  border-top: 0.0625rem solid #eee;
+  border-bottom: 0.0625rem solid #ddd;
+`;
+
+export const chatCss = css`
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+`;

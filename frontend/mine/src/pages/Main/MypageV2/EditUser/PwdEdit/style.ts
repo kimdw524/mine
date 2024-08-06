@@ -1,11 +1,9 @@
 import { css } from '@emotion/react';
 
-export const containerCss = css`
-  display: flex;
-  flex-direction: column;
+export const pwdEditContainerCss = css`
   height: 100%;
 `;
 
 export const contentCss = css`
-  flex: 1;
+  padding: 0 1rem;
 `;
