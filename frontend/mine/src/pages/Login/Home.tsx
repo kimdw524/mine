@@ -1,22 +1,22 @@
 import React from 'react';
 import { Button } from 'oyc-ds';
 import { useNavigate } from 'react-router-dom';
-import { useCookies } from 'react-cookie';
-import { useUser } from './UserContext';
+import { Logout } from '../../apis/loginApi';
 
 const Home = () => {
-  const [, , removeCookie] = useCookies(['Token']);
   const nav = useNavigate();
-  const { userInfo, setUserInfo } = useUser();
 
-  const handleLogout = () => {
-    removeCookie('Token');
-    setUserInfo({});
-    localStorage.removeItem('userInfo');
-    // nav('/user/login');
+  const logoutHandler = async () => {
+    try {
+      const responseData = await Logout();
+      if (responseData) {
+        document.cookie = "MM=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=honeyitem.shop;";
+        nav('/user/login');
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
-
-  console.log(userInfo.nickname);
 
   return (
     <>
@@ -41,7 +41,7 @@ const Home = () => {
         color="primary"
         size="xl"
         variant="contained"
-        onClick={handleLogout}
+        onClick={logoutHandler}
       >
         로그아웃
       </Button>
