@@ -25,15 +25,15 @@ const Intro = ({ onCreateClick }: IntroProps) => {
         <Process description="설문조사">
           <CheckCircleIcon />
         </Process>
-        <Process description="질의응답">
-          <ChatBubbleBottomCenterTextIcon />
-        </Process>
         <Process description="문장읽기">
           <SpeakerWaveIcon />
         </Process>
+        <Process description="정보입력">
+          <ChatBubbleBottomCenterTextIcon />
+        </Process>
       </div>
       <Typography color="secondary" size="xs" style={{ margin: '1rem 0' }}>
-        평균적으로 약 00분 정도 시간이 소요됩니다.
+        평균적으로 약 10분 정도 시간이 소요됩니다.
       </Typography>
       <Button onClick={onCreateClick} size="lg" fullWidth>
         시작하기

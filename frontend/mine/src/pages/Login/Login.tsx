@@ -16,6 +16,7 @@ import {
   pwfindCss,
   failmsgCss,
 } from './Login.styles';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface ColorInfo {
   email: Palette;
@@ -25,6 +26,7 @@ const emailCheck = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-za-z0-9\-]+/;
 const passwordCheck = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,}$/; // 영문, 숫자, 8글자 이상
 
 const Login = () => {
+  const queryClient = useQueryClient();
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const nav = useNavigate();
@@ -99,17 +101,22 @@ const Login = () => {
 
     try {
       const res = await UserLogin(email, password);
-      setCookie('Token', res.data.accessToken, { expires: ischecked ? today : undefined });
+      setCookie('Token', res.data.accessToken, {
+        expires: ischecked ? today : undefined,
+      });
       const userData = {
         nickname: res.data.nickname,
         email: res.data.email,
       };
       setUserInfo(userData);
       localStorage.setItem('userInfo', JSON.stringify(userData));
+      queryClient.clear();
       nav('/');
     } catch (err) {
-      console.log("에러:", err);
-      setLoginResult('이메일 또는 비밀번호가 잘못되었습니다.\n아이디와 비밀번호를 정확히 입력해주세요.');
+      console.log('에러:', err);
+      setLoginResult(
+        '이메일 또는 비밀번호가 잘못되었습니다.\n아이디와 비밀번호를 정확히 입력해주세요.',
+      );
     }
   };
 

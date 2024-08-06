@@ -9,13 +9,7 @@ interface ErrorProps extends FallbackProps {
   height?: string;
 }
 
-const Error = ({
-  height = '100%',
-  error,
-  resetErrorBoundary,
-  ...props
-}: ErrorProps) => {
-  console.log(props);
+const Error = ({ height = '100%', error, resetErrorBoundary }: ErrorProps) => {
   return (
     <div css={containerCss} style={{ height }}>
       <Icon size="xl" color="danger">
