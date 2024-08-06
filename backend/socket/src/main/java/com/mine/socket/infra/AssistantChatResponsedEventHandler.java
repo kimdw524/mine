@@ -1,6 +1,8 @@
 package com.mine.socket.infra;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mine.socket.application.ChatResponse;
 import com.mine.socket.domain.AvatarData;
 import com.mine.socket.domain.AvatarRepository;
@@ -51,10 +53,18 @@ public class AssistantChatResponsedEventHandler {
                 .avatarId(chatReceiveDto.getAvatarId())
                 .avatarName(avatarData.getAvatarName())
                 .role("b")
-                .sendedDate(chat.getSendedAt())
+                .sendedDate(chat.getSendedAt().toString())
                 .build();
 
         log.info(response.toString());
-        messagingTemplate.convertAndSend("/chat/" + chatReceiveDto.getAvatarId(), response);
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            String value = objectMapper.writeValueAsString(response);
+            messagingTemplate.convertAndSend("/chat/" + chatReceiveDto.getAvatarId(), value);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+
+        }
+
     }
 }

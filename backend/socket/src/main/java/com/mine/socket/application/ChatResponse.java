@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Getter
 @ToString
 public class ChatResponse {
-    private LocalDateTime sendedDate;
+    private String sendedDate;
     private String text;
     private String role;
     private String avatarName;

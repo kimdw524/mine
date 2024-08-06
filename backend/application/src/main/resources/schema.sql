@@ -269,8 +269,8 @@ VALUES (10, 10, '특별히 추천받고 싶은 분야가 있나요?', 's');
 
 INSERT INTO avatar(avatar_id, user_id, avatar_name, avatar_birthday, avatar_personality, avatar_assistant_id,
                    avatar_thread_id, avatar_voice_id, is_deleted, avatar_model, avatar_residence, avatar_job, is_main)
-VALUES (1, 1, '김다운', '2024-08-02', '지랄맞음', 'asst_gzUHR2Orr2KnitbLKcoaU9q3', 'thread_l57yNZOhonW5h2vOm8gkzhgw',
-        'CrvDGrP4g0jagWAqURm5', false, "COW", '경북구미', '프톤트엔드엔지니어', true);
+VALUES (1, 1, '김다운', '2024-08-02', '지랄맞음', 'asst_DPksAEgIePcXxIyJOPrM3n2o', 'thread_Rd3xUTKMTmrwYiY9Oss5upna',
+        'CrvDGrP4g0jagWAqURm5', false, "cow", '경북구미', '프톤트엔드엔지니어', true);
 
 INSERT INTO question_res(question_res_id, question_id, avatar_id, question_choice_id, subjective_ans, question_type)
 VALUES (1, 1, 1, 1, null, 'c'),
