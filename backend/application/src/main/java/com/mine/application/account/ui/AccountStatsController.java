@@ -38,4 +38,9 @@ public class AccountStatsController {
                 .body(accountStatsService.getIncomeAccountStats(startDate, endDate));
     }
 
+    @GetMapping("/spend/analysis")
+    public ResponseEntity<String> getSpendAccountAnalysis() {
+        return null;
+    }
+
 }
