@@ -9,9 +9,9 @@ export const achievementBoxCss = css`
   width: calc(100% - 2rem);
   margin-top: 1rem;
   padding: 1rem;
+  border: 0.0625rem solid #eeeeee;
   border-radius: 0.25rem;
   background-color: white;
-  box-shadow: 0 0 0.625rem 0 rgba(0, 0, 0, 0.04);
 `;
 
 export const achieveInfoCss = css`

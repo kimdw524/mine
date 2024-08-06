@@ -25,7 +25,7 @@ const MypageV2 = () => {
   useEffect(() => {
     if (avatarQuery.data.data.length === 1) {
       setCurAvatar(avatarQuery.data.data[0].avatarModel);
-    } else {
+    } else if (avatarQuery.data.data.length === 2) {
       setCurAvatar(
         avatarQuery.data.data[0].isMain
           ? avatarQuery.data.data[0].avatarModel
