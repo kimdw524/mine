@@ -8,12 +8,13 @@ import { avatarInfoEditContainerCss, contentCss } from './style';
 import AppBar from '../../../../../components/organisms/AppBar';
 import { Button, TextField, Typography } from 'oyc-ds';
 import useDialog from '../../../../../hooks/useDialog';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 const AvatarInfoEdit = () => {
   const nav = useNavigate();
   const location = useLocation();
   const notificationContext = useContext(NotificationContext);
+  const queryClient = useQueryClient();
   const { alert } = useDialog();
   const [newInfo, setNewInfo] = useState<string>('');
   const [color, setColor] = useState<Palette>('primary');
@@ -54,13 +55,16 @@ const AvatarInfoEdit = () => {
         location.state.colName,
         newInfo,
       ),
-    onSuccess: () => {
-      nav(-1);
-      notificationContext.handle(
-        'contained',
-        'success',
-        '정보가 성공적으로 변경되었습니다',
-      );
+    onSuccess: (data) => {
+      if (data.status === 202) {
+        queryClient.invalidateQueries({ queryKey: ['avatarinfo'] });
+        notificationContext.handle(
+          'contained',
+          'success',
+          '정보가 성공적으로 변경되었습니다',
+        );
+        nav('/', { state: { step: 2 } });
+      }
     },
     onError: () => {
       alert('오류가 발생하였습니다.');
