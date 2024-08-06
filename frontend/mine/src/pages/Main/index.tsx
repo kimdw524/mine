@@ -1,8 +1,8 @@
 /** @jsxImportSource @emotion/react */
 import React, { useState } from 'react';
-import MenuBar from '../../../components/organisms/MenuBar';
-import AppBar from '../../../components/organisms/AppBar';
-import TransitionAnimation from '../../../components/common/TransitionAnimation';
+import MenuBar from '../../components/organisms/MenuBar';
+import AppBar from '../../components/organisms/AppBar';
+import TransitionAnimation from '../../components/common/TransitionAnimation';
 import styles from './Main.module.css';
 import Chat from './Chat';
 import Voicemail from './Voicemail';
