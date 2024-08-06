@@ -7,6 +7,7 @@ import { containerCss, itemsCss, spendCss, itembarCss, itemlabelCss, itempriceCs
 import { Typography, Button } from 'oyc-ds';
 import { filterExpenses } from '../../../utils/expensefilter';
 import Analysis from './analysis';
+import Preview from './preview';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -121,9 +122,7 @@ const SpendChart: React.FC<SpendChartProps> = ({ period, offset }) => {
             <Analysis />
           </>
         ) : (
-          <Typography color="dark" size="lg" weight="bold" css={spendCss}>
-            데이터가 없어요 ㅠ
-          </Typography>
+            <Preview/>
         )}
       </div>
   );
