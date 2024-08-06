@@ -30,6 +30,21 @@ public class EmailVerificationService {
         emailNumberRequest(request);
     }
 
+    public void emailNumberRequestForSame(EmailVerificationNumRequest request) {
+        String sessionEmail = (String) sessionDao.get(SessionConstants.EMAIL).get();
+        if(!request.getEmail().equals(sessionEmail)) {
+            throw new RestApiException(CommonErrorCode.UNAUTHORIZED);
+        }
+        emailNumberRequest(request);
+    }
+
+    public void emailVerifyForSession(EmailVerificationRequest request) {
+        String sessionEmail = (String) sessionDao.get(SessionConstants.EMAIL).get();
+        if(!request.getEmail().equals(sessionEmail)) {
+            throw new RestApiException(CommonErrorCode.UNAUTHORIZED);
+        }
+        verifyEmail(request);
+    }
 
     public void emailNumberRequest(EmailVerificationNumRequest request) {
 
