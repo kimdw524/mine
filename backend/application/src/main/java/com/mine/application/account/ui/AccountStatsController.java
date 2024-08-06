@@ -23,8 +23,8 @@ public class AccountStatsController {
     @GetMapping("/spend")
     public ResponseEntity<List<GetSpendAccountStatsResponse>> getSpendAccountStats(
             @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
-            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate)
-    {
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate
+    ) {
         return ResponseEntity.ok()
                 .body(accountStatsService.getSpendAccountStats(startDate, endDate));
     }
@@ -32,8 +32,8 @@ public class AccountStatsController {
     @GetMapping("/income")
     public ResponseEntity<Long> getIncomeAccountStats(
             @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
-            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate)
-    {
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate
+    ) {
         return ResponseEntity.ok()
                 .body(accountStatsService.getIncomeAccountStats(startDate, endDate));
     }

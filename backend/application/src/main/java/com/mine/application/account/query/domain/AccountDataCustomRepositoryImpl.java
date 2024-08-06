@@ -24,8 +24,8 @@ public class AccountDataCustomRepositoryImpl implements AccountDataCustomReposit
             String appendType,
             Integer categoryId,
             LocalDateTime startDateTime,
-            LocalDateTime endDateTime)
-    {
+            LocalDateTime endDateTime
+    ) {
         return jpaQueryFactory
                 .select(Projections.constructor(GetAccountResponse.class,
                         accountData.id,

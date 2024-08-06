@@ -24,10 +24,10 @@ public class ScheduleStatsService {
             LocalDate startDate,
             LocalDate endDate
     ) {
-//        int userId = (Integer) sessionDao.get(SessionConstants.USER_ID)
-//                .orElseThrow(() -> new RestApiException(CommonErrorCode.UNAUTHORIZED));
+        int userId = (Integer) sessionDao.get(SessionConstants.USER_ID)
+                .orElseThrow(() -> new RestApiException(CommonErrorCode.UNAUTHORIZED));
         return scheduleStatsCustomRepository.findScheduleStats(
-                1,
+                userId,
                 startDate.atStartOfDay(),
                 endDate.atTime(LocalTime.MAX)
         );

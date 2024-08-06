@@ -42,8 +42,8 @@ public class AccountStatsCustomRepositoryImpl implements AccountStatsCustomRepos
     public Long findIncomeAccountStats(
             Integer userId,
             LocalDateTime startDateTime,
-            LocalDateTime endDateTime)
-    {
+            LocalDateTime endDateTime
+    ) {
         return jpaQueryFactory
                 .select(accountData.money.sum())
                 .from(accountData)

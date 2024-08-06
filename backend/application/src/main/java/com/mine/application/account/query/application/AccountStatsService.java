@@ -23,11 +23,11 @@ public class AccountStatsService {
 
     public List<GetSpendAccountStatsResponse> getSpendAccountStats(
             LocalDate startDate,
-            LocalDate endDate)
-    {
-//        int userId = getUserIdOrElseThrow();
+            LocalDate endDate
+    ) {
+        int userId = getUserIdOrElseThrow();
         return accountStatsCustomRepository.findSpendAccountStats(
-                1,
+                userId,
                 getStartOfDay(startDate),
                 getEndOfDay(endDate)
         );
@@ -35,11 +35,11 @@ public class AccountStatsService {
 
     public Long getIncomeAccountStats(
             LocalDate startDate,
-            LocalDate endDate)
-    {
-//        int userId = getUserIdOrElseThrow();
+            LocalDate endDate
+    ) {
+        int userId = getUserIdOrElseThrow();
         return accountStatsCustomRepository.findIncomeAccountStats(
-                1,
+                userId,
                 getStartOfDay(startDate),
                 getEndOfDay(endDate)
         );

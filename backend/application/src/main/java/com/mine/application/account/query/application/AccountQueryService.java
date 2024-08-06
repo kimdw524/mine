@@ -24,8 +24,8 @@ public class AccountQueryService {
 
     public List<GetAccountResponse> getAllAccounts(
             LocalDate startDate,
-            LocalDate endDate)
-    {
+            LocalDate endDate
+    ) {
         int userId = getUserIdOrElseThrow();
         return accountDataCustomRepository.findAccountsByDatesAndCategory(
                 userId,
@@ -38,8 +38,8 @@ public class AccountQueryService {
 
     public List<GetAccountResponse> getIncomeAccounts(
             LocalDate startDate,
-            LocalDate endDate)
-    {
+            LocalDate endDate
+    ) {
         int userId = getUserIdOrElseThrow();
         return accountDataCustomRepository.findAccountsByDatesAndCategory(
                 userId,
@@ -53,8 +53,8 @@ public class AccountQueryService {
     public List<GetAccountResponse> getSpendAccountsByCategory(
             Integer categoryId,
             LocalDate startDate,
-            LocalDate endDate)
-    {
+            LocalDate endDate
+    ) {
         int userId = getUserIdOrElseThrow();
         return accountDataCustomRepository.findAccountsByDatesAndCategory(
                 userId,
