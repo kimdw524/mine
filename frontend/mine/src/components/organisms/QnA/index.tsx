@@ -1,14 +1,15 @@
 /** @jsxImportSource @emotion/react */
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { buttonContainerCss, questionCss } from './style';
 import { Button, TextField, Typography } from 'oyc-ds';
 import MultipleChoice from '../../../components/molecules/MultipleChoice';
 import { QuestionChoice } from '../../../apis/avatarApi';
+import useDialog from '../../../hooks/useDialog';
 
 interface QnAProps {
   question: string;
   choices?: QuestionChoice[];
-  onSubmit: (index: number) => void;
+  onSubmit: (choice: number, answer: string) => void;
 }
 
 /**
@@ -17,6 +18,19 @@ interface QnAProps {
  */
 const QnA = ({ question, choices = [], onSubmit }: QnAProps) => {
   const [selected, setSelected] = useState<number>(choices.length ? -1 : 0);
+  const textRef = useRef<HTMLInputElement>(null);
+  const { alert } = useDialog();
+
+  const handleClick = () => {
+    const answer = (textRef.current?.value || '').trim();
+
+    if (choices.length === 0 && answer === '') {
+      alert('답변을 입력해 주세요.');
+      return;
+    }
+
+    onSubmit(selected + 1, answer);
+  };
 
   return (
     <>
@@ -31,6 +45,7 @@ const QnA = ({ question, choices = [], onSubmit }: QnAProps) => {
         />
       ) : (
         <TextField
+          ref={textRef}
           label="답변"
           defaultValue=""
           value=""
@@ -41,7 +56,7 @@ const QnA = ({ question, choices = [], onSubmit }: QnAProps) => {
         />
       )}
       <div css={buttonContainerCss}>
-        <Button disabled={selected === -1} onClick={() => onSubmit(selected)}>
+        <Button disabled={selected === -1} onClick={handleClick}>
           다음
         </Button>
       </div>

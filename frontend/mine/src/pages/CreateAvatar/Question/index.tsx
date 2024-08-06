@@ -1,21 +1,28 @@
 /** @jsxImportSource @emotion/react */
 import { Progress, Typography } from 'oyc-ds';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { descCss } from './style';
 import QnA from '../../../components/organisms/QnA';
-import { QuestionData } from '../../../apis/avatarApi';
+import { QuestionAnswer, QuestionData } from '../../../apis/avatarApi';
 
-interface ChoiceProps {
+interface QuestionProps {
   items: QuestionData[];
-  onSubmit: () => void;
+  onSubmit: (result: QuestionAnswer[]) => void;
 }
 
-const Choice = ({ items, onSubmit }: ChoiceProps) => {
+const Question = ({ items, onSubmit }: QuestionProps) => {
   const [index, setIndex] = useState<number>(0);
+  const answersRef = useRef<QuestionAnswer[]>([]);
 
-  const handleSubmit = (selected: number) => {
+  const handleSubmit = (choice: number, answer: string) => {
+    answersRef.current.push({
+      questionId: items[index].questionId,
+      questionChoiceId: choice,
+      subjectiveAns: answer,
+    });
+
     if (index >= items.length - 1) {
-      onSubmit();
+      onSubmit(answersRef.current);
       return;
     }
 
@@ -41,4 +48,4 @@ const Choice = ({ items, onSubmit }: ChoiceProps) => {
   );
 };
 
-export default Choice;
+export default Question;

@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { api } from './interceptors';
 
 export interface QuestionChoice {
@@ -15,15 +14,38 @@ export interface QuestionData {
   questionChoiceList: QuestionChoice[];
 }
 
-export interface SubjectiveQuestionData {
-  questionId: number;
-  description: string;
-}
-
 export interface SentenceData {
   sentenceId: number;
   description: string;
 }
+
+// <!-- 아바타 생성 관련 타입
+
+export interface AvatarData {
+  avatarName: string;
+  residence: string;
+  job: string;
+  avatarModel: string;
+}
+
+export interface QuestionAnswer {
+  questionId: number;
+  questionChoiceId: number;
+  subjectiveAns: string | null;
+}
+
+export interface VoiceFile {
+  file: string;
+  fileName: string;
+  fileExtension: string;
+}
+
+export interface CreateAvatarRequest extends AvatarData {
+  questionResList: QuestionAnswer[];
+  voiceFileList: VoiceFile[];
+}
+
+// -->
 
 export interface NewAnsData {
   questionId: number;
@@ -39,12 +61,8 @@ export const getQuestions = () => {
   return api.get<QuestionData[]>('/api/question');
 };
 
-export const getSubjectiveQuestions = () => {
-  return axios.get<SubjectiveQuestionData[]>('/avatar/subjectives');
-};
-
-export const getSentences = () => {
-  return axios.get<SentenceData[]>('/avatar/sentences');
+export const createAvatar = (param: CreateAvatarRequest) => {
+  return api.post('/api/avatars', param);
 };
 
 /* 아바타 질문 응답 조회 */

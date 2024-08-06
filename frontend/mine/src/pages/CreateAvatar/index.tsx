@@ -19,7 +19,7 @@ const CreateAvatar = () => {
         onBackClick={() => navigate('/')}
         css={appBarCss}
       >
-        <AppBar.Progress value={step} max={3} />
+        <AppBar.Progress value={step} max={5} />
       </AppBar>
       <div css={innerCss}>
         <ErrorBoundary fallbackRender={Error}>

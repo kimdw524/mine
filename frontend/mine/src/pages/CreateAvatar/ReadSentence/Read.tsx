@@ -1,29 +1,36 @@
 /** @jsxImportSource @emotion/react */
 import { Button, Progress, Typography } from 'oyc-ds';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { descCss, sentenceCss } from './style';
 import Record from './Record';
 import { useTheme } from '@emotion/react';
 import { buttonContainerCss } from '../../../components/organisms/QnA/style';
-import { SentenceData } from '../../../apis/avatarApi';
+import { SentenceData, VoiceFile } from '../../../apis/avatarApi';
 
 interface ReadProps {
   items: SentenceData[];
-  onSubmit: () => void;
+  onSubmit: (result: VoiceFile[]) => void;
 }
 
 const Read = ({ items, onSubmit }: ReadProps) => {
   const theme = useTheme();
   const [index, setIndex] = useState<number>(0);
   const [audio, setAudio] = useState<string>('');
+  const filesRef = useRef<VoiceFile[]>([]);
 
   const handleRecord = (data: string) => {
-    setAudio(data);
+    setAudio(data.split('data:audio/webm;base64,')[1]);
   };
 
   const handleNextClick = () => {
+    filesRef.current.push({
+      file: audio,
+      fileName: `audio${index + 1}`,
+      fileExtension: 'ogg',
+    });
+
     if (index >= items.length - 1) {
-      onSubmit();
+      onSubmit(filesRef.current);
       return;
     }
     setIndex(index + 1);
