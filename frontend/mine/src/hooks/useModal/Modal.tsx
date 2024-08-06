@@ -41,7 +41,7 @@ const Modal = ({ data, onFadeOutEnd }: ModalProps) => {
       return;
     }
     wrapperRef.current.className = `${classNames[data.type].base} ${classNames[data.type].exit}`;
-  }, [data?.show, wrapperRef]);
+  }, [data.show, data.type, wrapperRef]);
 
   const handleTransitionEnd = (e: React.TransitionEvent) => {
     if (e.target !== wrapperRef.current) {
