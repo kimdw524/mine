@@ -5,6 +5,7 @@ import { useSuspenseQueries } from '@tanstack/react-query';
 import { getUserAvatars, getUserInfo } from '../../../apis/mypageApi';
 import UserInfo from './UserInfo';
 import ManageInfo from './ManageInfo';
+import AvatarProfile from './AvatarProfile';
 
 const MypageV2 = () => {
   const [userQuery, avatarQuery] = useSuspenseQueries({
@@ -38,6 +39,7 @@ const MypageV2 = () => {
     <>
       <div css={containerCss}>
         <UserInfo avatarModel={curAvatar} info={userQuery.data.data} />
+        <AvatarProfile avatars={avatarQuery.data.data} />
         <ManageInfo
           title={'내정보'}
           labels={['nickEdit', 'pwdEdit', 'achievement']}
@@ -47,8 +49,9 @@ const MypageV2 = () => {
         <ManageInfo
           title={'아바타'}
           labels={['infoEdit', 'qnaEdit']}
-          url={[]}
+          url={['/mypage/avatar', '/mypage/avatar/qna']}
           data={[]}
+          avatars={avatarQuery.data.data}
         />
       </div>
     </>

@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 
 export const containerCss = css`
-  padding: 1.5rem 1rem;
+  padding: 1rem;
   border-bottom: 0.0625rem solid #eeeeee;
 `;
 

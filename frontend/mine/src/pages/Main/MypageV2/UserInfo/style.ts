@@ -19,7 +19,7 @@ export const avatarCss = css`
 export const infoContainerCss = css`
   display: flex;
   flex-direction: column;
-  row-gap: 0.5rem;
+  row-gap: 0.75rem;
 `;
 
 export const infoCss = css`

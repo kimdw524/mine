@@ -16,6 +16,6 @@ export const engToKor: Record<string, string> = {
   mypage: '내정보',
   nickEdit: '닉네임 변경',
   pwdEdit: '비밀번호 변경',
-  infoEdit: '정보 변경',
-  qnaEdit: '질문 답변',
+  infoEdit: '정보 관리',
+  qnaEdit: '질문 관리',
 };

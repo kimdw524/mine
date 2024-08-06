@@ -9,6 +9,7 @@ export const containerCss = css`
   z-index: 30;
   width: 100%;
   height: 4rem;
+  min-height: 4rem;
   box-shadow: 0 -0.25rem 0.25rem 0 rgba(0, 0, 0, 0.1);
   border-top-left-radius: 2rem;
   border-top-right-radius: 2rem;
