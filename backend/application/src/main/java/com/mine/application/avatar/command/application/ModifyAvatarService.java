@@ -26,8 +26,9 @@ public class ModifyAvatarService {
             throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
         }
 
+        avatar.modifyAvatarInfo(request);
+
         if(request.getIsMain() != null && avatar.getIsMain() != request.getIsMain()) {
-            avatar.modifyAvatarInfo(request);
             Optional<Avatar> avatarByUserIdAndNotAvatarId = avatarRepository.findAvatarByUserIdAndNotAvatarId(userId, avatar.getId());
             avatarByUserIdAndNotAvatarId.ifPresent(another -> another.modifyAvatarInfo(ModifyAvatarRequest.builder().isMain(false).build()));
         }
