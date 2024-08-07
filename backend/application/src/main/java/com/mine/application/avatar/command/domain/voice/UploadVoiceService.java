@@ -5,12 +5,10 @@ import com.mine.application.avatar.command.domain.Avatar;
 import com.mine.application.avatar.command.domain.AvatarRepository;
 import com.mine.application.common.erros.errorcode.CommonErrorCode;
 import com.mine.application.common.erros.exception.RestApiException;
-import com.mine.application.common.event.Events;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
-import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,15 +18,23 @@ public class UploadVoiceService {
 
     private final AvatarRepository avatarRepository;
     private final VirtualVoiceHandler virtualVoiceHandler;
+    private final SpeechToText speechToText;
 
-    public void updateVoice(Base64FileUploadRequest request) {
+    public String updateVoice(Base64FileUploadRequest request) {
+        String chatType = request.getChatType();
+        validateTypeOrElseThrow(chatType);
 
-        Optional<Avatar> byId = avatarRepository.findById(request.getAvatarId());
-        if(byId.isEmpty()) {
-            throw new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND);
+        if (isUpdateRequired(chatType)) {
+            Optional<Avatar> byId = avatarRepository.findById(request.getAvatarId());
+            if(byId.isEmpty()) {
+                throw new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND);
+            }
+
+            byId.get().getVoice().putVoice(request);
+            return null;
         }
 
-        byId.get().getVoice().putVoice(request);
+        return speechToText.getTextFromSpeech(request);
     }
 
     public Voice generateVoice(List<Base64FileUploadRequest> requests) {
@@ -39,4 +45,14 @@ public class UploadVoiceService {
         return virtualVoiceHandler.generateVoice(events);
     }
 
+    private boolean isUpdateRequired(String type) {
+        return "C".equals(type);
+    }
+
+    private void validateTypeOrElseThrow(String type) {
+        if ("C".equals(type)) return;
+        if ("A".equals(type)) return;
+        if ("S".equals(type)) return;
+        throw new RestApiException(CommonErrorCode.INVALID_PARAMETER);
+    }
 }
