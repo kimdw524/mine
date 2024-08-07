@@ -1,9 +1,14 @@
 /** @jsxImportSource @emotion/react */
 import React from 'react';
-import { useSuspenseQuery } from '@tanstack/react-query';
-import { getUserAchievement } from '../../../../apis/mypageApi';
+import { useSuspenseQueries } from '@tanstack/react-query';
+import {
+  getAchievedCount,
+  getUserAchievement,
+} from '../../../../apis/mypageApi';
 import { achievementListBox } from './style';
 import AchievementBox from './AchievementBox';
+import { Button } from 'oyc-ds';
+import { useNavigate } from 'react-router-dom';
 
 export interface IAchievement {
   achievementId: number;
@@ -15,21 +20,42 @@ export interface IAchievement {
 }
 
 const AchievementFetch = () => {
-  const achievementQuery = useSuspenseQuery({
-    queryKey: ['achievement'],
-    queryFn: async () => await getUserAchievement(),
+  const nav = useNavigate();
+
+  const [achievementQuery, achievedCountQuery] = useSuspenseQueries({
+    queries: [
+      {
+        queryKey: ['achievement'],
+        queryFn: async () => await getUserAchievement(),
+      },
+      {
+        queryKey: ['achievedcount'],
+        queryFn: async () => await getAchievedCount(),
+      },
+    ],
   });
 
-  if (achievementQuery.error && !achievementQuery.isFetching) {
-    throw achievementQuery.error;
-  }
+  [achievementQuery, achievedCountQuery].some((query) => {
+    if (query.error && !query.isFetching) {
+      throw query.error;
+    }
+  });
 
   return (
-    <div css={achievementListBox}>
-      {achievementQuery.data.data.map((info: IAchievement) => {
-        return <AchievementBox key={info.achievementId} info={info} />;
-      })}
-    </div>
+    <>
+      <div css={achievementListBox}>
+        {achievementQuery.data.data.map((info: IAchievement) => {
+          return <AchievementBox key={info.achievementId} info={info} />;
+        })}
+      </div>
+      <Button
+        disabled={achievedCountQuery.data.data.count !== 5}
+        style={{ marginTop: '2rem' }}
+        onClick={() => nav('/avatar/create')}
+      >
+        아바타 생성
+      </Button>
+    </>
   );
 };
 
