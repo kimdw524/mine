@@ -32,19 +32,20 @@ public class AccountController {
     @GetMapping("/users/accounts")
     public ResponseEntity<List<GetAccountResponse>> getAllAccounts(
             @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
-            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate)
-    {
-        return ResponseEntity.ok().body(accountQueryService.getAllAccounts(startDate, endDate));
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate
+    ) {
+        return ResponseEntity.ok()
+                .body(accountQueryService.getAllAccounts(startDate, endDate));
     }
 
     @LoginCheck
     @GetMapping("/users/accounts/income")
     public ResponseEntity<List<GetAccountResponse>> getIncomeAccounts(
             @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
-            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate)
-    {
-        return ResponseEntity.ok().body(accountQueryService
-                .getIncomeAccounts(startDate, endDate));
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate
+    ) {
+        return ResponseEntity.ok()
+                .body(accountQueryService.getIncomeAccounts(startDate, endDate));
     }
 
     @LoginCheck
@@ -52,10 +53,10 @@ public class AccountController {
     public ResponseEntity<List<GetAccountResponse>> getSpendAccountsByCategory(
             @RequestParam @Nullable Integer spendCategoryId,
             @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
-            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate)
-    {
-        return ResponseEntity.ok().body(accountQueryService
-                .getSpendAccountsByCategory(spendCategoryId, startDate, endDate));
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate
+    ) {
+        return ResponseEntity.ok()
+                .body(accountQueryService.getSpendAccountsByCategory(spendCategoryId, startDate, endDate));
     }
 
     @LoginCheck
@@ -81,18 +82,14 @@ public class AccountController {
 
     @LoginCheck
     @PostMapping("/users/accounts/chat")
-    public ResponseEntity<AddAccountByChatResponse> addAccountByChat(
-            @RequestBody @Valid AddAccountByChatRequest addAccountByChatRequest)
-    {
-        return ResponseEntity.ok().body(addAccountService
-                .addAccountByChat(addAccountByChatRequest.getQuery()));
+    public ResponseEntity<AddAccountByChatResponse> addAccountByChat(@RequestBody @Valid AddAccountByChatRequest addAccountByChatRequest) {
+        return ResponseEntity.ok()
+                .body(addAccountService.addAccountByChat(addAccountByChatRequest.getQuery()));
     }
 
     @LoginCheck
     @PatchMapping("/users/account")
-    public ResponseEntity<Void> updateAccount(
-            @RequestBody @Valid UpdateAccountRequest updateAccountRequest)
-    {
+    public ResponseEntity<Void> updateAccount(@RequestBody @Valid UpdateAccountRequest updateAccountRequest) {
         updateAccountService.updateAccount(updateAccountRequest);
         return ResponseEntity.ok().build();
     }
@@ -106,7 +103,8 @@ public class AccountController {
 
     @GetMapping("/account/spend-category/{spendCategoryId}")
     public ResponseEntity<String> getSpendCategory(@PathVariable @NotNull Integer spendCategoryId) {
-        return ResponseEntity.ok().body(getSpendCategoryService.getSpendCategory(spendCategoryId));
+        return ResponseEntity.ok()
+                .body(getSpendCategoryService.getSpendCategory(spendCategoryId));
     }
 
 }

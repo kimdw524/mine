@@ -33,8 +33,8 @@ public class ScheduleController {
     public ResponseEntity<List<GetScheduleResponse>> getSchedulesByCategory(
             @RequestParam @Nullable Integer categoryId,
             @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
-            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate)
-    {
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate
+    ) {
         return ResponseEntity.ok().body(scheduleQueryService
                 .getSchedulesByCategory(categoryId, startDate, endDate));
     }
@@ -63,7 +63,8 @@ public class ScheduleController {
     @LoginCheck
     @PostMapping("/users/schedules/chat")
     public ResponseEntity<AddScheduleByChatResponse> addScheduleByChat(@RequestBody @Valid AddScheduleByChatRequest addScheduleByChatRequest) {
-        return ResponseEntity.ok().body(addScheduleService.addScheduleByChat(addScheduleByChatRequest.getQuery()));
+        return ResponseEntity.ok()
+                .body(addScheduleService.addScheduleByChat(addScheduleByChatRequest.getQuery()));
     }
 
     @LoginCheck
@@ -82,7 +83,8 @@ public class ScheduleController {
 
     @GetMapping("/schedule/schedule-category/{scheduleCategoryId}")
     public ResponseEntity<String> getScheduleCategory(@PathVariable @NotNull Integer scheduleCategoryId) {
-        return ResponseEntity.ok().body(getScheduleCategoryService.getScheduleCategory(scheduleCategoryId));
+        return ResponseEntity.ok()
+                .body(getScheduleCategoryService.getScheduleCategory(scheduleCategoryId));
     }
 
 }

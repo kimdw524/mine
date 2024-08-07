@@ -1,8 +1,7 @@
 package com.mine.application.account.query.application;
 
-import com.mine.application.account.command.domain.AccountType;
-import com.mine.application.account.query.domain.AccountDataCustomRepository;
-import com.mine.application.account.ui.dto.GetAccountResponse;
+import com.mine.application.account.query.domain.AccountStatsCustomRepository;
+import com.mine.application.account.ui.dto.GetSpendAccountStatsResponse;
 import com.mine.application.common.domain.SessionConstants;
 import com.mine.application.common.domain.SessionDao;
 import com.mine.application.common.erros.errorcode.CommonErrorCode;
@@ -17,57 +16,33 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Service
-public class AccountQueryService {
+public class AccountStatsService {
 
     private final SessionDao sessionDao;
-    private final AccountDataCustomRepository accountDataCustomRepository;
+    private final AccountStatsCustomRepository accountStatsCustomRepository;
 
-    public List<GetAccountResponse> getAllAccounts(
+    public List<GetSpendAccountStatsResponse> getSpendAccountStats(
             LocalDate startDate,
             LocalDate endDate
     ) {
         int userId = getUserIdOrElseThrow();
-        return accountDataCustomRepository.findAccountsByDatesAndCategory(
+        return accountStatsCustomRepository.findSpendAccountStats(
                 userId,
-                null,
-                null,
                 getStartOfDay(startDate),
                 getEndOfDay(endDate)
         );
     }
 
-    public List<GetAccountResponse> getIncomeAccounts(
+    public Long getIncomeAccountStats(
             LocalDate startDate,
             LocalDate endDate
     ) {
         int userId = getUserIdOrElseThrow();
-        return accountDataCustomRepository.findAccountsByDatesAndCategory(
+        return accountStatsCustomRepository.findIncomeAccountStats(
                 userId,
-                AccountType.INCOME.getCode(),
-                null,
                 getStartOfDay(startDate),
                 getEndOfDay(endDate)
         );
-    }
-
-    public List<GetAccountResponse> getSpendAccountsByCategory(
-            Integer categoryId,
-            LocalDate startDate,
-            LocalDate endDate
-    ) {
-        int userId = getUserIdOrElseThrow();
-        return accountDataCustomRepository.findAccountsByDatesAndCategory(
-                userId,
-                AccountType.SPEND.getCode(),
-                categoryId,
-                getStartOfDay(startDate),
-                getEndOfDay(endDate)
-        );
-    }
-
-    public List<GetAccountResponse> searchAccounts(String query) {
-        int userId = getUserIdOrElseThrow();
-        return accountDataCustomRepository.findAccountsByContaining(userId, query);
     }
 
     private int getUserIdOrElseThrow() {

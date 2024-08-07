@@ -23,8 +23,8 @@ public class ScheduleQueryService {
     public List<GetScheduleResponse> getSchedulesByCategory(
             Integer categoryId,
             LocalDate startDate,
-            LocalDate endDate)
-    {
+            LocalDate endDate
+    ) {
         int userId = getUserIdOrElseThrow();
         return scheduleDataCustomRepository.findSchedulesByCategoryIdAndDates(
                 userId,
