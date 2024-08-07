@@ -1,11 +1,12 @@
-package com.mine.application.achievement.ui.dto;
+package com.mine.application.achievement.converter;
 
 import com.mine.application.achievement.query.AchievementStateData;
+import com.mine.application.achievement.ui.dto.GetAchievementStateResponse;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class AchievementConverter {
+public class AchievementDtoConverter {
 
     public static GetAchievementStateResponse convert(AchievementStateData achievementStateData) {
         return GetAchievementStateResponse.builder()
@@ -14,7 +15,7 @@ public class AchievementConverter {
                 .description(achievementStateData.getAchievement().getDescription())
                 .amount(achievementStateData.getAchievement().getAmount())
                 .count(achievementStateData.getCount())
-                .achievedDate(achievementStateData.getDate())
+                .achievedDate(achievementStateData.getAchieved_date())
                 .build();
     }
 
