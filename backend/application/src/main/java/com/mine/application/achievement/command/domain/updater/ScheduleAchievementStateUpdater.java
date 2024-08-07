@@ -8,7 +8,11 @@ public class ScheduleAchievementStateUpdater implements AchievementStateUpdater 
 
     @Override
     public int updateCount(AchievementState achievementState) {
-        return 0;
+        return updateScheduleCount(achievementState);
+    }
+
+    private int updateScheduleCount(AchievementState achievementState) {
+        return achievementState.getCount() + 1;
     }
 
 }
