@@ -9,18 +9,8 @@ import {
   numberdayCss,
   toggleContainerCss,
 } from './style';
-import { Canvas } from '@react-three/fiber';
-import { OrbitControls, useGLTF } from '@react-three/drei';
 import { containerCss } from './style';
-
-interface ModelProps {
-  avatarModel: string;
-}
-
-const Model = ({ avatarModel }: ModelProps) => {
-  const { scene } = useGLTF(`/cute_little_animals/${avatarModel}.glb`);
-  return <primitive object={scene} position={[0, 0.5, 0]} />;
-};
+import Avatar3D from '../../../components/atoms/Avatar3D';
 
 const HomeFetch = () => {
   const [userQuery, avatarQuery] = useSuspenseQueries({
@@ -70,14 +60,15 @@ const HomeFetch = () => {
           />
         </div>
         <div css={avatarContainerCss}>
-          <Canvas
-            style={{ width: '100%', height: '100%' }}
-            camera={{ position: [0, 0, 5], fov: 47 }}
-          >
-            <ambientLight intensity={3} />
-            <Model avatarModel={avatarQuery.data.data.length ? 'cow' : 'pig'} />
-            <OrbitControls />
-          </Canvas>
+          <Avatar3D
+            avatarModel={
+              avatarQuery.data.data.length
+                ? avatarQuery.data.data[0].isMain
+                  ? avatarQuery.data.data[0].avatarModel
+                  : avatarQuery.data.data[1].avatarModel
+                : 'pig'
+            }
+          />
         </div>
         <div css={conversationCss}>
           <Typography color="dark" size="md">
