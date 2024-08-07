@@ -7,10 +7,11 @@ import { useNavigate } from 'react-router-dom';
 
 interface PreviewTypes {
   content:string,
-  button:string
+  button:string,
+  url:string
 }
 
-const Preview: React.FC<PreviewTypes> =  ({content, button}) => {
+const Preview: React.FC<PreviewTypes> =  ({content, button, url}) => {
   const nav = useNavigate();
   return (
     <section css={containerCss}>
@@ -21,7 +22,7 @@ const Preview: React.FC<PreviewTypes> =  ({content, button}) => {
         color="primary"
         size="sm"
         variant="contained"
-        onClick={() => nav('/account')}
+        onClick={() => nav(`/${url}`)}
       >
         {button} 등록하러 가기
       </Button>

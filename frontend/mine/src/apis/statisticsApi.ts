@@ -1,7 +1,8 @@
 import { api } from './interceptors';
+import axios from 'axios';
 
 // 일정 - 기간 통계
-export const scheduleChart = (startDate:string, endDate:string) => {
+export const scheduleInfo = (startDate:string, endDate:string) => {
   return api({
     url: `/api/users/statistics/schedule?startDate=${startDate}&endDate=${endDate}`,
     method: 'get',
@@ -13,9 +14,9 @@ export const scheduleChart = (startDate:string, endDate:string) => {
 };
 
 // 가계 지출 - 기간 통계
-export const spendChart = (startDate:string, endDate:string) => {
+export const spendInfo = (startDate:string, endDate:string) => {
   return api({
-    url: `/api/users/statistics/account/spend?&startDate=startDate=${startDate}&endDate=${endDate}`,
+    url: `/api/users/statistics/account/spend?&startDate=${startDate}&endDate=${endDate}`,
     method: 'get',
     data:{
       startDate: startDate,
@@ -24,8 +25,20 @@ export const spendChart = (startDate:string, endDate:string) => {
   });
 };
 
+// export const spendInfo = async (startDate: string, endDate: string) => {
+//   try {
+//     const response = await axios.get('/api/spendinfo', {
+//       params: { startDate, endDate }
+//     });
+//     return response.data;
+//   } catch (error) {
+//     console.error('API 요청 실패:', error);
+//     throw error;
+//   }
+// };
+
 // 가계 수입 - 기간 통계
-export const incomeChart = (startDate:string, endDate:string) => {
+export const incomeInfo = (startDate:string, endDate:string) => {
   return api({
     url: `/api/users/statistics/account/income?&startDate=${startDate}&endDate=${endDate}`,
     method: 'get',

@@ -7,6 +7,8 @@ import DataTab from '../Preview/datetab';
 import { containerCss } from './style';
 import { getDisplayTimeframe } from '../../../utils/SpendData';
 import Schedule from './schedule';
+import { ErrorBoundary } from 'react-error-boundary';
+import { Suspense } from 'react';
 
 const ScheduleChart = () => {
   const [offset, setOffset] = useState(0);
@@ -28,6 +30,9 @@ const ScheduleChart = () => {
     }
   };
 
+  // getDisplayTimeframe의 반환값을 문자열로 변환 (예시)
+  const { title } = getDisplayTimeframe(period, offset);
+
   return (
     <>
       <AppBar label="일정 통계" onBackClick={() => nav('/')} />
@@ -42,7 +47,7 @@ const ScheduleChart = () => {
           <div>연간</div>
         </MenuTab>
         <DataTab
-          title={getDisplayTimeframe(period, offset)}
+          title={<div>{title}</div>} // title을 적절하게 렌더링
           leftChild={
             <Typography
               color="dark"
@@ -64,7 +69,11 @@ const ScheduleChart = () => {
             </Typography>
           }
         />
-        <Schedule period={period} offset={offset} />
+        <ErrorBoundary fallback={<div>에러 발생</div>}>
+          <Suspense fallback={<div>로딩중...</div>}>
+            <Schedule period={period} offset={offset} />
+          </Suspense>
+        </ErrorBoundary>
       </div>
     </>
   );

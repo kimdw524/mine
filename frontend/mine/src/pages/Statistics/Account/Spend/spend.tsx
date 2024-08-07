@@ -4,13 +4,11 @@ import { Bar } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
   CategoryScale,
-  LinearScale,
   BarElement,
   Title,
   Tooltip,
   Legend,
 } from 'chart.js';
-import { spend, income, Spend } from '../../../../utils/SpendData';
 import {
   containerCss,
   itemsCss,
@@ -21,65 +19,91 @@ import {
   allbtnCss,
 } from './spend.style';
 import { Typography, Button } from 'oyc-ds';
-import { filterExpenses } from '../../../../utils/expensefilter';
 import Analysis from '../analysis';
 import Preview from '../../Preview';
-
+import { useSuspenseQuery } from '@tanstack/react-query';
+import { calculateDateRange } from '../../../../utils/SpendData';
+import { spendInfo } from '../../../../apis/statisticsApi';
 ChartJS.register(
   CategoryScale,
-  LinearScale,
   BarElement,
   Title,
   Tooltip,
   Legend,
 );
 
-export const expenses = spend;
-export const incomes = income;
-
 interface SpendChartProps {
   period: string;
   offset: number;
 }
 
-const SpendChart: React.FC<SpendChartProps> = ({ period, offset }) => {
-  const [dataType, setDataType] = useState('spend'); // 지출/수입 데이터 타입 상태
-  const [showAll, setShowAll] = useState(false); // 전체 보기 상태
 
-  const data = dataType === 'spend' ? expenses : incomes;
-  const filteredData = filterExpenses(data, period, offset).sort(
-    (a, b) => b.money - a.money,
-  ) as Spend[];
-  const totalexpenditure = filteredData.reduce(
-    (acc, expense) => acc + expense.money,
-    0,
-  );
+const categories: Record<number, { name: string; color: string }> = {
+  1: { name: '미정', color: '#FFB0C4' },
+  2: { name: '여행', color: '#ADD8E6' },
+  3: { name: '음식', color: '#FFFFE0' },
+  4: { name: '문화', color: '#DDA0DD' },
+  5: { name: '의료', color: '#AFEEEE' },
+  6: { name: '유흥', color: '#98FB98' },
+  7: { name: '미용', color: '#FF7F50' },
+  8: { name: '교통', color: '#E6E6FA' },
+  9: { name: '생활', color: '#7FFFD4' },
+  10: { name: '교육', color: '#FFFFF0' },
+  11: { name: '통신', color: '#eee1ff' },
+  12: { name: '경조사', color: '#cdb7ff' },
+  13: { name: 'OTT', color: '#9e92f4' },
+  14: { name: '주거', color: '#6f78c7' },
+  15: { name: '기타', color: '#535d90' },
+};
+
+
+const SpendChart: React.FC<SpendChartProps> = ({ period, offset }) => {
+  const [showAll, setShowAll] = useState(false);
+  const { startDate, endDate } = calculateDateRange(period, offset);
+
+  const { data, error, isFetching } = useSuspenseQuery({
+    queryKey: ['spendinfo', period, offset],
+    queryFn: async () => {
+      const result = await spendInfo(startDate, endDate);
+      return result;
+    },
+  });
+
+  if (error && !isFetching) {
+    throw error;
+  }
+
+
+  const filteredData = data.data.map((data: any) => ({
+    ...data,
+    name: categories[data.spendCategoryId]?.name || '기타',
+    color: categories[data.spendCategoryId]?.color || '#535d90',
+  })).sort((a:any, b:any) => b.categorySum - a.categorySum);
+
+  const totalExpenditure = filteredData.reduce((acc: number, data: any) => acc + (data.categorySum || 0), 0);
 
   const topCategories = filteredData.slice(0, 4);
   const otherCategories = filteredData.slice(4);
-  const otherTotal = otherCategories.reduce((acc, item) => acc + item.money, 0);
+  const otherTotal = otherCategories.reduce((acc:any, item:any) => acc + item.categorySum, 0);
 
-  // 카테고리가 6개 이상일 때만 otherCategory 추가
-  const displayData =
-    showAll || filteredData.length <= 5
-      ? filteredData
-      : [
-          ...topCategories,
-          {
-            id: 'other',
-            name: '그 외 카테고리',
-            money: otherTotal,
-            color: '#cccccc',
-          },
-        ];
+  const displayData = showAll || filteredData.length <= 5
+    ? filteredData
+    : [
+        ...topCategories,
+        {
+          id: 'other',
+          name: '그 외 카테고리',
+          categorySum: otherTotal,
+          color: '#cccccc',
+        },
+      ];
 
   const chartData = {
     labels: ['비율'],
-    datasets: displayData.map((expense, index) => ({
-      label: expense.name,
-      data:
-        totalexpenditure > 0 ? [(expense.money / totalexpenditure) * 100] : [0],
-      backgroundColor: expense.color,
+    datasets: displayData.map((data: any, index: any) => ({
+      label: data.name,
+      data: totalExpenditure > 0 ? [(data.categorySum / totalExpenditure) * 100] : [0],
+      backgroundColor: data.color,
       borderSkipped: false,
       borderRadius: {
         topLeft: index === 0 ? 8 : 0,
@@ -118,23 +142,19 @@ const SpendChart: React.FC<SpendChartProps> = ({ period, offset }) => {
       {filteredData.length > 0 ? (
         <>
           <Typography color="dark" size="lg" weight="bold" css={spendCss}>
-            총 {totalexpenditure.toLocaleString()}원을
+            총 {totalExpenditure ? totalExpenditure.toLocaleString() : '데이터 없음'}원을
             <br />
-            {dataType === 'spend' ? '소비했어요' : '벌었어요'}
+            소비했어요.
           </Typography>
           <Bar data={chartData} options={options} height={'50%'} />
           <div>
-            {displayData.map((item) => {
-              const percentage =
-                totalexpenditure > 0
-                  ? ((item.money / totalexpenditure) * 100).toFixed(2)
-                  : 0;
+            {displayData.map((item: any) => {
+              const percentage = totalExpenditure > 0
+                ? ((item.categorySum / totalExpenditure) * 100).toFixed(2)
+                : 0;
               return (
                 <section key={item.id} css={itemsCss}>
-                  <div
-                    css={itembarCss}
-                    style={{ backgroundColor: item.color }}
-                  />
+                  <div css={itembarCss} style={{ backgroundColor: item.color }} />
                   <div css={itemlabelCss}>
                     <Typography color="dark" size="md" weight="medium">
                       {item.name}
@@ -143,13 +163,8 @@ const SpendChart: React.FC<SpendChartProps> = ({ period, offset }) => {
                       {percentage}%
                     </Typography>
                   </div>
-                  <Typography
-                    color="dark"
-                    size="sm"
-                    weight="bold"
-                    css={itempriceCss}
-                  >
-                    {item.money.toLocaleString()}원
+                  <Typography color="dark" size="sm" weight="bold" css={itempriceCss}>
+                    {item.categorySum ? item.categorySum.toLocaleString() : '데이터 없음'}원
                   </Typography>
                 </section>
               );
@@ -169,10 +184,11 @@ const SpendChart: React.FC<SpendChartProps> = ({ period, offset }) => {
           <Analysis />
         </>
       ) : (
-        <Preview content="가계부가" button="가계부" />
+        <Preview content="가계부가" button="가계부" url="account" />
       )}
     </div>
   );
+  
 };
 
 export default SpendChart;
