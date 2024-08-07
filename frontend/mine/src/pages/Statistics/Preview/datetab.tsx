@@ -1,9 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import {
-  headerCss,
-  titleCss,
-} from './datatab.style';
-
+import { headerCss, titleCss } from './datetab.style';
 
 type DataTabTypes = {
   title: JSX.Element;

@@ -1,10 +1,10 @@
 /** @jsxImportSource @emotion/react */
 import React, { useState } from 'react';
 import { containerCss, typeCss } from './style';
-import DataTab from '../datatab';
+import DataTab from '../Preview/datetab';
 import { Typography, MenuTab } from 'oyc-ds';
 import AppBar from '../../../components/organisms/AppBar';
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 import SpendChart from './spend';
 
 import { getDisplayTimeframe } from '../../../utils/SpendData';
@@ -50,10 +50,7 @@ const AccountChart = () => {
 
   return (
     <>
-      <AppBar
-        label="가계 통계"
-        onBackClick={() => nav('/')}
-      />
+      <AppBar label="가계 통계" onBackClick={() => nav('/')} />
       <div css={containerCss}>
         <MenuTab
           color="light"
@@ -67,22 +64,26 @@ const AccountChart = () => {
         </MenuTab>
         <DataTab
           title={getDisplayTimeframe(period, offset)}
-          leftChild={<Typography
-            color="dark"
-            size="md"
-            weight="medium"
-            onClick={() => setOffset(offset + 1)}
-          >
-            {`<`}
-          </Typography>}
-          rightChild={<Typography
-            color="dark"
-            size="md"
-            weight="medium"
-            onClick={() => setOffset(offset - 1)}
-          >
-            {`>`}
-          </Typography>}
+          leftChild={
+            <Typography
+              color="dark"
+              size="md"
+              weight="medium"
+              onClick={() => setOffset(offset + 1)}
+            >
+              {`<`}
+            </Typography>
+          }
+          rightChild={
+            <Typography
+              color="dark"
+              size="md"
+              weight="medium"
+              onClick={() => setOffset(offset - 1)}
+            >
+              {`>`}
+            </Typography>
+          }
         />
         <MenuTab
           color="primary"
@@ -97,7 +98,7 @@ const AccountChart = () => {
         {dataType === 'spend' ? (
           <SpendChart period={period} offset={offset} />
         ) : (
-          <Incomes period={period} offset={offset}/>
+          <Incomes period={period} offset={offset} />
         )}
       </div>
     </>
