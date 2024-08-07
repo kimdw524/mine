@@ -2,30 +2,30 @@ import React, { useCallback, useState } from 'react';
 import Signup from './pages/Signup';
 import { LightTheme } from 'oyc-ds';
 import { ThemeProvider } from '@emotion/react';
-import GlobalStyle from './styles/GlobalStyle';
+import { UserProvider } from './pages/Login/UserContext';
+import { ModalProvider } from './hooks/useModal';
 import { Routes, Route } from 'react-router-dom';
-import Home from './pages/Login/Home';
-import Login from './pages/Login/Login';
-import Information from './pages/MyPage/Information';
-import NickEdit from './pages/MyPage/EditUser/NickEdit';
-import './App.css';
-import PwdEdit from './pages/MyPage/EditUser/PwdEdit';
-import CreateAvatar from './pages/CreateAvatar';
-import FindPassword from './pages/FindPassword';
-import Main from './pages/Main/Main';
-import Notification from './components/common/Notification';
 import { ToastVariant } from 'oyc-ds/dist/components/molecules/Toast/Toast.types';
 import { Palette } from 'oyc-ds/dist/themes/lightTheme';
 import { INotiInfo, NotificationContext } from './utils/NotificationContext';
+import './App.css';
+import GlobalStyle from './styles/GlobalStyle';
+import Home from './pages/Login/Home';
+import Login from './pages/Login/Login';
+import CreateAvatar from './pages/CreateAvatar';
+import FindPassword from './pages/FindPassword';
+import Main from './pages/Main';
+import Notification from './components/common/Notification';
 import Schedule from './pages/Schedule';
-import { UserProvider } from './pages/Login/UserContext';
 import Account from './pages/Account';
-import Chat from './pages/Chat';
 import AccountChart from './pages/Statistics/Account/index';
 import ScheduleChart from './pages/Statistics/Schedule/index';
-import AvatarInfoEdit from './pages/MyPage/EditAvatar/AvatarInfoEdit';
-import AvatarQnAEdit from './pages/MyPage/EditAvatar/AvatarQnAEdit';
-import { ModalProvider } from './hooks/useModal';
+import NickEdit from './pages/Main/MypageV2/EditUser/NickEdit';
+import PwdEdit from './pages/Main/MypageV2/EditUser/PwdEdit';
+import Achievement from './pages/Main/MypageV2/Achievement';
+import AvatarInfo from './pages/Main/MypageV2/AvatarInfo';
+import AvatarInfoEdit from './pages/Main/MypageV2/EditAvatar/AvatarInfoEdit';
+import AvatarQnAEdit from './pages/Main/MypageV2/EditAvatar/AvatarQnAEdit';
 
 function App() {
   const [notiInfo, setNotiInfo] = useState<INotiInfo>({
@@ -73,29 +73,35 @@ function App() {
             >
               {notiInfo.notiState && <Notification notiInfo={notiInfo} />}
               <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/user/signup" element={<Signup />} />
+                {/* 개발용 메뉴 버튼들 */}
+                <Route path="/btns" element={<Home />} />
+
+                {/* 메인 화면 */}
+                <Route path="/" element={<Main />} />
+
+                {/* 회원 인증 / 인가 */}
                 <Route path="/user/login" element={<Login />} />
-                <Route path="/main" element={<Main />} />
+                <Route path="/user/signup" element={<Signup />} />
+                <Route path="/user/findpassword" element={<FindPassword />} />
+
                 <Route path="/accountchart" element={<AccountChart />} />
                 <Route path="/schedulechart" element={<ScheduleChart />} />
 
                 {/* 마이페이지 */}
-                <Route path="/mypage" element={<Information />} />
-                <Route path="/mypage/nickname" element={<NickEdit />} />
-                <Route path="/mypage/password" element={<PwdEdit />} />
-                <Route path="/avatar/create" element={<CreateAvatar />} />
+                <Route path="/mypage/nick" element={<NickEdit />} />
+                <Route path="/mypage/pwd" element={<PwdEdit />} />
+                <Route path="/mypage/achievement" element={<Achievement />} />
+                <Route path="/mypage/avatar" element={<AvatarInfo />} />
                 <Route
                   path="/mypage/avatar/info"
                   element={<AvatarInfoEdit />}
                 />
                 <Route path="/mypage/avatar/qna" element={<AvatarQnAEdit />} />
-                <Route path="/findpassword" element={<FindPassword />} />
+
+                <Route path="/avatar/create" element={<CreateAvatar />} />
 
                 <Route path="/schedule" element={<Schedule />} />
                 <Route path="/account" element={<Account />} />
-
-                <Route path="/chat" element={<Chat />} />
               </Routes>
             </NotificationContext.Provider>
           </ModalProvider>

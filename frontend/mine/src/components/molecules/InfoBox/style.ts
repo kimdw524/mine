@@ -3,14 +3,14 @@ import { css } from '@emotion/react';
 export const infoBoxCss = (content: string) => css`
   min-width: calc(50% - 2.5rem);
   padding: 1rem 1rem;
-  box-shadow: 0 0 0.625rem 0 rgba(0, 0, 0, 0.04);
+  border: 0.0625rem solid #eeeeee;
   border-radius: 0.625rem;
   background-color: white;
 
   ${content.length > 10 &&
   css`
     width: calc(100% - 2rem);
-  `}
+  `};
 `;
 
 export const infoBoxTitleCss = css`

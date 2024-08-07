@@ -9,11 +9,21 @@ export const logoCss = css`
   justify-content: center;
   padding: 1.875rem;
   font-size: 2.25rem !important;
-`;
+  `;
 
 export const fieldCss = css`
   margin-bottom: 20px;
+  position: relative;
 `;
+
+export const eyesCss = css`
+  position: 'absolute'; 
+  right: '10px'; 
+  top: '50%'; 
+  transform: 'translateY(-50%)';
+  cursor: 'pointer';
+`
+
 
 export const errmsgCss = css`
   padding: 0.375rem 0.125rem 0;

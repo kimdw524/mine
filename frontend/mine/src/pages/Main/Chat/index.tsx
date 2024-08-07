@@ -1,22 +1,17 @@
 /** @jsxImportSource @emotion/react */
 import React, { useEffect, useRef, useState } from 'react';
-import AppBar from '../../components/organisms/AppBar';
-import { useNavigate } from 'react-router-dom';
-import { bottomCss, chatCss, chatLogCss, containerCss } from './style';
-import MenuBar from '../../components/organisms/MenuBar';
-import ChatBox from '../../components/organisms/ChatBox';
-import useChat, { ChatMessageData, ChatType } from '../../hooks/useChat';
-import TypeTextField from '../../components/molecules/TypeTextField';
-import { AccountData } from '../../apis/accountApi';
-import { ScheduleData } from '../../apis/scheduleApi';
-import useModal from '../../hooks/useModal';
-import EditSchedule from '../Schedule/Edit';
-import EditAccount from '../Account/Edit';
-import EventMessage from '../../components/molecules/EventMessage';
+import { chatCss, chatLogCss, containerCss } from './style';
+import useChat, { ChatMessageData, ChatType } from '../../../hooks/useChat';
+import { AccountData } from '../../../apis/accountApi';
+import { ScheduleData } from '../../../apis/scheduleApi';
+import useModal from '../../../hooks/useModal';
+import EditSchedule from '../../Schedule/Edit';
+import EditAccount from '../../Account/Edit';
+import EventMessage from '../../../components/molecules/EventMessage';
+import ChatBox from '../../../components/organisms/ChatBox';
+import TypeTextField from '../../../components/molecules/TypeTextField';
 
 const Chat = () => {
-  const navigate = useNavigate();
-  const [curMenu, setCurMenu] = useState<number>(0);
   const chatRef = useRef<HTMLInputElement>(null);
   const chatLogRef = useRef<HTMLDivElement>(null);
   const [chatLog, setChatLog] = useState<ChatMessageData[]>([]);
@@ -124,9 +119,6 @@ const Chat = () => {
   return (
     <>
       <div css={containerCss}>
-        <div>
-          <AppBar label="채팅방" onBackClick={() => navigate('/')} />
-        </div>
         <div css={chatLogCss} ref={chatLogRef}>
           <ChatBox messages={chatLog} />
         </div>
@@ -143,9 +135,6 @@ const Chat = () => {
               chatTypeRef.current = type as ChatType;
             }}
           />
-        </div>
-        <div css={bottomCss}>
-          <MenuBar menu={curMenu} setCurMenu={setCurMenu} />
         </div>
       </div>
     </>

@@ -5,6 +5,7 @@ import { Typography } from 'oyc-ds';
 import { incomeCss } from './income.style';
 import { filterExpenses } from '../../../utils/expensefilter';
 import { income, spend, Spend } from '../../../utils/SpendData';
+import Preview from './preview2';
 
 export const expenses = spend;
 export const incomes = income;
@@ -22,12 +23,7 @@ const Incomes: React.FC<SpendChartProps> = ({period, offset}) => {
   const totalexpenditure = filteredData.reduce((acc, expense) => acc + expense.money, 0);
 
   return <>
-    <Typography color="dark" size="lg" weight="bold" css={incomeCss}>
-          총 {totalexpenditure.toLocaleString()}원을
-          <br />
-          벌었어요.
-        </Typography>
-    <Analysis/>
+    <Preview/>
   </>;
 };
 

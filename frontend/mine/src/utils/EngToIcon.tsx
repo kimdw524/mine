@@ -11,6 +11,9 @@ import {
   CakeIcon,
   BriefcaseIcon,
   MapIcon,
+  KeyIcon,
+  PencilIcon,
+  CursorArrowRaysIcon,
 } from '@heroicons/react/24/outline';
 
 export const engToIcon: Record<string, ReactNode> = {
@@ -28,4 +31,9 @@ export const engToIcon: Record<string, ReactNode> = {
   personality: <UserIcon />,
   job: <BriefcaseIcon />,
   residence: <MapIcon />,
+  mypage: <UserIcon />,
+  nickEdit: <TagIcon />,
+  pwdEdit: <KeyIcon />,
+  infoEdit: <PencilIcon />,
+  qnaEdit: <CursorArrowRaysIcon />,
 };
