@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.List;
 
+@CrossOrigin(originPatterns = "*", allowedHeaders = "*", allowCredentials = "true")
 @RequiredArgsConstructor
 @RestController
-@CrossOrigin(originPatterns = "*", allowedHeaders = "*", allowCredentials = "true")
 public class ScheduleController {
 
     private final ScheduleQueryService scheduleQueryService;
