@@ -49,8 +49,8 @@ const Create = ({ onCreate, selectedDate = new Date() }: CreateProps) => {
 
         const result = await updateAccountAchievement();
 
-        if (result) {
-          alert('새로운 업적을 달성하였습니다!');
+        if (result.data) {
+          await alert('새로운 업적을 달성하였습니다!');
         }
 
         onCreate(dateRef.current);

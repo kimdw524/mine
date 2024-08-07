@@ -19,6 +19,7 @@ export const focusCss = css`
 
 export const textCss = css`
   flex: 1;
+  width: 0;
   padding: 0.75rem 0.75rem 0.75rem 0.125rem;
   border: 0;
   background-color: transparent;
@@ -37,4 +38,13 @@ export const typeCss = css`
     font-size: 0.875rem;
     word-break: keep-all;
   }
+`;
+
+export const voiceRecordCss = css`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  cursor: pointer;
 `;
