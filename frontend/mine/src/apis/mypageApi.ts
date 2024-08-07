@@ -74,7 +74,7 @@ export const getUserAvatars = () => {
 export const updateAvatarInfo = (
   avatarId: number,
   infoType: string,
-  value: string,
+  value: string | boolean,
 ) => {
   return api({
     url: `/api/avatars/${avatarId}`,

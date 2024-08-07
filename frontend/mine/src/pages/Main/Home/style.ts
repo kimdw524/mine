@@ -38,7 +38,7 @@ export const conversationCss = css`
   row-gap: 1rem;
   flex: 1;
   width: 100%;
-  margin-bottom: 9.5rem;
+  margin-bottom: 1.5rem;
   border-radius: 1rem;
   background-color: #fffde7;
 `;
