@@ -3,8 +3,7 @@ import React from 'react';
 import { avatarCss, infoContainerCss, infoCss, userInfoCss } from './style';
 import { engToIcon } from '../../../../utils/EngToIcon';
 import { Icon, Typography } from 'oyc-ds';
-import { Canvas } from '@react-three/fiber';
-import { useGLTF } from '@react-three/drei';
+import Avatar3D from '../../../../components/atoms/Avatar3D';
 
 interface IUserInfo {
   email: string;
@@ -17,26 +16,11 @@ interface UserInfoProps {
   info: IUserInfo;
 }
 
-interface ModelProps {
-  avatarModel: string;
-}
-
-const Model = ({ avatarModel }: ModelProps) => {
-  const { scene } = useGLTF(`/cute_little_animals/${avatarModel}.glb`);
-  return <primitive object={scene} position={[0.1, 0.85, 0]} />;
-};
-
 const UserInfo = ({ avatarModel, info }: UserInfoProps) => {
   return (
     <div css={userInfoCss}>
       <div css={avatarCss}>
-        <Canvas
-          style={{ width: '100%', height: '100%' }}
-          camera={{ position: [0, 0, 5], fov: 35 }}
-        >
-          <ambientLight intensity={3} />
-          <Model avatarModel={avatarModel ? avatarModel : 'pig'} />
-        </Canvas>
+        <Avatar3D avatarModel={avatarModel ? avatarModel : 'pig'} />
       </div>
       <div css={infoContainerCss}>
         <div css={infoCss}>
