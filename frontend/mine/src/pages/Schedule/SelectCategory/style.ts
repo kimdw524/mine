@@ -28,6 +28,8 @@ export const headerCss = css`
 `;
 
 export const categoryCss = css`
+  display: flex;
+  align-items: center;
   flex: 1;
   overflow-y: scroll;
 `;

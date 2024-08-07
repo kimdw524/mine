@@ -19,9 +19,16 @@ import { AccountParam, addAccount } from '../../../apis/accountApi';
 import { apiFormatDateTime } from '../../../utils/dateUtils';
 import useDialog from '../../../hooks/useDialog';
 
-const Create = () => {
+// merge test
+
+interface CreateProps {
+  onCreate: (date: Date) => void;
+  selectedDate?: Date;
+}
+
+const Create = ({ onCreate, selectedDate = new Date() }: CreateProps) => {
   const navigate = useNavigate();
-  const dateRef = useRef<Date>(new Date());
+  const dateRef = useRef<Date>(selectedDate);
   const [type, setType] = useState<'I' | 'S'>('S');
   const categoryRef = useRef<number>(1);
   const titleRef = useRef<HTMLInputElement>(null);
@@ -35,6 +42,9 @@ const Create = () => {
     onSuccess: (data) => {
       if (data.status === 200) {
         queryClient.invalidateQueries({ queryKey: ['account'] });
+
+        onCreate(dateRef.current);
+
         navigate(-1);
       }
     },
