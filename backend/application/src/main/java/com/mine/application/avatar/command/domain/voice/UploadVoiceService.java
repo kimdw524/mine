@@ -31,7 +31,6 @@ public class UploadVoiceService {
             }
 
             byId.get().getVoice().putVoice(request);
-            return null;
         }
 
         return speechToText.getTextFromSpeech(request);
