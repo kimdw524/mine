@@ -12,8 +12,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RequiredArgsConstructor
-@RequestMapping("/api/users/achievements")
+@RequestMapping("/users/achievements")
 @RestController
+@CrossOrigin(originPatterns = "*", allowedHeaders = "*", allowCredentials = "true")
 public class AchievementController {
 
     private final AchievementStateQueryService achievementStateQueryService;
@@ -26,15 +27,16 @@ public class AchievementController {
         return ResponseEntity.ok().body(achievementStateQueryService.getAchievementStates());
     }
 
-    @LoginCheck
-    @PostMapping
-    public ResponseEntity<Void> addAchievementStates() {
-        addAchievementStatesService.addAchievementStates();
-        return ResponseEntity.ok().build();
-    }
+    @Deprecated
+//    @LoginCheck
+//    @PostMapping
+//    public ResponseEntity<Void> addAchievementStates() {
+//        addAchievementStatesService.addAchievementStates();
+//        return ResponseEntity.ok().build();
+//    }
 
     @LoginCheck
-    @PatchMapping("/{achievementId}")
+    @PutMapping("/{achievementId}")
     public ResponseEntity<Boolean> updateAchievementState(@PathVariable Integer achievementId) {
         return ResponseEntity.ok().body(updateAchievementStateService.updateAchievementState(achievementId));
     }

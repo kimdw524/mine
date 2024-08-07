@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("/auth")
 @RestController
+@CrossOrigin(originPatterns = "*", allowedHeaders = "*", allowCredentials = "true")
 public class AuthController {
 
     private final SignupService signupService;
@@ -33,6 +34,12 @@ public class AuthController {
 
     @PostMapping("/request-verification-email-code")
     public ResponseEntity<?> requestVerificationEmailCode(@RequestBody EmailVerificationNumRequest request) {
+        emailVerificationService.emailNumberRequestForNotExist(request);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/help/password/request-verification-email-code")
+    public ResponseEntity<?> requestVerificationEmailCodeForPassword(@RequestBody EmailVerificationNumRequest request) {
         emailVerificationService.emailNumberRequest(request);
         return ResponseEntity.ok().build();
     }

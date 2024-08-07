@@ -20,25 +20,28 @@ public class ScheduleQueryService {
     private final SessionDao sessionDao;
     private final ScheduleDataCustomRepository scheduleDataCustomRepository;
 
-    public List<GetScheduleResponse> getSchedulesBetweenDates(
+    public List<GetScheduleResponse> getSchedulesByCategory(
+            Integer categoryId,
             LocalDate startDate,
             LocalDate endDate)
     {
-        Integer userId = (Integer) sessionDao.get(SessionConstants.USER_ID)
-                .orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND));
-
-        return scheduleDataCustomRepository.findSchedulesBetweenDates(
+        int userId = getUserIdOrElseThrow();
+        return scheduleDataCustomRepository.findSchedulesByCategoryIdAndDates(
                 userId,
+                categoryId,
                 startDate.atStartOfDay(),
-                endDate.atTime(LocalTime.MAX)
+                endDate.atTime(LocalTime.MAX).withNano(0)
         );
     }
 
-    public List<GetScheduleResponse> getSchedulesByContaining(String query) {
-        Integer userId = (Integer) sessionDao.get(SessionConstants.USER_ID)
-                .orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND));
-
+    public List<GetScheduleResponse> searchSchedules(String query) {
+        int userId = getUserIdOrElseThrow();
         return scheduleDataCustomRepository.findSchedulesByContaining(userId, query);
+    }
+
+    private int getUserIdOrElseThrow() {
+        return (Integer) sessionDao.get(SessionConstants.USER_ID)
+                .orElseThrow(() -> new RestApiException(CommonErrorCode.UNAUTHORIZED));
     }
 
 }

@@ -1,5 +1,6 @@
 package com.mine.application.user.command.application;
 
+import com.mine.application.achievement.command.application.AddAchievementStatesService;
 import com.mine.application.common.domain.SessionConstants;
 import com.mine.application.common.domain.SessionDao;
 import com.mine.application.user.command.domain.user.Gender;
@@ -8,6 +9,7 @@ import com.mine.application.user.command.domain.user.User;
 import com.mine.application.user.command.domain.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -17,7 +19,9 @@ public class SignupService {
 
     private final UserRepository userRepository;
     private final SessionDao sessionDao;
+    private final AddAchievementStatesService addAchievementStatesService;
 
+    @Transactional
     public void signup(SignupRequest signupRequest) {
         validEmail(signupRequest.getEmail());
 
@@ -35,6 +39,7 @@ public class SignupService {
 
         userRepository.save(user);
 
+        addAchievementStatesService.addAchievementStates(user.getId());
     }
 
     private void validEmail(String email) {

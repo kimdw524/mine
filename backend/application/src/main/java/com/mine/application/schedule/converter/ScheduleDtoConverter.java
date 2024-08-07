@@ -2,12 +2,12 @@ package com.mine.application.schedule.converter;
 
 import com.mine.application.schedule.command.domain.Schedule;
 import com.mine.application.schedule.infrastructure.ai.AddScheduleDto;
-import com.mine.application.schedule.ui.dto.AddScheduleFromCalendarRequest;
-import com.mine.application.schedule.ui.dto.AddScheduleFromChatResponse;
+import com.mine.application.schedule.ui.dto.AddScheduleByCalendarRequest;
+import com.mine.application.schedule.ui.dto.AddScheduleByChatResponse;
 
 public class ScheduleDtoConverter {
 
-    public static Schedule convert(AddScheduleFromCalendarRequest request, int userId) {
+    public static Schedule convert(AddScheduleByCalendarRequest request, int userId) {
         return Schedule.builder()
                 .userId(userId)
                 .categoryId(request.getCategoryId())
@@ -31,8 +31,8 @@ public class ScheduleDtoConverter {
                 .build();
     }
 
-    public static AddScheduleFromChatResponse convert(Schedule schedule) {
-        return AddScheduleFromChatResponse.builder()
+    public static AddScheduleByChatResponse convert(Schedule schedule) {
+        return AddScheduleByChatResponse.builder()
                 .scheduleId(schedule.getId())
                 .categoryId(schedule.getCategoryId())
                 .startDateTime(schedule.getStartDateTime())

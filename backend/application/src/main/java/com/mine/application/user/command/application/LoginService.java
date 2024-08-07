@@ -11,6 +11,8 @@ import com.mine.application.user.command.domain.user.User;
 import com.mine.application.user.command.domain.user.UserRepository;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +21,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Service
 public class LoginService {
+    private static final Logger log = LoggerFactory.getLogger(LoginService.class);
     private final UserRepository userRepository;
     private final LoginLogRepository loginLogRepository;
     private final HttpSession httpSession;
@@ -27,6 +30,7 @@ public class LoginService {
     @Value("${spring.session.expire-seconds}") private Integer expireSeconds;
 
     public void login(LoginRequest loginRequest) {
+        log.info(httpSession.getId());
         Optional<User> findUser = userRepository.findByEmail(loginRequest.getEmail());
         if (findUser.isPresent()) {
             User user = findUser.get();
@@ -43,7 +47,7 @@ public class LoginService {
     }
 
     public void loginCheck() {
-        if(sessionDao.get(SessionConstants.EMAIL).isEmpty()) {
+        if (sessionDao.get(SessionConstants.EMAIL).isEmpty()) {
             throw new RestApiException(CommonErrorCode.UNAUTHORIZED);
         }
     }

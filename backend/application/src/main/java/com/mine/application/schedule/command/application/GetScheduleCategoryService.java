@@ -14,10 +14,9 @@ public class GetScheduleCategoryService {
     private final ScheduleCategoryRepository scheduleCategoryRepository;
 
     public String getScheduleCategory(int id) {
-        ScheduleCategory scheduleCategory = scheduleCategoryRepository.findById(id)
-                .orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND));
-
-        return scheduleCategory.getName();
+        return scheduleCategoryRepository.findById(id)
+                .orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND))
+                .getName();
     }
 
 }

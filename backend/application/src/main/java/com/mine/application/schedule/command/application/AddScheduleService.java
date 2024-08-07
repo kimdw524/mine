@@ -9,8 +9,8 @@ import com.mine.application.schedule.command.domain.ScheduleRepository;
 import com.mine.application.schedule.converter.ScheduleDtoConverter;
 import com.mine.application.schedule.infrastructure.ai.AddScheduleDto;
 import com.mine.application.schedule.infrastructure.ai.ScheduleAiChat;
-import com.mine.application.schedule.ui.dto.AddScheduleFromCalendarRequest;
-import com.mine.application.schedule.ui.dto.AddScheduleFromChatResponse;
+import com.mine.application.schedule.ui.dto.AddScheduleByCalendarRequest;
+import com.mine.application.schedule.ui.dto.AddScheduleByChatResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,24 +24,25 @@ public class AddScheduleService {
     private final ScheduleAiChat scheduleAiChat;
 
     @Transactional
-    public void addScheduleFromCalendar(AddScheduleFromCalendarRequest request) {
-        Integer userId = (Integer) sessionDao.get(SessionConstants.USER_ID)
-                .orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND));
-
+    public void addScheduleByCalendar(AddScheduleByCalendarRequest request) {
+        int userId = getUserIdOrElseThrow();
         scheduleRepository.save(ScheduleDtoConverter.convert(request, userId));
     }
 
     @Transactional
-    public AddScheduleFromChatResponse addScheduleFromChat(String query) {
-        Integer userId = (Integer) sessionDao.get(SessionConstants.USER_ID)
-                .orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND));
-
+    public AddScheduleByChatResponse addScheduleByChat(String query) {
         AddScheduleDto addScheduleDto = scheduleAiChat.getAddScheduleDtoFromQuery(query);
 
+        int userId = getUserIdOrElseThrow();
         Schedule schedule = ScheduleDtoConverter.convert(addScheduleDto, userId);
         scheduleRepository.save(schedule);
 
         return ScheduleDtoConverter.convert(schedule);
+    }
+
+    private int getUserIdOrElseThrow() {
+        return (Integer) sessionDao.get(SessionConstants.USER_ID)
+                .orElseThrow(() -> new RestApiException(CommonErrorCode.UNAUTHORIZED));
     }
 
 }
