@@ -9,9 +9,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
-@RequestMapping("/avatars/{avatarId}/voice")
+@CrossOrigin(originPatterns = "*", allowedHeaders = "*", allowCredentials = "true")
 @RequiredArgsConstructor
+@RequestMapping("/avatars/{avatarId}/voice")
+@RestController
 public class VoiceController {
     private final SearchAvatarVoiceService searchAvatarVoiceService;
     private final UploadVoiceService uploadVoiceService;
