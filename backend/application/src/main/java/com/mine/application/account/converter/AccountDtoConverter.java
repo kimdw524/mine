@@ -11,9 +11,10 @@ import java.time.LocalDateTime;
 public final class AccountDtoConverter {
 
     public static Account convert(AddAccountByCalendarRequest request, int userId) {
+        Integer categoryId = getCategoryIdOrNullByAccountType(request.getAccountType(), request.getSpendCategoryId());
         return Account.builder()
                 .userId(userId)
-                .spendCategoryId(request.getSpendCategoryId())
+                .spendCategoryId(categoryId)
                 .accountType(AccountType.of(request.getAccountType()))
                 .money(request.getMoney())
                 .title(request.getTitle())
@@ -46,6 +47,10 @@ public final class AccountDtoConverter {
                 .description(account.getDescription())
                 .dateTime(account.getDateTime())
                 .build();
+    }
+
+    private static Integer getCategoryIdOrNullByAccountType(String accountType, Integer spendCategoryId) {
+        return "I".equals(accountType) ? null : spendCategoryId;
     }
 
 }
