@@ -79,7 +79,20 @@ const Schedule = () => {
 
   const handleCreateSchedule = () => {
     push({
-      component: <Create />,
+      component: (
+        <Create
+          selectedDate={new Date(date)}
+          onCreate={(date) => {
+            const newDate = date
+              .toLocaleDateString()
+              .replaceAll('.', '')
+              .replaceAll(' ', '-');
+            setDate(newDate);
+
+            updateSelected(newDate, period);
+          }}
+        />
+      ),
       name: 'createSchedule',
     });
   };
