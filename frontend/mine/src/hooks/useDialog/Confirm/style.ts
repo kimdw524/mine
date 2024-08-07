@@ -1,14 +1,5 @@
 import { css } from '@emotion/react';
 
-export const backDropCss = css``;
-
-export const containerCss = css`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-`;
-
 export const alertCss = css`
   margin: 1rem;
   padding: 1rem;

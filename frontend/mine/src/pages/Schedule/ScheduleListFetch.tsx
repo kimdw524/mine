@@ -4,7 +4,7 @@ import ScheduleList from '../../components/molecules/ScheduleList';
 import { css } from '@emotion/react';
 import { SchedulePeriod } from '.';
 import { useSuspenseQuery } from '@tanstack/react-query';
-import { getSchedules } from '../../apis/scheduleApi';
+import { getSchedules, getSchedulesWithCategory } from '../../apis/scheduleApi';
 import { apiFormatDate } from '../../utils/dateUtils';
 import useModal from '../../hooks/useModal';
 import Edit from './Edit';
@@ -13,6 +13,7 @@ interface ScheduleListFetchProps {
   type: SchedulePeriod;
   start: Date;
   end: Date;
+  category: number;
 }
 
 const containerCss = css`
@@ -27,14 +28,23 @@ export const ScheduleListFetch = ({
   type,
   start,
   end,
+  category,
 }: ScheduleListFetchProps) => {
   const { data, error, isFetching } = useSuspenseQuery({
     queryKey: [
       'schedule',
+      category,
       start.toLocaleDateString(),
       end.toLocaleDateString(),
     ],
-    queryFn: () => getSchedules(apiFormatDate(start), apiFormatDate(end)),
+    queryFn: () =>
+      category === 0
+        ? getSchedules(apiFormatDate(start), apiFormatDate(end))
+        : getSchedulesWithCategory(
+            apiFormatDate(start),
+            apiFormatDate(end),
+            category,
+          ),
   });
 
   if (error && !isFetching) {

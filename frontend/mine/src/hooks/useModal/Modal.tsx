@@ -27,7 +27,7 @@ const classNames = {
 
 const Modal = ({ data, onFadeOutEnd }: ModalProps) => {
   const wrapperRef = useRef<HTMLDivElement>(null);
-  const endRef = useRef<boolean>(false);
+  const stateRef = useRef<number>(0);
 
   useEffect(() => {
     if (!wrapperRef.current) {
@@ -41,21 +41,40 @@ const Modal = ({ data, onFadeOutEnd }: ModalProps) => {
       return;
     }
     wrapperRef.current.className = `${classNames[data.type].base} ${classNames[data.type].exit}`;
-  }, [data?.show, wrapperRef]);
+  }, [data.show, data.type, wrapperRef]);
 
   const handleTransitionEnd = (e: React.TransitionEvent) => {
-    if (!data?.show && !endRef.current) {
-      endRef.current = true;
+    if (e.target !== wrapperRef.current) {
+      return;
+    }
+
+    if (data.show && stateRef.current === 0) {
+      stateRef.current = 1;
+      return;
+    }
+
+    if (!data?.show && stateRef.current !== 2) {
+      stateRef.current = 2;
       onFadeOutEnd();
     }
   };
 
+  const handleClose = (e: React.MouseEvent) => {
+    if (e.target !== wrapperRef.current || stateRef.current !== 1) {
+      return;
+    }
+
+    window.history.back();
+  };
+
   return (
-    <>
-      <div ref={wrapperRef} onTransitionEnd={handleTransitionEnd}>
-        {data?.component}
-      </div>
-    </>
+    <div
+      ref={wrapperRef}
+      onTransitionEnd={handleTransitionEnd}
+      onClick={handleClose}
+    >
+      <div onClick={(e) => e.stopPropagation()}>{data?.component}</div>
+    </div>
   );
 };
 

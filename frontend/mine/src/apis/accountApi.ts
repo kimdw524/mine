@@ -18,6 +18,28 @@ export const getAccounts = (startDate: string, endDate: string) => {
   );
 };
 
+export const getSpendAccounts = (startDate: string, endDate: string) => {
+  return api.get<AccountData[]>(
+    `/api/users/accounts/spend?startDate=${startDate}&endDate=${endDate}`,
+  );
+};
+
+export const getIncomeAccounts = (startDate: string, endDate: string) => {
+  return api.get<AccountData[]>(
+    `/api/users/accounts/income?startDate=${startDate}&endDate=${endDate}`,
+  );
+};
+
+export const getAccountsWithCategory = (
+  startDate: string,
+  endDate: string,
+  categoryId: number,
+) => {
+  return api.get<AccountData[]>(
+    `/api/users/accounts/spend?startDate=${startDate}&endDate=${endDate}&spendCategoryId=${categoryId}`,
+  );
+};
+
 export const addAccount = (param: AccountParam) => {
   return api.post('/api/users/accounts/calendar', param);
 };

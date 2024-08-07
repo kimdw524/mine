@@ -4,13 +4,19 @@ import { css } from '@emotion/react';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { apiFormatDate } from '../../utils/dateUtils';
 import useModal from '../../hooks/useModal';
-import { getAccounts } from '../../apis/accountApi';
+import {
+  getAccounts,
+  getAccountsWithCategory,
+  getIncomeAccounts,
+  getSpendAccounts,
+} from '../../apis/accountApi';
 import AccountList from '../../components/molecules/AccountList';
 import Edit from './Edit';
 
 interface AccountListFetchProps {
   start: Date;
   end: Date;
+  category: number;
 }
 
 const containerCss = css`
@@ -21,10 +27,26 @@ const containerCss = css`
   }
 `;
 
-const AccountListFetch = ({ start, end }: AccountListFetchProps) => {
+const AccountListFetch = ({ start, end, category }: AccountListFetchProps) => {
   const { data, error, isFetching } = useSuspenseQuery({
-    queryKey: ['account', start.toLocaleDateString(), end.toLocaleDateString()],
-    queryFn: () => getAccounts(apiFormatDate(start), apiFormatDate(end)),
+    queryKey: [
+      'account',
+      category,
+      start.toLocaleDateString(),
+      end.toLocaleDateString(),
+    ],
+    queryFn: () =>
+      category === 0
+        ? getAccounts(apiFormatDate(start), apiFormatDate(end))
+        : category === 99
+          ? getIncomeAccounts(apiFormatDate(start), apiFormatDate(end))
+          : category === 100
+            ? getSpendAccounts(apiFormatDate(start), apiFormatDate(end))
+            : getAccountsWithCategory(
+                apiFormatDate(start),
+                apiFormatDate(end),
+                category,
+              ),
   });
 
   if (error && !isFetching) {
