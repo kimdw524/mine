@@ -46,13 +46,13 @@ public class UploadVoiceService {
     }
 
     private boolean isUpdateRequired(String type) {
-        return "C".equals(type);
+        return "c".equals(type);
     }
 
     private void validateTypeOrElseThrow(String type) {
-        if ("C".equals(type)) return;
-        if ("A".equals(type)) return;
-        if ("S".equals(type)) return;
+        if ("c".equals(type)) return;
+        if ("a".equals(type)) return;
+        if ("s".equals(type)) return;
         throw new RestApiException(CommonErrorCode.INVALID_PARAMETER);
     }
 }
