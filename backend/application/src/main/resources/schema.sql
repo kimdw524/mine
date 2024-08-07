@@ -127,11 +127,33 @@ VALUES (5, "연속 출석 5회", "연속 출석 5회 해줘!!"),
        (3, "이스터 에그", "이스터 에그 찾아줘!!");
 
 INSERT INTO achievement_state (user_id, achievement_id, achievement_count, achievement_date, is_achieved)
+VALUES (1, 1, 2, null, 0),
+       (1, 2, 1, now(), 1),
+       (1, 3, 5, null, 0),
+       (1, 4, 6, null, 0),
+       (1, 5, 0, null, 0);
+
+INSERT INTO achievement_state (user_id, achievement_id, achievement_count, achievement_date, is_achieved)
 VALUES (2, 1, 2, null, 0),
        (2, 2, 1, now(), 1),
        (2, 3, 5, null, 0),
        (2, 4, 6, null, 0),
        (2, 5, 0, null, 0);
+
+INSERT INTO achievement_state (user_id, achievement_id, achievement_count, achievement_date, is_achieved)
+VALUES (3, 1, 2, null, 0),
+       (3, 2, 1, now(), 1),
+       (3, 3, 5, null, 0),
+       (3, 4, 6, null, 0),
+       (3, 5, 0, null, 0);
+
+INSERT INTO achievement_state (user_id, achievement_id, achievement_count, achievement_date, is_achieved)
+VALUES (4, 1, 2, null, 0),
+       (4, 2, 1, now(), 1),
+       (4, 3, 5, null, 0),
+       (4, 4, 6, null, 0),
+       (4, 5, 0, null, 0);
+
 
 create table avatar
 (
@@ -269,7 +291,7 @@ VALUES (10, 10, '특별히 추천받고 싶은 분야가 있나요?', 's');
 
 INSERT INTO avatar(avatar_id, user_id, avatar_name, avatar_birthday, avatar_personality, avatar_assistant_id,
                    avatar_thread_id, avatar_voice_id, is_deleted, avatar_model, avatar_residence, avatar_job, is_main)
-VALUES (1, 1, '김다운', '2024-08-02', '지랄맞음', 'asst_DPksAEgIePcXxIyJOPrM3n2o', 'thread_Rd3xUTKMTmrwYiY9Oss5upna',
+VALUES (1, 1, '김다운', '2024-08-02', '착함!! ㅎㅎ', 'asst_DPksAEgIePcXxIyJOPrM3n2o', 'thread_Rd3xUTKMTmrwYiY9Oss5upna',
         'CrvDGrP4g0jagWAqURm5', false, "cow", '경북구미', '프톤트엔드엔지니어', true);
 
 INSERT INTO question_res(question_res_id, question_id, avatar_id, question_choice_id, subjective_ans, question_type)
