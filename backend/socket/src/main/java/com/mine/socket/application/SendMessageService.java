@@ -32,6 +32,7 @@ public class SendMessageService {
 
         Chat chat = Chat.builder()
                 .sendedAt(request.getSendedAt())
+                .avatarId(avatarId)
                 .chatCategoryId(0)
                 .chatContent(request.getChatContent())
                 .chatId(ChatRepository.nextId())

@@ -1,6 +1,7 @@
 package com.mine.socket.infra;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mine.socket.application.ChatResponse;
 import com.mine.socket.domain.AvatarData;
 import com.mine.socket.domain.AvatarRepository;
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Map;
 
 @Slf4j
 @Component
@@ -51,10 +53,12 @@ public class AssistantChatResponsedEventHandler {
                 .avatarId(chatReceiveDto.getAvatarId())
                 .avatarName(avatarData.getAvatarName())
                 .role("b")
-                .sendedDate(chat.getSendedAt())
+                .sendedDate(chat.getSendedAt().toString())
                 .build();
 
         log.info(response.toString());
-        messagingTemplate.convertAndSend("/chat/" + chatReceiveDto.getAvatarId(), response);
+        ObjectMapper objectMapper = new ObjectMapper();
+        Map<String, String> body = objectMapper.convertValue(response, Map.class);
+        messagingTemplate.convertAndSend("/chat/" + chatReceiveDto.getAvatarId(), body);
     }
 }
