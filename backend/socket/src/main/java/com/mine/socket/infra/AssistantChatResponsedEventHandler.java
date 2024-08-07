@@ -1,7 +1,6 @@
 package com.mine.socket.infra;
 
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mine.socket.application.ChatResponse;
 import com.mine.socket.domain.AvatarData;
@@ -17,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Map;
 
 @Slf4j
 @Component
@@ -58,13 +58,7 @@ public class AssistantChatResponsedEventHandler {
 
         log.info(response.toString());
         ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            String value = objectMapper.writeValueAsString(response);
-            messagingTemplate.convertAndSend("/chat/" + chatReceiveDto.getAvatarId(), value);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-
-        }
-
+        Map<String, String> body = objectMapper.convertValue(response, Map.class);
+        messagingTemplate.convertAndSend("/chat/" + chatReceiveDto.getAvatarId(), body);
     }
 }
