@@ -78,7 +78,16 @@ const Account = () => {
 
   const handleCreateAccount = () => {
     push({
-      component: <Create />,
+      component: (
+        <Create
+          selectedDate={start}
+          onCreate={(date) => {
+            setStart(date);
+            setEnd(date);
+            setSelected([getCalendarDate(date)]);
+          }}
+        />
+      ),
       name: 'createAccount',
     });
   };
