@@ -10,7 +10,7 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
-import { spend, income, Spend } from '../../../utils/SpendData';
+import { spend, income, Spend } from '../../../../utils/SpendData';
 import {
   containerCss,
   itemsCss,
@@ -21,9 +21,9 @@ import {
   allbtnCss,
 } from './spend.style';
 import { Typography, Button } from 'oyc-ds';
-import { filterExpenses } from '../../../utils/expensefilter';
-import Analysis from './analysis';
-import Preview from '../Preview/spend';
+import { filterExpenses } from '../../../../utils/expensefilter';
+import Analysis from '../analysis';
+import Preview from '../../Preview';
 
 ChartJS.register(
   CategoryScale,
@@ -169,7 +169,7 @@ const SpendChart: React.FC<SpendChartProps> = ({ period, offset }) => {
           <Analysis />
         </>
       ) : (
-        <Preview />
+        <Preview content="가계부가" button="가계부" />
       )}
     </div>
   );

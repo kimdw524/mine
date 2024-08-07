@@ -5,10 +5,10 @@ import DataTab from '../Preview/datetab';
 import { Typography, MenuTab } from 'oyc-ds';
 import AppBar from '../../../components/organisms/AppBar';
 import { useNavigate } from 'react-router-dom';
-import SpendChart from './spend';
+import SpendChart from './Spend/spend';
 
 import { getDisplayTimeframe } from '../../../utils/SpendData';
-import Incomes from './income';
+import Incomes from './Income/income';
 
 const AccountChart = () => {
   const [period, setPeriod] = useState('weekly'); // 선택된 기간 상태 관리

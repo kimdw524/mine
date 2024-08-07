@@ -20,7 +20,7 @@ import {
   backdropCss,
   navchartCss,
   contentCss,
-} from '../Account/spend.style';
+} from '../Account/Spend/spend.style';
 import { Typography, Button } from 'oyc-ds';
 import Analysis from '../Account/analysis';
 import { useNavigate } from 'react-router-dom';
