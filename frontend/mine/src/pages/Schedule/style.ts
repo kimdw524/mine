@@ -28,3 +28,8 @@ export const bottomCss = css`
   padding: 0.75rem;
   border-top: 0.0625rem solid #e6e6e6;
 `;
+
+export const menuCss = css`
+  display: flex;
+  flex-direction: row;
+`;

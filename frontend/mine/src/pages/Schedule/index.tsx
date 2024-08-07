@@ -2,8 +2,14 @@
 import React, { Suspense, useRef, useState } from 'react';
 import AppBar from '../../components/organisms/AppBar';
 import { useNavigate } from 'react-router-dom';
-import { Button, Calendar, Dropdown, Typography } from 'oyc-ds';
-import { bottomCss, containerCss, headerCss, scheduleCss } from './style';
+import { Button, Calendar, Chip, Dropdown, Typography } from 'oyc-ds';
+import {
+  bottomCss,
+  containerCss,
+  headerCss,
+  menuCss,
+  scheduleCss,
+} from './style';
 import ScheduleListFetch from './ScheduleListFetch';
 import { ErrorBoundary } from 'react-error-boundary';
 import { getMonthDates, getWeekDates } from '../../utils/dateUtils';
@@ -12,6 +18,9 @@ import useModal from '../../hooks/useModal';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import Search from './Search';
 import Error from '../../components/molecules/Error';
+import ChipList from '../../components/molecules/ChipList';
+import SelectCategory from './SelectCategory';
+import { accountCategoryData } from '../../utils/accountUtils';
 
 export type SchedulePeriod = 'daily' | 'weekly' | 'monthly';
 
@@ -25,6 +34,7 @@ const Schedule = () => {
   const [period, setPeriod] = useState<SchedulePeriod>('daily');
   const selectedRef = useRef<string[]>([today]);
   const { push } = useModal();
+  const [category, setCategory] = useState<number>(0);
   const [year, month] = new Date(date)
     .toLocaleDateString()
     .replaceAll('.', '')
@@ -52,6 +62,20 @@ const Schedule = () => {
     push({
       component: <Search />,
       name: 'searchSchedule',
+    });
+  };
+
+  const handleSelectCategory = () => {
+    push({
+      component: (
+        <SelectCategory
+          selected={category}
+          onChange={(selected) => {
+            setCategory(selected);
+          }}
+        />
+      ),
+      name: 'selectAccountCategory',
     });
   };
 
@@ -99,7 +123,18 @@ const Schedule = () => {
                 ? selectedRef.current[0].replaceAll('-', '. ')
                 : `${selectedRef.current[0].replaceAll('-', '. ')} ~ ${selectedRef.current.at(-1)!.replaceAll('-', '. ')}`}
             </Typography>
-            <div>
+            <div css={menuCss}>
+              <ChipList ellipsis={false} onClick={handleSelectCategory}>
+                {category === 0 ? (
+                  <Chip size="sm" fill="#0087ff">
+                    전체
+                  </Chip>
+                ) : (
+                  <Chip size="sm" fill="#ff3f3f">
+                    {accountCategoryData[category].name}
+                  </Chip>
+                )}
+              </ChipList>
               <Dropdown
                 size="sm"
                 style={{ border: '0' }}
@@ -118,6 +153,7 @@ const Schedule = () => {
                 type={period}
                 start={new Date(selectedRef.current[0])}
                 end={new Date(selectedRef.current.at(-1) || '')}
+                category={category}
               />
             </Suspense>
           </ErrorBoundary>
