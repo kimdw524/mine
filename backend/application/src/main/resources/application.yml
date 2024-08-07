@@ -62,4 +62,4 @@ server:
         secure: true
         same-site: none
         max-age: 3600
-        domain: i11d106.p.ssafy.io.application
+        domain: i11d106.p.ssafy.io
