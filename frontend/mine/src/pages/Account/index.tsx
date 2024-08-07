@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import React, { Suspense, useEffect, useRef, useState } from 'react';
+import React, { Suspense, useRef, useState } from 'react';
 import AppBar from '../../components/organisms/AppBar';
 import { useNavigate } from 'react-router-dom';
 import { Button, Calendar, Chip } from 'oyc-ds';
@@ -25,24 +25,15 @@ const Account = () => {
   const [category, setCategory] = useState<number>(0);
   const [start, setStart] = useState<Date>(new Date());
   const [end, setEnd] = useState<Date>(new Date());
-  const calendarPeriodRef = useRef<string[]>(['', '']);
+  const [calendarPeriod, setCalendarPeriod] = useState<string[]>(['', '']);
   const [selected, setSelected] = useState<string[]>([
     `${start.getFullYear()}-${start.getMonth() + 1}-${start.getDate()}`,
   ]);
-  const [scheduled, setScheduled] = useState<string[]>([]);
   const { push } = useModal();
 
-  const { data, isFetching, refetch } = useQuery({
-    queryKey: [
-      'account',
-      '0',
-      calendarPeriodRef.current[0],
-      calendarPeriodRef.current[1],
-    ],
-    queryFn: () =>
-      getAccounts(calendarPeriodRef.current[0], calendarPeriodRef.current[1]),
-    refetchOnWindowFocus: false,
-    enabled: false,
+  const { data } = useQuery({
+    queryKey: ['account', '0', calendarPeriod[0], calendarPeriod[1]],
+    queryFn: () => getAccounts(calendarPeriod[0], calendarPeriod[1]),
   });
 
   const [year, month] = start
@@ -50,6 +41,17 @@ const Account = () => {
     .replaceAll('.', '')
     .split(' ')
     .map((value) => parseInt(value));
+
+  const getScheduled = (): string[] => {
+    if (!data) {
+      return [];
+    }
+
+    const set = new Set(
+      data.data.map((account) => getCalendarDate(new Date(account.dateTime))),
+    );
+    return Array.from(set);
+  };
 
   const handleCalendarClick = (year: number, month: number, day: number) => {
     const date = new Date(`${year}-${month}-${day}`);
@@ -108,11 +110,8 @@ const Account = () => {
     start: string,
     end: string,
   ) => {
-    calendarPeriodRef.current = [start, end];
-    refetch();
+    setCalendarPeriod([start, end]);
   };
-
-  console.log(data?.data);
 
   return (
     <>
@@ -131,7 +130,7 @@ const Account = () => {
             year={year}
             month={month}
             selected={selected}
-            scheduled={scheduled}
+            scheduled={getScheduled()}
             onClick={handleCalendarClick}
             onChange={handleCalendarChange}
           />
