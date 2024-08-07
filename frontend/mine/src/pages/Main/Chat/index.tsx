@@ -21,7 +21,7 @@ const Chat = () => {
   const [chatLog, setChatLog] = useState<ChatMessageData[]>([]);
   const chatTypeRef = useRef<ChatType>('chat');
   const { push } = useModal();
-  const chat = useChat('https://i11d106.p.ssafy.io/chat/stomp/chat', 1);
+  const chat = useChat(1);
 
   const addChat = (data: ChatMessageData) => {
     setChatLog((chatLog) => [...chatLog, data]);
@@ -51,17 +51,11 @@ const Chat = () => {
   }, [chatLog, chatLogRef]);
 
   useEffect(() => {
-    const handleOpen = () => {
-      console.log('연결됨');
-    };
+    const handleOpen = () => {};
 
-    const handleError = () => {
-      console.log('오류뜸');
-    };
+    const handleError = () => {};
 
-    const handleClose = () => {
-      console.log('연결 끊김');
-    };
+    const handleClose = () => {};
 
     const handleMessage = (res: ChatResponse) => {
       addChat({

@@ -32,7 +32,10 @@ interface ChatEventHandler {
 
 type EventCallback<T> = (data: T) => void;
 
-const useChat = (server: string, avatarId: number) => {
+const useChat = (
+  avatarId: number,
+  server: string = 'https://i11d106.p.ssafy.io/chat/stomp/chat',
+) => {
   const accountRef = useRef<EventCallback<AccountData>>(() => {});
   const scheduleRef = useRef<EventCallback<ScheduleData>>(() => {});
   const socketRef = useRef<Client>();
@@ -44,23 +47,33 @@ const useChat = (server: string, avatarId: number) => {
     onAccount,
     onSchedule,
   }: ChatEventHandler) => {
-    socketRef.current = new Client({
-      webSocketFactory: () =>
-        new SockJS(server, null, {
-          transports: ['websocket', 'jsonp'],
-        }),
-      reconnectDelay: 5000,
-      heartbeatIncoming: 4000,
-      heartbeatOutgoing: 4000,
-    });
+    // socketRef.current = new Client({
+    //   webSocketFactory: () =>
+    //     new SockJS(server, null, {
+    //       transports: ['websocket', 'jsonp'],
+    //     }),
+    //   reconnectDelay: 5000,
+    //   heartbeatIncoming: 4000,
+    //   heartbeatOutgoing: 4000,
+    // });
 
     const socket = socketRef.current;
 
-    socket.onConnect = (frame) => {
+    if (!socket) {
+      return;
+    }
+
+    socket.onConnect = () => {
       onOpen();
-      console.log('Connected: ' + frame);
       socket.subscribe(`/chat/${avatarId}`, (message) => {
-        onMessage(JSON.parse(message.body));
+        const data: ChatResponse = JSON.parse(message.body);
+        addLog({
+          me: false,
+          name: data.avatarName,
+          message: data.text,
+          dateTime: data.sendedDate,
+        });
+        onMessage(data);
       });
     };
 
@@ -73,9 +86,22 @@ const useChat = (server: string, avatarId: number) => {
     scheduleRef.current = onSchedule;
   };
 
+  const addLog = (data: ChatMessageData) => {
+    const log: ChatMessageData[] = getLog();
+    log.push(data);
+    localStorage.setItem('chatLog', JSON.stringify(log.slice(-30)));
+  };
+
+  const getLog = (): ChatMessageData[] => {
+    return JSON.parse(localStorage.getItem('chatLog') ?? '[]');
+  };
+
   const send = async (type: ChatType, content: string, onSend: () => void) => {
     switch (type) {
       case 'chat': {
+        const date = new Date().toJSON();
+
+        addLog({ me: true, name: '나', message: content, dateTime: date });
         onSend();
 
         const socket = socketRef.current;
@@ -86,7 +112,7 @@ const useChat = (server: string, avatarId: number) => {
           destination: `/pub/${avatarId}`,
           body: JSON.stringify({
             chatContent: content,
-            sendedAt: new Date().toJSON(),
+            sendedAt: date,
           }),
         });
         break;
@@ -108,7 +134,7 @@ const useChat = (server: string, avatarId: number) => {
     }
   };
 
-  return { connect, send };
+  return { connect, send, getLog };
 };
 
 export default useChat;

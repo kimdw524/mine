@@ -12,6 +12,7 @@ import {
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, useGLTF } from '@react-three/drei';
 import { containerCss } from './style';
+import AvatarChat from '../../../components/organisms/AvatarChat';
 
 interface ModelProps {
   avatarModel: string;
@@ -80,11 +81,13 @@ const HomeFetch = () => {
           </Canvas>
         </div>
         <div css={conversationCss}>
-          <Typography color="dark" size="md">
-            {avatarQuery.data.data.length === 0
-              ? '너만의 비서를 만들어봐!!'
-              : '오늘도 보러 와줘서 고마워!!'}
-          </Typography>
+          {avatarQuery.data.data.length ? (
+            <AvatarChat avatarId={1} />
+          ) : (
+            <Typography color="dark" size="md">
+              너만의 비서를 만들어봐!!
+            </Typography>
+          )}
           {!avatarQuery.data.data.length && <Button>아바타 생성</Button>}
         </div>
       </div>
