@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import React, { ReactNode, useContext, useEffect, useRef } from 'react';
+import React, { ReactNode, useContext, useRef } from 'react';
 import CategoryIcon from '../../atoms/CategoryIcon';
 import { css } from '@emotion/react';
 import { Typography } from 'oyc-ds';
@@ -18,9 +18,11 @@ const containerCss = css`
   flex-direction: column;
   gap: 0.5rem;
   transition: all 0.2s ease;
+  user-select: none;
 `;
 
-export const unselectedCss = css`
+const unselectedCss = css`
+  background-color: transparent;
   opacity: 0.66;
   transform: scale(0.8);
 `;
@@ -36,7 +38,9 @@ const Item = ({ children, color, name, value }: ItemProps) => {
       onClick={() => setSelected(value)}
     >
       <CategoryIcon color={color}>{children}</CategoryIcon>
-      <Typography color="dark">{name}</Typography>
+      <Typography color={selected === value ? 'primary' : 'dark'}>
+        {name}
+      </Typography>
     </div>
   );
 };

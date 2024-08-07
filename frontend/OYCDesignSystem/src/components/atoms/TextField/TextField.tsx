@@ -79,9 +79,8 @@ export const TextField = forwardRef<
             onBlur={() => !readOnly && setIsFocused(false)}
             onChange={(e) => setInputValue(e.target.value)}
             ref={ref as React.Ref<HTMLTextAreaElement>}
-          >
-            {defaultValue}
-          </textarea>
+            defaultValue={defaultValue}
+          />
         ) : (
           <input
             type={type}

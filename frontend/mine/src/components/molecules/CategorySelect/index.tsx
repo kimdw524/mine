@@ -15,6 +15,7 @@ interface CategorySelectProps {
   children: ReactNode;
   selected: number;
   onChange: (selected: number) => void;
+  multiLine?: boolean;
 }
 
 const containerCss = css`
@@ -28,22 +29,33 @@ const containerCss = css`
   }
 `;
 
+const multiLineContainerCss = css`
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+`;
+
 const CategorySelect = ({
   children,
   selected: initSelected,
+  multiLine = false,
   onChange,
 }: CategorySelectProps) => {
   const [selected, setSelected] = useState<number>(initSelected);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const set = (selected: number) => {
-    setSelected(selected);
-    onChange(selected);
+  const set = (select: number) => {
+    setSelected(select);
+    onChange(select);
   };
 
   return (
     <CategorySelectContext.Provider value={{ selected, setSelected: set }}>
-      <div ref={containerRef} css={containerCss}>
+      <div
+        ref={containerRef}
+        css={[multiLine ? multiLineContainerCss : containerCss]}
+      >
         {children}
       </div>
     </CategorySelectContext.Provider>

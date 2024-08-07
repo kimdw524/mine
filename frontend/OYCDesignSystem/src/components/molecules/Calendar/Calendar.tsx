@@ -19,7 +19,7 @@ export interface CalendarProps {
   scheduled?: string[];
   showHeader?: boolean;
   onClick?: (year: number, month: number, day: number) => void;
-  onChange?: (year: number, month: number) => void;
+  onChange?: (year: number, month: number, start: string, end: string) => void;
 }
 
 const transitionDuration = '0.5s';
@@ -99,8 +99,15 @@ export const Calendar = ({
   }, [initYear, initMonth]);
 
   useEffect(() => {
-    onChange(year, month);
     if (!containerRef.current) return;
+    const flatted = days.flat();
+    onChange(
+      year,
+      month,
+      `${flatted[0].year}-${flatted[0].month.toString().padStart(2, '0')}-${flatted[0].day.toString().padStart(2, '0')}`,
+      `${flatted[flatted.length - 1].year}-${flatted[flatted.length - 1].month.toString().padStart(2, '0')}-${flatted[flatted.length - 1].day.toString().padStart(2, '0')}`,
+    );
+
     const container = containerRef.current;
     let startX = 0,
       x = 0,

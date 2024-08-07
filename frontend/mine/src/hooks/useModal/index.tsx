@@ -40,6 +40,11 @@ export const ModalProvider = (props: { children: ReactNode }) => {
     type = 'modal',
     onClose = () => {},
   }: ModalPushProps) => {
+    for (const modal of modals) {
+      if (modal.name === name) {
+        return;
+      }
+    }
     setModals((modals) => [
       ...modals,
       { component, name, show, type, onClose },
