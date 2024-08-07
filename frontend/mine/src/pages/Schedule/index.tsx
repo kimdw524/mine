@@ -12,7 +12,11 @@ import {
 } from './style';
 import ScheduleListFetch from './ScheduleListFetch';
 import { ErrorBoundary } from 'react-error-boundary';
-import { getMonthDates, getWeekDates } from '../../utils/dateUtils';
+import {
+  getCalendarDate,
+  getMonthDates,
+  getWeekDates,
+} from '../../utils/dateUtils';
 import Create from './Create';
 import useModal from '../../hooks/useModal';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
@@ -21,6 +25,8 @@ import Error from '../../components/molecules/Error';
 import ChipList from '../../components/molecules/ChipList';
 import SelectCategory from './SelectCategory';
 import { accountCategoryData } from '../../utils/accountUtils';
+import { useQuery } from '@tanstack/react-query';
+import { getSchedules } from '../../apis/scheduleApi';
 
 export type SchedulePeriod = 'daily' | 'weekly' | 'monthly';
 
@@ -35,14 +41,34 @@ const Schedule = () => {
   const selectedRef = useRef<string[]>([today]);
   const { push } = useModal();
   const [category, setCategory] = useState<number>(0);
+  const [calendarPeriod, setCalendarPeriod] = useState<string[]>(['', '']);
   const [year, month] = new Date(date)
     .toLocaleDateString()
     .replaceAll('.', '')
     .split(' ');
+
+  const { data } = useQuery({
+    queryKey: ['schedule', '0', calendarPeriod[0], calendarPeriod[1]],
+    queryFn: () => getSchedules(calendarPeriod[0], calendarPeriod[1]),
+  });
+
   const handlePeriodChange = (e: React.FormEvent<HTMLSelectElement>) => {
     const period = (e.target as HTMLSelectElement).value as SchedulePeriod;
     setPeriod(period);
     updateSelected(date, period);
+  };
+
+  const getScheduled = (): string[] => {
+    if (!data) {
+      return [];
+    }
+
+    const set = new Set(
+      data.data.map((schedule) =>
+        getCalendarDate(new Date(schedule.startDateTime)),
+      ),
+    );
+    return Array.from(set);
   };
 
   const handleCalendarClick = (year: number, month: number, day: number) => {
@@ -79,6 +105,15 @@ const Schedule = () => {
     });
   };
 
+  const handleCalendarChange = (
+    year: number,
+    month: number,
+    start: string,
+    end: string,
+  ) => {
+    setCalendarPeriod([start, end]);
+  };
+
   const updateSelected = (date: string, period: SchedulePeriod) => {
     switch (period) {
       case 'daily': {
@@ -112,6 +147,8 @@ const Schedule = () => {
               year={parseInt(year)}
               month={parseInt(month)}
               selected={selectedRef.current}
+              scheduled={getScheduled()}
+              onChange={handleCalendarChange}
               onClick={handleCalendarClick}
             />
           </div>
