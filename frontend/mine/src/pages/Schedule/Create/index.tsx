@@ -20,11 +20,16 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { addSchedule, ScheduleParam } from '../../../apis/scheduleApi';
 import useDialog from '../../../hooks/useDialog';
 
-const Create = () => {
+interface CreateProps {
+  onCreate: (date: Date) => void;
+  selectedDate?: Date;
+}
+
+const Create = ({ onCreate, selectedDate = new Date() }: CreateProps) => {
   const navigate = useNavigate();
   const [dateType, setDateType] = useState<'start' | 'end'>('start');
-  const [startDate, setStartDate] = useState<Date>(new Date());
-  const [endDate, setEndDate] = useState<Date>(new Date());
+  const [startDate, setStartDate] = useState<Date>(selectedDate);
+  const [endDate, setEndDate] = useState<Date>(selectedDate);
   const categoryRef = useRef<number>(1);
   const titleRef = useRef<HTMLInputElement>(null);
   const descriptionRef = useRef<HTMLInputElement>(null);
@@ -37,6 +42,9 @@ const Create = () => {
     onSuccess: (data) => {
       if (data.status === 200) {
         queryClient.invalidateQueries({ queryKey: ['schedule'] });
+
+        onCreate(startDate);
+
         navigate(-1);
       }
     },

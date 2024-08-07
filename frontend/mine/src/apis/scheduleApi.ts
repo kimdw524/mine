@@ -18,6 +18,16 @@ export const getSchedules = (startDate: string, endDate: string) => {
   );
 };
 
+export const getSchedulesWithCategory = (
+  startDate: string,
+  endDate: string,
+  categoryId: number,
+) => {
+  return api.get<ScheduleData[]>(
+    `/api/users/schedules?startDate=${startDate}&endDate=${endDate}&categoryId=${categoryId}`,
+  );
+};
+
 export const addSchedule = (param: ScheduleParam) => {
   return api.post('/api/users/schedules/calendar', param);
 };
