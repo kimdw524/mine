@@ -11,7 +11,10 @@ export const accountCss = css`
   overflow-y: scroll;
 `;
 
-export const periodCss = css`
+export const menuCss = css`
+  display: flex;
+  justify-content: space-between;
+
   padding: 0.5rem;
 `;
 

@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import { Icon, IconButton, Typography } from 'oyc-ds';
+import { Button, Icon, IconButton, Typography } from 'oyc-ds';
 import { containerCss, labelCss, menuCss } from './style';
 import { ChevronLeftIcon } from '@heroicons/react/24/solid';
 import { useTheme } from '@emotion/react';
@@ -13,7 +13,7 @@ interface Menu {
 
 interface AppBarProps extends React.ComponentProps<'div'> {
   children?: ReactNode;
-  label: string;
+  label: ReactNode;
   onBackClick?: () => void | undefined;
   menu?: Menu[];
 }

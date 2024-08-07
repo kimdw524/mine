@@ -2,9 +2,10 @@
 import React from 'react';
 import { Button } from 'oyc-ds';
 import { css } from '@emotion/react';
+import { QuestionChoice } from '../../../apis/avatarApi';
 
 interface MultipleChoiceProps {
-  items: string[];
+  items: QuestionChoice[];
   selected: number;
   onSelect: (index: number) => void;
 }
@@ -21,13 +22,13 @@ const MultipleChoice = ({ items, selected, onSelect }: MultipleChoiceProps) => {
     <div css={containerCss}>
       {items.map((item, index) => (
         <Button
-          key={item}
+          key={item.questionChoiceId}
           color={selected === index ? 'primary' : 'secondary'}
           variant="outlined"
           size="lg"
           onClick={() => onSelect(index)}
         >
-          {item}
+          {item.description}
         </Button>
       ))}
     </div>

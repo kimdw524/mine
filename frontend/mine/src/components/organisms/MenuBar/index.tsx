@@ -15,7 +15,7 @@ const MenuBar = ({ page, menu, setCurMenu }: MenuBarProps) => {
   const [labels, setLabels] = useState<Array<string>>(
     page === 'mypage'
       ? ['achievement', 'userInfo', 'avatar']
-      : ['chatting', 'home', 'speech'],
+      : ['chatting', 'home', 'mypage'],
   );
 
   return (
