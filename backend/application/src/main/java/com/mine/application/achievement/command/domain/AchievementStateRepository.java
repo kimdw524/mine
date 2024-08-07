@@ -10,4 +10,6 @@ public interface AchievementStateRepository extends Repository<AchievementState,
 
     AchievementState save(AchievementState achievementState);
 
+    Long countAchievementStateByUserIdAndIsAchieved(Integer userId, Boolean isAchieved);
+
 }

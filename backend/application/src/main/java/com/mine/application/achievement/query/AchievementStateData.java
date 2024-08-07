@@ -32,7 +32,7 @@ public class AchievementStateData {
     @Column(name = "achievement_count")
     private Integer count;
 
-    @Column(name = "achievement_date")
-    private LocalDateTime date;
+    @Column(name = "achieved_date")
+    private LocalDateTime achieved_date;
 
 }

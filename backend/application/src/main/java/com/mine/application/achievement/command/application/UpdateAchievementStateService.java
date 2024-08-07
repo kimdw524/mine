@@ -20,7 +20,6 @@ public class UpdateAchievementStateService {
     @Transactional
     public boolean updateAchievementState(int achievementId) {
         AchievementState achievementState = getAchievementStateOrElseThrow(achievementId);
-
         if (achievementState.isAchieved()) {
             return false;
         }

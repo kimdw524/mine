@@ -3,8 +3,7 @@ package com.mine.application.user.ui;
 import com.mine.application.common.aop.LoginCheck;
 import com.mine.application.common.domain.SessionConstants;
 import com.mine.application.common.domain.SessionDao;
-import com.mine.application.user.command.application.ModifyUserInfoRequest;
-import com.mine.application.user.command.application.ModifyUserInfoService;
+import com.mine.application.user.command.application.*;
 import com.mine.application.user.query.UserData;
 import com.mine.application.user.query.UserQueryService;
 import com.mine.application.user.ui.dto.GetUserInfoResponse;
@@ -22,6 +21,7 @@ public class UserController {
     private final UserQueryService userQueryService;
     private final ModifyUserInfoService modifyUserInfoService;
     private final SessionDao sessionDao;
+    private final EmailVerificationService emailVerificationService;
 
     @GetMapping("/info")
     @LoginCheck
@@ -50,4 +50,26 @@ public class UserController {
         modifyUserInfoService.withdraw();
         return ResponseEntity.noContent().build();
     }
+
+    @PostMapping("/request-verification-email-code")
+    @LoginCheck
+    public ResponseEntity<?> requestEmail(@RequestBody EmailVerificationNumRequest request) {
+        emailVerificationService.emailNumberRequestForSame(request);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/verify-email-code")
+    @LoginCheck
+    public ResponseEntity<?> modifyPasswordRequest(@RequestBody ModifyPasswordRequest request) {
+        modifyUserInfoService.modifyPasswordBySession(request);
+        return ResponseEntity.ok().build();
+    }
+
+
+    @PostMapping("/password")
+    public ResponseEntity<?> verifyEmail(@RequestBody EmailVerificationRequest request) {
+        emailVerificationService.emailVerifyForSession(request);
+        return ResponseEntity.accepted().build();
+    }
+
 }
