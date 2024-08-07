@@ -17,7 +17,11 @@ import { useNavigate } from 'react-router-dom';
 import CategorySelect from '../../../components/molecules/CategorySelect';
 import { apiFormatDateTime } from '../../../utils/dateUtils';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { addSchedule, ScheduleParam } from '../../../apis/scheduleApi';
+import {
+  addSchedule,
+  ScheduleParam,
+  updateScheduleAchievement,
+} from '../../../apis/scheduleApi';
 import useDialog from '../../../hooks/useDialog';
 
 interface CreateProps {
@@ -39,9 +43,15 @@ const Create = ({ onCreate, selectedDate = new Date() }: CreateProps) => {
 
   const { mutate } = useMutation({
     mutationFn: (params: ScheduleParam) => addSchedule(params),
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
       if (data.status === 200) {
         queryClient.invalidateQueries({ queryKey: ['schedule'] });
+
+        const result = await updateScheduleAchievement();
+
+        if (result) {
+          alert('새로운 업적을 달성하였습니다!');
+        }
 
         onCreate(startDate);
 
