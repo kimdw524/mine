@@ -79,7 +79,7 @@ create table achievement_state
     user_id              INT  NOT NULL,
     achievement_id       INT  NOT NULL,
     achievement_count    INT  NOT NULL,
-    achievement_date     DATETIME,
+    achieved_date     DATETIME,
     is_achieved          BOOL NOT NULL
 );
 
