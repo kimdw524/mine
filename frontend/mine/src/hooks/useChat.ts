@@ -13,11 +13,19 @@ export interface ChatMessageData {
   dateTime: string;
 }
 
+export interface ChatResponse {
+  avatarId: number;
+  avatarName: string;
+  role: string;
+  sendedDate: string;
+  text: string;
+}
+
 interface ChatEventHandler {
   onOpen: () => void;
   onError: () => void;
   onClose: () => void;
-  onMessage: (data: object) => void;
+  onMessage: (message: ChatResponse) => void;
   onAccount: EventCallback<AccountData>;
   onSchedule: EventCallback<ScheduleData>;
 }
@@ -51,8 +59,8 @@ const useChat = (server: string, avatarId: number) => {
     socket.onConnect = (frame) => {
       onOpen();
       console.log('Connected: ' + frame);
-      socket.subscribe(`/chat/sub/${avatarId}`, (message) => {
-        console.log(message);
+      socket.subscribe(`/chat/${avatarId}`, (message) => {
+        onMessage(JSON.parse(message.body));
       });
     };
 
@@ -74,7 +82,13 @@ const useChat = (server: string, avatarId: number) => {
         if (!socket) {
           return;
         }
-        socket.publish({ destination: `/chat/pub/${avatarId}`, body: content });
+        socket.publish({
+          destination: `/pub/${avatarId}`,
+          body: JSON.stringify({
+            chatContent: content,
+            sendedAt: new Date().toJSON(),
+          }),
+        });
         break;
       }
       case 'account': {
