@@ -1,12 +1,13 @@
 import { css } from '@emotion/react';
 
 export const containerCss = css`
+  position: relative;
+  display: flex;
+  flex-direction: column; /* 추가된 부분 */
   /* margin: 0 auto; */
   /* border: 1px solid black; */
   /* max-width: 600px; */
-  display: flex;
-  flex-direction: column; /* 추가된 부분 */
-`;
+`
 
 export const spendCss = css`
   text-align: left;
@@ -44,5 +45,41 @@ export const typeCss = css`
 `
 
 export const allbtnCss = css`
-  margin-left: auto; /* 추가된 부분 */
+  margin-left: auto;
+`
+
+export const backdropCss = css`
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.8); /* 투명도를 가진 흰색 배경 */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10; /* 버튼보다 아래에 있도록 z-index 설정 */
+`
+
+export const navchartCss = css`
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000; /* 다른 요소들보다 위에 표시되도록 설정 */
+  width: 90%;
+  padding: 0.8rem 0;
+`
+
+export const contentCss = css`
+  display: flex;
+  background-color: #eee;
+  padding: 20px;
+  border-radius: 10px;
+  z-index: 20; /* BackDrop 위에 표시되도록 z-index 설정 */
+  margin-bottom: 15rem;
+
+  .preview-text {
+    font-size: 20px;
+  }
 `
