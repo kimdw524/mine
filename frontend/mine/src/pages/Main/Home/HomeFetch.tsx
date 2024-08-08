@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
-import React, { useState } from 'react';
-import { useSuspenseQueries } from '@tanstack/react-query';
+import React, { useEffect, useState } from 'react';
+import { useMutation, useSuspenseQueries } from '@tanstack/react-query';
 import { getUserAvatars, getUserInfo } from '../../../apis/mypageApi';
 import { Button, Toggle, Typography } from 'oyc-ds';
 import {
@@ -11,6 +11,8 @@ import {
 } from './style';
 import { containerCss } from './style';
 import Avatar3D from '../../../components/atoms/Avatar3D';
+import useDialog from '../../../hooks/useDialog';
+import { updateAttendenceAchievement } from '../../../apis/authApi';
 
 const HomeFetch = () => {
   const [userQuery, avatarQuery] = useSuspenseQueries({
@@ -27,6 +29,15 @@ const HomeFetch = () => {
   });
 
   const [isOn, setIsOn] = useState<boolean>(true);
+
+  const { alert } = useDialog();
+  const { mutate } = useMutation({
+    mutationFn: async () => await updateAttendenceAchievement(),
+    onSuccess: (res) => {
+      if (res.data) alert('업적이 달성되었습니다!');
+    },
+  });
+  useEffect(() => mutate(), []);
 
   return (
     <>
