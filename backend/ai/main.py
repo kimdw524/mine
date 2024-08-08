@@ -102,3 +102,16 @@ async def lifespan(app: FastAPI):
 app = FastAPI(lifespan=lifespan)
 
 app.include_router(assistant_router)
+
+
+
+from fastapi.responses import JSONResponse
+
+@app.exception_handler(Exception)
+async def invalid_user_id_exception_handler(exc):
+    return JSONResponse(
+        status_code=400,
+        content={
+            "content": str(exc),
+        }
+    )
