@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { useSuspenseQueries } from '@tanstack/react-query';
 import { getUserAvatars, getUserInfo } from '../../../apis/mypageApi';
 import { Button, Toggle, Typography } from 'oyc-ds';
@@ -11,8 +11,10 @@ import {
 } from './style';
 import { containerCss } from './style';
 import Avatar3D from '../../../components/atoms/Avatar3D';
+import useDialog from '../../../hooks/useDialog';
 
 const HomeFetch = () => {
+  const { alert, confirm } = useDialog();
   const [userQuery, avatarQuery] = useSuspenseQueries({
     queries: [
       { queryKey: ['userinfo'], queryFn: async () => await getUserInfo() },
@@ -27,7 +29,40 @@ const HomeFetch = () => {
   });
 
   const [isOn, setIsOn] = useState<boolean>(true);
+  const [clickCount, setClickCount] = useState(0);
+  const [eventCount, setEventCount] = useState(0);
+  const [showMessage, setShowMessage] = useState(false);
+  const handleClick = () => {
+    const newClickCount = clickCount + 1;
+    setClickCount(newClickCount);
 
+    console.log(clickCount);
+
+    if (newClickCount === 10) {
+      alert(`이스터에그 달성! 캐릭터 그만 때리세요!`);
+    }
+  };
+  const handleMouseDown = () => {
+    console.log('Character pressed');
+    setEventCount(0);
+    setShowMessage(false);
+  };
+
+  const handleMouseEnterLeave = () => {
+    setEventCount(prevCount => {
+      const newCount = prevCount + 1;
+      if (newCount >= 20) {
+        setShowMessage(true);
+      }
+      return newCount;
+    });
+  };
+
+  useEffect(() => {
+    if (showMessage) {
+      alert('캐릭터가 너무 많이 회전해서 어지러워요!');
+    }
+  }, [showMessage]);
   return (
     <>
       <div css={containerCss}>
@@ -59,7 +94,13 @@ const HomeFetch = () => {
             onClick={() => (isOn ? setIsOn(false) : setIsOn(true))}
           />
         </div>
-        <div css={avatarContainerCss}>
+        <div
+          css={avatarContainerCss}
+          onMouseDown={handleMouseDown}
+          onMouseEnter={handleMouseEnterLeave}
+          onMouseLeave={handleMouseEnterLeave}
+          onClick={handleClick}
+        >
           <Avatar3D
             avatarModel={
               avatarQuery.data.data.length

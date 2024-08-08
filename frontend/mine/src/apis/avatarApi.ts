@@ -119,3 +119,8 @@ export const avatarTTS = (voiceId: string, text: string) => {
     },
   );
 };
+
+
+export const updateEastereggAchievement = () => {
+  return api.patch<boolean>('/api/users/achievements/5');
+};
