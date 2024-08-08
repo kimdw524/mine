@@ -9,13 +9,18 @@ import {
   myBalloonCss,
   myChatCss,
   opponentChatCss,
+  speechCss,
 } from './style';
-import { Typography } from 'oyc-ds';
+import { Icon, Typography } from 'oyc-ds';
 import { ChatMessageData } from '../../../hooks/useChat';
+import { SpeakerWaveIcon } from '@heroicons/react/24/solid';
+import { avatarTTS } from '../../../apis/avatarApi';
+import useDialog from '../../../hooks/useDialog';
 
 interface ChatMessageProps extends Omit<ChatMessageData, 'message'> {
   children: ReactNode;
   animation?: boolean;
+  speech?: boolean;
 }
 
 const ChatMessage = ({
@@ -24,7 +29,19 @@ const ChatMessage = ({
   me,
   dateTime,
   animation = false,
+  speech = false,
 }: ChatMessageProps) => {
+  const { alert } = useDialog();
+  const handleTTSClick = (message: string) => {
+    avatarTTS('pMsXgVXv3BLzUgSXRplE', message)
+      .then((result) => {
+        new Audio(window.URL.createObjectURL(result.data)).play();
+      })
+      .catch(() => {
+        alert('오류로 인해 TTS를 재생하지 못했습니다.');
+      });
+  };
+
   return (
     <div css={[containerCss, animation && animationCss]}>
       {!me && (
@@ -33,7 +50,17 @@ const ChatMessage = ({
         </Typography>
       )}
       <div css={[balloonCss, me && myBalloonCss]}>
-        <div css={[messageCss, me ? myChatCss : opponentChatCss]}>
+        <div
+          css={[messageCss, me ? myChatCss : opponentChatCss]}
+          onClick={() => {
+            speech && handleTTSClick(children?.toString() || '');
+          }}
+        >
+          {speech && (
+            <Icon size="sm" css={speechCss}>
+              <SpeakerWaveIcon />
+            </Icon>
+          )}
           {children}
         </div>
         <div css={dateTimeCss}>

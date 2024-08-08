@@ -18,6 +18,7 @@ const ChatBox = ({ messages }: ChatBoxProps) => {
           me={me}
           dateTime={dateTime}
           animation
+          speech={!me && typeof message === 'string'}
         >
           {message}
         </ChatMessage>
