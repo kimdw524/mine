@@ -19,11 +19,15 @@ export interface TimePickerProps {
 const TimePicker = ({ time, onChange }: TimePickerProps) => {
   const modal = useModal();
 
-  const handleChange = (value: TimeData) => {};
+  const handleChange = (value: TimeData) => {
+    onChange(value);
+  };
 
   const handleClick = () => {
     modal.push({
-      component: <TimePickerModal onChange={handleChange} />,
+      component: (
+        <TimePickerModal defaultValue={time} onChange={handleChange} />
+      ),
       name: 'timePicker',
     });
   };

@@ -17,8 +17,11 @@ export const itemCss = css`
   justify-content: center;
   width: 3rem;
   height: 4rem;
-  font-size: 1.25rem;
+  border: 0;
+  box-sizing: border-box;
+  font-size: 1.5rem;
   text-align: center;
+  outline: none;
 `;
 
 export const lightCss = css`
@@ -27,4 +30,5 @@ export const lightCss = css`
   right: 0;
   height: calc(50% - 2rem);
   background-color: rgba(255, 255, 255, 0.66);
+  pointer-events: none;
 `;
