@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { api } from './interceptors';
 
 export interface QuestionChoice {
@@ -89,4 +90,21 @@ export const updateAvatarSubjective = (newSubjectives: NewAnsListData) => {
     method: 'patch',
     data: newSubjectives,
   });
+};
+
+/* 아바타 TTS */
+export const avatarTTS = (voiceId: string, text: string) => {
+  return axios.post(
+    process.env.REACT_APP_TTS_BASE_URL + `/${voiceId}`,
+    {
+      text: text,
+    },
+    {
+      headers: {
+        'xi-api-key': process.env.REACT_API_TTS_API_KEY,
+        'Content-Type': 'application/json',
+      },
+      responseType: 'blob',
+    },
+  );
 };

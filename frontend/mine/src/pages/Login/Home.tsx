@@ -2,6 +2,8 @@ import React from 'react';
 import { Button } from 'oyc-ds';
 import { useNavigate } from 'react-router-dom';
 import { Logout } from '../../apis/loginApi';
+import { useMutation } from '@tanstack/react-query';
+import { avatarTTS } from '../../apis/avatarApi';
 
 const Home = () => {
   const nav = useNavigate();
@@ -10,7 +12,8 @@ const Home = () => {
     try {
       const responseData = await Logout();
       if (responseData) {
-        document.cookie = "MM=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=honeyitem.shop;";
+        document.cookie =
+          'MM=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=honeyitem.shop;';
         nav('/user/login');
       }
     } catch (error) {
@@ -18,9 +21,21 @@ const Home = () => {
     }
   };
 
+  const { mutate } = useMutation({
+    mutationFn: async () =>
+      await avatarTTS('pMsXgVXv3BLzUgSXRplE', 'this is for test'),
+    onSuccess: (res) => {
+      new Audio(window.URL.createObjectURL(res.data)).play();
+    },
+    onError: (err) => console.log(err),
+  });
+
   return (
     <>
       <div>Home 화면입니다.</div>
+      <Button size="xl" onClick={() => mutate()}>
+        TTS 듣기
+      </Button>
       <Button
         color="primary"
         size="xl"
