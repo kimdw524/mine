@@ -92,6 +92,17 @@ export const updateAvatarSubjective = (newSubjectives: NewAnsListData) => {
   });
 };
 
+export const getSTT = (param: {
+  avatarId: number;
+  file: string;
+  chatType: 'c' | 'a' | 's';
+}) => {
+  return api.post<string>(`/api/avatars/${param.avatarId}/voice`, {
+    ...param,
+    fileExtension: 'webm',
+  });
+};
+
 /* 아바타 TTS */
 export const avatarTTS = (voiceId: string, text: string) => {
   return axios.post(

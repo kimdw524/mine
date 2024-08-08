@@ -21,21 +21,27 @@ export const containerCss = css`
 `;
 
 export const activeCss = css`
-  @keyframes ani {
-    from {
-      border-radius: 40%;
-      transform: scale(0.97);
+  @keyframes morph {
+    0% {
+      transform: scale(1.025, 0.975) rotate(2deg);
     }
 
-    to {
-      border-radius: 50%;
-      transform: scale(1.07);
+    25% {
+      transform: scale(0.975, 1.025) rotate(-2deg);
+    }
+
+    50% {
+      transform: scale(1.025, 0.975) rotate(-2deg);
+    }
+
+    75% {
+      transform: scale(0.975, 1.025) rotate(2deg);
     }
   }
 
   background-color: var(--active-bg);
   color: var(--active-color) !important;
-  animation: ani 1s ease alternate-reverse infinite;
+  animation: morph 2s ease alternate-reverse infinite;
 
   .inactive {
     transform: scale(0);
