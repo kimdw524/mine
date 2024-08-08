@@ -47,15 +47,15 @@ const useChat = (
     onAccount,
     onSchedule,
   }: ChatEventHandler) => {
-    // socketRef.current = new Client({
-    //   webSocketFactory: () =>
-    //     new SockJS(server, null, {
-    //       transports: ['websocket', 'jsonp'],
-    //     }),
-    //   reconnectDelay: 5000,
-    //   heartbeatIncoming: 4000,
-    //   heartbeatOutgoing: 4000,
-    // });
+    socketRef.current = new Client({
+      webSocketFactory: () =>
+        new SockJS(server, null, {
+          transports: ['websocket', 'jsonp'],
+        }),
+      reconnectDelay: 5000,
+      heartbeatIncoming: 4000,
+      heartbeatOutgoing: 4000,
+    });
 
     const socket = socketRef.current;
 
