@@ -4,17 +4,14 @@ import com.mine.socket.interceptor.LoginCheckInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
-import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.session.Session;
-import org.springframework.session.web.socket.config.annotation.AbstractSessionWebSocketMessageBrokerConfigurer;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
+import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 
 
 @Configuration
-@EnableScheduling
 @EnableWebSocketMessageBroker
-public class WebSocketConfig extends AbstractSessionWebSocketMessageBrokerConfigurer<Session> {
+public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Autowired
     private LoginCheckInterceptor loginCheckInterceptor;
@@ -26,8 +23,9 @@ public class WebSocketConfig extends AbstractSessionWebSocketMessageBrokerConfig
     }
 
     @Override
-    public void configureStompEndpoints(StompEndpointRegistry registry) {
+    public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/stomp/chat") // ex ) ws://localhost:8080/stomp/chat
+
                 .addInterceptors(loginCheckInterceptor)
                 .setAllowedOriginPatterns("*").withSockJS();
     }

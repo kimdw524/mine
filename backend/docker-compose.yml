@@ -52,6 +52,7 @@ services:
 
 
   redis:
+    container_name: redis
     image: redis
     healthcheck:
       test: ["CMD", "redis-cli","ping"]
