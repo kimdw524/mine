@@ -63,3 +63,7 @@ export const searchAccountsByChat = (query: string) => {
 export const deleteAccount = (accountId: number) => {
   return api.delete(`/api/users/accounts/${accountId}`);
 };
+
+export const updateAccountAchievement = () => {
+  return api.patch<boolean>('/api/users/achievements/3');
+};

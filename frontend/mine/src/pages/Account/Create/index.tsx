@@ -15,7 +15,11 @@ import {
   typeCss,
 } from './style';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { AccountParam, addAccount } from '../../../apis/accountApi';
+import {
+  AccountParam,
+  addAccount,
+  updateAccountAchievement,
+} from '../../../apis/accountApi';
 import { apiFormatDateTime } from '../../../utils/dateUtils';
 import useDialog from '../../../hooks/useDialog';
 
@@ -39,9 +43,15 @@ const Create = ({ onCreate, selectedDate = new Date() }: CreateProps) => {
 
   const { mutate } = useMutation({
     mutationFn: (params: AccountParam) => addAccount(params),
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
       if (data.status === 200) {
         queryClient.invalidateQueries({ queryKey: ['account'] });
+
+        const result = await updateAccountAchievement();
+
+        if (result.data) {
+          await alert('새로운 업적을 달성하였습니다!');
+        }
 
         onCreate(dateRef.current);
 

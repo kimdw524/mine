@@ -90,3 +90,14 @@ export const updateAvatarSubjective = (newSubjectives: NewAnsListData) => {
     data: newSubjectives,
   });
 };
+
+export const getSTT = (param: {
+  avatarId: number;
+  file: string;
+  chatType: 'c' | 'a' | 's';
+}) => {
+  return api.post<string>(`/api/avatars/${param.avatarId}/voice`, {
+    ...param,
+    fileExtension: 'webm',
+  });
+};
