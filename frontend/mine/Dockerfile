@@ -3,6 +3,14 @@ FROM node:18 as build-stage
 WORKDIR /src
 COPY package*.json ./
 
+#env
+ARG REACT_APP_TTS_BASE_URL
+ARG REACT_APP_TTS_API_KEY
+
+#env build
+ENV REACT_APP_TTS_BASE_URL=$REACT_APP_TTS_BASE_URL
+ENV REACT_APP_TTS_API_KEY=$REACT_APP_TTS_API_KEY
+
 RUN npm install
 COPY . .
 RUN npm run build

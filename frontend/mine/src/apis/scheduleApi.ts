@@ -53,3 +53,7 @@ export const searchSchedulesByChat = (query: string) => {
 export const deleteSchedule = (scheduleId: number) => {
   return api.delete(`/api/users/schedules/${scheduleId}`);
 };
+
+export const updateScheduleAchievement = () => {
+  return api.patch<boolean>('/api/users/achievements/4');
+};

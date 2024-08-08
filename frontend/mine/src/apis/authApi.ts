@@ -26,3 +26,8 @@ export const requestVerificationEmail = (param: { email: string }) => {
 export const verifyEmailCode = (param: { email: string; number: string }) => {
   return api.post('/api/auth/verify-email-code', param);
 };
+
+// 출석 업적 갱신
+export const updateAttendenceAchievement = () => {
+  return api.patch<boolean>('/api/users/achievements/1');
+};

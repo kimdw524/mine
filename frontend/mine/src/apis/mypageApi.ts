@@ -62,6 +62,14 @@ export const getUserAchievement = () => {
   });
 };
 
+/* 업적 달성 개수 조회 */
+export const getAchievedCount = () => {
+  return api({
+    url: '/api/users/achievements/count',
+    method: 'get',
+  });
+};
+
 /* 사용자 아바타 조회 */
 export const getUserAvatars = () => {
   return api({
