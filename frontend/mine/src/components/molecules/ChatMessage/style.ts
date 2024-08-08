@@ -10,7 +10,15 @@ export const containerCss = css`
   padding: 0.5rem;
 `;
 
-export const nameCss = css``;
+export const speechCss = css`
+  display: block;
+  margin-bottom: 0.25rem;
+
+  svg {
+    width: 0.875rem;
+    height: 0.875rem;
+  }
+`;
 
 export const messageCss = css`
   display: inline-block;
