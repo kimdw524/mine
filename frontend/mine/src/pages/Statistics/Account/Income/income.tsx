@@ -6,7 +6,7 @@ import { incomeInfo } from '../../../../apis/statisticsApi';
 import { calculateDateRange } from '../../../../utils/SpendData';
 import { containerCss, incomeCss } from './income.style';
 import { Typography } from 'oyc-ds';
-import Analysis from '../analysis';
+import Analysis from './analysis';
 
 interface SpendChartProps {
   period: string;
@@ -14,32 +14,31 @@ interface SpendChartProps {
 }
 
 const Incomes: React.FC<SpendChartProps> = ({ period, offset }) => {
-  const {startDate, endDate} = calculateDateRange(period, offset)
-  const {data, error, isFetching} = useSuspenseQuery({
+  const { startDate, endDate } = calculateDateRange(period, offset);
+  const { data, error, isFetching } = useSuspenseQuery({
     queryKey: ['incomeinfo', period, offset],
-    queryFn: async () => await incomeInfo(startDate, endDate)
-  })
+    queryFn: async () => await incomeInfo(startDate, endDate),
+  });
 
   if (error && !isFetching) {
     throw error;
   }
 
-
   return (
-    <section css = {containerCss}>
+    <section css={containerCss}>
       {data.data ? (
         <div>
           <Typography color="dark" size="lg" weight="bold" css={incomeCss}>
             총 {data.data} 원을
             <br />
-            소비했어요.
+            벌었어요
           </Typography>
-          <Analysis period={period} offset={offset}/>
+          <Analysis period={period} offset={offset} curSum={data.data}/>
         </div>
       ) : (
         <Preview content="가계부가" button="가계부" url="account" />
       )}
     </section>
   );
-}
-export default Incomes
+};
+export default Incomes;
