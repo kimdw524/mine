@@ -10,6 +10,8 @@ import EditAccount from '../../Account/Edit';
 import EventMessage from '../../../components/molecules/EventMessage';
 import ChatBox from '../../../components/organisms/ChatBox';
 import TypeTextField from '../../../components/molecules/TypeTextField';
+import Alert from '../../../hooks/useDialog/Alert';
+import useDialog from '../../../hooks/useDialog';
 
 const Chat = () => {
   const chatRef = useRef<HTMLInputElement>(null);
@@ -18,6 +20,7 @@ const Chat = () => {
   const chatTypeRef = useRef<ChatType>('chat');
   const { push } = useModal();
   const chat = useChat('ws://127.0.0.1:3001');
+  const { alert, confirm } = useDialog();
 
   const addChat = (data: ChatMessageData) => {
     setChatLog((chatLog) => [...chatLog, data]);
@@ -28,6 +31,13 @@ const Chat = () => {
       return;
 
     const message = chatRef.current.value;
+
+    if (message === '바보') {
+      alert('저는 바보가 아니에요 ㅠ');
+      chatRef.current.value = '';
+      return;
+    }
+
     chat.send(chatTypeRef.current, message, () => {
       addChat({ me: true, message, name: '나', dateTime: new Date().toJSON() });
 
