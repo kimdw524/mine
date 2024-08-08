@@ -126,6 +126,16 @@ export const updateAvatarAchievement = () => {
 };
 
 
-export const updateEastereggAchievement = () => {
+export const updateClickEasterAchievement = () => {
   return api.patch<boolean>('/api/users/achievements/5');
+};
+
+
+//  아직 api가 없음
+export const updateSpinEasterAchievement = () => {
+  return api.patch<boolean>('/api/users/achievements/6');
+};
+
+export const updateChatEasterAchievement = () => {
+  return api.patch<boolean>('/api/users/achievements/7');
 };

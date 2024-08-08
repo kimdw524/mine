@@ -15,6 +15,7 @@ import EventMessage from '../../../components/molecules/EventMessage';
 import ChatBox from '../../../components/organisms/ChatBox';
 import TypeTextField from '../../../components/molecules/TypeTextField';
 import useDialog from '../../../hooks/useDialog';
+import { useMutation } from '@tanstack/react-query';
 
 const Chat = () => {
   const chatRef = useRef<HTMLInputElement>(null);
@@ -29,11 +30,26 @@ const Chat = () => {
     setChatLog((chatLog) => [...chatLog, data]);
   };
 
+  // const { mutate: updateChatEaster } = useMutation({
+  //   mutationFn: async () => await updateChatEasterAchievement(),
+  //   onSuccess: (res) => {
+  //     if (res.data) alert('이스터에그 업적이 달성되었습니다!');
+  //   },
+  // });
+
   const handleChatSend = (e: React.KeyboardEvent) => {
     if (e.key !== 'Enter' || !chatRef.current || !chatRef.current.value.trim())
       return;
 
     const message = chatRef.current.value;
+
+    if (message === '바보') {
+      alert('바보가 아니예요!');
+      chatRef.current.value = '';
+      // return;
+      // updateChatEaster()
+    }
+
     chat.send(chatTypeRef.current, message, () => {
       addChat({ me: true, message, name: '나', dateTime: new Date().toJSON() });
 
