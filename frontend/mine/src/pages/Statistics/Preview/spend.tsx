@@ -134,7 +134,7 @@ const Preview = () => {
             </section>
           );
         })}
-        <Analysis />
+        {/* <Analysis /> */}
       </div>
     </section>
   );

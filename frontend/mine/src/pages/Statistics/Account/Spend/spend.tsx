@@ -187,7 +187,7 @@ const SpendChart: React.FC<SpendChartProps> = ({ period, offset }) => {
               {showAll ? '접기' : '카테고리 전체 보기'}
             </Button>
           )}
-          <Analysis />
+          <Analysis period={period} offset={offset} curSum = {totalExpenditure} />
         </>
       ) : (
         <Preview content="가계부가" button="가계부" url="account" />

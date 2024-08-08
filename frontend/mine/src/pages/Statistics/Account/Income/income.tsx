@@ -34,7 +34,7 @@ const Incomes: React.FC<SpendChartProps> = ({ period, offset }) => {
             <br />
             소비했어요.
           </Typography>
-          <Analysis/>
+          <Analysis period={period} offset={offset}/>
         </div>
       ) : (
         <Preview content="가계부가" button="가계부" url="account" />

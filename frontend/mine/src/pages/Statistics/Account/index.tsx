@@ -10,6 +10,8 @@ import { getDisplayTimeframe } from '../../../utils/SpendData';
 import { useNavigate } from 'react-router-dom';
 import { ErrorBoundary } from 'react-error-boundary';
 import { Suspense } from 'react';
+import Preview from '../Preview';
+import Analysis from './analysis';
 
 const AccountChart = () => {
   const [period, setPeriod] = useState('weekly');
@@ -106,6 +108,7 @@ const AccountChart = () => {
           <Suspense fallback={<div>로딩중...</div>}>
             {dataType === 'spend' ? (
               <SpendChart period={period} offset={offset} />
+              
             ) : (
               <Incomes period={period} offset={offset} />
             )}
