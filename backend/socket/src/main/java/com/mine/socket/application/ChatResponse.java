@@ -2,8 +2,6 @@ package com.mine.socket.application;
 
 import lombok.*;
 
-import java.time.LocalDateTime;
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
