@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Signup from './pages/Signup';
 import { LightTheme } from 'oyc-ds';
 import { ThemeProvider } from '@emotion/react';
@@ -26,6 +26,9 @@ import Achievement from './pages/Main/MypageV2/Achievement';
 import AvatarInfo from './pages/Main/MypageV2/AvatarInfo';
 import AvatarInfoEdit from './pages/Main/MypageV2/EditAvatar/AvatarInfoEdit';
 import AvatarQnAEdit from './pages/Main/MypageV2/EditAvatar/AvatarQnAEdit';
+import { useMutation } from '@tanstack/react-query';
+import { updateAttendenceAchievement } from './apis/authApi';
+import useDialog from './hooks/useDialog';
 
 function App() {
   const [notiInfo, setNotiInfo] = useState<INotiInfo>({
@@ -57,6 +60,15 @@ function App() {
     },
     [],
   );
+
+  const { alert } = useDialog();
+  const { mutate } = useMutation({
+    mutationFn: async () => await updateAttendenceAchievement(),
+    onSuccess: (res) => {
+      if (res.data) alert('업적이 달성되었습니다!');
+    },
+  });
+  useEffect(() => mutate(), []);
 
   return (
     <>
