@@ -73,25 +73,31 @@ const SpendChart: React.FC<SpendChartProps> = ({ period, offset }) => {
     throw error;
   }
 
+  interface itemTypes {
+    spendCategoryId: number,
+    categorySum: number
+    name?:string,
+    color?:string
+  }
 
-  const filteredData = data.data.map((data: any) => ({
+  const filteredData = data.data.map((data: itemTypes) => ({
     ...data,
     name: categories[data.spendCategoryId]?.name || '기타',
     color: categories[data.spendCategoryId]?.color || '#535d90',
-  })).sort((a:any, b:any) => b.categorySum - a.categorySum);
+  })).sort((a:itemTypes, b:itemTypes) => b.categorySum - a.categorySum);
 
-  const totalExpenditure = filteredData.reduce((acc: number, data: any) => acc + (data.categorySum || 0), 0);
+  const totalExpenditure = filteredData.reduce((acc: number, data: itemTypes) => acc + (data.categorySum || 0), 0);
 
   const topCategories = filteredData.slice(0, 4);
   const otherCategories = filteredData.slice(4);
-  const otherTotal = otherCategories.reduce((acc:any, item:any) => acc + item.categorySum, 0);
+  const otherTotal = otherCategories.reduce((acc:number, item:itemTypes) => acc + item.categorySum, 0);
 
   const displayData = showAll || filteredData.length <= 5
     ? filteredData
     : [
         ...topCategories,
         {
-          id: 'other',
+          spendCategoryId: 'other',
           name: '그 외 카테고리',
           categorySum: otherTotal,
           color: '#cccccc',
@@ -100,7 +106,7 @@ const SpendChart: React.FC<SpendChartProps> = ({ period, offset }) => {
 
   const chartData = {
     labels: ['비율'],
-    datasets: displayData.map((data: any, index: any) => ({
+    datasets: displayData.map((data: itemTypes, index: number) => ({
       label: data.name,
       data: totalExpenditure > 0 ? [(data.categorySum / totalExpenditure) * 100] : [0],
       backgroundColor: data.color,
@@ -148,12 +154,12 @@ const SpendChart: React.FC<SpendChartProps> = ({ period, offset }) => {
           </Typography>
           <Bar data={chartData} options={options} height={'50%'} />
           <div>
-            {displayData.map((item: any) => {
+            {displayData.map((item: itemTypes) => {
               const percentage = totalExpenditure > 0
                 ? ((item.categorySum / totalExpenditure) * 100).toFixed(2)
                 : 0;
               return (
-                <section key={item.id} css={itemsCss}>
+                <section key={item.spendCategoryId} css={itemsCss}>
                   <div css={itembarCss} style={{ backgroundColor: item.color }} />
                   <div css={itemlabelCss}>
                     <Typography color="dark" size="md" weight="medium">

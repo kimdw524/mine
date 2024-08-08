@@ -30,7 +30,7 @@ const ScheduleChart = () => {
     }
   };
 
-  // getDisplayTimeframe의 반환값을 문자열로 변환 (예시)
+  // getDisplayTimeframe의 반환값을 문자열로 변환
   const { title } = getDisplayTimeframe(period, offset);
 
   return (
@@ -47,7 +47,7 @@ const ScheduleChart = () => {
           <div>연간</div>
         </MenuTab>
         <DataTab
-          title={<div>{title}</div>} // title을 적절하게 렌더링
+          title={<div>{title}</div>} 
           leftChild={
             <Typography
               color="dark"

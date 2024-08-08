@@ -12,15 +12,12 @@ import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { Typography } from 'oyc-ds';
 import { boxCss, chartCss, labelboxCss, labelCss, manymsgCss, percentCss } from './style';
 import { useSuspenseQuery } from '@tanstack/react-query';
-// import { calculateDateRange } from '../../../../utils/SpendData';
 import { calculateDateRange } from '../../../utils/SpendData';
 import { scheduleInfo } from '../../../apis/statisticsApi';
 import Preview from '../Preview';
 
-// Chart.js 플러그인 및 설정 등록
 ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 
-// 카테고리 정보
 const categories: Record<number, { name: string; color: string }> = {
   1: { name: '미정', color: '#FFB0C4' },
   2: { name: '여행', color: '#ADD8E6' },
@@ -31,7 +28,6 @@ const categories: Record<number, { name: string; color: string }> = {
   7: { name: '기타', color: '#FF7F50' },
 };
 
-// 데이터 변환 함수
 const transformScheduleData = (data: { categoryId: number; count: number }[]) => {
   const labels = data.map(item => categories[item.categoryId]?.name || '없음');
   const counts = data.map(item => item.count);
@@ -56,7 +52,6 @@ interface SpendChartProps {
 const Schedule: React.FC<SpendChartProps> = ({ period, offset }) => {
   const chartRef = useRef<ChartJS<'doughnut'>>(null);
 
-  // 날짜 범위 계산
   const { startDate, endDate } = calculateDateRange(period, offset);
 
   const { data, error, isFetching } = useSuspenseQuery({
@@ -72,11 +67,9 @@ const Schedule: React.FC<SpendChartProps> = ({ period, offset }) => {
     throw error;
   }
 
-  // 데이터 변환 및 필터링
   const scheduleData = data.data || [];
   const scheduledata = transformScheduleData(scheduleData);
 
-  // 필터링된 데이터가 없으면 기본값 설정
   const maxIndex = scheduledata.datasets[0]?.data.indexOf(
     Math.max(...scheduledata.datasets[0]?.data || [0]),
   ) || 0;

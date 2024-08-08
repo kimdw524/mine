@@ -1,4 +1,3 @@
-import React from "react";
 import { apiFormatDate } from "./dateUtils";
 
 export interface Spend {
@@ -64,7 +63,6 @@ export const calculateDateRange = (period: string, offset: number) => {
   let startDate: string;
   let endDate: string;
 
-  // 기본값 할당
   startDate = '';
   endDate = '';
 
