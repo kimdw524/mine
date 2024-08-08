@@ -20,9 +20,9 @@ import {
   backdropCss,
   navchartCss,
   contentCss,
-} from './spend.style';
+} from '../Account/Spend/spend.style';
 import { Typography, Button } from 'oyc-ds';
-import Analysis from './analysis';
+import Analysis from '../Account/analysis';
 import { useNavigate } from 'react-router-dom';
 
 ChartJS.register(
@@ -35,18 +35,16 @@ ChartJS.register(
 );
 
 export type Spend = {
-  id: number; // 카테고리 아이디
   name: string; // 카테고리 이름
   money: number; // 금액
-  date: string; // 생성일시
   color: string;
 };
 const spend: Spend[] = [
-  { id: 11, name: '통신', money: 200000, date: '2024-08-06', color: '#eee1ff' },
-  { id: 12, name: '경조사', money: 50000, date: '2024-08-07', color: '#cdb7ff'},
-  { id: 13, name: 'OTT', money: 40000, date: '2024-08-08', color: '#9e92f4' },
-  { id: 14, name: '주거', money: 30000, date: '2024-08-09', color: '#6f78c7' },
-  { id: 15, name: '기타', money: 10000, date: '2024-08-10', color: '#535d90' },
+  { name: '음식', money: 200000, color: '#eee1ff' },
+  { name: '생활', money: 50000, color: '#cdb7ff' },
+  { name: 'OTT', money: 40000, color: '#9e92f4' },
+  { name: '주거', money: 30000, color: '#6f78c7' },
+  { name: '기타', money: 10000, color: '#535d90' },
 ];
 
 const Preview = () => {
@@ -54,7 +52,6 @@ const Preview = () => {
   const chartData = {
     labels: ['비율'],
     datasets: spend.map((expense, index) => ({
-      label: expense.name,
       data: [(expense.money / 33000) * 100],
       backgroundColor: expense.color,
       borderSkipped: false,
@@ -116,7 +113,7 @@ const Preview = () => {
         {spend.map((item) => {
           const percentage = ((item.money / 330000) * 100).toFixed(2);
           return (
-            <section key={item.id} css={itemsCss}>
+            <section key={item.name} css={itemsCss}>
               <div css={itembarCss} style={{ backgroundColor: item.color }} />
               <div css={itemlabelCss}>
                 <Typography color="dark" size="md" weight="medium">
@@ -141,5 +138,5 @@ const Preview = () => {
       </div>
     </section>
   );
-}  
+};
 export default Preview;
