@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import React, { useRef, useEffect } from 'react';
+import React, { useRef } from 'react';
 import { Doughnut } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -11,17 +11,27 @@ import {
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { Typography } from 'oyc-ds';
 import { boxCss, chartCss, labelboxCss, labelCss, manymsgCss, percentCss } from './style';
-import { scheduleData, getDateRange, SheduleData } from '../../../utils/SpendData';
+import { useSuspenseQuery } from '@tanstack/react-query';
+import { calculateDateRange } from '../../../utils/SpendData';
+import { scheduleInfo } from '../../../apis/statisticsApi';
+import Preview from '../Preview';
 
-// Chart.js 플러그인 및 설정 등록
 ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 
+const categories: Record<number, { name: string; color: string }> = {
+  1: { name: '미정', color: '#FFB0C4' },
+  2: { name: '여행', color: '#ADD8E6' },
+  3: { name: '외식', color: '#FFFFE0' },
+  4: { name: '업무', color: '#DDA0DD' },
+  5: { name: '약속', color: '#AFEEEE' },
+  6: { name: '시험', color: '#98FB98' },
+  7: { name: '기타', color: '#FF7F50' },
+};
 
-// 데이터 변환 함수
-const transformScheduleData = (data: SheduleData[]) => {
-  const labels = data.map(item => item.name);
+const transformScheduleData = (data: { categoryId: number; count: number }[]) => {
+  const labels = data.map(item => categories[item.categoryId]?.name || '없음');
   const counts = data.map(item => item.count);
-  const backgroundColor = data.map(item => item.color);
+  const backgroundColor = data.map(item => categories[item.categoryId]?.color || '#FFFFFF');
 
   return {
     labels,
@@ -39,30 +49,27 @@ interface SpendChartProps {
   offset: number;
 }
 
-//// 
 const Schedule: React.FC<SpendChartProps> = ({ period, offset }) => {
   const chartRef = useRef<ChartJS<'doughnut'>>(null);
 
+  const { startDate, endDate } = calculateDateRange(period, offset);
 
-
-  // 날짜 범위 계산
-  const { startDate, endDate } = getDateRange(period, offset);
-
-  // 데이터 필터링
-  const filteredScheduleData = scheduleData.filter((item) => {
-    const itemDate = new Date(item.date);
-    return itemDate >= startDate && itemDate <= endDate;
+  const { data, error, isFetching } = useSuspenseQuery({
+    queryKey: ['scheduleinfo', period, offset],
+    queryFn: async () => {
+      const result = await scheduleInfo(startDate, endDate);
+      console.log('API response:', result);
+      return result;
+    },
   });
 
-  // 필터링된 데이터가 없다면 로그를 찍어 확인
-  useEffect(() => {
-    console.log('Filtered Data:', filteredScheduleData);
-  }, [offset, period]);
+  if (error && !isFetching) {
+    throw error;
+  }
 
-  // 데이터 변환
-  const scheduledata = transformScheduleData(filteredScheduleData);
+  const scheduleData = data.data || [];
+  const scheduledata = transformScheduleData(scheduleData);
 
-  // 필터링된 데이터가 없으면 기본값 설정
   const maxIndex = scheduledata.datasets[0]?.data.indexOf(
     Math.max(...scheduledata.datasets[0]?.data || [0]),
   ) || 0;
@@ -82,49 +89,56 @@ const Schedule: React.FC<SpendChartProps> = ({ period, offset }) => {
 
   return (
     <>
-      <Typography
-        color="dark"
-        size="sm"
-        weight="medium"
-        css={manymsgCss}
-      >
-        <span
-          className='maxLabel'
-          style={{
-            backgroundColor: maxColor,
-          }}
-        >
-          {maxLabel}
-        </span> 일정이 가장 많았어요!
-      </Typography>
-      <section css={boxCss}>
-        <div className='title' style={{ flex: '1', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      {scheduledata.labels.length === 0 ? (
+        <Preview content="일정이" button="일정" url="schedule" /> // `Preview` 컴포넌트 사용
+      ) : (
+        <>
           <Typography
             color="dark"
-            size="md"
-            weight="bold"
+            size="sm"
+            weight="medium"
+            css={manymsgCss}
           >
-            카테고리 비율
+            <span
+              className='maxLabel'
+              style={{
+                backgroundColor: maxColor,
+              }}
+            >
+              {maxLabel}
+            </span> 일정이 가장 많았어요!
           </Typography>
-          <Doughnut ref={chartRef} data={scheduledata} options={options} css={chartCss} />
-        </div>
-        <div css={labelboxCss} style={{ flex: '1', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          {scheduledata.labels.map((label, index) => {
-            const value = scheduledata.datasets[0]?.data[index] || 0;
-            const total = scheduledata.datasets[0]?.data.reduce((acc, val) => acc + val, 0) || 1;
-            const percentage = ((value / total) * 100).toFixed(2);
-            return (
-              <div key={index} css={labelCss}>
-                <span css={percentCss} style={{ backgroundColor: scheduledata.datasets[0]?.backgroundColor[index] }}>
-                  {label}
-                </span> {percentage}%
-              </div>
-            );
-          })}
-        </div>
-      </section>
+          <section css={boxCss}>
+            <div className='title' style={{ flex: '1', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              <Typography
+                color="dark"
+                size="md"
+                weight="bold"
+              >
+                카테고리 비율
+              </Typography>
+              <Doughnut ref={chartRef} data={scheduledata} options={options} css={chartCss} />
+            </div>
+            <div css={labelboxCss} style={{ flex: '1', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              {scheduledata.labels.map((label, index) => {
+                const value = scheduledata.datasets[0]?.data[index] || 0;
+                const total = scheduledata.datasets[0]?.data.reduce((acc, val) => acc + val, 0) || 1;
+                const percentage = ((value / total) * 100).toFixed(2);
+                return (
+                  <div key={index} css={labelCss}>
+                    <span css={percentCss} style={{ backgroundColor: scheduledata.datasets[0]?.backgroundColor[index] }}>
+                      {label}
+                    </span> {percentage}%
+                  </div>
+                );
+              })}
+            </div>
+          </section>
+        </>
+      )}
     </>
   );
 };
+
 
 export default Schedule;

@@ -119,3 +119,8 @@ export const avatarTTS = (voiceId: string, text: string) => {
     },
   );
 };
+
+/* 아바타 생성 업적 갱신 */
+export const updateAvatarAchievement = () => {
+  return api.patch<boolean>('/api/users/achievements/2');
+};
