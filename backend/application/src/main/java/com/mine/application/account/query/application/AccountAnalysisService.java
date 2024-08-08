@@ -2,6 +2,7 @@ package com.mine.application.account.query.application;
 
 import com.mine.application.account.infrastructure.ai.AccountAiChat;
 import com.mine.application.account.query.domain.AccountStatsCustomRepository;
+import com.mine.application.account.ui.dto.GetAccountAnalysisResponse;
 import com.mine.application.account.ui.dto.GetSpendAccountStatsResponse;
 import com.mine.application.common.domain.SessionConstants;
 import com.mine.application.common.domain.SessionDao;
@@ -28,7 +29,7 @@ public class AccountAnalysisService {
     private final AccountStatsCustomRepository accountStatsCustomRepository;
     private final AccountAiChat accountAiChat;
 
-    public String getSpendAccountAnalysis(
+    public GetAccountAnalysisResponse getSpendAccountAnalysis(
             LocalDate startDate,
             LocalDate endDate
     ) {
@@ -41,14 +42,13 @@ public class AccountAnalysisService {
         if (currStats.isEmpty()) return null;
         List<GetSpendAccountStatsResponse> prevStats = accountStatsCustomRepository.findSpendAccountStats(userId, getStartOfDay(prevStartDate), getEndOfDay(prevEndDate));
 
-        return accountAiChat.getSpendAccountAnalysis(
-                getPeriodText(startDate, endDate),
-                currStats,
-                prevStats
+        return new GetAccountAnalysisResponse(
+                calculateTotalMoney(prevStats),
+                accountAiChat.getSpendAccountAnalysis(getPeriodText(startDate, endDate), currStats, prevStats)
         );
     }
 
-    public String getIncomeAccountAnalysis(
+    public GetAccountAnalysisResponse getIncomeAccountAnalysis(
             LocalDate startDate,
             LocalDate endDate
     ) {
@@ -61,10 +61,9 @@ public class AccountAnalysisService {
         if (currStats == null) return null;
         Long prevStats = accountStatsCustomRepository.findIncomeAccountStats(userId, getStartOfDay(prevStartDate), getEndOfDay(prevEndDate));
 
-        return accountAiChat.getIncomeAccountAnalysis(
-                getPeriodText(startDate, endDate),
-                currStats,
-                prevStats
+        return new GetAccountAnalysisResponse(
+                prevStats,
+                accountAiChat.getIncomeAccountAnalysis(getPeriodText(startDate, endDate), currStats, prevStats)
         );
     }
 
@@ -108,6 +107,12 @@ public class AccountAnalysisService {
 
     private LocalDateTime getEndOfDay(LocalDate date) {
         return date.atTime(LocalTime.MAX).withNano(0);
+    }
+
+    private long calculateTotalMoney(List<GetSpendAccountStatsResponse> stats) {
+        return stats.stream()
+                .mapToLong(GetSpendAccountStatsResponse::getCategorySum)
+                .sum();
     }
 
 }

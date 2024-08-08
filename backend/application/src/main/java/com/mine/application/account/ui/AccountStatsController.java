@@ -2,6 +2,7 @@ package com.mine.application.account.ui;
 
 import com.mine.application.account.query.application.AccountAnalysisService;
 import com.mine.application.account.query.application.AccountStatsService;
+import com.mine.application.account.ui.dto.GetAccountAnalysisResponse;
 import com.mine.application.account.ui.dto.GetSpendAccountStatsResponse;
 import com.mine.application.common.aop.LoginCheck;
 import lombok.RequiredArgsConstructor;
@@ -43,7 +44,7 @@ public class AccountStatsController {
 
     @LoginCheck
     @GetMapping("/spend/analysis")
-    public ResponseEntity<String> getSpendAccountAnalysis(
+    public ResponseEntity<GetAccountAnalysisResponse> getSpendAccountAnalysis(
             @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
             @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate
     ) {
@@ -52,7 +53,7 @@ public class AccountStatsController {
 
     @LoginCheck
     @GetMapping("/income/analysis")
-    public ResponseEntity<String> getIncomeAccountAnalysis(
+    public ResponseEntity<GetAccountAnalysisResponse> getIncomeAccountAnalysis(
             @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
             @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate
     ) {
