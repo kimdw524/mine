@@ -1,10 +1,10 @@
 /** @jsxImportSource @emotion/react */
 import React, { useEffect } from 'react';
 import { containerCss, modalCss } from './style';
-import RecordButton from '../../components/molecules/RecordButton';
 import { useNavigate } from 'react-router-dom';
-import useUserAudio from '../../hooks/useUserAudio';
-import useDialog from '../../hooks/useDialog';
+import useUserAudio from '../../../hooks/useUserAudio';
+import useDialog from '../../../hooks/useDialog';
+import RecordButton from '../../molecules/RecordButton';
 
 interface VoiceRecordProps {
   onSuccess: (data: string) => void;
