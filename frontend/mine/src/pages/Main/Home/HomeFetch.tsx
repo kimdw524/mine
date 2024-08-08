@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
-import React, { useState } from 'react';
-import { useSuspenseQueries } from '@tanstack/react-query';
+import React, { useEffect, useState } from 'react';
+import { useMutation, useSuspenseQueries } from '@tanstack/react-query';
 import { getUserAvatars, getUserInfo } from '../../../apis/mypageApi';
 import { Button, Toggle, Typography } from 'oyc-ds';
 import {
@@ -9,19 +9,11 @@ import {
   numberdayCss,
   toggleContainerCss,
 } from './style';
-import { Canvas } from '@react-three/fiber';
-import { OrbitControls, useGLTF } from '@react-three/drei';
 import { containerCss } from './style';
+import Avatar3D from '../../../components/atoms/Avatar3D';
+import useDialog from '../../../hooks/useDialog';
+import { updateAttendenceAchievement } from '../../../apis/authApi';
 import AvatarChat from '../../../components/organisms/AvatarChat';
-
-interface ModelProps {
-  avatarModel: string;
-}
-
-const Model = ({ avatarModel }: ModelProps) => {
-  const { scene } = useGLTF(`/cute_little_animals/${avatarModel}.glb`);
-  return <primitive object={scene} position={[0, 0.5, 0]} />;
-};
 
 const HomeFetch = () => {
   const [userQuery, avatarQuery] = useSuspenseQueries({
@@ -38,6 +30,15 @@ const HomeFetch = () => {
   });
 
   const [isOn, setIsOn] = useState<boolean>(true);
+
+  const { alert } = useDialog();
+  const { mutate } = useMutation({
+    mutationFn: async () => await updateAttendenceAchievement(),
+    onSuccess: (res) => {
+      if (res.data) alert('업적이 달성되었습니다!');
+    },
+  });
+  useEffect(() => mutate(), []);
 
   return (
     <>
@@ -71,14 +72,15 @@ const HomeFetch = () => {
           />
         </div>
         <div css={avatarContainerCss}>
-          <Canvas
-            style={{ width: '100%', height: '100%' }}
-            camera={{ position: [0, 0, 5], fov: 47 }}
-          >
-            <ambientLight intensity={3} />
-            <Model avatarModel={avatarQuery.data.data.length ? 'cow' : 'pig'} />
-            <OrbitControls />
-          </Canvas>
+          <Avatar3D
+            avatarModel={
+              avatarQuery.data.data.length
+                ? avatarQuery.data.data[0].isMain
+                  ? avatarQuery.data.data[0].avatarModel
+                  : avatarQuery.data.data[1].avatarModel
+                : 'pig'
+            }
+          />
         </div>
         <div css={conversationCss}>
           {avatarQuery.data.data.length ? (
