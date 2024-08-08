@@ -14,3 +14,18 @@ export const dropdownCss = css`
   border-radius: 0.25rem;
   background-color: white;
 `;
+
+export const infoManageCss = css`
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-bottom: 0.0625rem solid #eeeeee;
+`;
+
+export const btnCss = css`
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  column-gap: 1rem;
+  margin-top: 0.5rem;
+  box-shadow: 0 0 0 0;
+`;

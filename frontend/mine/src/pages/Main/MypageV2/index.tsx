@@ -1,11 +1,15 @@
 /** @jsxImportSource @emotion/react */
 import React, { useEffect, useState } from 'react';
-import { containerCss } from './style';
-import { useSuspenseQueries } from '@tanstack/react-query';
+import { btnCss, containerCss, infoManageCss } from './style';
+import { QueryClient, useSuspenseQueries } from '@tanstack/react-query';
 import { getUserAvatars, getUserInfo } from '../../../apis/mypageApi';
 import UserInfo from './UserInfo';
 import ManageInfo from './ManageInfo';
 import AvatarProfile from './AvatarProfile';
+import { Button, Icon, Typography } from 'oyc-ds';
+import { engToIcon } from '../../../utils/EngToIcon';
+import { Logout } from '../../../apis/loginApi';
+import { useNavigate } from 'react-router-dom';
 
 const MypageV2 = () => {
   const [userQuery, avatarQuery] = useSuspenseQueries({
@@ -35,6 +39,16 @@ const MypageV2 = () => {
     }
   }, []);
 
+  const nav = useNavigate();
+  const handleLogout = async () => {
+    const res = await Logout();
+    if (res.status === 200) {
+      const queryClient = new QueryClient();
+      queryClient.clear();
+      nav('/user/login');
+    }
+  };
+
   return (
     <>
       <div css={containerCss}>
@@ -53,6 +67,20 @@ const MypageV2 = () => {
           data={[]}
           avatars={avatarQuery.data.data}
         />
+        <div css={infoManageCss}>
+          <Typography color="dark">정보관리</Typography>
+          <Button
+            size="lg"
+            variant="contained"
+            color="light"
+            css={btnCss}
+            fullWidth
+            onClick={() => handleLogout()}
+          >
+            <Icon>{engToIcon['avatar']}</Icon>
+            <Typography color="dark">로그아웃</Typography>
+          </Button>
+        </div>
       </div>
     </>
   );
