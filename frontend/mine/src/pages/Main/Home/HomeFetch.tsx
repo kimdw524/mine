@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
-import React, { useState,useEffect } from 'react';
-import { useSuspenseQueries } from '@tanstack/react-query';
+import React, { useEffect, useState } from 'react';
+import { useMutation, useSuspenseQueries } from '@tanstack/react-query';
 import { getUserAvatars, getUserInfo } from '../../../apis/mypageApi';
 import { Button, Toggle, Typography } from 'oyc-ds';
 import {
@@ -12,6 +12,8 @@ import {
 import { containerCss } from './style';
 import Avatar3D from '../../../components/atoms/Avatar3D';
 import useDialog from '../../../hooks/useDialog';
+import { updateAttendenceAchievement } from '../../../apis/authApi';
+import AvatarChat from '../../../components/organisms/AvatarChat';
 
 const HomeFetch = () => {
   const { alert, confirm } = useDialog();
@@ -29,6 +31,16 @@ const HomeFetch = () => {
   });
 
   const [isOn, setIsOn] = useState<boolean>(true);
+
+  const { alert } = useDialog();
+  const { mutate } = useMutation({
+    mutationFn: async () => await updateAttendenceAchievement(),
+    onSuccess: (res) => {
+      if (res.data) alert('업적이 달성되었습니다!');
+    },
+  });
+  useEffect(() => mutate(), []);
+  
   const [clickCount, setClickCount] = useState(0);
   const [eventCount, setEventCount] = useState(0);
   const [showMessage, setShowMessage] = useState(false);
@@ -112,11 +124,13 @@ const HomeFetch = () => {
           />
         </div>
         <div css={conversationCss}>
-          <Typography color="dark" size="md">
-            {avatarQuery.data.data.length === 0
-              ? '너만의 비서를 만들어봐!!'
-              : '오늘도 보러 와줘서 고마워!!'}
-          </Typography>
+          {avatarQuery.data.data.length ? (
+            <AvatarChat avatarId={1} />
+          ) : (
+            <Typography color="dark" size="md">
+              너만의 비서를 만들어봐!!
+            </Typography>
+          )}
           {!avatarQuery.data.data.length && <Button>아바타 생성</Button>}
         </div>
       </div>

@@ -1,7 +1,11 @@
 /** @jsxImportSource @emotion/react */
 import React, { useEffect, useRef, useState } from 'react';
 import { chatCss, chatLogCss, containerCss } from './style';
-import useChat, { ChatMessageData, ChatType } from '../../../hooks/useChat';
+import useChat, {
+  ChatMessageData,
+  ChatResponse,
+  ChatType,
+} from '../../../hooks/useChat';
 import { AccountData } from '../../../apis/accountApi';
 import { ScheduleData } from '../../../apis/scheduleApi';
 import useModal from '../../../hooks/useModal';
@@ -10,7 +14,6 @@ import EditAccount from '../../Account/Edit';
 import EventMessage from '../../../components/molecules/EventMessage';
 import ChatBox from '../../../components/organisms/ChatBox';
 import TypeTextField from '../../../components/molecules/TypeTextField';
-import Alert from '../../../hooks/useDialog/Alert';
 import useDialog from '../../../hooks/useDialog';
 
 const Chat = () => {
@@ -19,7 +22,7 @@ const Chat = () => {
   const [chatLog, setChatLog] = useState<ChatMessageData[]>([]);
   const chatTypeRef = useRef<ChatType>('chat');
   const { push } = useModal();
-  const chat = useChat('ws://127.0.0.1:3001');
+  const chat = useChat(1);
   const { alert, confirm } = useDialog();
 
   const addChat = (data: ChatMessageData) => {
@@ -31,13 +34,6 @@ const Chat = () => {
       return;
 
     const message = chatRef.current.value;
-
-    if (message === '바보') {
-      alert('저는 바보가 아니에요 ㅠ');
-      chatRef.current.value = '';
-      return;
-    }
-
     chat.send(chatTypeRef.current, message, () => {
       addChat({ me: true, message, name: '나', dateTime: new Date().toJSON() });
 
@@ -56,19 +52,20 @@ const Chat = () => {
   }, [chatLog, chatLogRef]);
 
   useEffect(() => {
-    const handleOpen = () => {
-      console.log('연결됨');
-    };
+    const handleOpen = () => {};
 
-    const handleError = () => {
-      console.log('오류뜸');
-    };
+    const handleError = () => {};
 
-    const handleClose = () => {
-      console.log('연결 끊김');
-    };
+    const handleClose = () => {};
 
-    const handleMessage = (data: object) => {};
+    const handleMessage = (res: ChatResponse) => {
+      addChat({
+        me: false,
+        message: res.text,
+        name: res.avatarName,
+        dateTime: res.sendedDate,
+      });
+    };
 
     const handleAccount = (data: AccountData) => {
       setChatLog((chatLog) => [
@@ -116,14 +113,14 @@ const Chat = () => {
       ]);
     };
 
-    chat.connect(
-      handleOpen,
-      handleError,
-      handleClose,
-      handleMessage,
-      handleAccount,
-      handleSchedule,
-    );
+    chat.connect({
+      onOpen: handleOpen,
+      onError: handleError,
+      onClose: handleClose,
+      onMessage: handleMessage,
+      onAccount: handleAccount,
+      onSchedule: handleSchedule,
+    });
   }, []);
 
   return (
