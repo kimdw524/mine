@@ -101,9 +101,9 @@ const Analysis: React.FC<SpendChartProps> = ({ period, offset, curSum }) => {
     <div css={containerCss}>
       {curSum ? (
         diff >= 0 ? (
-          <h2>저번 주에 비해 {diff}원 더 썼어요!</h2>
+          <h2>저번에 비해 {diff}원 더 썼어요!</h2>
         ) : (
-          <h2>저번 주에 비해 {-diff}원 덜 썼어요!</h2>
+          <h2>저번에 비해 {-diff}원 덜 썼어요!</h2>
         )
       ) : null}
       <Bar data={barData} options={options} height={'70%'} />
