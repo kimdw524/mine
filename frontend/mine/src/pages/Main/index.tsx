@@ -29,18 +29,7 @@ const Main = () => {
           }
         />
         <div css={contentCss}>
-          <TransitionAnimation
-            data-key={curMenu.toString()}
-            className={{
-              normal: styles.fade,
-              enter: styles['fade-enter'],
-              exit: styles['fade-exit'],
-            }}
-          >
-            <Chat key={0} />
-            <Home key={1} />
-            <MypageV2 key={2} />
-          </TransitionAnimation>
+          {[<Chat key={0} />, <Home key={1} />, <MypageV2 key={2} />][curMenu]}
         </div>
         <MenuBar page="chat" menu={curMenu} setCurMenu={setCurMenu} />
       </div>

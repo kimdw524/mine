@@ -33,4 +33,11 @@ const Avatar3D = ({ avatarModel, idx }: ModelProps) => {
   );
 };
 
+useGLTF.preload('/cute_little_animals/cow.glb');
+useGLTF.preload('/cute_little_animals/pig.glb');
+useGLTF.preload('/cute_little_animals/rabbit.glb');
+useGLTF.preload('/cute_little_animals/cat.glb');
+useGLTF.preload('/cute_little_animals/dog.glb');
+useGLTF.preload('/cute_little_animals/unicorn.glb');
+
 export default Avatar3D;
