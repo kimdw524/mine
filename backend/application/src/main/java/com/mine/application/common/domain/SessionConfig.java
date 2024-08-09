@@ -12,7 +12,7 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
 import org.springframework.session.web.context.AbstractHttpSessionApplicationInitializer;
 
 @Configuration
-@EnableRedisHttpSession(maxInactiveIntervalInSeconds = 3600) // default 값 : 1800
+@EnableRedisHttpSession(maxInactiveIntervalInSeconds = 86400) // 하루
 public class SessionConfig extends AbstractHttpSessionApplicationInitializer {
     //TODO : ClusterTopology 설정 필요
 
