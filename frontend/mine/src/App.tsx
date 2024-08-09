@@ -10,7 +10,6 @@ import { Palette } from 'oyc-ds/dist/themes/lightTheme';
 import { INotiInfo, NotificationContext } from './utils/NotificationContext';
 import './App.css';
 import GlobalStyle from './styles/GlobalStyle';
-import Home from './pages/Login/Home';
 import Login from './pages/Login/Login';
 import CreateAvatar from './pages/CreateAvatar';
 import FindPassword from './pages/FindPassword';
@@ -73,9 +72,6 @@ function App() {
             >
               {notiInfo.notiState && <Notification notiInfo={notiInfo} />}
               <Routes>
-                {/* 개발용 메뉴 버튼들 */}
-                <Route path="/btns" element={<Home />} />
-
                 {/* 메인 화면 */}
                 <Route path="/" element={<Main />} />
 
