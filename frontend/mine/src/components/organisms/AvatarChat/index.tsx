@@ -1,7 +1,13 @@
 /** @jsxImportSource @emotion/react */
-import { TextField, Typography } from 'oyc-ds';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { chatCss, containerCss } from './style';
+import { Spinner, TextField, Typography } from 'oyc-ds';
+import React, {
+  ReactNode,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
+import { chatCss, containerCss, waitCss } from './style';
 import useChat, { ChatResponse } from '../../../hooks/useChat';
 
 interface AvatarChatProps {
@@ -11,7 +17,7 @@ interface AvatarChatProps {
 const AvatarChat = ({ avatarId }: AvatarChatProps) => {
   const { connect, getLog, send } = useChat(avatarId);
   const chatRef = useRef<HTMLInputElement>(null);
-  const [response, setResponse] = useState<string | undefined>(undefined);
+  const [response, setResponse] = useState<ReactNode>(undefined);
   const [request, setRequest] = useState<string | undefined>(undefined);
 
   const getRecentChat = (me: boolean) =>
@@ -59,6 +65,8 @@ const AvatarChat = ({ avatarId }: AvatarChatProps) => {
         return;
       }
 
+      setResponse(<div css={waitCss}>아바타가 대답을 생각 중이에요.</div>);
+
       setRequest(chatRef.current.value);
       chatRef.current.value = '';
     });
@@ -66,7 +74,7 @@ const AvatarChat = ({ avatarId }: AvatarChatProps) => {
 
   return (
     <div css={containerCss}>
-      <Typography color="dark" size="lg">
+      <Typography color="dark" size="md">
         {response ?? '안녕!'}
       </Typography>
       <TextField
@@ -82,4 +90,4 @@ const AvatarChat = ({ avatarId }: AvatarChatProps) => {
   );
 };
 
-export default AvatarChat;
+export default React.memo(AvatarChat);

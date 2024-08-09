@@ -3,6 +3,7 @@ import { css } from '@emotion/react';
 export const containerCss = css`
   display: flex;
   flex-direction: column;
+  position: relative;
   height: 100%;
   padding: 0 1rem;
   background-color: #fffcb1;
@@ -31,14 +32,18 @@ export const avatarContainerCss = css`
 `;
 
 export const conversationCss = css`
+  position: absolute;
+  right: 1rem;
+  left: 1rem;
+  bottom: 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   row-gap: 1rem;
   flex: 1;
-  width: 100%;
   margin-bottom: 1.5rem;
+  padding: 1rem;
   border-radius: 1rem;
   background-color: #fffde7;
 `;
