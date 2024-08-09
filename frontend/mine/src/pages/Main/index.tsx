@@ -2,8 +2,6 @@
 import React, { useState } from 'react';
 import MenuBar from '../../components/organisms/MenuBar';
 import AppBar from '../../components/organisms/AppBar';
-import TransitionAnimation from '../../components/common/TransitionAnimation';
-import styles from './Main.module.css';
 import Home from './Home';
 import { containerCss, contentCss } from './style';
 import MypageV2 from './MypageV2';
@@ -25,34 +23,29 @@ const Main = () => {
   };
 
   return (
-    <div css={containerCss}>
-      <AppBar
-        label={
-          curMenu === 0 ? '채팅방' : curMenu === 1 ? '메인 화면' : '마이페이지'
-        }
-        menu={[
-          {
-            icon: <CalendarDaysIcon />,
-            onClick: handleCalendarClick,
-          },
-        ]}
-      ></AppBar>
-      <div css={contentCss}>
-        <TransitionAnimation
-          data-key={curMenu.toString()}
-          className={{
-            normal: styles.fade,
-            enter: styles['fade-enter'],
-            exit: styles['fade-exit'],
-          }}
-        >
-          <Chat key={0} />
-          <Home key={1} />
-          <MypageV2 key={2} />
-        </TransitionAnimation>
+    <>
+      <div css={containerCss}>
+        <AppBar
+          label={
+            curMenu === 0
+              ? '채팅방'
+              : curMenu === 1
+                ? '메인 화면'
+                : '마이페이지'
+          }
+          menu={[
+            {
+              icon: <CalendarDaysIcon />,
+              onClick: handleCalendarClick,
+            },
+          ]}
+        />
+        <div css={contentCss}>
+          {[<Chat key={0} />, <Home key={1} />, <MypageV2 key={2} />][curMenu]}
+        </div>
+        <MenuBar page="chat" menu={curMenu} setCurMenu={setCurMenu} />
       </div>
-      <MenuBar page="chat" menu={curMenu} setCurMenu={setCurMenu} />
-    </div>
+    </>
   );
 };
 
