@@ -16,3 +16,10 @@ class Assistant:
 
     def create_thread(self):
         return self.client.beta.threads.create().id
+
+    def update_assistant(self, name, assistant_id, instruction):
+        self.client.beta.assistants.update(
+            name=name,
+            instructions=instruction,
+            assistant_id=assistant_id
+        )

@@ -53,7 +53,7 @@ async def update_assistant(request: ModifyAssistantRequest):
     assistant = Assistant()
     assistant.update_assistant(
         assistant_id=assistant_id,
-
+        name=request.name,
         instructions=f"""너는 사용자가 하는 모든 말을 기억하고 일정과 가계까지 관리해주는 사용자의 아바타야.
                             너에 대한 정보는 수정 될 수 있어.
                             대답은 요약해서 한 문장으로 끝내줘.
@@ -67,4 +67,6 @@ async def update_assistant(request: ModifyAssistantRequest):
                             여기까지야.
                             """
     )
+
+    return JSONResponse(content='', status_code=200)
 
