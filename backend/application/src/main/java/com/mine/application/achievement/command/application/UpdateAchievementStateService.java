@@ -39,7 +39,7 @@ public class UpdateAchievementStateService {
         AchievementState achievementState = getAchievementStateOrElseThrow(request.getAchievementId());
         int newCount = request.getNewCount();
         if (newCount > achievementState.getAchievement().getAmount() || newCount < 0) {
-            throw new RestApiException(CommonErrorCode.FORBIDDEN);
+            throw new RestApiException(CommonErrorCode.INVALID_PARAMETER);
         }
         achievementState.tempChangeCountApi(newCount);
     }
