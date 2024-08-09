@@ -6,6 +6,25 @@ import pika
 from fastapi import FastAPI
 import time
 
+import logging
+
+class CustomFormatter(logging.Formatter):
+    def format(self, record):
+        level = record.levelname
+        message = record.getMessage()
+        return f"{level} : {message}"
+
+log1 = logging.getLogger("uvicorn.access")
+
+log1.handlers = []
+
+handler = logging.StreamHandler()
+handler.setFormatter(CustomFormatter())
+
+log1.addHandler(handler)
+
+log1.setLevel(logging.INFO)
+
 
 from api.assistant_router import router as assistant_router
 from assistant.message_handler import MessageHandler
@@ -14,19 +33,28 @@ RABBITMQ_HOST = 'rabbitmq'
 CHAT_QUEUE_NAME = 'chat-queue-fastapi'
 CHAT_SPRING_QUEUE_NAME = 'chat-queue-springboot'
 
+# 전역 변수로 선언
+connection = None
+channel = None
 
-def get_connection():
-    credentials = pika.PlainCredentials(username="guest", password="guest")
-    while True:
-        try:
-            connection = pika.BlockingConnection(
-                pika.ConnectionParameters(host=RABBITMQ_HOST, port=5672, credentials=credentials)
-            )
-            print("Connected to RabbitMQ")
-            return connection
-        except pika.exceptions.AMQPConnectionError:
-            print("Connection failed, retrying in 5 seconds...")
-            time.sleep(5)
+def get_connection_and_channel():
+    global connection, channel
+
+    if connection is None or connection.is_closed:
+        credentials = pika.PlainCredentials(username="guest", password="guest")
+        while True:
+            try:
+                connection = pika.BlockingConnection(
+                    pika.ConnectionParameters(host=RABBITMQ_HOST, port=5672, credentials=credentials)
+                )
+                channel = connection.channel()
+                log1.info("Connected to RabbitMQ")
+                break
+            except pika.exceptions.AMQPConnectionError:
+                log1.error("Connection failed, retrying in 5 seconds...")
+                time.sleep(5)
+
+    return connection, channel
 
 
 def send_message_to_assistant(chatContent: str, assistant_id: str, thread_id: str):
@@ -47,7 +75,7 @@ def callback(ch, method, properties, body):
     body = body.decode('utf-8')
     jsonData = json.loads(body)
 
-    print(jsonData)
+    log1.info(jsonData)
     responseChat = send_message_to_assistant(jsonData['chatContent'], assistant_id=jsonData['assistantId'],
                                              thread_id=jsonData['threadId'])
 
@@ -60,10 +88,9 @@ def callback(ch, method, properties, body):
     responseMessage = {"chatContent": responseChat, "avatarId": jsonData['avatarId'], "userId": jsonData['userId'],
                        "sendedAt": sendedAt}
 
-    print(responseMessage)
+    log1.info(responseMessage)
 
-    connection = get_connection()
-    channel = connection.channel()
+    _, channel = get_connection_and_channel()
 
     # 다시 spring websocket 서버에 전송
     channel.basic_publish(
@@ -72,12 +99,11 @@ def callback(ch, method, properties, body):
         body=json.dumps(responseMessage)
     )
 
-    connection.close()
+
 
 
 def start_consumer():
-    connection = get_connection()
-    channel = connection.channel()
+    _, channel = get_connection_and_channel()
 
     # 소비자 설정
     channel.basic_consume(
@@ -86,7 +112,7 @@ def start_consumer():
         auto_ack=True,
     )
 
-    print("Waiting for messages. To exit press CTRL+C")
+    log1.info("Waiting for messages. To exit press CTRL+C")
     channel.start_consuming()
 
 

@@ -9,6 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 @Setter
 @Getter
+@ToString
 public class ChatSendDto {
     private String chatContent;
     private String assistantId;

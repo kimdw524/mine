@@ -1,9 +1,6 @@
 package com.mine.socket.application;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -11,6 +8,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 @Getter
+@ToString
 public class ChatRequest {
     private String chatContent;
     private LocalDateTime sendedAt;

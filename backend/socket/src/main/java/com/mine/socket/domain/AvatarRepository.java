@@ -14,7 +14,7 @@ public class AvatarRepository {
     private final JdbcTemplate jdbcTemplate;
 
     public AvatarData getAvatarInfo(Integer avatarId) {
-        String sql = "SELECT avatar_assistant_id as assistantId, avatar_thread_id as threadId, avatar_id as avatarId, user_id as userId, avatar_name as avatarName FROM avatar WHERE avatar_id = ?";
+        String sql = "SELECT avatar_assistant_id as assistantId, avatar_thread_id as threadId, avatar_id as avatarId, user_id as userId, avatar_name as avatarName FROM avatar WHERE avatar_id = ? AND is_deleted = false";
 
         return jdbcTemplate.queryForObject(sql, new RowMapper<AvatarData>() {
             @Override
