@@ -17,6 +17,8 @@ import TypeTextField from '../../../components/molecules/TypeTextField';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { getUserAvatars } from '../../../apis/mypageApi';
 import useDialog from '../../../hooks/useDialog';
+import { useMutation } from '@tanstack/react-query';
+import { updateChatEasterAchievement } from '../../../apis/avatarApi';
 
 const ChatFetch = () => {
   const chatRef = useRef<HTMLInputElement>(null);
@@ -43,6 +45,13 @@ const ChatFetch = () => {
     setChatLog((chatLog) => [...chatLog, data]);
   };
 
+  const { mutate: updateSpinEaster } = useMutation({
+    mutationFn: async () => await updateChatEasterAchievement(),
+    onSuccess: (res) => {
+      if (res.data) alert('이스터 에그 업적 달성!');
+    },
+  });
+
   const handleChatSend = (e: React.KeyboardEvent) => {
     if (e.key !== 'Enter' || !chatRef.current || !chatRef.current.value.trim())
       return;
@@ -54,8 +63,18 @@ const ChatFetch = () => {
       return;
     }
 
+    if (message === '바보') {
+      alert('저는 바보가 아니예요! ㅠㅠ');
+      updateSpinEaster();
+    }
+
     chat.send(chatTypeRef.current, message, () => {
-      addChat({ me: true, message, name: '나', dateTime: new Date().toJSON() });
+      addChat({
+        me: true,
+        message,
+        name: '나',
+        dateTime: new Date().toJSON(),
+      });
 
       if (chatRef.current) {
         chatRef.current.value = '';

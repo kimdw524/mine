@@ -13,6 +13,7 @@ import { containerCss } from './style';
 import Avatar3D from '../../../components/atoms/Avatar3D';
 import useDialog from '../../../hooks/useDialog';
 import { updateAttendenceAchievement } from '../../../apis/authApi';
+import { updateClickEasterAchievement, updateSpinEasterAchievement } from '../../../apis/avatarApi';
 import AvatarChat from '../../../components/organisms/AvatarChat';
 import { useNavigate } from 'react-router-dom';
 
@@ -34,13 +35,68 @@ const HomeFetch = () => {
   const [isOn, setIsOn] = useState<boolean>(true);
 
   const { alert } = useDialog();
-  const { mutate } = useMutation({
+  const { mutate: updateAttendance } = useMutation({
     mutationFn: async () => await updateAttendenceAchievement(),
     onSuccess: (res) => {
-      if (res.data) alert('업적이 달성되었습니다!');
+      if (res.data) alert('업적 달성!!');
     },
   });
-  useEffect(() => mutate(), []);
+
+  const [clickCount, setClickCount] = useState(0);
+
+  const { mutate: updateClickEaster } = useMutation({
+    mutationFn: async () => await updateClickEasterAchievement(),
+    onSuccess: (res) => {
+      if (res.data) alert('이스터 에그 업적 달성!')
+    }
+  });
+
+  const { mutate: updateSpinEaster } = useMutation({
+    mutationFn: async () => await updateSpinEasterAchievement(),
+    onSuccess: (res) => {
+      if (res.data) 
+        alert('이스터 에그 업적 달성!')
+    }
+  });
+
+
+  useEffect(() => updateAttendance(), []);
+
+ // 클릭 이스터에그  
+  const [, setEventCount] = useState(0);
+  const [showMessage, setShowMessage] = useState(false);
+  const handleClick = () => {
+    const newClickCount = clickCount + 1;
+    setClickCount(newClickCount);
+
+    if (newClickCount === 10) {
+      alert(`그렇게 누르면 아파요!!`);
+      updateClickEaster();
+    }
+  }
+
+  // 회전 이스터 에그
+  const handleMouseDown = () => {
+    setEventCount(0);
+    setShowMessage(false);
+  };
+
+  const handleMouseEnterLeave = () => {
+    setEventCount(prevCount => {
+      const newCount = prevCount + 1;
+      if (newCount >= 20) {
+        setShowMessage(true);
+      }
+      return newCount;
+    });
+  };
+
+  useEffect(() => {
+    if (showMessage) {
+      alert('너무 많이 회전해서 어지러워요!');
+      updateSpinEaster()
+    }
+  }, [showMessage]);
 
   return (
     <>
@@ -73,7 +129,13 @@ const HomeFetch = () => {
             onClick={() => (isOn ? setIsOn(false) : setIsOn(true))}
           />
         </div>
-        <div css={avatarContainerCss}>
+        <div
+          css={avatarContainerCss}
+          onMouseDown={handleMouseDown}
+          onMouseEnter={handleMouseEnterLeave}
+          onMouseLeave={handleMouseEnterLeave}
+          onClick={handleClick}
+        >
           <Avatar3D
             avatarModel={
               avatarQuery.data.data.length
