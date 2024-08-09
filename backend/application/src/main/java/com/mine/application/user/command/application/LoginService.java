@@ -43,7 +43,7 @@ public class LoginService {
                 return;
             }
         }
-        throw new RestApiException(CommonErrorCode.UNAUTHORIZED);
+        throw new RestApiException(CommonErrorCode.INVALID_PARAMETER);
     }
 
     public void loginCheck() {
