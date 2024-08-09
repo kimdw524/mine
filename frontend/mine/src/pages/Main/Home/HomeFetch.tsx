@@ -13,8 +13,11 @@ import { containerCss } from './style';
 import Avatar3D from '../../../components/atoms/Avatar3D';
 import useDialog from '../../../hooks/useDialog';
 import { updateAttendenceAchievement } from '../../../apis/authApi';
+import AvatarChat from '../../../components/organisms/AvatarChat';
+import { useNavigate } from 'react-router-dom';
 
 const HomeFetch = () => {
+  const nav = useNavigate();
   const [userQuery, avatarQuery] = useSuspenseQueries({
     queries: [
       { queryKey: ['userinfo'], queryFn: async () => await getUserInfo() },
@@ -82,12 +85,16 @@ const HomeFetch = () => {
           />
         </div>
         <div css={conversationCss}>
-          <Typography color="dark" size="md">
-            {avatarQuery.data.data.length === 0
-              ? '너만의 비서를 만들어봐!!'
-              : '오늘도 보러 와줘서 고마워!!'}
-          </Typography>
-          {!avatarQuery.data.data.length && <Button>아바타 생성</Button>}
+          {avatarQuery.data.data.length ? (
+            <AvatarChat avatarId={1} />
+          ) : (
+            <Typography color="dark" size="md">
+              너만의 비서를 만들어봐!!
+            </Typography>
+          )}
+          {!avatarQuery.data.data.length && (
+            <Button onClick={() => nav('/avatar/create')}>아바타 생성</Button>
+          )}
         </div>
       </div>
     </>

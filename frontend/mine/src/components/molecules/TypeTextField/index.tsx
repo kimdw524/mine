@@ -18,8 +18,8 @@ import styles from './TypeTextField.module.css';
 import { Icon } from 'oyc-ds';
 import { MicrophoneIcon } from '@heroicons/react/24/solid';
 import useModal from '../../../hooks/useModal';
-import VoiceRecord from '../../../pages/VoiceRecord';
 import { getSTT } from '../../../apis/avatarApi';
+import VoiceRecord from '../../common/VoiceRecord';
 
 interface TextType {
   name: string;
