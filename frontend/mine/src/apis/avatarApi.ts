@@ -124,3 +124,18 @@ export const avatarTTS = (voiceId: string, text: string) => {
 export const updateAvatarAchievement = () => {
   return api.patch<boolean>('/api/users/achievements/2');
 };
+
+
+export const updateClickEasterAchievement = () => {
+  return api.patch<boolean>('/api/users/achievements/5');
+};
+
+
+//  아직 api가 없음
+export const updateSpinEasterAchievement = () => {
+  return api.patch<boolean>('/api/users/achievements/6');
+};
+
+export const updateChatEasterAchievement = () => {
+  return api.patch<boolean>('/api/users/achievements/7');
+};

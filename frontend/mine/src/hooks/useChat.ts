@@ -1,4 +1,4 @@
-import { ReactNode, useRef } from 'react';
+import { ReactNode, useEffect, useRef } from 'react';
 import { AccountData, addAccountByChat } from '../apis/accountApi';
 import { addScheduleByChat, ScheduleData } from '../apis/scheduleApi';
 import SockJS from 'sockjs-client';
@@ -11,6 +11,7 @@ export interface ChatMessageData {
   message: ReactNode;
   me: boolean;
   dateTime: string;
+  avatarId?: number;
 }
 
 export interface ChatResponse {
@@ -47,16 +48,17 @@ const useChat = (
     onAccount,
     onSchedule,
   }: ChatEventHandler) => {
-    socketRef.current = new Client({
-      webSocketFactory: () =>
-        new SockJS(server, null, {
-          transports: ['websocket', 'jsonp'],
-        }),
-      reconnectDelay: 5000,
-      heartbeatIncoming: 4000,
-      heartbeatOutgoing: 4000,
-    });
-
+    if (avatarId !== -1) {
+      socketRef.current = new Client({
+        webSocketFactory: () =>
+          new SockJS(server, null, {
+            transports: ['websocket', 'jsonp'],
+          }),
+        reconnectDelay: 5000,
+        heartbeatIncoming: 4000,
+        heartbeatOutgoing: 4000,
+      });
+    }
     const socket = socketRef.current;
 
     if (!socket) {
@@ -72,6 +74,7 @@ const useChat = (
           name: data.avatarName,
           message: data.text,
           dateTime: data.sendedDate,
+          avatarId,
         });
         onMessage(data);
       });
@@ -93,7 +96,9 @@ const useChat = (
   };
 
   const getLog = (): ChatMessageData[] => {
-    return JSON.parse(localStorage.getItem('chatLog') ?? '[]');
+    return (
+      JSON.parse(localStorage.getItem('chatLog') ?? '[]') as ChatMessageData[]
+    ).filter((message) => message.avatarId === avatarId);
   };
 
   const send = async (type: ChatType, content: string, onSend: () => void) => {
@@ -101,7 +106,13 @@ const useChat = (
       case 'chat': {
         const date = new Date().toJSON();
 
-        addLog({ me: true, name: '나', message: content, dateTime: date });
+        addLog({
+          me: true,
+          name: '나',
+          message: content,
+          dateTime: date,
+          avatarId,
+        });
         onSend();
 
         const socket = socketRef.current;
@@ -134,7 +145,15 @@ const useChat = (
     }
   };
 
-  return { connect, send, getLog };
+  useEffect(() => {
+    const socket = socketRef.current;
+
+    return () => {
+      socket?.deactivate();
+    };
+  }, [socketRef.current]);
+
+  return { connect, send, getLog, avatarId };
 };
 
 export default useChat;

@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState,useRef } from 'react';
 import { useMutation, useSuspenseQueries } from '@tanstack/react-query';
 import { getUserAvatars, getUserInfo } from '../../../apis/mypageApi';
 import { Button, Toggle, Typography } from 'oyc-ds';
@@ -13,6 +13,7 @@ import { containerCss } from './style';
 import Avatar3D from '../../../components/atoms/Avatar3D';
 import useDialog from '../../../hooks/useDialog';
 import { updateAttendenceAchievement } from '../../../apis/authApi';
+import { updateClickEasterAchievement, updateSpinEasterAchievement } from '../../../apis/avatarApi';
 import AvatarChat from '../../../components/organisms/AvatarChat';
 import { useNavigate } from 'react-router-dom';
 
@@ -34,13 +35,66 @@ const HomeFetch = () => {
   const [isOn, setIsOn] = useState<boolean>(true);
 
   const { alert } = useDialog();
-  const { mutate } = useMutation({
+  const { mutate: updateAttendance } = useMutation({
     mutationFn: async () => await updateAttendenceAchievement(),
     onSuccess: (res) => {
-      if (res.data) alert('업적이 달성되었습니다!');
+      if (res.data) alert('업적 달성!!');
     },
   });
-  useEffect(() => mutate(), []);
+
+  const [clickCount, setClickCount] = useState(0);
+
+  const { mutate: updateClickEaster } = useMutation({
+    mutationFn: async () => await updateClickEasterAchievement(),
+    onSuccess: (res) => {
+      if (res.data) alert('이스터 에그 업적 달성!')
+    }
+  });
+
+  const { mutate: updateSpinEaster } = useMutation({
+    mutationFn: async () => await updateSpinEasterAchievement(),
+    onSuccess: (res) => {
+      if (res.data) 
+        alert('이스터 에그 업적 달성!')
+    }
+  });
+
+
+  useEffect(() => updateAttendance(), []);
+
+ // 클릭 이스터에그  
+  const eventCountRef = useRef(0)
+  const [showMessage, setShowMessage] = useState(false);
+  const handleClick = () => {
+    const newClickCount = clickCount + 1;
+    setClickCount(newClickCount);
+
+    if (newClickCount === 10) {
+      alert(`그렇게 누르면 아파요!!`);
+      setClickCount(0);
+      updateClickEaster();
+    }
+  }
+
+  // 회전 이스터 에그
+  const handleTouchStart = () => {
+    eventCountRef.current = 0;
+    setShowMessage(false);
+  };
+  
+  const handleTouchMove = () => {
+    eventCountRef.current += 1;
+
+    if (eventCountRef.current === 300 && !showMessage) {
+      setShowMessage(true);
+    }
+  };
+  useEffect(() => {
+    if (showMessage) {
+      alert('너무 많이 회전해서 어지러워요!');
+      updateSpinEaster();
+    }
+  }, [showMessage]);
 
   return (
     <>
@@ -73,7 +127,13 @@ const HomeFetch = () => {
             onClick={() => (isOn ? setIsOn(false) : setIsOn(true))}
           />
         </div>
-        <div css={avatarContainerCss}>
+        <div
+          css={avatarContainerCss}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchMove}
+          onClick={handleClick}
+        >
           <Avatar3D
             avatarModel={
               avatarQuery.data.data.length
