@@ -2,6 +2,7 @@ package com.mine.application.achievement.command.application;
 
 import com.mine.application.achievement.command.domain.AchievementState;
 import com.mine.application.achievement.command.domain.AchievementStateRepository;
+import com.mine.application.achievement.ui.dto.UpdateAchievementCountRequest;
 import com.mine.application.common.domain.SessionConstants;
 import com.mine.application.common.domain.SessionDao;
 import com.mine.application.common.erros.errorcode.CommonErrorCode;
@@ -29,6 +30,18 @@ public class UpdateAchievementStateService {
         achievementState.changeCount(updatedCount);
 
         return achievementState.isAchieved();
+    }
+
+    /*
+    * 개발용
+    * */
+    public void updateAchievementCount(UpdateAchievementCountRequest request) {
+        AchievementState achievementState = getAchievementStateOrElseThrow(request.getAchievementId());
+        int newCount = request.getNewCount();
+        if (newCount > achievementState.getAchievement().getAmount() || newCount < 0) {
+            throw new RestApiException(CommonErrorCode.FORBIDDEN);
+        }
+        achievementState.tempChangeCountApi(newCount);
     }
 
     private AchievementState getAchievementStateOrElseThrow(int achievementId) {

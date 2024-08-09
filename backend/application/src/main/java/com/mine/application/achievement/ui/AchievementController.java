@@ -5,7 +5,9 @@ import com.mine.application.achievement.command.application.UpdateAchievementSta
 import com.mine.application.achievement.query.AchievementStateQueryService;
 import com.mine.application.achievement.ui.dto.GetAchievedCountResponse;
 import com.mine.application.achievement.ui.dto.GetAchievementStateResponse;
+import com.mine.application.achievement.ui.dto.UpdateAchievementCountRequest;
 import com.mine.application.common.aop.LoginCheck;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -38,6 +40,16 @@ public class AchievementController {
     @GetMapping("/count")
     public ResponseEntity<GetAchievedCountResponse> getAchievedCount() {
         return ResponseEntity.ok().body(getAchievedCountService.getAchievedCount());
+    }
+
+    /*
+     * 개발용
+     * */
+    @LoginCheck
+    @PatchMapping("/update-count")
+    public ResponseEntity<Void> updateAchievementCount(@Valid UpdateAchievementCountRequest updateAchievementCountRequest) {
+        updateAchievementStateService.updateAchievementCount(updateAchievementCountRequest);
+        return ResponseEntity.ok().build();
     }
 
 }

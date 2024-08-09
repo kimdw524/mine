@@ -53,6 +53,13 @@ public class AchievementState {
         return isAchieved;
     }
 
+    /*
+     * 개발용
+     * */
+    public void tempChangeCountApi(final int count) {
+        this.count = count;
+    }
+
     private boolean achievementCompleted() {
         return achievement.getAmount().equals(count);
     }

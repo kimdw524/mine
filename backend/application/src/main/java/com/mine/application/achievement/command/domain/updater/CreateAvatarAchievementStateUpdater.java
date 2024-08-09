@@ -10,16 +10,16 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Component
-public class AvatarAchievementStateUpdater implements AchievementStateUpdater {
+public class CreateAvatarAchievementStateUpdater implements AchievementStateUpdater {
 
     private final AvatarDataRepository avatarDataRepository;
 
     @Override
     public int updateCount(AchievementState achievementState) {
-        return updateAvatarCount(achievementState);
+        return updateCreateAvatarCount(achievementState);
     }
 
-    private int updateAvatarCount(AchievementState achievementState) {
+    private int updateCreateAvatarCount(AchievementState achievementState) {
         int userId = achievementState.getUserId();
         List<AvatarData> avatars = avatarDataRepository.findAllByUserId(userId);
         return avatars.isEmpty() ? 0 : 1;
