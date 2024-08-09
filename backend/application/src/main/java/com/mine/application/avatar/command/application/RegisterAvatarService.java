@@ -26,7 +26,7 @@ public class RegisterAvatarService {
     private final AvatarRepository avatarRepository;
     private final QuestionResFactory questionResFactory;
     private final UploadVoiceService uploadVoiceService;
-    private final CreateAssistantService createAssistantService;
+    private final AssistantService assistantService;
     private final SessionDao sessionDao;
 
     @Transactional
@@ -47,7 +47,7 @@ public class RegisterAvatarService {
 
         avatar.setQuestionResList(questionResList);
 
-        Assistant assistant = createAssistantService.generateAssistant(avatar);
+        Assistant assistant = assistantService.generateAssistant(avatar);
         avatar.enrollAssistant(assistant);
 
         avatarRepository.save(avatar);

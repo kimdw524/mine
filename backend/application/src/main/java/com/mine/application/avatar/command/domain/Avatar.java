@@ -78,28 +78,43 @@ public class Avatar extends BaseEntity {
     }
 
     public void modifyAvatarInfo(ModifyAvatarRequest request) {
-        if(request.getAvatarName() != null) {
+        if(request.getAvatarName() != null && !request.getAvatarName().equals(name)) {
             this.name = request.getAvatarName();
+            isModify = true;
         }
 
-        if(request.getJob() != null) {
+        if(request.getJob() != null && !request.getJob().equals(job)) {
             this.job = request.getJob();
+            isModify = true;
         }
 
-        if(request.getResidence() != null) {
+        if(request.getResidence() != null && !request.getResidence().equals(residence)) {
             this.residence = request.getResidence();
+            isModify = true;
         }
 
-        if(request.getModel() != null) {
+        if(request.getModel() != null && !request.getModel().equalsIgnoreCase(model.name())) {
+            boolean flag = false;
             for(AvatarModel avatarModel : AvatarModel.values()) {
                 if(request.getModel().equalsIgnoreCase(avatarModel.name())) {
                     this.model = avatarModel;
+                    isModify = true;
+                    flag = true;
                     break;
                 }
+            }
+
+            if(!flag) {
+                throw new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND);
             }
         }
         if(request.getIsMain() != null) {
             this.isMain = request.getIsMain();
         }
     }
+
+    @Transient
+    private boolean isModify;
+
+
 }
