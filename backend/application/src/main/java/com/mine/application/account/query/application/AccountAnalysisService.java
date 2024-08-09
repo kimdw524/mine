@@ -58,8 +58,13 @@ public class AccountAnalysisService {
 
         int userId = getUserIdOrElseThrow();
         Long currStats = accountStatsCustomRepository.findIncomeAccountStats(userId, getStartOfDay(startDate), getEndOfDay(endDate));
-        if (currStats == null) return null;
+        if (currStats == null) {
+            return null;
+        }
         Long prevStats = accountStatsCustomRepository.findIncomeAccountStats(userId, getStartOfDay(prevStartDate), getEndOfDay(prevEndDate));
+        if (prevStats == null) {
+            prevStats = 0L;
+        }
 
         return new GetAccountAnalysisResponse(
                 prevStats,
