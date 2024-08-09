@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState,useRef } from 'react';
 import { useMutation, useSuspenseQueries } from '@tanstack/react-query';
 import { getUserAvatars, getUserInfo } from '../../../apis/mypageApi';
 import { Button, Toggle, Typography } from 'oyc-ds';
@@ -63,7 +63,7 @@ const HomeFetch = () => {
   useEffect(() => updateAttendance(), []);
 
  // 클릭 이스터에그  
-  const [, setEventCount] = useState(0);
+  const eventCountRef = useRef(0)
   const [showMessage, setShowMessage] = useState(false);
   const handleClick = () => {
     const newClickCount = clickCount + 1;
@@ -71,30 +71,28 @@ const HomeFetch = () => {
 
     if (newClickCount === 10) {
       alert(`그렇게 누르면 아파요!!`);
+      setClickCount(0);
       updateClickEaster();
     }
   }
 
   // 회전 이스터 에그
-  const handleMouseDown = () => {
-    setEventCount(0);
+  const handleTouchStart = () => {
+    eventCountRef.current = 0;
     setShowMessage(false);
   };
+  
+  const handleTouchMove = () => {
+    eventCountRef.current += 1;
 
-  const handleMouseEnterLeave = () => {
-    setEventCount(prevCount => {
-      const newCount = prevCount + 1;
-      if (newCount >= 20) {
-        setShowMessage(true);
-      }
-      return newCount;
-    });
+    if (eventCountRef.current === 300 && !showMessage) {
+      setShowMessage(true);
+    }
   };
-
   useEffect(() => {
     if (showMessage) {
       alert('너무 많이 회전해서 어지러워요!');
-      updateSpinEaster()
+      updateSpinEaster();
     }
   }, [showMessage]);
 
@@ -131,9 +129,9 @@ const HomeFetch = () => {
         </div>
         <div
           css={avatarContainerCss}
-          onMouseDown={handleMouseDown}
-          onMouseEnter={handleMouseEnterLeave}
-          onMouseLeave={handleMouseEnterLeave}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchMove}
           onClick={handleClick}
         >
           <Avatar3D
@@ -148,7 +146,7 @@ const HomeFetch = () => {
         </div>
         <div css={conversationCss}>
           {avatarQuery.data.data.length ? (
-            <AvatarChat avatarId={avatarQuery.data.data[0].avatarId} />
+            <AvatarChat avatarId={1} />
           ) : (
             <Typography color="dark" size="md">
               너만의 비서를 만들어봐!!
