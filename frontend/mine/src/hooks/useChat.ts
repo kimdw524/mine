@@ -1,4 +1,4 @@
-import { ReactNode, useRef } from 'react';
+import { ReactNode, useEffect, useRef } from 'react';
 import { AccountData, addAccountByChat } from '../apis/accountApi';
 import { addScheduleByChat, ScheduleData } from '../apis/scheduleApi';
 import SockJS from 'sockjs-client';
@@ -133,6 +133,14 @@ const useChat = (
       }
     }
   };
+
+  useEffect(() => {
+    const socket = socketRef.current;
+
+    return () => {
+      socket?.deactivate();
+    };
+  }, [socketRef.current]);
 
   return { connect, send, getLog };
 };

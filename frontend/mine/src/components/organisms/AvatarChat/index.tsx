@@ -14,13 +14,10 @@ const AvatarChat = ({ avatarId }: AvatarChatProps) => {
   const [response, setResponse] = useState<string | undefined>(undefined);
   const [request, setRequest] = useState<string | undefined>(undefined);
 
-  const getRecentChat = useCallback(
-    (me: boolean) =>
-      getLog()
-        .reverse()
-        .find((item) => item.me === me),
-    [getLog],
-  );
+  const getRecentChat = (me: boolean) =>
+    getLog()
+      .reverse()
+      .find((item) => item.me === me);
 
   useEffect(() => {
     const handleOpen = () => {};
@@ -44,7 +41,7 @@ const AvatarChat = ({ avatarId }: AvatarChatProps) => {
 
     setResponse(getRecentChat(false)?.message?.toString());
     setRequest(getRecentChat(true)?.message?.toString());
-  }, [getRecentChat, connect]);
+  }, []);
 
   const handleChatSend = (e: React.KeyboardEvent) => {
     if (
