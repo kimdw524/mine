@@ -17,6 +17,7 @@ import java.util.Optional;
 public class ModifyAvatarService {
     private final AvatarRepository avatarRepository;
     private final SessionDao sessionDao;
+    private final AssistantService assistantService;
 
     @Transactional
     public void modifyAvatar(Integer avatarId, ModifyAvatarRequest request) {
@@ -32,6 +33,8 @@ public class ModifyAvatarService {
             Optional<Avatar> avatarByUserIdAndNotAvatarId = avatarRepository.findAvatarByUserIdAndNotAvatarId(userId, avatar.getId());
             avatarByUserIdAndNotAvatarId.ifPresent(another -> another.modifyAvatarInfo(ModifyAvatarRequest.builder().isMain(false).build()));
         }
-
+        if(avatar.isModify()){
+            assistantService.modifyAssistantInfo(avatar);
+        }
     }
 }

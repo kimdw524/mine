@@ -51,8 +51,22 @@ public class QuestionRes {
         return sb.toString();
     }
 
+    @Transient
+    private boolean isModify;
+
     public void updateRes(ModifyQuestionResRequest resRequest, QuestionChoice questionChoice) {
-        this.subjectiveAns = resRequest.getSubjectiveAns();
-        this.questionChoice = questionChoice;
+        if(questionType.equals(QuestionType.CHOICE)) {
+            if(!this.questionChoice.equals(questionChoice)) {
+                isModify = true;
+                this.questionChoice = questionChoice;
+            }
+        }else {
+            if(!subjectiveAns.equals(resRequest.getSubjectiveAns())){
+                isModify = true;
+                this.subjectiveAns = resRequest.getSubjectiveAns();
+            }
+        }
     }
+
+
 }
