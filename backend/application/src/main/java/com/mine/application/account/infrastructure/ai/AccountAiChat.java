@@ -86,7 +86,7 @@ public class AccountAiChat {
                 """
                 이전 {period} 지출: {prevData},
                 현재 {period} 지출: {currData},
-                사용자의 소비패턴에 대해 분석해서 
+                사용자의 소비패턴에 대해 분석해.
                 소비습관을 현실적으로 개선할 수 있는 메시지를 상냥한 말투로 적어.
                 마지막에 이모티콘을 반드시 적어.
                 메시지는 반드시 100자 이내로 적어.
@@ -113,18 +113,20 @@ public class AccountAiChat {
     ) {
         PromptTemplate promptTemplate = new PromptTemplate(
                 """
-                이전 {period} 수입: {currValue},
-                현재 {period} 수입: {prevValue},
+                이전 {period} 수입: {prevValue},
+                현재 {period} 수입: {currValue},
                 사용자의 수입에 대해 분석해서
                 메시지를 상냥한 말투로 적고 마지막에 반드시 이모티콘도 적어.
+                이전 수입 대비 현재 수입이 떨어지면 슬픈 감정의 메시지.
+                이전 수입 대비 현주 수입이 올랐으면 기쁜 감정의 메시지.
                 메시지는 반드시 50자 이내로 적어.
                 이전 지출 대비 현재 지출을 분석해.
                 만약 이전 수입이 없다면 현재 수입만으로 분석해.
                 """);
         Prompt prompt = promptTemplate.create(Map.of(
                 "period", period,
-                "currValue", currValue,
-                "prevValue", prevValue
+                "prevValue", prevValue,
+                "currValue", currValue
         ));
 
         return openAiChatModel.call(prompt).getResult().getOutput().getContent();
