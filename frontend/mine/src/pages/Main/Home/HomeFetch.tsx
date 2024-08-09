@@ -15,8 +15,10 @@ import useDialog from '../../../hooks/useDialog';
 import { updateAttendenceAchievement } from '../../../apis/authApi';
 import { updateClickEasterAchievement, updateSpinEasterAchievement } from '../../../apis/avatarApi';
 import AvatarChat from '../../../components/organisms/AvatarChat';
+import { useNavigate } from 'react-router-dom';
 
 const HomeFetch = () => {
+  const nav = useNavigate();
   const [userQuery, avatarQuery] = useSuspenseQueries({
     queries: [
       { queryKey: ['userinfo'], queryFn: async () => await getUserInfo() },
@@ -152,7 +154,9 @@ const HomeFetch = () => {
               너만의 비서를 만들어봐!!
             </Typography>
           )}
-          {!avatarQuery.data.data.length && <Button>아바타 생성</Button>}
+          {!avatarQuery.data.data.length && (
+            <Button onClick={() => nav('/avatar/create')}>아바타 생성</Button>
+          )}
         </div>
       </div>
     </>

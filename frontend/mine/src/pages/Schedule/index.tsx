@@ -19,7 +19,6 @@ import {
 } from '../../utils/dateUtils';
 import Create from './Create';
 import useModal from '../../hooks/useModal';
-import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import Search from './Search';
 import Error from '../../components/molecules/Error';
 import ChipList from '../../components/molecules/ChipList';
@@ -31,7 +30,6 @@ import { getSchedules } from '../../apis/scheduleApi';
 export type SchedulePeriod = 'daily' | 'weekly' | 'monthly';
 
 const Schedule = () => {
-  const navigate = useNavigate();
   const today = new Date()
     .toLocaleDateString()
     .replaceAll('.', '')
@@ -97,13 +95,6 @@ const Schedule = () => {
     });
   };
 
-  const handleSearchClick = () => {
-    push({
-      component: <Search />,
-      name: 'searchSchedule',
-    });
-  };
-
   const handleSelectCategory = () => {
     push({
       component: (
@@ -145,76 +136,67 @@ const Schedule = () => {
   };
 
   return (
-    <>
-      <div css={containerCss}>
+    <div css={containerCss}>
+      <div>
         <div>
-          <AppBar
-            label="일정 관리"
-            onBackClick={() => navigate(-1)}
-            menu={[
-              { icon: <MagnifyingGlassIcon />, onClick: handleSearchClick },
-            ]}
+          <Calendar
+            year={parseInt(year)}
+            month={parseInt(month)}
+            selected={selectedRef.current}
+            scheduled={getScheduled()}
+            onChange={handleCalendarChange}
+            onClick={handleCalendarClick}
           />
-          <div>
-            <Calendar
-              year={parseInt(year)}
-              month={parseInt(month)}
-              selected={selectedRef.current}
-              scheduled={getScheduled()}
-              onChange={handleCalendarChange}
-              onClick={handleCalendarClick}
-            />
-          </div>
-        </div>
-        <div css={scheduleCss}>
-          <div css={headerCss}>
-            <Typography color="secondary" size="xs">
-              {selectedRef.current.length === 1
-                ? selectedRef.current[0].replaceAll('-', '. ')
-                : `${selectedRef.current[0].replaceAll('-', '. ')} ~ ${selectedRef.current.at(-1)!.replaceAll('-', '. ')}`}
-            </Typography>
-            <div css={menuCss}>
-              <ChipList ellipsis={false} onClick={handleSelectCategory}>
-                {category === 0 ? (
-                  <Chip size="sm" fill="#0087ff">
-                    전체
-                  </Chip>
-                ) : (
-                  <Chip size="sm" fill="#ff3f3f">
-                    {accountCategoryData[category].name}
-                  </Chip>
-                )}
-              </ChipList>
-              <Dropdown
-                size="sm"
-                style={{ border: '0' }}
-                onChangeCapture={handlePeriodChange}
-              >
-                <Dropdown.Item value="daily">일간</Dropdown.Item>
-                <Dropdown.Item value="weekly">주간</Dropdown.Item>
-                <Dropdown.Item value="monthly">월간</Dropdown.Item>
-              </Dropdown>
-            </div>
-          </div>
-          <ErrorBoundary fallbackRender={(props) => <Error {...props} />}>
-            <Suspense fallback={<></>}>
-              <ScheduleListFetch
-                key={`${date}${period}`}
-                type={period}
-                start={new Date(selectedRef.current[0])}
-                end={new Date(selectedRef.current.at(-1) || '')}
-                category={category}
-              />
-            </Suspense>
-          </ErrorBoundary>
-        </div>
-        <div css={bottomCss}>
-          <Button size="sm" onClick={handleCreateSchedule}>
-            일정 등록
-          </Button>
         </div>
       </div>
-    </>
+      <div css={scheduleCss}>
+        <div css={headerCss}>
+          <Typography color="secondary" size="xs">
+            {selectedRef.current.length === 1
+              ? selectedRef.current[0].replaceAll('-', '. ')
+              : `${selectedRef.current[0].replaceAll('-', '. ')} ~ ${selectedRef.current.at(-1)!.replaceAll('-', '. ')}`}
+          </Typography>
+          <div css={menuCss}>
+            <ChipList ellipsis={false} onClick={handleSelectCategory}>
+              {category === 0 ? (
+                <Chip size="sm" fill="#0087ff">
+                  전체
+                </Chip>
+              ) : (
+                <Chip size="sm" fill="#ff3f3f">
+                  {accountCategoryData[category].name}
+                </Chip>
+              )}
+            </ChipList>
+            <Dropdown
+              size="sm"
+              style={{ border: '0' }}
+              onChangeCapture={handlePeriodChange}
+            >
+              <Dropdown.Item value="daily">일간</Dropdown.Item>
+              <Dropdown.Item value="weekly">주간</Dropdown.Item>
+              <Dropdown.Item value="monthly">월간</Dropdown.Item>
+            </Dropdown>
+          </div>
+        </div>
+        <ErrorBoundary fallbackRender={(props) => <Error {...props} />}>
+          <Suspense fallback={<></>}>
+            <ScheduleListFetch
+              key={`${date}${period}`}
+              type={period}
+              start={new Date(selectedRef.current[0])}
+              end={new Date(selectedRef.current.at(-1) || '')}
+              category={category}
+            />
+          </Suspense>
+        </ErrorBoundary>
+      </div>
+      <div css={bottomCss}>
+        <Button size="sm" onClick={handleCreateSchedule}>
+          일정 등록
+        </Button>
+      </div>
+    </div>
   );
 };
 

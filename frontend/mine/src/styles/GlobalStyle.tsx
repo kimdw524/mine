@@ -43,9 +43,9 @@ const GlobalStyle = () => {
             width: 100vw;
             height: 100vh;
             overflow-x: hidden;
-            overscroll-behavior: contain;
             overflow-y: scroll;
             -ms-overflow-style: none;
+            overscroll-behavior: none;
 
             input::-webkit-outer-spin-button,
             input::-webkit-inner-spin-button {

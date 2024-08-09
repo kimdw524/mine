@@ -57,7 +57,7 @@ const ManageInfo = ({ title, labels, url, data, avatars }: ManageInfoProps) => {
               variant="contained"
               color="light"
               css={btnCss}
-              onClick={() => console.log('아바타 생성')}
+              onClick={() => nav('/avatar/create')}
             >
               <Icon>{engToIcon['avatar']}</Icon>
               <Typography color="dark">아바타 생성하기</Typography>

@@ -10,6 +10,8 @@ import { getDisplayTimeframe } from '../../../utils/SpendData';
 import { useNavigate } from 'react-router-dom';
 import { ErrorBoundary } from 'react-error-boundary';
 import { Suspense } from 'react';
+import Preview from '../Preview';
+import Analysis from './Spend/analysis';
 
 const AccountChart = () => {
   const [period, setPeriod] = useState('weekly');
