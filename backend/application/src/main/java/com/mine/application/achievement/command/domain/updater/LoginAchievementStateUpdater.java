@@ -23,8 +23,28 @@ public class LoginAchievementStateUpdater implements AchievementStateUpdater {
     }
 
     private int updateLoginCount(AchievementState achievementState) {
-        return isLoggedInYesterday(achievementState.getUserId()) ?
-                achievementState.getCount() + 1 : 0;
+        int userId = achievementState.getUserId();
+        if (isUpdatedInToday(userId)) {
+            return achievementState.getCount();
+        }
+        if (isLoggedInYesterday(userId)) {
+            return achievementState.getCount() + 1;
+        }
+        return 1;
+    }
+
+    private boolean isUpdatedInToday(int userId) {
+        LocalDateTime now = LocalDateTime.now();
+        LocalDate today = now.toLocalDate();
+        LocalDateTime startOfDayToday = today.atStartOfDay();
+        LocalDateTime endOfDayToday = today.atTime(LocalTime.MAX);
+
+        List<LoginLog> loginLogs = loginLogRepository.findByUserIdAndLoginDateTimeBetween(
+                userId,
+                startOfDayToday,
+                endOfDayToday
+        );
+        return loginLogs.size() > 1;
     }
 
     private boolean isLoggedInYesterday(int userId) {
