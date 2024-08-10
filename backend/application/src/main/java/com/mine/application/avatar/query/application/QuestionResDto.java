@@ -1,5 +1,6 @@
-package com.mine.application.avatar.query.domain;
+package com.mine.application.avatar.query.application;
 
+import com.mine.application.avatar.query.domain.QuestionChoiceData;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

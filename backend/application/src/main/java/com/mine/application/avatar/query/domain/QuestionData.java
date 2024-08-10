@@ -1,5 +1,6 @@
 package com.mine.application.avatar.query.domain;
 
+import groovy.transform.Immutable;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -17,6 +18,7 @@ import java.util.Set;
 @Table(name = "question")
 @Entity
 @Getter
+@Immutable
 public class QuestionData {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -19,6 +19,6 @@ public class QuestionController {
     @GetMapping("")
     @LoginCheck
     public ResponseEntity<?> findAll() {
-        return ResponseEntity.ok(searchQuestionService.findAll());
+        return ResponseEntity.ok(searchQuestionService.findAllForClient());
     }
 }

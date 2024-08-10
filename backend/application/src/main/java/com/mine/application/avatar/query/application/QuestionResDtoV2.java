@@ -1,4 +1,4 @@
-package com.mine.application.avatar.query.domain;
+package com.mine.application.avatar.query.application;
 
 import lombok.*;
 
