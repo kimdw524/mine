@@ -69,6 +69,7 @@ const useChat = (
       onOpen();
       socket.subscribe(`/chat/${avatarId}`, (message) => {
         const data: ChatResponse = JSON.parse(message.body);
+        console.log(data);
         addLog({
           me: false,
           name: data.avatarName,
@@ -92,6 +93,7 @@ const useChat = (
   const addLog = (data: ChatMessageData) => {
     const log: ChatMessageData[] = getLog();
     log.push(data);
+    console.log('called addLog');
     localStorage.setItem('chatLog', JSON.stringify(log.slice(-30)));
   };
 
@@ -146,12 +148,11 @@ const useChat = (
   };
 
   useEffect(() => {
-    const socket = socketRef.current;
-
     return () => {
+      const socket = socketRef.current;
       socket?.deactivate();
     };
-  }, [socketRef.current]);
+  }, []);
 
   return { connect, send, getLog, avatarId };
 };
