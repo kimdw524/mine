@@ -1,6 +1,10 @@
 package com.mine.application.avatar.query.application;
 
 import com.mine.application.avatar.query.domain.*;
+import com.mine.application.common.domain.SessionConstants;
+import com.mine.application.common.domain.SessionDao;
+import com.mine.application.common.erros.errorcode.CommonErrorCode;
+import com.mine.application.common.erros.exception.RestApiException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,7 +17,8 @@ import java.util.List;
 public class SearchQuestionResService {
     private final QuestionResDataRepository questionResDataRepository;
     private final SearchQuestionService searchQuestionService;
-
+    private final AvatarDataRepository avatarDataRepository;
+    private final SessionDao sessionDao;
 
     @Transactional(readOnly = true)
     public List<QuestionResDtoV2> getQueastionResDataV2(Integer avatarId) {
@@ -31,23 +36,23 @@ public class SearchQuestionResService {
     @Transactional(readOnly = true)
     public String getInstruction(Integer avatarId) {
         List<QuestionResDto> questionResDtos = questionResData(avatarId);
-
+        String avatarName = avatarDataRepository.findAvatarNameByUserIdAndAvatarId((Integer) sessionDao.get(SessionConstants.USER_ID).get(), avatarId).orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND));
         StringBuilder sb = new StringBuilder();
         for (QuestionResDto questionResDto : questionResDtos) {
-            sb.append(questionResDto.getQuestion()).append(" 라는 질문에는 `");
+            sb.append(avatarName).append("의");
+            sb.append(questionResDto.getQuestion());
             if (questionResDto.getQuestionType().equals('c')) {
                 sb.append(questionResDto.getChoiceAnswer().getDescription());
             } else {
                 sb.append(questionResDto.getSubjectiveAnswer());
             }
-            sb.append("`라고 답했어. \n");
+            sb.append("`입니다. \n");
         }
 
         return sb.toString();
     }
 
-    @Transactional(readOnly = true)
-    public List<QuestionResDto> questionResData(Integer avatarId) {
+    private List<QuestionResDto> questionResData(Integer avatarId) {
         List<QuestionResData> questionResDataList = questionResDataRepository.findAllByAvatarId(avatarId);
         List<QuestionData> questionAll = searchQuestionService.findAll();
 

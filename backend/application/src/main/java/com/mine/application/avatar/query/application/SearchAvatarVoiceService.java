@@ -16,6 +16,6 @@ public class SearchAvatarVoiceService {
     private final SessionDao sessionDao;
     public Voice getVoice(Integer avatarId) {
         Integer userId = (Integer) sessionDao.get(SessionConstants.USER_ID).get();
-        return avatarDataRepository.findAvatarDataByUserIdAndAvatarId(userId, avatarId).orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND));
+        return avatarDataRepository.findVoiceByUserIdAndAvatarId(userId, avatarId).orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND));
     }
 }
