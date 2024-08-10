@@ -79,7 +79,7 @@ create table achievement_state
     user_id              INT  NOT NULL,
     achievement_id       INT  NOT NULL,
     achievement_count    INT  NOT NULL,
-    achieved_date     DATETIME,
+    achieved_date        DATETIME,
     is_achieved          BOOL NOT NULL
 );
 
@@ -102,7 +102,7 @@ create table avatar
     avatar_thread_id    VARCHAR(60) NOT NULL,
     avatar_voice_id     VARCHAR(60),
     is_deleted          BOOL        NOT NULL default FALSE,
-    avatar_model        VARCHAR(6)     NOT NULL,
+    avatar_model        VARCHAR(6)  NOT NULL,
     avatar_residence    VARCHAR(40),
     avatar_job          VARCHAR(40),
     is_main             BOOL,
@@ -139,14 +139,14 @@ create table question_res
 create table chat
 (
     chat_id          BINARY(16) NOT NULL PRIMARY KEY,
-    user_id          INT          NOT NULL,
-    avatar_id        INT          NOT NULL,
-    chat_category_id INT          NOT NULL,
-    created_at       DATETIME     NOT NULL,
-    chat_content     TEXT NOT NULL,
-    chat_role        CHAR(1)      NOT NULL,
-    chat_type        CHAR(1)      NOT NULL,
-    sended_at        DATETIME     NOT NULL,
+    user_id          INT      NOT NULL,
+    avatar_id        INT      NOT NULL,
+    chat_category_id INT      NOT NULL,
+    created_at       DATETIME NOT NULL,
+    chat_content     TEXT     NOT NULL,
+    chat_role        CHAR(1)  NOT NULL,
+    chat_type        CHAR(1)  NOT NULL,
+    sended_at        DATETIME NOT NULL,
     FOREIGN KEY (user_id) REFERENCES user (user_id),
     FOREIGN KEY (avatar_id) REFERENCES avatar (avatar_id)
 );
@@ -224,74 +224,63 @@ VALUES (1, 1, 2, null, 0),
        (4, 7, 0, null, 0);
 
 INSERT INTO question(question_id, question_num, question_description, question_type)
-VALUES (1, 1, '어떤 음식을 좋아하시나요?', 'c');
+VALUES (1, 1, '좋아하는 영화는', 'c');
 INSERT INTO question_choice(question_choice_id, question_id, question_choice_number, question_choice_description)
-VALUES (1, 1, 1, '한식'),
-       (2, 1, 2, '중식'),
-       (3, 1, 3, '일식'),
-       (4, 1, 4, '양식'),
-       (5, 1, 5, '분식');
+VALUES (1, 1, 1, '코미디'),
+       (2, 1, 2, '액션'),
+       (3, 1, 3, '공포'),
+       (4, 1, 4, '멜로');
 
 INSERT INTO question(question_id, question_num, question_description, question_type)
-VALUES (2, 2, '어떤 음악 장르를 좋아하나요?', 'c');
+VALUES (2, 2, '좋아하는 음악은', 'c');
 INSERT INTO question_choice(question_choice_id, question_id, question_choice_number, question_choice_description)
-VALUES (6, 2, 1, '케이팝'),
-       (7, 2, 2, '팝송'),
-       (8, 2, 3, '락'),
-       (9, 2, 4, '발라드'),
-       (10, 2, 5, 'R&B');
+VALUES (5, 2, 1, '클래식'),
+       (6, 2, 2, '재즈'),
+       (7, 2, 3, '발라드'),
+       (8, 2, 4, '힙합'),
+       (9, 2, 5, 'R&B');
 
 INSERT INTO question(question_id, question_num, question_description, question_type)
-VALUES (3, 3, '취미가 무엇인가요?', 'c');
+VALUES (3, 3, '좋아하는 여행지는', 'c');
 INSERT INTO question_choice(question_choice_id, question_id, question_choice_number, question_choice_description)
-VALUES (11, 3, 1, '운동'),
-       (12, 3, 2, '영화'),
-       (13, 3, 3, '독서'),
-       (14, 3, 4, '공연'),
-       (15, 3, 5, '그림'),
-       (16, 3, 6, '음악'),
-       (17, 3, 7, '게임');
+VALUES (10, 3, 1, '바다'),
+       (11, 3, 2, '산'),
+       (12, 3, 3, '도시'),
+       (13, 3, 4, '섬');
 
 -- 네 번째 질문
 INSERT INTO question(question_id, question_num, question_description, question_type)
-VALUES (4, 4, '자주 사용하는 앱이나 웹사이트가 있나요?', 'c');
+VALUES (4, 4, '인생에서 가장 중요하게 생각하는 것은', 'c');
 INSERT INTO question_choice(question_choice_id, question_id, question_choice_number, question_choice_description)
-VALUES (18, 4, 1, '유튜브'),
-       (19, 4, 2, 'SNS'),
-       (20, 4, 3, '게임'),
-       (21, 4, 4, '인터넷 사이트'),
-       (22, 4, 5, '온라인 쇼핑'),
-       (23, 4, 6, '기타');
+VALUES (14, 4, 1, '돈'),
+       (15, 4, 2, '건강'),
+       (16, 4, 3, '가족&친구'),
+       (17, 4, 4, '개인의 성장');
 
 -- 다섯 번째 질문
 INSERT INTO question(question_id, question_num, question_description, question_type)
 VALUES (5, 5, '최근에 시작한 활동이 있나요?', 'c');
 INSERT INTO question_choice(question_choice_id, question_id, question_choice_number, question_choice_description)
-VALUES (24, 5, 1, '일찍 일어나기'),
-       (25, 5, 2, '새로운 공부'),
-       (26, 5, 3, '꾸준한 운동'),
-       (27, 5, 4, '긍정적인 생각'),
-       (28, 5, 5, '건강한 식단'),
-       (29, 5, 6, '기타');
+VALUES (18, 5, 1, '빠르고 역동적인 활동'),
+       (19, 5, 2, '탐험과 탐색 활동'),
+       (20, 5, 3, '느긋하고 여유로운 활동'),
+       (21, 5, 4, '창의적이고 문제 해결 중심의 활동');
 
--- 여섯 번째 질문
-INSERT INTO question(question_id, question_num, question_description, question_type)
-VALUES (6, 6, '여행을 갈 때 주로 어떤 타입에 해당이 되시나요?', 'c');
-INSERT INTO question_choice(question_choice_id, question_id, question_choice_number, question_choice_description)
-VALUES (30, 6, 1, '경치 좋은 곳 위주로 나들이를 즐긴다'),
-       (31, 6, 2, '볼거리와 재미를 주로 추구한다'),
-       (32, 6, 3, '문화 체험을 지향한다'),
-       (33, 6, 4, '음식이나 쇼핑 등을 선호한다'),
-       (34, 6, 5, '여행을 가지 않는다');
 
 INSERT INTO question(question_id, question_num, question_description, question_type)
-VALUES (7, 7, '주로 방문하는 장소는 어디인가요? (도서관, 카페 등)', 's');
+VALUES (6, 6, 'MBTI는', 's');
 INSERT INTO question(question_id, question_num, question_description, question_type)
-VALUES (8, 8, '평소에 자주 먹는 음식 종류는 무엇인가요?(피자, 찌개, 국수 등)', 's');
+VALUES (7, 7, '남들과 다른 독특한 취미는', 's');
 INSERT INTO question(question_id, question_num, question_description, question_type)
-VALUES (9, 9, '주말에 주로 무엇을 하나요?', 's');
+VALUES (8, 8, '특별한 주말을 보내는 법은', 's');
 INSERT INTO question(question_id, question_num, question_description, question_type)
-VALUES (10, 10, '특별히 추천받고 싶은 분야가 있나요?', 's');
+VALUES (9, 9, '스트레스 해소법은', 's');
+INSERT INTO question(question_id, question_num, question_description, question_type)
+VALUES (10, 10, '인생 좌우명은', 's');
+INSERT INTO question(question_id, question_num, question_description, question_type)
+VALUES (11, 11, '생활 습관은', 's');
+INSERT INTO question(question_id, question_num, question_description, question_type)
+VALUES (12, 12, '좋아하는 음식 종류는', 's');
 
 INSERT INTO avatar(avatar_id, user_id, avatar_name, avatar_birthday, avatar_personality, avatar_assistant_id,
                    avatar_thread_id, avatar_voice_id, is_deleted, avatar_model, avatar_residence, avatar_job, is_main)
@@ -312,7 +301,8 @@ VALUES (1, 1, 1, 1, null, 'c'),
 
 
 -- 7월 데이터 (20개)
-INSERT INTO account (user_id, spend_category_id, account_type, account_money, account_title, account_description, account_datetime, created_at)
+INSERT INTO account (user_id, spend_category_id, account_type, account_money, account_title, account_description,
+                     account_datetime, created_at)
 VALUES
 -- 수입 데이터 (account_type = 'I', spend_category_id = NULL)
 (3, NULL, 'I', 500000, '월급', '7월 월급', '2024-07-01 10:00:00', NOW()),
@@ -339,7 +329,8 @@ VALUES
 (3, 1, 'S', 70000, '예비비', '미정 예비비', '2024-07-30 13:00:00', NOW());
 
 -- 8월 데이터 (20개)
-INSERT INTO account (user_id, spend_category_id, account_type, account_money, account_title, account_description, account_datetime, created_at)
+INSERT INTO account (user_id, spend_category_id, account_type, account_money, account_title, account_description,
+                     account_datetime, created_at)
 VALUES
 -- 수입 데이터 (account_type = 'I', spend_category_id = NULL)
 (3, NULL, 'I', 500000, '월급', '8월 월급', '2024-08-01 10:00:00', NOW()),
@@ -366,49 +357,49 @@ VALUES
 (3, 1, 'S', 70000, '예비비', '미정 예비비', '2024-08-30 13:00:00', NOW());
 
 -- 7월 데이터 (20개)
-INSERT INTO schedule (user_id, schedule_category_id, schedule_start_datetime, schedule_end_datetime, schedule_title, schedule_description, schedule_where)
-VALUES
-    (3, 1, '2024-07-01 09:00:00', '2024-07-01 10:00:00', '미정 일정', '아직 정해지지 않은 일정', '미정 장소'),
-    (3, 2, '2024-07-03 07:00:00', '2024-07-05 19:00:00', '여행', '여름 휴가 여행', '제주도'),
-    (3, 3, '2024-07-06 12:00:00', '2024-07-06 14:00:00', '점심 외식', '동료들과 점심 식사', '한식당'),
-    (3, 4, '2024-07-07 09:00:00', '2024-07-07 18:00:00', '업무 회의', '주간 업무 회의', '회의실'),
-    (3, 5, '2024-07-08 18:00:00', '2024-07-08 20:00:00', '친구 약속', '친구와 저녁 식사', '이탈리안 레스토랑'),
-    (3, 6, '2024-07-10 14:00:00', '2024-07-10 16:00:00', '중간고사', '여름학기 중간고사', '대학 캠퍼스'),
-    (3, 7, '2024-07-11 10:00:00', '2024-07-11 12:00:00', '기타 일정', '개인 시간', '공원'),
-    (3, 1, '2024-07-12 08:00:00', '2024-07-12 09:00:00', '미정 일정', '아직 정해지지 않은 일정', '미정 장소'),
-    (3, 2, '2024-07-13 07:00:00', '2024-07-15 19:00:00', '여행', '가족과 주말 여행', '강릉'),
-    (3, 3, '2024-07-16 12:00:00', '2024-07-16 14:00:00', '점심 외식', '가족들과 점심 식사', '중식당'),
-    (3, 4, '2024-07-17 09:00:00', '2024-07-17 18:00:00', '업무 보고서 작성', '월간 보고서 작성', '사무실'),
-    (3, 5, '2024-07-18 18:00:00', '2024-07-18 20:00:00', '동창회 약속', '고등학교 동창회', '한식당'),
-    (3, 6, '2024-07-19 14:00:00', '2024-07-19 16:00:00', '기말고사', '여름학기 기말고사', '대학 캠퍼스'),
-    (3, 7, '2024-07-20 10:00:00', '2024-07-20 12:00:00', '기타 일정', '쇼핑', '쇼핑몰'),
-    (3, 1, '2024-07-21 08:00:00', '2024-07-21 09:00:00', '미정 일정', '아직 정해지지 않은 일정', '미정 장소'),
-    (3, 2, '2024-07-22 07:00:00', '2024-07-24 19:00:00', '여행', '친구와 주말 여행', '부산'),
-    (3, 3, '2024-07-25 12:00:00', '2024-07-25 14:00:00', '점심 외식', '회사 동료들과 점심 식사', '일식당'),
-    (3, 4, '2024-07-26 09:00:00', '2024-07-26 18:00:00', '프로젝트 회의', '새 프로젝트 논의', '회의실'),
-    (3, 5, '2024-07-27 18:00:00', '2024-07-27 20:00:00', '저녁 약속', '지인과 저녁 식사', '한식당'),
-    (3, 6, '2024-07-28 14:00:00', '2024-07-28 16:00:00', '시험', '자격증 시험', '시험장');
+INSERT INTO schedule (user_id, schedule_category_id, schedule_start_datetime, schedule_end_datetime, schedule_title,
+                      schedule_description, schedule_where)
+VALUES (3, 1, '2024-07-01 09:00:00', '2024-07-01 10:00:00', '미정 일정', '아직 정해지지 않은 일정', '미정 장소'),
+       (3, 2, '2024-07-03 07:00:00', '2024-07-05 19:00:00', '여행', '여름 휴가 여행', '제주도'),
+       (3, 3, '2024-07-06 12:00:00', '2024-07-06 14:00:00', '점심 외식', '동료들과 점심 식사', '한식당'),
+       (3, 4, '2024-07-07 09:00:00', '2024-07-07 18:00:00', '업무 회의', '주간 업무 회의', '회의실'),
+       (3, 5, '2024-07-08 18:00:00', '2024-07-08 20:00:00', '친구 약속', '친구와 저녁 식사', '이탈리안 레스토랑'),
+       (3, 6, '2024-07-10 14:00:00', '2024-07-10 16:00:00', '중간고사', '여름학기 중간고사', '대학 캠퍼스'),
+       (3, 7, '2024-07-11 10:00:00', '2024-07-11 12:00:00', '기타 일정', '개인 시간', '공원'),
+       (3, 1, '2024-07-12 08:00:00', '2024-07-12 09:00:00', '미정 일정', '아직 정해지지 않은 일정', '미정 장소'),
+       (3, 2, '2024-07-13 07:00:00', '2024-07-15 19:00:00', '여행', '가족과 주말 여행', '강릉'),
+       (3, 3, '2024-07-16 12:00:00', '2024-07-16 14:00:00', '점심 외식', '가족들과 점심 식사', '중식당'),
+       (3, 4, '2024-07-17 09:00:00', '2024-07-17 18:00:00', '업무 보고서 작성', '월간 보고서 작성', '사무실'),
+       (3, 5, '2024-07-18 18:00:00', '2024-07-18 20:00:00', '동창회 약속', '고등학교 동창회', '한식당'),
+       (3, 6, '2024-07-19 14:00:00', '2024-07-19 16:00:00', '기말고사', '여름학기 기말고사', '대학 캠퍼스'),
+       (3, 7, '2024-07-20 10:00:00', '2024-07-20 12:00:00', '기타 일정', '쇼핑', '쇼핑몰'),
+       (3, 1, '2024-07-21 08:00:00', '2024-07-21 09:00:00', '미정 일정', '아직 정해지지 않은 일정', '미정 장소'),
+       (3, 2, '2024-07-22 07:00:00', '2024-07-24 19:00:00', '여행', '친구와 주말 여행', '부산'),
+       (3, 3, '2024-07-25 12:00:00', '2024-07-25 14:00:00', '점심 외식', '회사 동료들과 점심 식사', '일식당'),
+       (3, 4, '2024-07-26 09:00:00', '2024-07-26 18:00:00', '프로젝트 회의', '새 프로젝트 논의', '회의실'),
+       (3, 5, '2024-07-27 18:00:00', '2024-07-27 20:00:00', '저녁 약속', '지인과 저녁 식사', '한식당'),
+       (3, 6, '2024-07-28 14:00:00', '2024-07-28 16:00:00', '시험', '자격증 시험', '시험장');
 
 -- 8월 데이터 (20개)
-INSERT INTO schedule (user_id, schedule_category_id, schedule_start_datetime, schedule_end_datetime, schedule_title, schedule_description, schedule_where)
-VALUES
-    (3, 1, '2024-08-01 09:00:00', '2024-08-01 10:00:00', '미정 일정', '아직 정해지지 않은 일정', '미정 장소'),
-    (3, 2, '2024-08-03 07:00:00', '2024-08-05 19:00:00', '여행', '여름 휴가 여행', '제주도'),
-    (3, 3, '2024-08-06 12:00:00', '2024-08-06 14:00:00', '점심 외식', '동료들과 점심 식사', '한식당'),
-    (3, 4, '2024-08-07 09:00:00', '2024-08-07 18:00:00', '업무 회의', '주간 업무 회의', '회의실'),
-    (3, 5, '2024-08-08 18:00:00', '2024-08-08 20:00:00', '친구 약속', '친구와 저녁 식사', '이탈리안 레스토랑'),
-    (3, 6, '2024-08-10 14:00:00', '2024-08-10 16:00:00', '중간고사', '여름학기 중간고사', '대학 캠퍼스'),
-    (3, 7, '2024-08-11 10:00:00', '2024-08-11 12:00:00', '기타 일정', '개인 시간', '공원'),
-    (3, 1, '2024-08-12 08:00:00', '2024-08-12 09:00:00', '미정 일정', '아직 정해지지 않은 일정', '미정 장소'),
-    (3, 2, '2024-08-13 07:00:00', '2024-08-15 19:00:00', '여행', '가족과 주말 여행', '강릉'),
-    (3, 3, '2024-08-16 12:00:00', '2024-08-16 14:00:00', '점심 외식', '가족들과 점심 식사', '중식당'),
-    (3, 4, '2024-08-17 09:00:00', '2024-08-17 18:00:00', '업무 보고서 작성', '월간 보고서 작성', '사무실'),
-    (3, 5, '2024-08-18 18:00:00', '2024-08-18 20:00:00', '동창회 약속', '고등학교 동창회', '한식당'),
-    (3, 6, '2024-08-19 14:00:00', '2024-08-19 16:00:00', '기말고사', '여름학기 기말고사', '대학 캠퍼스'),
-    (3, 7, '2024-08-20 10:00:00', '2024-08-20 12:00:00', '기타 일정', '쇼핑', '쇼핑몰'),
-    (3, 1, '2024-08-21 08:00:00', '2024-08-21 09:00:00', '미정 일정', '아직 정해지지 않은 일정', '미정 장소'),
-    (3, 2, '2024-08-22 07:00:00', '2024-08-24 19:00:00', '여행', '친구와 주말 여행', '부산'),
-    (3, 3, '2024-08-25 12:00:00', '2024-08-25 14:00:00', '점심 외식', '회사 동료들과 점심 식사', '일식당'),
-    (3, 4, '2024-08-26 09:00:00', '2024-08-26 18:00:00', '프로젝트 회의', '새 프로젝트 논의', '회의실'),
-    (3, 5, '2024-08-27 18:00:00', '2024-08-27 20:00:00', '저녁 약속', '지인과 저녁 식사', '한식당'),
-    (3, 6, '2024-08-28 14:00:00', '2024-08-28 16:00:00', '시험', '자격증 시험', '시험장');
+INSERT INTO schedule (user_id, schedule_category_id, schedule_start_datetime, schedule_end_datetime, schedule_title,
+                      schedule_description, schedule_where)
+VALUES (3, 1, '2024-08-01 09:00:00', '2024-08-01 10:00:00', '미정 일정', '아직 정해지지 않은 일정', '미정 장소'),
+       (3, 2, '2024-08-03 07:00:00', '2024-08-05 19:00:00', '여행', '여름 휴가 여행', '제주도'),
+       (3, 3, '2024-08-06 12:00:00', '2024-08-06 14:00:00', '점심 외식', '동료들과 점심 식사', '한식당'),
+       (3, 4, '2024-08-07 09:00:00', '2024-08-07 18:00:00', '업무 회의', '주간 업무 회의', '회의실'),
+       (3, 5, '2024-08-08 18:00:00', '2024-08-08 20:00:00', '친구 약속', '친구와 저녁 식사', '이탈리안 레스토랑'),
+       (3, 6, '2024-08-10 14:00:00', '2024-08-10 16:00:00', '중간고사', '여름학기 중간고사', '대학 캠퍼스'),
+       (3, 7, '2024-08-11 10:00:00', '2024-08-11 12:00:00', '기타 일정', '개인 시간', '공원'),
+       (3, 1, '2024-08-12 08:00:00', '2024-08-12 09:00:00', '미정 일정', '아직 정해지지 않은 일정', '미정 장소'),
+       (3, 2, '2024-08-13 07:00:00', '2024-08-15 19:00:00', '여행', '가족과 주말 여행', '강릉'),
+       (3, 3, '2024-08-16 12:00:00', '2024-08-16 14:00:00', '점심 외식', '가족들과 점심 식사', '중식당'),
+       (3, 4, '2024-08-17 09:00:00', '2024-08-17 18:00:00', '업무 보고서 작성', '월간 보고서 작성', '사무실'),
+       (3, 5, '2024-08-18 18:00:00', '2024-08-18 20:00:00', '동창회 약속', '고등학교 동창회', '한식당'),
+       (3, 6, '2024-08-19 14:00:00', '2024-08-19 16:00:00', '기말고사', '여름학기 기말고사', '대학 캠퍼스'),
+       (3, 7, '2024-08-20 10:00:00', '2024-08-20 12:00:00', '기타 일정', '쇼핑', '쇼핑몰'),
+       (3, 1, '2024-08-21 08:00:00', '2024-08-21 09:00:00', '미정 일정', '아직 정해지지 않은 일정', '미정 장소'),
+       (3, 2, '2024-08-22 07:00:00', '2024-08-24 19:00:00', '여행', '친구와 주말 여행', '부산'),
+       (3, 3, '2024-08-25 12:00:00', '2024-08-25 14:00:00', '점심 외식', '회사 동료들과 점심 식사', '일식당'),
+       (3, 4, '2024-08-26 09:00:00', '2024-08-26 18:00:00', '프로젝트 회의', '새 프로젝트 논의', '회의실'),
+       (3, 5, '2024-08-27 18:00:00', '2024-08-27 20:00:00', '저녁 약속', '지인과 저녁 식사', '한식당'),
+       (3, 6, '2024-08-28 14:00:00', '2024-08-28 16:00:00', '시험', '자격증 시험', '시험장');
