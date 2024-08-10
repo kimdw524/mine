@@ -170,7 +170,10 @@ const ChatFetch = () => {
     <>
       <div css={containerCss}>
         <div css={chatLogCss} ref={chatLogRef}>
-          <ChatBox messages={chatLog} />
+          <ChatBox
+            messages={chatLog}
+            voiceId={avatarQuery.data?.data[0]?.voiceId}
+          />
         </div>
         <div css={chatCss}>
           <TypeTextField

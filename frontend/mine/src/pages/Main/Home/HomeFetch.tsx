@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import React, { useEffect, useState,useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useMutation, useSuspenseQueries } from '@tanstack/react-query';
 import { getUserAvatars, getUserInfo } from '../../../apis/mypageApi';
 import { Button, Toggle, Typography } from 'oyc-ds';
@@ -13,7 +13,10 @@ import { containerCss } from './style';
 import Avatar3D from '../../../components/atoms/Avatar3D';
 import useDialog from '../../../hooks/useDialog';
 import { updateAttendenceAchievement } from '../../../apis/authApi';
-import { updateClickEasterAchievement, updateSpinEasterAchievement } from '../../../apis/avatarApi';
+import {
+  updateClickEasterAchievement,
+  updateSpinEasterAchievement,
+} from '../../../apis/avatarApi';
 import AvatarChat from '../../../components/organisms/AvatarChat';
 import { useNavigate } from 'react-router-dom';
 
@@ -47,23 +50,21 @@ const HomeFetch = () => {
   const { mutate: updateClickEaster } = useMutation({
     mutationFn: async () => await updateClickEasterAchievement(),
     onSuccess: (res) => {
-      if (res.data) alert('이스터 에그 업적 달성!')
-    }
+      if (res.data) alert('이스터 에그 업적 달성!');
+    },
   });
 
   const { mutate: updateSpinEaster } = useMutation({
     mutationFn: async () => await updateSpinEasterAchievement(),
     onSuccess: (res) => {
-      if (res.data) 
-        alert('이스터 에그 업적 달성!')
-    }
+      if (res.data) alert('이스터 에그 업적 달성!');
+    },
   });
-
 
   useEffect(() => updateAttendance(), []);
 
- // 클릭 이스터에그  
-  const eventCountRef = useRef(0)
+  // 클릭 이스터에그
+  const eventCountRef = useRef(0);
   const [showMessage, setShowMessage] = useState(false);
   const handleClick = () => {
     const newClickCount = clickCount + 1;
@@ -74,14 +75,14 @@ const HomeFetch = () => {
       setClickCount(0);
       updateClickEaster();
     }
-  }
+  };
 
   // 회전 이스터 에그
   const handleTouchStart = () => {
     eventCountRef.current = 0;
     setShowMessage(false);
   };
-  
+
   const handleTouchMove = () => {
     eventCountRef.current += 1;
 
