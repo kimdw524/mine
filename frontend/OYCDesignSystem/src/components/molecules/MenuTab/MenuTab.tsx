@@ -9,30 +9,27 @@ export const MenuTab = ({
   children,
   size = 'md',
   variant = 'contained',
-  border = 'rounded',
+  border = 0, 
   color = 'primary',
   onChangeMenu,
   ...props
 }: MenuTabProps) => {
   const theme = useTheme();
-  const [activeIndex, setActiveIndex] = useState<number>(0);
+  const [activeIndex, setActiveIndex] = useState(0);
 
   const handleTabClick = (index: number) => {
     setActiveIndex(index);
     onChangeMenu(index);
   };
 
-  const tabCount = React.Children.count(children);
-
   return (
-    <div css={[tabsCss(variant, border), borderCss[border]]} {...props}>
-      <div css={activeCss(activeIndex, theme.colors[color], tabCount, variant, border)}></div>
+    <div css={[tabsCss(variant, border), borderCss.rounded(border)]} {...props}>
+      <div css={activeCss(activeIndex, theme.colors[color], React.Children.count(children), variant, border)} />
       {React.Children.map(children, (child, index) => (
         <Button
           css={btnCss(
             theme,
             theme.colors[color],
-            tabCount,
             size,
             variant,
             index === activeIndex,
@@ -48,4 +45,3 @@ export const MenuTab = ({
     </div>
   );
 };
-

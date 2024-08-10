@@ -11,6 +11,6 @@ export interface MenuTabProps
   size?: Size;
   variant?: MenuTabVariant;
   color?: Palette;
-  border?: MenuTabBorder;
+  border?: number;
   onChangeMenu: (menu: number) => void;
 }
