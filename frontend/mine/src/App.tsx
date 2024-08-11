@@ -15,8 +15,6 @@ import CreateAvatar from './pages/CreateAvatar';
 import FindPassword from './pages/FindPassword';
 import Main from './pages/Main';
 import Notification from './components/common/Notification';
-import Schedule from './pages/Schedule';
-import Account from './pages/Account';
 import AccountChart from './pages/Statistics/Account/index';
 import ScheduleChart from './pages/Statistics/Schedule/index';
 import NickEdit from './pages/Main/MypageV2/EditUser/NickEdit';
@@ -25,6 +23,7 @@ import Achievement from './pages/Main/MypageV2/Achievement';
 import AvatarInfo from './pages/Main/MypageV2/AvatarInfo';
 import AvatarInfoEdit from './pages/Main/MypageV2/EditAvatar/AvatarInfoEdit';
 import AvatarQnAEdit from './pages/Main/MypageV2/EditAvatar/AvatarQnAEdit';
+import Calendar from './pages/Calendar';
 
 function App() {
   const [notiInfo, setNotiInfo] = useState<INotiInfo>({
@@ -96,8 +95,11 @@ function App() {
 
                 <Route path="/avatar/create" element={<CreateAvatar />} />
 
-                <Route path="/schedule" element={<Schedule />} />
-                <Route path="/account" element={<Account />} />
+                <Route
+                  path="/schedule"
+                  element={<Calendar page="schedule" />}
+                />
+                <Route path="/account" element={<Calendar page="account" />} />
               </Routes>
             </NotificationContext.Provider>
           </ModalProvider>
