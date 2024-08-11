@@ -4,7 +4,7 @@ import { LightTheme } from 'oyc-ds';
 import { ThemeProvider } from '@emotion/react';
 import { UserProvider } from './pages/Login/UserContext';
 import { ModalProvider } from './hooks/useModal';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import { ToastVariant } from 'oyc-ds/dist/components/molecules/Toast/Toast.types';
 import { Palette } from 'oyc-ds/dist/themes/lightTheme';
 import { INotiInfo, NotificationContext } from './utils/NotificationContext';
@@ -26,6 +26,7 @@ import AvatarQnAEdit from './pages/Main/MypageV2/EditAvatar/AvatarQnAEdit';
 import Calendar from './pages/Calendar';
 
 function App() {
+  const nav = useNavigate();
   const [notiInfo, setNotiInfo] = useState<INotiInfo>({
     notiState: false,
     variant: 'contained',
@@ -79,8 +80,8 @@ function App() {
                 <Route path="/user/signup" element={<Signup />} />
                 <Route path="/user/findpassword" element={<FindPassword />} />
 
-                <Route path="/accountchart" element={<AccountChart />} />
-                <Route path="/schedulechart" element={<ScheduleChart />} />
+                <Route path="/chart/account" element={<AccountChart />} />
+                <Route path="/chart/schedule" element={<ScheduleChart />} />
 
                 {/* 마이페이지 */}
                 <Route path="/mypage/nick" element={<NickEdit />} />

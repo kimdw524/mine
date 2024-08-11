@@ -35,19 +35,23 @@ const ScheduleChart = () => {
 
   return (
     <>
-      <AppBar label="일정 통계" onBackClick={() => nav('/')} />
+      <AppBar
+        label="일정 통계"
+        onBackClick={() => nav('/', { state: { step: 2 } })}
+      />
       <div css={containerCss}>
         <MenuTab
           color="light"
           size="sm"
-          variant="rounded"
+          variant="contained"
+          border={0}
           onChangeMenu={handleMenuChange}
         >
           <div>월간</div>
           <div>연간</div>
         </MenuTab>
         <DataTab
-          title={<div>{title}</div>} 
+          title={<div>{title}</div>}
           leftChild={
             <Typography
               color="dark"
