@@ -48,7 +48,14 @@ const ChatFetch = () => {
   const { mutate: updateSpinEaster } = useMutation({
     mutationFn: async () => await updateChatEasterAchievement(),
     onSuccess: (res) => {
-      if (res.data) alert('이스터 에그 업적 달성!');
+      if (res.data)
+        alert(
+          <div>
+            이스터에그 달성!
+            <br />
+            저는 바보가 아니예요 😒
+          </div>
+        );
     },
   });
 
@@ -64,7 +71,6 @@ const ChatFetch = () => {
     }
 
     if (message === '바보') {
-      alert('저는 바보가 아니예요! ㅠㅠ');
       updateSpinEaster();
     }
 
