@@ -1,9 +1,8 @@
 /** @jsxImportSource @emotion/react */
-import React, { useContext, useState, useEffect, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, LabeledCheckBox, Typography, TextField } from 'oyc-ds';
+import { Button, Typography, TextField } from 'oyc-ds';
 import { Palette } from 'oyc-ds/dist/themes/lightTheme';
-import { UserContext } from './UserContext';
 import { UserLogin } from '../../apis/loginApi';
 import {
   loginBtnCss,
@@ -14,12 +13,11 @@ import {
   signupBtnCss,
   pwfindCss,
   failmsgCss,
-  eyesCss,
   passwordCss,
 } from './Login.styles';
 import { useQueryClient } from '@tanstack/react-query';
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
-
+import { useLoginCheck } from '../../hooks/useLoginCheck';
 interface ColorInfo {
   email: Palette;
   password: Palette;
@@ -28,31 +26,23 @@ const emailCheck = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-za-z0-9\-]+/;
 const passwordCheck = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,}$/; // 영문, 숫자, 8글자 이상
 
 const Login = () => {
+  useLoginCheck();
   const queryClient = useQueryClient();
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const nav = useNavigate();
-  const [ischecked, setIsChecked] = useState(false);
   const [emailvalidation, setEmailValidation] = useState<boolean>(true);
   const [passwordvalidation, setPasswordValidation] = useState<boolean>(false);
-  const [loginResult, setLoginResult] = useState('');
-  const { setUserInfo } = useContext(UserContext);
-  const [hide, setHide] = useState<boolean>(false);
+  const [loginResult, setLoginResult] = useState<string>('');
+  const [hide, setHide] = useState<boolean>(true);
   const [color, setColor] = useState<ColorInfo>({
     email: 'primary',
     password: 'primary',
   });
 
   const onToggleHide = () => {
-    setHide((prevHide) => !prevHide); // 현재 상태를 반전
+    setHide((prevHide) => !prevHide);
   };
-
-  useEffect(() => {
-    const storedUserInfo = localStorage.getItem('userInfo');
-    if (storedUserInfo) {
-      setUserInfo(JSON.parse(storedUserInfo));
-    }
-  }, [setUserInfo]);
 
   const EmailValidation = useCallback(async () => {
     if (emailCheck.test(email)) {
@@ -94,17 +84,8 @@ const Login = () => {
     setPassword(e.target.value);
   };
 
-  const checkedItemHandler = (ischecked: boolean) => {
-    setIsChecked(ischecked);
-  };
-
   const autoLogin = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    const today = new Date();
-    if (ischecked) {
-      today.setDate(today.getDate() + 1);
-    }
-
     try {
       await UserLogin(email, password);
       queryClient.clear();
@@ -197,15 +178,6 @@ const Login = () => {
             </Typography>
           ) : null}
         </div>
-        {/* <LabeledCheckBox
-          color="primary"
-          labelColor="dark"
-          size="sm"
-          weight="medium"
-          onChange={checkedItemHandler}
-        >
-          자동 로그인
-        </LabeledCheckBox> */}
         {loginResult ? (
           <Typography css={failmsgCss} color="danger" size="xs" weight="medium">
             {loginResult}

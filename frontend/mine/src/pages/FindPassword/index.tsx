@@ -7,6 +7,7 @@ import { containerCss } from './style';
 import EmailVerification from './EmailInput';
 import Password from '../MyPage/EditUser/PwdEdit/Password';
 import { useNavigate } from 'react-router-dom';
+import { useLoginCheck } from '../../hooks/useLoginCheck';
 
 interface EmailInfo {
   email: string;
@@ -24,15 +25,13 @@ export const EmailContext = createContext<EmailContextProps>(
 );
 
 const FindPassword = () => {
+  useLoginCheck();
   const [step, setStep] = useState<number>(0);
   const nav = useNavigate();
 
   return (
     <div>
-      <AppBar
-        label="비밀번호 찾기"
-        onBackClick={() => nav('/')}
-      >
+      <AppBar label="비밀번호 찾기" onBackClick={() => nav('/')}>
         <AppBar.Progress value={step + 1} max={2} />
       </AppBar>
       <div css={containerCss}>
