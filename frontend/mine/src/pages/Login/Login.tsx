@@ -1,9 +1,12 @@
 /** @jsxImportSource @emotion/react */
 import React, { useState, useCallback } from 'react';
+import { useLoginCheck } from '../../hooks/useLoginCheck';
+import { useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
-import { Button, Typography, TextField } from 'oyc-ds';
-import { Palette } from 'oyc-ds/dist/themes/lightTheme';
 import { UserLogin } from '../../apis/loginApi';
+import { Palette } from 'oyc-ds/dist/themes/lightTheme';
+import { Button, Typography, TextField } from 'oyc-ds';
+import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
 import {
   loginBtnCss,
   errmsgCss,
@@ -15,9 +18,7 @@ import {
   failmsgCss,
   passwordCss,
 } from './Login.styles';
-import { useQueryClient } from '@tanstack/react-query';
-import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
-import { useLoginCheck } from '../../hooks/useLoginCheck';
+
 interface ColorInfo {
   email: Palette;
   password: Palette;
@@ -84,7 +85,7 @@ const Login = () => {
     setPassword(e.target.value);
   };
 
-  const autoLogin = async (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleLogin = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     try {
       await UserLogin(email, password);
@@ -189,7 +190,7 @@ const Login = () => {
             size="md"
             variant="contained"
             type="submit"
-            onClick={autoLogin}
+            onClick={handleLogin}
             disabled={passwordvalidation && emailvalidation ? false : true}
           >
             로그인

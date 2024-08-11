@@ -9,6 +9,7 @@ import { getDisplayTimeframe } from '../../../utils/SpendData';
 import Schedule from './schedule';
 import { ErrorBoundary } from 'react-error-boundary';
 import { Suspense } from 'react';
+import Loading from '../../../components/molecules/Loading';
 
 const ScheduleChart = () => {
   const [offset, setOffset] = useState(0);
@@ -30,7 +31,6 @@ const ScheduleChart = () => {
     }
   };
 
-  // getDisplayTimeframe의 반환값을 문자열로 변환
   const { title } = getDisplayTimeframe(period, offset);
 
   return (
@@ -70,7 +70,7 @@ const ScheduleChart = () => {
           }
         />
         <ErrorBoundary fallback={<div>에러 발생</div>}>
-          <Suspense fallback={<div>로딩중...</div>}>
+          <Suspense fallback={<Loading/>}>
             <Schedule period={period} offset={offset} />
           </Suspense>
         </ErrorBoundary>

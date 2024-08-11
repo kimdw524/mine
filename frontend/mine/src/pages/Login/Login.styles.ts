@@ -12,13 +12,13 @@ export const logoCss = css`
 `;
 
 export const fieldCss = css`
-  margin-bottom: 20px;
+  margin-bottom: 1.25rem;
   position: relative;
 `;
 
 export const eyesCss = css`
   position: 'absolute';
-  right: '10px';
+  right: '0.625rem';
   top: '50%';
   transform: 'translateY(-50%)';
   cursor: 'pointer';
@@ -31,7 +31,7 @@ export const errmsgCss = css`
 export const loginBtnCss = css`
   display: flex;
   justify-content: center;
-  padding: 20px 0;
+  padding: 1.25rem 0;
 
   Button {
     width: 70%;
@@ -50,12 +50,12 @@ export const signupBtnCss = css`
 export const pwfindCss = css`
   display: flex;
   justify-content: center;
-  padding-top: 20px;
+  padding-top: 1.25rem;
 `;
 
 export const failmsgCss = css`
-  white-space: pre-wrap;
   text-align: center;
+  white-space: pre-wrap;
 `;
 
 export const passwordCss = css`

@@ -1,13 +1,13 @@
 /** @jsxImportSource @emotion/react */
-import AppBar from '../../components/organisms/AppBar';
 import React, { createContext, useState } from 'react';
-import TransitionAnimation from '../../components/common/TransitionAnimation';
-import styles from './FindPassword.module.css';
 import { containerCss } from './style';
-import EmailVerification from './EmailInput';
-import Password from '../MyPage/EditUser/PwdEdit/Password';
 import { useNavigate } from 'react-router-dom';
 import { useLoginCheck } from '../../hooks/useLoginCheck';
+import styles from './FindPassword.module.css';
+import AppBar from '../../components/organisms/AppBar';
+import TransitionAnimation from '../../components/common/TransitionAnimation';
+import EmailVerification from './EmailInput';
+import Password from '../MyPage/EditUser/PwdEdit/Password';
 
 interface EmailInfo {
   email: string;
