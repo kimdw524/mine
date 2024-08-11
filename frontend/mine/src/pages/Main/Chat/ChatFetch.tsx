@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import React, { useEffect, useRef, useState } from 'react';
-import { chatCss, chatLogCss, containerCss } from './style';
+import { chatCss, chatLogCss, containerCss, pendingCss } from './style';
 import useChat, {
   ChatMessageData,
   ChatResponse,
@@ -19,6 +19,7 @@ import { getUserAvatars } from '../../../apis/mypageApi';
 import useDialog from '../../../hooks/useDialog';
 import { useMutation } from '@tanstack/react-query';
 import { updateChatEasterAchievement } from '../../../apis/avatarApi';
+import { Spinner, Typography } from 'oyc-ds';
 
 const ChatFetch = () => {
   const chatRef = useRef<HTMLInputElement>(null);
@@ -27,6 +28,7 @@ const ChatFetch = () => {
   const chatTypeRef = useRef<ChatType>('chat');
   const { push } = useModal();
   const { alert } = useDialog();
+  const [isPending, setIsPending] = useState<boolean>(false);
 
   const avatarQuery = useSuspenseQuery({
     queryKey: ['avatarinfo'],
@@ -69,6 +71,8 @@ const ChatFetch = () => {
     }
 
     chat.send(chatTypeRef.current, message, () => {
+      setIsPending(true);
+
       addChat({
         me: true,
         message,
@@ -93,7 +97,9 @@ const ChatFetch = () => {
   useEffect(() => {
     const handleOpen = () => {};
 
-    const handleError = () => {};
+    const handleError = () => {
+      alert('채팅 서버와 연결이 끊어졌습니다.');
+    };
 
     const handleClose = () => {};
 
@@ -104,6 +110,8 @@ const ChatFetch = () => {
         name: res.avatarName,
         dateTime: res.sendedDate,
       });
+
+      setIsPending(false);
     };
 
     const handleAccount = (data: AccountData) => {
@@ -127,6 +135,7 @@ const ChatFetch = () => {
           dateTime: new Date().toJSON(),
         },
       ]);
+      setIsPending(false);
     };
 
     const handleSchedule = (data: ScheduleData) => {
@@ -150,6 +159,7 @@ const ChatFetch = () => {
           dateTime: new Date().toJSON(),
         },
       ]);
+      setIsPending(false);
     };
 
     chat.connect({
@@ -164,7 +174,7 @@ const ChatFetch = () => {
     chat.getLog().forEach((chat) => {
       addChat(chat);
     });
-  }, []);
+  }, [setIsPending]);
 
   return (
     <>
@@ -187,7 +197,15 @@ const ChatFetch = () => {
             onTypeChange={(type) => {
               chatTypeRef.current = type as ChatType;
             }}
+            disabled={isPending}
           />
+          {isPending && (
+            <div css={pendingCss}>
+              <Typography size="sm" color="light">
+                아바타의 대답을 기다리고 있어요.
+              </Typography>
+            </div>
+          )}
         </div>
       </div>
     </>

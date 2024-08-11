@@ -81,7 +81,7 @@ const useChat = (
       });
     };
 
-    socket.onStompError = onError;
+    socket.onWebSocketError = onError;
     socket.onWebSocketClose = onClose;
 
     socket.activate();
@@ -107,26 +107,31 @@ const useChat = (
       case 'chat': {
         const date = new Date().toJSON();
         const socket = socketRef.current;
-        if (!socket || !socket.active) {
+
+        if (!socket) {
           return;
         }
 
-        addLog({
-          me: true,
-          name: '나',
-          message: content,
-          dateTime: date,
-          avatarId,
-        });
-        onSend();
+        try {
+          socket.publish({
+            destination: `/pub/${avatarId}`,
+            body: JSON.stringify({
+              chatContent: content,
+              sendedAt: date,
+            }),
+          });
+          addLog({
+            me: true,
+            name: '나',
+            message: content,
+            dateTime: date,
+            avatarId,
+          });
+          onSend();
+        } catch (error) {
+          socket.onWebSocketError('');
+        }
 
-        socket.publish({
-          destination: `/pub/${avatarId}`,
-          body: JSON.stringify({
-            chatContent: content,
-            sendedAt: date,
-          }),
-        });
         break;
       }
       case 'account': {
