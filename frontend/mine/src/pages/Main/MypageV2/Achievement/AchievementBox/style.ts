@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-export const achievementBoxCss = css`
+export const achievementBoxCss = (hide: boolean) => css`
   position: relative;
   display: flex;
   flex-direction: column;
@@ -12,6 +12,11 @@ export const achievementBoxCss = css`
   border: 0.0625rem solid #eeeeee;
   border-radius: 0.25rem;
   background-color: white;
+
+  ${hide &&
+  css`
+    display: none;
+  `}
 `;
 
 export const achieveInfoCss = css`

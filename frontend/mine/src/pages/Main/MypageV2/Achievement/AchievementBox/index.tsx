@@ -18,10 +18,11 @@ import dayjs from 'dayjs';
 
 interface IAchievementBox {
   info: IAchievement;
+  hide: boolean;
 }
-const AchievementBox = ({ info }: IAchievementBox) => {
+const AchievementBox = ({ info, hide }: IAchievementBox) => {
   return (
-    <div css={achievementBoxCss}>
+    <div css={achievementBoxCss(hide)}>
       <BackDrop opacity={0.3} blur={1} css={achievedCss(info.achievedDate)}>
         <div css={achievedInfoCss}>CLEAR</div>
       </BackDrop>
