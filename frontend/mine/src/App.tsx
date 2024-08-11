@@ -58,14 +58,6 @@ function App() {
     [],
   );
 
-  const handleMessage = (e: MessageEvent) => {
-    const { step } = JSON.parse(e.data);
-
-    if (step) nav('/', { state: { step: 2 } });
-  };
-
-  document.addEventListener('message', handleMessage as EventListener);
-
   return (
     <>
       <GlobalStyle />

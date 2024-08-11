@@ -44,14 +44,7 @@ function App(): React.JSX.Element {
         ) {
           close();
         } else {
-          const paths = nav.url.split('/');
-          if (paths[3] === 'mypage' || paths[3] === 'chart') {
-            paths.length >= 5
-              ? webViewRef.current?.goBack()
-              : webViewRef.current?.postMessage(JSON.stringify({step: true}));
-          } else {
-            webViewRef.current?.goBack();
-          }
+          webViewRef.current?.goBack();
         }
       } else {
         close();
