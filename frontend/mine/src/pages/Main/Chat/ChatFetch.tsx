@@ -19,7 +19,7 @@ import { getUserAvatars } from '../../../apis/mypageApi';
 import useDialog from '../../../hooks/useDialog';
 import { useMutation } from '@tanstack/react-query';
 import { updateChatEasterAchievement } from '../../../apis/avatarApi';
-import { Spinner, Typography } from 'oyc-ds';
+import { Typography } from 'oyc-ds';
 
 const ChatFetch = () => {
   const chatRef = useRef<HTMLInputElement>(null);
