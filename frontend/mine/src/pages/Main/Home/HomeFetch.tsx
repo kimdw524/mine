@@ -33,9 +33,10 @@ const HomeFetch = () => {
     if (query.error && !query.isFetching) {
       throw query.error;
     }
+    return false;
   });
 
-  const [isOn, setIsOn] = useState<boolean>(true);
+  const [isOn, setIsOn] = useState<boolean>(false);
 
   const { alert } = useDialog();
   const { mutate: updateAttendance } = useMutation({
@@ -60,8 +61,6 @@ const HomeFetch = () => {
       if (res.data) alert('이스터 에그 업적 달성!');
     },
   });
-
-  useEffect(() => updateAttendance(), []);
 
   // 클릭 이스터에그
   const eventCountRef = useRef(0);
@@ -90,12 +89,15 @@ const HomeFetch = () => {
       setShowMessage(true);
     }
   };
+
+  useEffect(() => updateAttendance(), []);
+
   useEffect(() => {
     if (showMessage) {
       alert('너무 많이 회전해서 어지러워요!');
       updateSpinEaster();
     }
-  }, [showMessage]);
+  }, [showMessage, alert, updateSpinEaster]);
 
   return (
     <>
@@ -120,12 +122,12 @@ const HomeFetch = () => {
         </Typography>
         <div css={toggleContainerCss}>
           <Typography color="dark" size="md" weight="medium">
-            {isOn ? '음성 켜기' : '음성 끄기'}
+            {isOn ? '음성 끄기' : '음성 켜기'}
           </Typography>
           <Toggle
             color="primary"
             size="md"
-            onClick={() => (isOn ? setIsOn(false) : setIsOn(true))}
+            onClick={(checked) => setIsOn(checked)}
           />
         </div>
         <div
@@ -150,7 +152,7 @@ const HomeFetch = () => {
             <AvatarChat
               avatarId={1}
               voiceId={avatarQuery.data.data[0].voiceId}
-              voice={!isOn}
+              voice={isOn}
             />
           ) : (
             <Typography color="dark" size="md">

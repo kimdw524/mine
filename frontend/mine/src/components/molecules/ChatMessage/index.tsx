@@ -33,7 +33,6 @@ const ChatMessage = ({
   animation = false,
   speech = false,
 }: ChatMessageProps) => {
-  console.log(voiceId);
   const { alert } = useDialog();
   const handleTTSClick = (message: string) => {
     avatarTTS(voiceId, message)
