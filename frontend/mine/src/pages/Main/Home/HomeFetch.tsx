@@ -147,7 +147,11 @@ const HomeFetch = () => {
         </div>
         <div css={conversationCss}>
           {avatarQuery.data.data.length ? (
-            <AvatarChat avatarId={1} />
+            <AvatarChat
+              avatarId={1}
+              voiceId={avatarQuery.data.data[0].voiceId}
+              voice={!isOn}
+            />
           ) : (
             <Typography color="dark" size="md">
               너만의 비서를 만들어봐!!

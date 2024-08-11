@@ -1,25 +1,23 @@
 /** @jsxImportSource @emotion/react */
-import { Spinner, TextField, Typography } from 'oyc-ds';
-import React, {
-  ReactNode,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import { TextField, Typography } from 'oyc-ds';
+import React, { ReactNode, useEffect, useRef, useState } from 'react';
 import { chatCss, containerCss, waitCss } from './style';
 import useChat, { ChatResponse } from '../../../hooks/useChat';
+import { avatarTTS } from '../../../apis/avatarApi';
 
 interface AvatarChatProps {
   avatarId: number;
+  voiceId: string;
+  voice: boolean;
 }
 
-const AvatarChat = ({ avatarId }: AvatarChatProps) => {
+const AvatarChat = ({ avatarId, voiceId, voice }: AvatarChatProps) => {
   const { connect, getLog, send } = useChat(avatarId);
   const chatRef = useRef<HTMLInputElement>(null);
   const [response, setResponse] = useState<ReactNode>(undefined);
   const [request, setRequest] = useState<string | undefined>(undefined);
 
+  console.log(voice);
   const getRecentChat = (me: boolean) =>
     getLog()
       .reverse()
@@ -34,6 +32,18 @@ const AvatarChat = ({ avatarId }: AvatarChatProps) => {
 
     const handleMessage = (res: ChatResponse) => {
       setResponse(res.text);
+
+      if (!voice) {
+        return;
+      }
+
+      avatarTTS(voiceId, res.text)
+        .then((result) => {
+          new Audio(window.URL.createObjectURL(result.data)).play();
+        })
+        .catch(() => {
+          alert('오류로 인해 TTS를 재생하지 못했습니다.');
+        });
     };
 
     connect({
