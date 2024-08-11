@@ -6,9 +6,10 @@ import ChatMessage from '../../molecules/ChatMessage';
 
 interface ChatBoxProps {
   messages: ChatMessageData[];
+  voiceId: string;
 }
 
-const ChatBox = ({ messages }: ChatBoxProps) => {
+const ChatBox = ({ messages, voiceId }: ChatBoxProps) => {
   return (
     <div css={containerCss}>
       {messages.map(({ name, message, me, dateTime }, index) => (
@@ -18,6 +19,7 @@ const ChatBox = ({ messages }: ChatBoxProps) => {
           me={me}
           dateTime={dateTime}
           animation
+          voiceId={voiceId}
           speech={!me && typeof message === 'string'}
         >
           {message}

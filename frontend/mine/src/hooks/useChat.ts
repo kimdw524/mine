@@ -69,6 +69,7 @@ const useChat = (
       onOpen();
       socket.subscribe(`/chat/${avatarId}`, (message) => {
         const data: ChatResponse = JSON.parse(message.body);
+
         addLog({
           me: false,
           name: data.avatarName,
@@ -80,7 +81,7 @@ const useChat = (
       });
     };
 
-    socket.onStompError = onError;
+    socket.onWebSocketError = onError;
     socket.onWebSocketClose = onClose;
 
     socket.activate();
@@ -105,27 +106,32 @@ const useChat = (
     switch (type) {
       case 'chat': {
         const date = new Date().toJSON();
-
-        addLog({
-          me: true,
-          name: '나',
-          message: content,
-          dateTime: date,
-          avatarId,
-        });
-        onSend();
-
         const socket = socketRef.current;
+
         if (!socket) {
           return;
         }
-        socket.publish({
-          destination: `/pub/${avatarId}`,
-          body: JSON.stringify({
-            chatContent: content,
-            sendedAt: date,
-          }),
-        });
+
+        try {
+          socket.publish({
+            destination: `/pub/${avatarId}`,
+            body: JSON.stringify({
+              chatContent: content,
+              sendedAt: date,
+            }),
+          });
+          addLog({
+            me: true,
+            name: '나',
+            message: content,
+            dateTime: date,
+            avatarId,
+          });
+          onSend();
+        } catch (error) {
+          socket.onWebSocketError('');
+        }
+
         break;
       }
       case 'account': {
@@ -146,12 +152,11 @@ const useChat = (
   };
 
   useEffect(() => {
-    const socket = socketRef.current;
-
     return () => {
+      const socket = socketRef.current;
       socket?.deactivate();
     };
-  }, [socketRef.current]);
+  }, []);
 
   return { connect, send, getLog, avatarId };
 };
