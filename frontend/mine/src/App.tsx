@@ -4,7 +4,7 @@ import { LightTheme } from 'oyc-ds';
 import { ThemeProvider } from '@emotion/react';
 import { UserProvider } from './pages/Login/UserContext';
 import { ModalProvider } from './hooks/useModal';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import { ToastVariant } from 'oyc-ds/dist/components/molecules/Toast/Toast.types';
 import { Palette } from 'oyc-ds/dist/themes/lightTheme';
 import { INotiInfo, NotificationContext } from './utils/NotificationContext';
@@ -27,6 +27,7 @@ import AvatarInfoEdit from './pages/Main/MypageV2/EditAvatar/AvatarInfoEdit';
 import AvatarQnAEdit from './pages/Main/MypageV2/EditAvatar/AvatarQnAEdit';
 
 function App() {
+  const nav = useNavigate();
   const [notiInfo, setNotiInfo] = useState<INotiInfo>({
     notiState: false,
     variant: 'contained',
@@ -58,8 +59,14 @@ function App() {
   );
 
   const handleMessage = (e: MessageEvent) => {
-    const data = JSON.parse(e.data);
-    alert(data);
+    const { url } = JSON.parse(e.data);
+    const paths = url.split('/');
+
+    if (paths[3] === 'chart' || paths[3] === 'mypage') {
+      nav('/', { state: { step: 2 } });
+    }
+
+    alert(paths);
   };
 
   document.addEventListener('message', handleMessage as EventListener);
