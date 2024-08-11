@@ -65,12 +65,9 @@ function App() {
     if (paths[3] === 'chart' || paths[3] === 'mypage') {
       nav('/', { state: { step: 2 } });
     }
-
-    alert(paths);
   };
 
   document.addEventListener('message', handleMessage as EventListener);
-  //window.addEventListener('message', handleMessage);
 
   return (
     <>
