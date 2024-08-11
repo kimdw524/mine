@@ -38,14 +38,20 @@ function App(): React.JSX.Element {
   useEffect(() => {
     const handleBack = () => {
       if (nav.canGoBack) {
-        if (nav.url === 'https://99zdiary.com') {
+        if (
+          nav.url === 'https://99zdiary.com' ||
+          nav.url === 'https://99zdiary.com/user/login'
+        ) {
           close();
         } else {
-          webViewRef.current?.postMessage(
-            JSON.stringify({
-              url: nav.url,
-            }),
-          );
+          const paths = nav.url.split('/');
+          if (paths[3] === 'mypage' || paths[3] === 'chart') {
+            paths.length >= 5
+              ? webViewRef.current?.goBack()
+              : webViewRef.current?.postMessage(JSON.stringify({step: true}));
+          } else {
+            webViewRef.current?.goBack();
+          }
         }
       } else {
         close();
