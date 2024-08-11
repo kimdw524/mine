@@ -19,6 +19,7 @@ import useDialog from '../../../hooks/useDialog';
 
 interface ChatMessageProps extends Omit<ChatMessageData, 'message'> {
   children: ReactNode;
+  voiceId: string;
   animation?: boolean;
   speech?: boolean;
 }
@@ -28,12 +29,13 @@ const ChatMessage = ({
   name,
   me,
   dateTime,
+  voiceId,
   animation = false,
   speech = false,
 }: ChatMessageProps) => {
   const { alert } = useDialog();
   const handleTTSClick = (message: string) => {
-    avatarTTS('pMsXgVXv3BLzUgSXRplE', message)
+    avatarTTS(voiceId, message)
       .then((result) => {
         new Audio(window.URL.createObjectURL(result.data)).play();
       })

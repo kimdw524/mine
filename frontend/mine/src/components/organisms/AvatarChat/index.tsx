@@ -1,53 +1,37 @@
 /** @jsxImportSource @emotion/react */
-import { Spinner, TextField, Typography } from 'oyc-ds';
-import React, {
-  ReactNode,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import { TextField, Typography } from 'oyc-ds';
+import React, { ReactNode, useEffect, useRef, useState } from 'react';
 import { chatCss, containerCss, waitCss } from './style';
 import useChat, { ChatResponse } from '../../../hooks/useChat';
+import { avatarTTS } from '../../../apis/avatarApi';
+import useDialog from '../../../hooks/useDialog';
 
 interface AvatarChatProps {
   avatarId: number;
+  voiceId: string;
+  voice: boolean;
 }
 
-const AvatarChat = ({ avatarId }: AvatarChatProps) => {
+const AvatarChat = ({ avatarId, voiceId, voice }: AvatarChatProps) => {
   const { connect, getLog, send } = useChat(avatarId);
   const chatRef = useRef<HTMLInputElement>(null);
   const [response, setResponse] = useState<ReactNode>(undefined);
   const [request, setRequest] = useState<string | undefined>(undefined);
+  const { alert } = useDialog();
+
+  const voiceRef = useRef<{ active: boolean; voiceId: string }>({
+    active: voice,
+    voiceId,
+  });
+
+  useEffect(() => {
+    voiceRef.current = { active: voice, voiceId };
+  }, [voiceRef, voice, voiceId]);
 
   const getRecentChat = (me: boolean) =>
     getLog()
       .reverse()
       .find((item) => item.me === me);
-
-  useEffect(() => {
-    const handleOpen = () => {};
-
-    const handleError = () => {};
-
-    const handleClose = () => {};
-
-    const handleMessage = (res: ChatResponse) => {
-      setResponse(res.text);
-    };
-
-    connect({
-      onOpen: handleOpen,
-      onError: handleError,
-      onClose: handleClose,
-      onMessage: handleMessage,
-      onAccount: () => {},
-      onSchedule: () => {},
-    });
-
-    setResponse(getRecentChat(false)?.message?.toString());
-    setRequest(getRecentChat(true)?.message?.toString());
-  }, []);
 
   const handleChatSend = (e: React.KeyboardEvent) => {
     if (
@@ -71,6 +55,42 @@ const AvatarChat = ({ avatarId }: AvatarChatProps) => {
       chatRef.current.value = '';
     });
   };
+
+  useEffect(() => {
+    const handleOpen = () => {};
+
+    const handleError = () => {};
+
+    const handleClose = () => {};
+
+    const handleMessage = (res: ChatResponse) => {
+      setResponse(res.text);
+
+      if (!voiceRef.current.active) {
+        return;
+      }
+
+      avatarTTS(voiceRef.current.voiceId, res.text)
+        .then((result) => {
+          new Audio(window.URL.createObjectURL(result.data)).play();
+        })
+        .catch(() => {
+          alert('오류로 인해 TTS를 재생하지 못했습니다.');
+        });
+    };
+
+    connect({
+      onOpen: handleOpen,
+      onError: handleError,
+      onClose: handleClose,
+      onMessage: handleMessage,
+      onAccount: () => {},
+      onSchedule: () => {},
+    });
+
+    setResponse(getRecentChat(false)?.message?.toString());
+    setRequest(getRecentChat(true)?.message?.toString());
+  }, []);
 
   return (
     <div css={containerCss}>

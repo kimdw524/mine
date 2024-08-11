@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import React, { useEffect, useState,useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useMutation, useSuspenseQueries } from '@tanstack/react-query';
 import { getUserAvatars, getUserInfo } from '../../../apis/mypageApi';
 import { Button, Toggle, Typography } from 'oyc-ds';
@@ -13,7 +13,10 @@ import { containerCss } from './style';
 import Avatar3D from '../../../components/atoms/Avatar3D';
 import useDialog from '../../../hooks/useDialog';
 import { updateAttendenceAchievement } from '../../../apis/authApi';
-import { updateClickEasterAchievement, updateSpinEasterAchievement } from '../../../apis/avatarApi';
+import {
+  updateClickEasterAchievement,
+  updateSpinEasterAchievement,
+} from '../../../apis/avatarApi';
 import AvatarChat from '../../../components/organisms/AvatarChat';
 import { useNavigate } from 'react-router-dom';
 
@@ -30,9 +33,10 @@ const HomeFetch = () => {
     if (query.error && !query.isFetching) {
       throw query.error;
     }
+    return false;
   });
 
-  const [isOn, setIsOn] = useState<boolean>(true);
+  const [isOn, setIsOn] = useState<boolean>(false);
 
   const { alert } = useDialog();
   const { mutate: updateAttendance } = useMutation({
@@ -47,54 +51,65 @@ const HomeFetch = () => {
   const { mutate: updateClickEaster } = useMutation({
     mutationFn: async () => await updateClickEasterAchievement(),
     onSuccess: (res) => {
-      if (res.data) alert('이스터 에그 업적 달성!')
-    }
+      if (res.data)
+        alert(
+          <div>
+            이스터에그 달성!
+            <br />
+            그렇게 때리면 아파요 🤕
+          </div>,
+        );
+    },
   });
 
   const { mutate: updateSpinEaster } = useMutation({
     mutationFn: async () => await updateSpinEasterAchievement(),
     onSuccess: (res) => {
-      if (res.data) 
-        alert('이스터 에그 업적 달성!')
-    }
+      if (res.data)
+        alert(
+          <div>
+            이스터에그 달성!
+            <br />
+            너무 회전해서 어지러워요 😵‍💫
+          </div>,
+        );
+    },
   });
-
 
   useEffect(() => updateAttendance(), []);
 
- // 클릭 이스터에그  
-  const eventCountRef = useRef(0)
+  // 클릭 이스터에그
+  const eventCountRef = useRef(0);
   const [showMessage, setShowMessage] = useState(false);
   const handleClick = () => {
     const newClickCount = clickCount + 1;
     setClickCount(newClickCount);
 
-    if (newClickCount === 10) {
-      alert(`그렇게 누르면 아파요!!`);
+    if (avatarQuery.data.data.length && newClickCount === 10) {
       setClickCount(0);
       updateClickEaster();
     }
-  }
+  };
 
   // 회전 이스터 에그
   const handleTouchStart = () => {
     eventCountRef.current = 0;
     setShowMessage(false);
   };
-  
+
   const handleTouchMove = () => {
     eventCountRef.current += 1;
 
-    if (eventCountRef.current === 300 && !showMessage) {
+    if (eventCountRef.current === 400 && !showMessage) {
       setShowMessage(true);
     }
   };
+
   useEffect(() => {
-    if (showMessage) {
-      alert('너무 많이 회전해서 어지러워요!');
+    if (avatarQuery.data.data.length && showMessage) {
       updateSpinEaster();
     }
-  }, [showMessage]);
+  }, [showMessage, alert, updateSpinEaster]);
 
   return (
     <>
@@ -119,12 +134,12 @@ const HomeFetch = () => {
         </Typography>
         <div css={toggleContainerCss}>
           <Typography color="dark" size="md" weight="medium">
-            {isOn ? '음성 켜기' : '음성 끄기'}
+            {isOn ? '음성 끄기' : '음성 켜기'}
           </Typography>
           <Toggle
             color="primary"
             size="md"
-            onClick={() => (isOn ? setIsOn(false) : setIsOn(true))}
+            onClick={(checked) => setIsOn(checked)}
           />
         </div>
         <div
@@ -146,7 +161,11 @@ const HomeFetch = () => {
         </div>
         <div css={conversationCss}>
           {avatarQuery.data.data.length ? (
-            <AvatarChat avatarId={1} />
+            <AvatarChat
+              avatarId={1}
+              voiceId={avatarQuery.data.data[0].voiceId}
+              voice={isOn}
+            />
           ) : (
             <Typography color="dark" size="md">
               너만의 비서를 만들어봐!!
