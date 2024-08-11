@@ -288,16 +288,18 @@ VALUES (1, 1, '김다운', '2024-08-02', '착함!! ㅎㅎ', 'asst_DPksAEgIePcXxI
         'CrvDGrP4g0jagWAqURm5', false, "cow", '경북구미', '프톤트엔드엔지니어', true);
 
 INSERT INTO question_res(question_res_id, question_id, avatar_id, question_choice_id, subjective_ans, question_type)
-VALUES (1, 1, 1, 1, null, 'c'),
-       (2, 2, 1, 9, null, 'c'),
+VALUES (1, 1, 1, 3, null, 'c'),
+       (2, 2, 1, 7, null, 'c'),
        (3, 3, 1, 13, null, 'c'),
-       (4, 4, 1, 18, null, 'c'),
-       (5, 5, 1, 29, null, 'c'),
-       (6, 6, 1, 34, null, 'c'),
-       (7, 7, 1, null, '집', 's'),
-       (8, 8, 1, null, '찌개', 's'),
-       (9, 9, 1, null, '휴식', 's'),
-       (10, 10, 1, null, '시 짓기', 's');
+       (4, 4, 1, 15, null, 'c'),
+       (5, 5, 1, 20, null, 'c'),
+       (6, 6, 1, null, 'ISTJ', 's'),
+       (7, 7, 1, null, '핫딜 찾기', 's'),
+       (8, 8, 1, null, '술 마시기', 's'),
+       (9, 9, 1, null, '누워있기', 's'),
+       (10, 10, 1, null, '열심히 살자', 's'),
+       (11, 11, 1, null, '늦게 자기', 's'),
+       (12, 12, 1, null, '중식', 's');
 
 
 -- 7월 데이터 (20개)
