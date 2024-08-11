@@ -23,11 +23,6 @@ const Main = () => {
     modal.push({ component: <Calendar />, name: 'calendar' });
   };
 
-  window.addEventListener('message', async (e) => {
-    const data = await JSON.parse(e.data);
-    alert('hello');
-  });
-
   return (
     <>
       <div css={containerCss}>

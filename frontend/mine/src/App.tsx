@@ -57,6 +57,14 @@ function App() {
     [],
   );
 
+  const handleMessage = (e: MessageEvent) => {
+    const data = JSON.parse(e.data);
+    alert(data);
+  };
+
+  document.addEventListener('message', handleMessage as EventListener);
+  //window.addEventListener('message', handleMessage);
+
   return (
     <>
       <GlobalStyle />
