@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import MenuBar from '../../components/organisms/MenuBar';
 import AppBar from '../../components/organisms/AppBar';
 import Home from './Home';
@@ -23,10 +23,13 @@ const Main = () => {
     modal.push({ component: <Calendar />, name: 'calendar' });
   };
 
-  window.addEventListener('message', (e) => {
-    const { url } = JSON.parse(e.data);
-    const paths = url.parse('/');
-    alert(paths);
+  useEffect(() => {
+    alert('this is sparta');
+  }, []);
+
+  window.addEventListener('message', async (e) => {
+    const data = await JSON.parse(e.data);
+    alert('hello');
   });
 
   return (
