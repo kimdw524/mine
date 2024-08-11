@@ -5,13 +5,14 @@ import AppBar from '../../components/organisms/AppBar';
 import Home from './Home';
 import { containerCss, contentCss } from './style';
 import MypageV2 from './MypageV2';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { CalendarDaysIcon } from '@heroicons/react/24/solid';
 import useModal from '../../hooks/useModal';
 import Calendar from '../Calendar';
 import Chat from './Chat';
 
 const Main = () => {
+  const nav = useNavigate();
   const location = useLocation();
   const modal = useModal();
   const [curMenu, setCurMenu] = useState<number>(
@@ -21,6 +22,12 @@ const Main = () => {
   const handleCalendarClick = () => {
     modal.push({ component: <Calendar />, name: 'calendar' });
   };
+
+  window.addEventListener('message', (e) => {
+    const { url } = JSON.parse(e.data);
+    const paths = url.parse('/');
+    alert(paths);
+  });
 
   return (
     <>
@@ -43,7 +50,7 @@ const Main = () => {
         <div css={contentCss}>
           {[<Chat key={0} />, <Home key={1} />, <MypageV2 key={2} />][curMenu]}
         </div>
-        <MenuBar page="chat" menu={curMenu} setCurMenu={setCurMenu} />
+        <MenuBar menu={curMenu} setCurMenu={setCurMenu} />
       </div>
     </>
   );
