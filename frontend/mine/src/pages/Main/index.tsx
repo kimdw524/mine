@@ -23,10 +23,6 @@ const Main = () => {
     modal.push({ component: <Calendar />, name: 'calendar' });
   };
 
-  useEffect(() => {
-    alert('this is sparta');
-  }, []);
-
   window.addEventListener('message', async (e) => {
     const data = await JSON.parse(e.data);
     alert('hello');
