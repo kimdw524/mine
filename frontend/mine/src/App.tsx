@@ -59,12 +59,7 @@ function App() {
   );
 
   const handleMessage = (e: MessageEvent) => {
-    const { url } = JSON.parse(e.data);
-    const paths = url.split('/');
-
-    if (paths[3] === 'chart' || paths[3] === 'mypage') {
-      nav('/', { state: { step: 2 } });
-    }
+    nav(-1);
   };
 
   document.addEventListener('message', handleMessage as EventListener);

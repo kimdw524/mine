@@ -41,7 +41,6 @@ function App(): React.JSX.Element {
         if (nav.url === 'https://99zdiary.com') {
           close();
         } else {
-          webViewRef.current?.goBack();
           webViewRef.current?.postMessage(
             JSON.stringify({
               url: nav.url,
