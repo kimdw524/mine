@@ -89,6 +89,7 @@ const Login = () => {
     e.preventDefault();
     try {
       await UserLogin(email, password);
+      localStorage.setItem('isLoggedIn', 'true')
       queryClient.clear();
       nav('/');
     } catch (err) {

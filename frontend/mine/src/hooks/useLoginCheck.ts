@@ -1,23 +1,13 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useSuspenseQuery } from '@tanstack/react-query';
-import { getUserAvatars } from '../apis/mypageApi';
 
 export const useLoginCheck = () => {
+  const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
   const nav = useNavigate();
 
-  const avatarInfoQuery = useSuspenseQuery({
-    queryKey: ['avatarinfo'],
-    queryFn: async () => await getUserAvatars(),
-  });
-
   useEffect(() => {
-    if (avatarInfoQuery.data?.data) {
-      nav('/');
+    if (isLoggedIn) {
+      nav('/'); // 로그인 상태면 메인 페이지로 이동
     }
-  }, []);
-
-  if (avatarInfoQuery.error && !avatarInfoQuery.isFetching) {
-    throw avatarInfoQuery.error;
-  }
+  }, [isLoggedIn, nav]);
 };
