@@ -80,8 +80,8 @@ function App() {
                 <Route path="/user/signup" element={<Signup />} />
                 <Route path="/user/findpassword" element={<FindPassword />} />
 
-                <Route path="/accountchart" element={<AccountChart />} />
-                <Route path="/schedulechart" element={<ScheduleChart />} />
+                <Route path="/chart/account" element={<AccountChart />} />
+                <Route path="/chart/schedule" element={<ScheduleChart />} />
 
                 {/* 마이페이지 */}
                 <Route path="/mypage/nick" element={<NickEdit />} />

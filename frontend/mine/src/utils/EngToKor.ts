@@ -18,4 +18,6 @@ export const engToKor: Record<string, string> = {
   pwdEdit: '비밀번호 변경',
   infoEdit: '정보 관리',
   qnaEdit: '질문 관리',
+  accountChart: '가계부 통계',
+  scheduleChart: '일정 통계',
 };

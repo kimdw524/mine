@@ -67,6 +67,12 @@ const MypageV2 = () => {
           data={[]}
           avatars={avatarQuery.data.data}
         />
+        <ManageInfo
+          title={'통계'}
+          labels={['accountChart', 'scheduleChart']}
+          url={['/chart/account', '/chart/schedule']}
+          data={[]}
+        />
         <div css={infoManageCss}>
           <Typography color="dark">정보관리</Typography>
           <Button
