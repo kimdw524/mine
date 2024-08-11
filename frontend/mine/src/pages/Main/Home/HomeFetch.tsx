@@ -51,16 +51,32 @@ const HomeFetch = () => {
   const { mutate: updateClickEaster } = useMutation({
     mutationFn: async () => await updateClickEasterAchievement(),
     onSuccess: (res) => {
-      if (res.data) alert('이스터 에그 업적 달성!');
+      if (res.data)
+        alert(
+          <div>
+            이스터에그 달성!
+            <br />
+            그렇게 때리면 아파요 🤕
+          </div>,
+        );
     },
   });
 
   const { mutate: updateSpinEaster } = useMutation({
     mutationFn: async () => await updateSpinEasterAchievement(),
     onSuccess: (res) => {
-      if (res.data) alert('이스터 에그 업적 달성!');
+      if (res.data)
+        alert(
+          <div>
+            이스터에그 달성!
+            <br />
+            너무 회전해서 어지러워요 😵‍💫
+          </div>,
+        );
     },
   });
+
+  useEffect(() => updateAttendance(), []);
 
   // 클릭 이스터에그
   const eventCountRef = useRef(0);
@@ -69,8 +85,7 @@ const HomeFetch = () => {
     const newClickCount = clickCount + 1;
     setClickCount(newClickCount);
 
-    if (newClickCount === 10) {
-      alert(`그렇게 누르면 아파요!!`);
+    if (avatarQuery.data.data.length && newClickCount === 10) {
       setClickCount(0);
       updateClickEaster();
     }
@@ -85,16 +100,13 @@ const HomeFetch = () => {
   const handleTouchMove = () => {
     eventCountRef.current += 1;
 
-    if (eventCountRef.current === 300 && !showMessage) {
+    if (eventCountRef.current === 400 && !showMessage) {
       setShowMessage(true);
     }
   };
 
-  useEffect(() => updateAttendance(), []);
-
   useEffect(() => {
-    if (showMessage) {
-      alert('너무 많이 회전해서 어지러워요!');
+    if (avatarQuery.data.data.length && showMessage) {
       updateSpinEaster();
     }
   }, [showMessage, alert, updateSpinEaster]);
