@@ -92,8 +92,13 @@ const Login = () => {
       await UserLogin(email, password);
       localStorage.setItem('isLoggedIn', 'true');
       queryClient.clear();
-      // nav('/');
-      window.postMessage(JSON.stringify({ data: 'login' }));
+      nav('/');
+      if ('ReactNativeWebview' in window) {
+        (window.ReactNativeWebview as Window).postMessage(
+          JSON.stringify({ data: 'login' }),
+        );
+      }
+      //window.postMessage(JSON.stringify({ data: 'login' }));
     } catch (err) {
       console.log('에러:', err);
       setLoginResult(
