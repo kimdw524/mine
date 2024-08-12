@@ -36,7 +36,12 @@ const Password = () => {
         'success',
         '비밀번호를 변경하였습니다',
       );
-      nav('/', { state: { step: 2 } });
+      
+      if (localStorage.getItem('isLoggedIn')) {
+        nav('/', { state: { step: 2 } });
+      } else {
+        nav('/user/login')
+      }
     },
     onError: () => alert('비밀번호 변경에 실패했습니다.'),
   });

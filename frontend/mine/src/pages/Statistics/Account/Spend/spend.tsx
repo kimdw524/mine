@@ -27,7 +27,7 @@ import { spendInfo } from '../../../../apis/statisticsApi';
 import { useMemo } from 'react';
 import { Suspense } from 'react';
 import Loading from '../../../../components/molecules/Loading';
-import { DivideIcon } from '@heroicons/react/24/solid';
+
 ChartJS.register(CategoryScale, BarElement, Title, Tooltip, Legend);
 
 interface SpendChartProps {
@@ -149,9 +149,9 @@ const SpendChart: React.FC<SpendChartProps> = ({ period, offset }) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowAnalysis(true);
-    }, 300); // 1초 후에 Analysis 표시
+    }, 300); 
 
-    return () => clearTimeout(timer); // 컴포넌트 언마운트 시 타이머 정리
+    return () => clearTimeout(timer); 
   }, []);
 
   return (
@@ -215,7 +215,7 @@ const SpendChart: React.FC<SpendChartProps> = ({ period, offset }) => {
             </Button>
           )}
           {showAnalysis && (
-            <Suspense fallback={<div></div>}>
+            <Suspense fallback={<Loading/>}>
               <Analysis period={period} offset={offset} curSum={totalExpenditure} />
             </Suspense>
           )}
