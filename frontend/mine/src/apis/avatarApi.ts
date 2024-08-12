@@ -112,7 +112,7 @@ export const avatarTTS = (voiceId: string, text: string) => {
     },
     {
       headers: {
-        'xi-api-key': process.env.REACT_API_TTS_API_KEY,
+        'xi-api-key': process.env.REACT_APP_TTS_API_KEY,
         'Content-Type': 'application/json',
       },
       responseType: 'blob',
@@ -125,11 +125,9 @@ export const updateAvatarAchievement = () => {
   return api.patch<boolean>('/api/users/achievements/2');
 };
 
-
 export const updateClickEasterAchievement = () => {
   return api.patch<boolean>('/api/users/achievements/5');
 };
-
 
 //  아직 api가 없음
 export const updateSpinEasterAchievement = () => {
