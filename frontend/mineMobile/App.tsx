@@ -9,7 +9,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import {Alert, AppState, BackHandler, SafeAreaView} from 'react-native';
 import WebView from 'react-native-webview';
 import SplashScreen from 'react-native-splash-screen';
-import CookieManager, { Cookies } from '@react-native-cookies/cookies';
+import CookieManager, {Cookies} from '@react-native-cookies/cookies';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface INav {
@@ -73,15 +73,17 @@ function App(): React.JSX.Element {
       try {
         const storedCookies = await AsyncStorage.getItem(COOKIE_KEY);
 
-        if(storedCookies) {
+        if (storedCookies) {
           const cookies: Cookies = JSON.parse(storedCookies);
 
-          for(const [name, cookie] of Object.entries(cookies)) {
-            await CookieManager.set('https://99zdiary.com', cookie)
+          for (const [name, cookie] of Object.entries(cookies)) {
+            await CookieManager.set('https://99zdiary.com', cookie);
           }
         }
+      } catch (e) {
+        console.error(e);
       }
-    }
+    };
 
     BackHandler.addEventListener('hardwareBackPress', handleBack);
     AppState.addEventListener('change', handleAppStateChange);
