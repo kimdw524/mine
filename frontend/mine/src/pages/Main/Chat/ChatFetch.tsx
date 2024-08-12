@@ -66,8 +66,9 @@ const ChatFetch = () => {
       (e && e.key !== 'Enter') ||
       !chatRef.current ||
       !chatRef.current.value.trim()
-    )
+    ) {
       return;
+    }
 
     const message = chatRef.current.value;
 
@@ -91,6 +92,7 @@ const ChatFetch = () => {
       });
 
       if (chatRef.current) {
+        chatRef.current.blur();
         chatRef.current.value = '';
       }
     });

@@ -177,7 +177,7 @@ const HomeFetch = () => {
         <div css={conversationCss}>
           {avatarQuery.data.data.length ? (
             <AvatarChat
-              avatarId={1}
+              avatarId={avatarQuery.data.data[0].avatarId}
               voiceId={avatarQuery.data.data[0].voiceId}
               voice={isOn}
             />
