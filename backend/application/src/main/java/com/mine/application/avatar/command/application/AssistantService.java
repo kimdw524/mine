@@ -94,7 +94,8 @@ public class AssistantService {
     @Transactional(readOnly = true)
     public void modifyAssistantInfo(Avatar avatar) {
         RestTemplate restTemplate = new RestTemplate();
-        restTemplate.patchForObject(FAST_API_REQUEST_ASSISTANT_URL, createModifyRequestBody(avatar), Assistant.class);
+        log.info("{}", createModifyRequestBody(avatar).getBody());
+        restTemplate.put(FAST_API_REQUEST_ASSISTANT_URL, createModifyRequestBody(avatar));
     }
 
     private HttpEntity<String> createModifyRequestBody(Avatar avatar) {

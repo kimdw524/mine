@@ -49,14 +49,14 @@ async def create_assistant(request: RegisterAssistantRequest):
 
     return JSONResponse({"assistantId": assistant_id, "threadId": thread_id})
 
-@router.patch("/avatar")
+@router.put("/avatar")
 async def update_assistant(request: ModifyAssistantRequest):
     assistant_id = request.assistant_id
     assistant = Assistant()
     assistant.update_assistant(
         assistant_id=assistant_id,
         name=request.name,
-        instructions=f"""너는 사용자가 하는 모든 말을 기억하고 일정과 가계까지 관리해주는 사용자의 아바타야.
+        instruction=f"""너는 사용자가 하는 모든 말을 기억하고 일정과 가계까지 관리해주는 사용자의 아바타야.
                             너에 대한 정보는 수정 될 수 있어.
                             대답은 요약해서 한 문장으로 끝내줘.
                             대답은 너의 성격과 MBTI에 맞게 말투를 바꿔서 대답 해 줘야 해.
@@ -72,5 +72,5 @@ async def update_assistant(request: ModifyAssistantRequest):
                             """
     )
 
-    return JSONResponse(content='', status_code=200)
+    return JSONResponse(content=None, status_code=200)
 
