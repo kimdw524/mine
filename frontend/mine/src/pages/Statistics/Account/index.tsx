@@ -10,8 +10,7 @@ import { getDisplayTimeframe } from '../../../utils/SpendData';
 import { useNavigate } from 'react-router-dom';
 import { ErrorBoundary } from 'react-error-boundary';
 import { Suspense } from 'react';
-import Preview from '../Preview';
-import Analysis from './Spend/analysis';
+import Loading from '../../../components/molecules/Loading';
 
 const AccountChart = () => {
   const [period, setPeriod] = useState('weekly');
@@ -65,9 +64,9 @@ const AccountChart = () => {
       />
       <div css={containerCss}>
         <MenuTab
-          color="light"
+          color="primary"
           size="sm"
-          variant="contained"
+          variant="outlined"
           border={0}
           onChangeMenu={handleMenuChange}
         >
@@ -110,7 +109,7 @@ const AccountChart = () => {
           <div>수입</div>
         </MenuTab>
         <ErrorBoundary fallback={<div>에러 발생</div>}>
-          <Suspense fallback={<div>로딩중...</div>}>
+          <Suspense fallback={<Loading/>}>
             {dataType === 'spend' ? (
               <SpendChart period={period} offset={offset} />
             ) : (
