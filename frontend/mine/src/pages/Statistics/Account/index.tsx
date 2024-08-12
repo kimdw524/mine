@@ -58,12 +58,16 @@ const AccountChart = () => {
 
   return (
     <>
-      <AppBar label="가계 통계" onBackClick={() => nav('/')} />
+      <AppBar
+        label="가계 통계"
+        onBackClick={() => nav('/', { state: { step: 2 } })}
+      />
       <div css={containerCss}>
         <MenuTab
-          color="light"
+          color="primary"
           size="sm"
-          variant="rounded"
+          variant="outlined"
+          border={0}
           onChangeMenu={handleMenuChange}
         >
           <div>주별</div>
@@ -96,7 +100,8 @@ const AccountChart = () => {
         <MenuTab
           color="primary"
           size="sm"
-          variant="rounded"
+          variant="contained"
+          border={0}
           onChangeMenu={handleDataTypeChange}
           css={typeCss}
         >

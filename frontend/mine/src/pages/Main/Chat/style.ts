@@ -16,5 +16,26 @@ export const chatLogCss = css`
 export const chatCss = css`
   display: flex;
   align-items: center;
+  position: relative;
   padding: 1rem;
+`;
+
+export const pendingCss = css`
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  inset: 0 0 0 0;
+  background-color: rgba(0, 0, 0, 0.66);
+  animation: fadeIn 0.2s ease forwards 1;
 `;

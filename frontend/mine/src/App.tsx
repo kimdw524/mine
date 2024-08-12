@@ -4,7 +4,7 @@ import { LightTheme } from 'oyc-ds';
 import { ThemeProvider } from '@emotion/react';
 // import { UserProvider } from './pages/Login/UserContext';
 import { ModalProvider } from './hooks/useModal';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import { ToastVariant } from 'oyc-ds/dist/components/molecules/Toast/Toast.types';
 import { Palette } from 'oyc-ds/dist/themes/lightTheme';
 import { INotiInfo, NotificationContext } from './utils/NotificationContext';
@@ -15,8 +15,6 @@ import CreateAvatar from './pages/CreateAvatar';
 import FindPassword from './pages/FindPassword';
 import Main from './pages/Main';
 import Notification from './components/common/Notification';
-import Schedule from './pages/Schedule';
-import Account from './pages/Account';
 import AccountChart from './pages/Statistics/Account/index';
 import ScheduleChart from './pages/Statistics/Schedule/index';
 import NickEdit from './pages/Main/MypageV2/EditUser/NickEdit';
@@ -25,8 +23,10 @@ import Achievement from './pages/Main/MypageV2/Achievement';
 import AvatarInfo from './pages/Main/MypageV2/AvatarInfo';
 import AvatarInfoEdit from './pages/Main/MypageV2/EditAvatar/AvatarInfoEdit';
 import AvatarQnAEdit from './pages/Main/MypageV2/EditAvatar/AvatarQnAEdit';
+import Calendar from './pages/Calendar';
 
 function App() {
+  const nav = useNavigate();
   const [notiInfo, setNotiInfo] = useState<INotiInfo>({
     notiState: false,
     variant: 'contained',
@@ -79,8 +79,8 @@ function App() {
                 <Route path="/user/signup" element={<Signup />} />
                 <Route path="/user/findpassword" element={<FindPassword />} />
 
-                <Route path="/accountchart" element={<AccountChart />} />
-                <Route path="/schedulechart" element={<ScheduleChart />} />
+                <Route path="/chart/account" element={<AccountChart />} />
+                <Route path="/chart/schedule" element={<ScheduleChart />} />
 
                 {/* 마이페이지 */}
                 <Route path="/mypage/nick" element={<NickEdit />} />
@@ -95,8 +95,11 @@ function App() {
 
                 <Route path="/avatar/create" element={<CreateAvatar />} />
 
-                <Route path="/schedule" element={<Schedule />} />
-                <Route path="/account" element={<Account />} />
+                <Route
+                  path="/schedule"
+                  element={<Calendar page="schedule" />}
+                />
+                <Route path="/account" element={<Calendar page="account" />} />
               </Routes>
             </NotificationContext.Provider>
           </ModalProvider>

@@ -33,9 +33,10 @@ const HomeFetch = () => {
     if (query.error && !query.isFetching) {
       throw query.error;
     }
+    return false;
   });
 
-  const [isOn, setIsOn] = useState<boolean>(true);
+  const [isOn, setIsOn] = useState<boolean>(false);
 
   const { alert } = useDialog();
   const { mutate: updateAttendance } = useMutation({
@@ -56,7 +57,7 @@ const HomeFetch = () => {
             이스터에그 달성!
             <br />
             그렇게 때리면 아파요 🤕
-          </div>
+          </div>,
         );
     },
   });
@@ -66,7 +67,7 @@ const HomeFetch = () => {
     onSuccess: (res) => {
       if (res.data)
         alert(
-          <div >
+          <div>
             이스터에그 달성!
             <br />
             너무 회전해서 어지러워요 😵‍💫
@@ -108,7 +109,7 @@ const HomeFetch = () => {
     if (avatarQuery.data.data.length && showMessage) {
       updateSpinEaster();
     }
-  }, [showMessage]);
+  }, [showMessage, alert, updateSpinEaster]);
 
   return (
     <>
@@ -133,12 +134,12 @@ const HomeFetch = () => {
         </Typography>
         <div css={toggleContainerCss}>
           <Typography color="dark" size="md" weight="medium">
-            {isOn ? '음성 켜기' : '음성 끄기'}
+            {isOn ? '음성 끄기' : '음성 켜기'}
           </Typography>
           <Toggle
             color="primary"
             size="md"
-            onClick={() => (isOn ? setIsOn(false) : setIsOn(true))}
+            onClick={(checked) => setIsOn(checked)}
           />
         </div>
         <div
@@ -160,7 +161,11 @@ const HomeFetch = () => {
         </div>
         <div css={conversationCss}>
           {avatarQuery.data.data.length ? (
-            <AvatarChat avatarId={1} />
+            <AvatarChat
+              avatarId={1}
+              voiceId={avatarQuery.data.data[0].voiceId}
+              voice={isOn}
+            />
           ) : (
             <Typography color="dark" size="md">
               너만의 비서를 만들어봐!!

@@ -18,10 +18,16 @@ import AccountSearch from '../Account/Search';
 import styles from './Calendar.module.css';
 import TransitionAnimation from '../../components/common/TransitionAnimation';
 
-const Calendar = () => {
+type CalendarPage = 'schedule' | 'account';
+
+interface CalendarProps {
+  page?: CalendarPage;
+}
+
+const Calendar = ({ page: initialPage = 'schedule' }: CalendarProps) => {
   const navigate = useNavigate();
   const { push } = useModal();
-  const [page, setPage] = useState<'schedule' | 'account'>('schedule');
+  const [page, setPage] = useState<CalendarPage>(initialPage);
 
   const handleSearchClick = () => {
     push({

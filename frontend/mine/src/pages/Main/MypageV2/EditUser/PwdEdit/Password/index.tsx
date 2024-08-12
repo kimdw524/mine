@@ -56,6 +56,7 @@ const Password = () => {
           defaultValue=""
           onChange={handleInputPwd}
           onKeyUp={pwdValidation}
+          type="password"
         />
         <Button disabled={!(color === 'success')} onClick={() => mutate()}>
           변경
