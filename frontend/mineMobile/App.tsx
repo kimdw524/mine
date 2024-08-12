@@ -40,9 +40,23 @@ function App(): React.JSX.Element {
     ]);
   };
 
-  const handleWebViewLoadEnd = () => {
+  const handleWebViewLoadEnd = async () => {
     SplashScreen.hide();
-    CookieManager.getAll(true).then(cookies => {});
+
+    try {
+      const storedCookies = await AsyncStorage.getItem(COOKIE_KEY);
+
+      if (storedCookies) {
+        const cookies: Cookies = JSON.parse(storedCookies);
+
+        for (const [key, cookie] of Object.entries(cookies)) {
+          await CookieManager.set('https://99zdiary.com', cookie);
+          Alert.alert(cookie.name + cookie.value + cookie.domain + cookie.path);
+        }
+      }
+    } catch (e) {
+      Alert.alert(e);
+    }
   };
 
   useEffect(() => {
@@ -57,28 +71,10 @@ function App(): React.JSX.Element {
       }
     };
 
-    const handleLoadCookies = async () => {
-      try {
-        const storedCookies = await AsyncStorage.getItem(COOKIE_KEY);
-
-        if (storedCookies) {
-          const cookies: Cookies = JSON.parse(storedCookies);
-
-          for (const [name, cookie] of Object.entries(cookies)) {
-            await CookieManager.set('https://99zdiary.com', cookie);
-          }
-        }
-      } catch (e) {
-        Alert.alert(e);
-      }
-    };
-
     const subscription = AppState.addEventListener(
       'change',
       handleAppStateChange,
     );
-
-    handleLoadCookies();
 
     return () => {
       subscription.remove();
