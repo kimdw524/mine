@@ -16,13 +16,11 @@ export const fieldCss = css`
   position: relative;
 `;
 
-export const eyesCss = css`
-  position: 'absolute';
-  right: '0.625rem';
-  top: '50%';
-  transform: 'translateY(-50%)';
-  cursor: 'pointer';
-`;
+
+export const IconCss = css`
+  width: 25px;
+  height: 25px;
+`
 
 export const errmsgCss = css`
   padding: 0.375rem 0.125rem 0;

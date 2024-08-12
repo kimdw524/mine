@@ -17,6 +17,7 @@ import {
   pwfindCss,
   failmsgCss,
   passwordCss,
+  IconCss,
 } from './Login.styles';
 
 interface ColorInfo {
@@ -108,7 +109,6 @@ const Login = () => {
       <form>
         <div css={fieldCss}>
           <TextField
-            name="email"
             color={color.email}
             defaultValue=""
             label="이메일 주소"
@@ -119,7 +119,6 @@ const Login = () => {
             onChange={emailChange}
             onKeyUp={EmailValidation}
             required
-            value={email}
           />
           {!emailvalidation && email ? (
             <Typography
@@ -135,7 +134,6 @@ const Login = () => {
         <div css={fieldCss}>
           <div css={passwordCss}>
             <TextField
-              name="password"
               color={color.password}
               defaultValue=""
               label="비밀번호"
@@ -145,25 +143,23 @@ const Login = () => {
               variant="outlined"
               onChange={passwordChange}
               onKeyUp={PasswordValidation}
-              value={password}
             />
             <div
               style={{
-                position: 'absolute',
-                right: '10px',
-                top: '50%',
-                transform: 'translateY(-50%)',
-                cursor: 'pointer',
+                position:'absolute',
+                right:'0.625rem',
+                top: '55%',
+                transform:'translateY(-50%)',
               }}
             >
               {hide ? (
                 <EyeSlashIcon
-                  style={{ width: '30px', height: '30px' }}
+                  css={IconCss}
                   onClick={onToggleHide}
                 />
               ) : (
                 <EyeIcon
-                  style={{ width: '30px', height: '30px' }}
+                  css={IconCss}
                   onClick={onToggleHide}
                 />
               )}
