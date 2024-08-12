@@ -2,7 +2,7 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/mine
+    url: jdbc:mysql://localhost:3306/mine&rewriteBatchedStatements=true
     username: developer
     password: qwer1234
 
