@@ -90,7 +90,7 @@ const Login = () => {
     e.preventDefault();
     try {
       await UserLogin(email, password);
-      localStorage.setItem('isLoggedIn', 'true')
+      localStorage.setItem('isLoggedIn', 'true');
       queryClient.clear();
       nav('/');
     } catch (err) {
@@ -146,22 +146,16 @@ const Login = () => {
             />
             <div
               style={{
-                position:'absolute',
-                right:'0.625rem',
+                position: 'absolute',
+                right: '0.625rem',
                 top: '55%',
-                transform:'translateY(-50%)',
+                transform: 'translateY(-50%)',
               }}
             >
               {hide ? (
-                <EyeSlashIcon
-                  css={IconCss}
-                  onClick={onToggleHide}
-                />
+                <EyeSlashIcon css={IconCss} onClick={onToggleHide} />
               ) : (
-                <EyeIcon
-                  css={IconCss}
-                  onClick={onToggleHide}
-                />
+                <EyeIcon css={IconCss} onClick={onToggleHide} />
               )}
             </div>
           </div>
@@ -209,7 +203,7 @@ const Login = () => {
         color="secondary"
         size="xs"
         weight="medium"
-        onClick={() => nav('/findpassword')}
+        onClick={() => nav('/user/findpassword')}
       >
         비밀번호 찾기
       </Typography>

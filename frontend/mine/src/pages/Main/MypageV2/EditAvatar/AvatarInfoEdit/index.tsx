@@ -9,6 +9,7 @@ import AppBar from '../../../../../components/organisms/AppBar';
 import { Button, TextField, Typography } from 'oyc-ds';
 import useDialog from '../../../../../hooks/useDialog';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import Loading from '../../../../../components/molecules/Loading';
 
 const AvatarInfoEdit = () => {
   const nav = useNavigate();
@@ -48,7 +49,7 @@ const AvatarInfoEdit = () => {
     }
   }, [newInfo]);
 
-  const { mutate } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: async () =>
       await updateAvatarInfo(
         location.state.avatarId,
@@ -73,30 +74,34 @@ const AvatarInfoEdit = () => {
 
   return (
     <>
-      <div css={avatarInfoEditContainerCss}>
-        <AppBar label={`${colName} 변경`} onBackClick={() => nav(-1)} />
-        <div css={contentCss}>
-          <Typography size="lg" color="dark">
-            현재 {colName} : {location.state.oldInfo}
-          </Typography>
-          <TextField
-            color={color}
-            variant="outlined"
-            label={label}
-            defaultValue=""
-            placeholder={`${colName}을 입력해주세요`}
-            onChange={handleInputChange}
-            onKeyUp={validator}
-          />
-          <Button
-            fullWidth
-            disabled={!(color === 'success')}
-            onClick={() => mutate()}
-          >
-            변경하기
-          </Button>
+      {isPending ? (
+        <Loading />
+      ) : (
+        <div css={avatarInfoEditContainerCss}>
+          <AppBar label={`${colName} 변경`} onBackClick={() => nav(-1)} />
+          <div css={contentCss}>
+            <Typography size="lg" color="dark">
+              현재 {colName} : {location.state.oldInfo}
+            </Typography>
+            <TextField
+              color={color}
+              variant="outlined"
+              label={label}
+              defaultValue=""
+              placeholder={`${colName}을 입력해주세요`}
+              onChange={handleInputChange}
+              onKeyUp={validator}
+            />
+            <Button
+              fullWidth
+              disabled={!(color === 'success')}
+              onClick={() => mutate()}
+            >
+              변경하기
+            </Button>
+          </div>
         </div>
-      </div>
+      )}
     </>
   );
 };
