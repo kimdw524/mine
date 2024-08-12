@@ -6,7 +6,7 @@ export const containerCss = (theme: Theme) => css`
   gap: 0.25rem;
   position: sticky;
   top: 0;
-  z-index: 10000;
+  z-index: 30;
   height: 3.5rem;
   min-height: 3.5rem;
   padding: 0 1rem;
