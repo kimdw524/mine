@@ -6,14 +6,18 @@
  */
 
 import React, {useEffect, useRef, useState} from 'react';
-import {Alert, BackHandler, SafeAreaView} from 'react-native';
+import {Alert, AppState, BackHandler, SafeAreaView} from 'react-native';
 import WebView from 'react-native-webview';
 import SplashScreen from 'react-native-splash-screen';
+import CookieManager, { Cookies } from '@react-native-cookies/cookies';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface INav {
   url: string;
   canGoBack: boolean;
 }
+
+const COOKIE_KEY = '@webview_cookies';
 
 function App(): React.JSX.Element {
   const webViewRef = useRef<WebView>(null);
@@ -38,6 +42,7 @@ function App(): React.JSX.Element {
 
   const handleWebViewLoadEnd = () => {
     SplashScreen.hide();
+    CookieManager.getAll(true).then(cookies => {});
   };
 
   useEffect(() => {
@@ -57,7 +62,30 @@ function App(): React.JSX.Element {
       return true;
     };
 
+    const handleAppStateChange = async nextAppState => {
+      if (nextAppState === 'background' || nextAppState === 'inactive') {
+        const cookies = await CookieManager.getAll(true);
+        await AsyncStorage.setItem(COOKIE_KEY, JSON.stringify(cookies));
+      }
+    };
+
+    const handleLoadCookies = async () => {
+      try {
+        const storedCookies = await AsyncStorage.getItem(COOKIE_KEY);
+
+        if(storedCookies) {
+          const cookies: Cookies = JSON.parse(storedCookies);
+
+          for(const [name, cookie] of Object.entries(cookies)) {
+            await CookieManager.set('https://99zdiary.com', cookie)
+          }
+        }
+      }
+    }
+
     BackHandler.addEventListener('hardwareBackPress', handleBack);
+    AppState.addEventListener('change', handleAppStateChange);
+    handleLoadCookies();
 
     return () => {
       BackHandler.removeEventListener('hardwareBackPress', handleBack);
