@@ -2,6 +2,8 @@ package com.mine.application.avatar.command.application;
 
 import com.mine.application.avatar.command.domain.Avatar;
 import com.mine.application.avatar.command.domain.AvatarRepository;
+import com.mine.application.avatar.infra.AssistantModifyRequestBody;
+import com.mine.application.avatar.infra.AssistantService;
 import com.mine.application.common.domain.SessionConstants;
 import com.mine.application.common.domain.SessionDao;
 import com.mine.application.common.erros.errorcode.CommonErrorCode;
@@ -27,14 +29,16 @@ public class ModifyAvatarService {
             throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
         }
 
-        avatar.modifyAvatarInfo(request);
+        AssistantModifyRequestBody body = avatar.modifyAvatarInfo(request);
 
         if(request.getIsMain() != null && avatar.getIsMain() != request.getIsMain()) {
             Optional<Avatar> avatarByUserIdAndNotAvatarId = avatarRepository.findAvatarByUserIdAndNotAvatarId(userId, avatar.getId());
             avatarByUserIdAndNotAvatarId.ifPresent(another -> another.modifyAvatarInfo(ModifyAvatarRequest.builder().isMain(false).build()));
         }
         if(avatar.isModify()){
-            assistantService.modifyAssistantInfo(avatar);
+            body.setAssistant_id(avatar.getAssistant().getAssistantId());
+            body.setThread_id(avatar.getAssistant().getThreadId());
+            assistantService.modifyAssistantInfo(body);
         }
     }
 }

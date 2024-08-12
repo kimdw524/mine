@@ -1,5 +1,6 @@
 package com.mine.application.avatar.command.domain;
 
+import com.mine.application.avatar.infra.AssistantModifyRequestBody;
 import com.mine.application.avatar.command.application.ModifyAvatarRequest;
 import com.mine.application.avatar.command.domain.question.QuestionRes;
 import com.mine.application.avatar.command.domain.voice.Voice;
@@ -77,20 +78,24 @@ public class Avatar extends BaseEntity {
         super.delete();
     }
 
-    public void modifyAvatarInfo(ModifyAvatarRequest request) {
+    public AssistantModifyRequestBody modifyAvatarInfo(ModifyAvatarRequest request) {
+        AssistantModifyRequestBody body = new AssistantModifyRequestBody();
         if(request.getAvatarName() != null && !request.getAvatarName().equals(name)) {
             this.name = request.getAvatarName();
             isModify = true;
+            body.setName(name);
         }
 
         if(request.getJob() != null && !request.getJob().equals(job)) {
             this.job = request.getJob();
             isModify = true;
+            body.setJob(job);
         }
 
         if(request.getResidence() != null && !request.getResidence().equals(residence)) {
             this.residence = request.getResidence();
             isModify = true;
+            body.setResidence(residence);
         }
 
         if(request.getModel() != null && !request.getModel().equalsIgnoreCase(model.name())) {
@@ -98,7 +103,6 @@ public class Avatar extends BaseEntity {
             for(AvatarModel avatarModel : AvatarModel.values()) {
                 if(request.getModel().equalsIgnoreCase(avatarModel.name())) {
                     this.model = avatarModel;
-                    isModify = true;
                     flag = true;
                     break;
                 }
@@ -111,6 +115,8 @@ public class Avatar extends BaseEntity {
         if(request.getIsMain() != null) {
             this.isMain = request.getIsMain();
         }
+
+        return body;
     }
 
     @Transient

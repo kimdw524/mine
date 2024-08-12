@@ -1,7 +1,9 @@
 package com.mine.application.avatar.command.domain.question;
 
+import com.mine.application.avatar.command.application.ModifyQuestionResDto;
 import com.mine.application.avatar.command.application.ModifyQuestionResRequest;
 import com.mine.application.avatar.command.domain.Avatar;
+import com.mine.application.avatar.query.application.QuestionResDto;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -38,34 +40,28 @@ public class QuestionRes {
     private QuestionType questionType;
 
 
-    public String getInstruction() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(question.getDescription()).append("라는 질문에는 ");
-        if (questionType.equals(QuestionType.CHOICE)) {
-            sb.append(questionChoice.getDescription());
-        } else {
-            sb.append(subjectiveAns);
-        }
-        sb.append(" 라고 답했어.");
-        sb.append('\n');
-        return sb.toString();
-    }
-
     @Transient
     private boolean isModify;
 
-    public void updateRes(ModifyQuestionResRequest resRequest, QuestionChoice questionChoice) {
+    public ModifyQuestionResDto updateRes(ModifyQuestionResRequest resRequest, QuestionChoice questionChoice) {
+        ModifyQuestionResDto dto = new ModifyQuestionResDto();
         if(questionType.equals(QuestionType.CHOICE)) {
             if(!this.questionChoice.equals(questionChoice)) {
                 isModify = true;
                 this.questionChoice = questionChoice;
+                dto.setQuestion(question.getDescription());
+                dto.setAnswer(questionChoice.getDescription());
             }
         }else {
             if(!subjectiveAns.equals(resRequest.getSubjectiveAns())){
                 isModify = true;
                 this.subjectiveAns = resRequest.getSubjectiveAns();
+                dto.setQuestion(question.getDescription());
+                dto.setAnswer(resRequest.getSubjectiveAns());
             }
         }
+
+        return dto;
     }
 
 

@@ -1,4 +1,4 @@
-package com.mine.application.avatar.command.application;
+package com.mine.application.avatar.infra;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -9,7 +9,6 @@ import com.mine.application.avatar.query.application.SearchQuestionResService;
 import com.mine.application.common.erros.errorcode.CommonErrorCode;
 import com.mine.application.common.erros.exception.RestApiException;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -80,38 +79,21 @@ public class AssistantService {
 //        requestData.add("residence", avatar.getResidence());
 
     }
-    @Getter
-    @AllArgsConstructor
-    @Builder
-    private static class AssistantModifyRequestBody {
-        private String job;
-        private String instruction;
-        private String name;
-        private String residence;
-        private String assistant_id;
-    }
+
 
     @Transactional(readOnly = true)
-    public void modifyAssistantInfo(Avatar avatar) {
+    public void modifyAssistantInfo(AssistantModifyRequestBody body) {
         RestTemplate restTemplate = new RestTemplate();
-        log.info("{}", createModifyRequestBody(avatar).getBody());
-        restTemplate.put(FAST_API_REQUEST_ASSISTANT_URL, createModifyRequestBody(avatar));
+        log.info("{}", body);
+        restTemplate.put(FAST_API_REQUEST_ASSISTANT_URL, createModifyRequestBody(body));
     }
 
-    private HttpEntity<String> createModifyRequestBody(Avatar avatar) {
-        String instruction = searchQuestionResService.getInstruction(avatar);
-        AssistantModifyRequestBody requestBody = AssistantModifyRequestBody.builder()
-                .assistant_id(avatar.getAssistant().getAssistantId())
-                .job(avatar.getJob())
-                .name(avatar.getName())
-                .residence(avatar.getResidence())
-                .instruction(instruction)
-                .build();
-
+    private HttpEntity<String> createModifyRequestBody(AssistantModifyRequestBody body) {
         HttpHeaders httpHeaders = createHttpHeader();
 
+
         try {
-            return new HttpEntity<>(objectMapper.writeValueAsString(requestBody), httpHeaders);
+            return new HttpEntity<>(objectMapper.writeValueAsString(body), httpHeaders);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }

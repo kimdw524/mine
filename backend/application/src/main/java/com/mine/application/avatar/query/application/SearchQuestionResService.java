@@ -38,8 +38,13 @@ public class SearchQuestionResService {
     public String getInstruction(Avatar avatar) {
         List<QuestionResDto> questionResDtos = questionResData(avatar.getId());
         String avatarName = avatar.getName();
+
+        return getInstruction(questionResDtos, avatarName);
+    }
+
+    public String getInstruction(List<QuestionResDto> dtos, String avatarName) {
         StringBuilder sb = new StringBuilder();
-        for (QuestionResDto questionResDto : questionResDtos) {
+        for (QuestionResDto questionResDto : dtos) {
             sb.append(avatarName).append("의 ");
             sb.append(questionResDto.getQuestion()).append(" ");
             if (questionResDto.getQuestionType().equals('c')) {

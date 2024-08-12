@@ -7,6 +7,7 @@ import com.mine.application.avatar.command.domain.AvatarModel;
 import com.mine.application.avatar.command.domain.AvatarRepository;
 import com.mine.application.avatar.command.domain.question.QuestionRes;
 import com.mine.application.avatar.command.domain.voice.UploadVoiceService;
+import com.mine.application.avatar.infra.AssistantService;
 import com.mine.application.common.domain.SessionConstants;
 import com.mine.application.common.domain.SessionDao;
 import com.mine.application.common.erros.errorcode.CommonErrorCode;

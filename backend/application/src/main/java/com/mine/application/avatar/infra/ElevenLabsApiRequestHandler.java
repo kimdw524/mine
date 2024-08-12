@@ -1,5 +1,8 @@
-package com.mine.application.avatar.command.domain.voice;
+package com.mine.application.avatar.infra;
 
+import com.mine.application.avatar.command.domain.voice.VirtualVoiceHandler;
+import com.mine.application.avatar.command.domain.voice.Voice;
+import com.mine.application.avatar.command.domain.voice.VoiceUploadedEvent;
 import com.mine.application.common.erros.errorcode.CommonErrorCode;
 import com.mine.application.common.erros.exception.RestApiException;
 import lombok.*;
