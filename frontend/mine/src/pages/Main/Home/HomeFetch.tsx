@@ -19,9 +19,11 @@ import {
 } from '../../../apis/avatarApi';
 import AvatarChat from '../../../components/organisms/AvatarChat';
 import { useNavigate } from 'react-router-dom';
+import { useQueryClient } from '@tanstack/react-query';
 
 const HomeFetch = () => {
   const nav = useNavigate();
+  const queryClient = useQueryClient();
   const [userQuery, avatarQuery] = useSuspenseQueries({
     queries: [
       { queryKey: ['userinfo'], queryFn: async () => await getUserInfo() },
@@ -51,7 +53,9 @@ const HomeFetch = () => {
   const { mutate: updateClickEaster } = useMutation({
     mutationFn: async () => await updateClickEasterAchievement(),
     onSuccess: (res) => {
-      if (res.data)
+      // 최초 달성시에만 res.data가 ture가 됨
+      if (res.data) {
+        queryClient.invalidateQueries({queryKey:['clickeaster']})
         alert(
           <div>
             이스터에그 달성!
@@ -59,14 +63,15 @@ const HomeFetch = () => {
             그렇게 때리면 아파요 🤕
           </div>,
         );
+      }
     },
   });
 
   const { mutate: updateSpinEaster } = useMutation({
     mutationFn: async () => await updateSpinEasterAchievement(),
     onSuccess: (res) => {
-      console.log(res);
-      if (res.data)
+      if (res.data) {
+        queryClient.invalidateQueries({queryKey:['spineaster']})
         alert(
           <div>
             이스터에그 달성!
@@ -74,6 +79,7 @@ const HomeFetch = () => {
             너무 회전해서 어지러워요 😵‍💫
           </div>,
         );
+      }
     },
   });
 
