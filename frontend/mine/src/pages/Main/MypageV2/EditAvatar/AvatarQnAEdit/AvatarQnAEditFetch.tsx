@@ -19,6 +19,7 @@ import {
   IQuestion,
 } from '../../../../../types/qnaType';
 import useDialog from '../../../../../hooks/useDialog';
+import Loading from '../../../../../components/molecules/Loading';
 
 interface IAvatarQnAEditFetchProps {
   avatarId: number;
@@ -95,7 +96,7 @@ const AvatarQnAEditFetch = ({ avatarId }: IAvatarQnAEditFetchProps) => {
     [answers],
   );
 
-  const { mutate } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: async () => {
       const answerDatas: IAnswerData[] = [];
 
@@ -132,62 +133,70 @@ const AvatarQnAEditFetch = ({ avatarId }: IAvatarQnAEditFetchProps) => {
 
   return (
     <>
-      {questions.map((q: IQuestion, idx: number) => {
-        return (
-          <EditQnA
-            key={idx}
-            question={q}
-            answer={answers[idx]}
-            qidx={idx}
-            invisible={index !== idx}
-            handleResponse={handleResponse}
-          />
-        );
-      })}
-      <div css={controlBtnCss}>
-        <Button
-          color="secondary"
-          onClick={() => setIndex((index) => index - 1)}
-          disabled={index === 0}
-        >
-          <Typography size="sm" color="light">
-            이전
-          </Typography>
-        </Button>
-        <Button
-          onClick={() => {
-            setIndex((index) => index + 1);
-          }}
-          disabled={index === questions.length - 1}
-        >
-          <Typography size="sm" color="light">
-            다음
-          </Typography>
-        </Button>
-      </div>
-      <div css={editBtnCss}>
-        <div
-          css={editListCss(
-            editTarget.filter((v: INewAnswer) => v.isNew).length,
-          )}
-        >
-          <Icon color="primary">
-            <HashtagIcon />
-          </Icon>
-          <Typography color="dark" size="sm">
-            {editTarget.map((v: INewAnswer, i: number) =>
-              v.isNew ? `${i + 1}번 ` : '',
-            )}
-          </Typography>
-        </div>
-        <Button
-          fullWidth
-          disabled={editTarget.filter((v: INewAnswer) => v.isNew).length === 0}
-          onClick={() => mutate()}
-        >
-          수정하기
-        </Button>
-      </div>
+      {isPending ? (
+        <Loading />
+      ) : (
+        <>
+          {questions.map((q: IQuestion, idx: number) => {
+            return (
+              <EditQnA
+                key={idx}
+                question={q}
+                answer={answers[idx]}
+                qidx={idx}
+                invisible={index !== idx}
+                handleResponse={handleResponse}
+              />
+            );
+          })}
+          <div css={controlBtnCss}>
+            <Button
+              color="secondary"
+              onClick={() => setIndex((index) => index - 1)}
+              disabled={index === 0}
+            >
+              <Typography size="sm" color="light">
+                이전
+              </Typography>
+            </Button>
+            <Button
+              onClick={() => {
+                setIndex((index) => index + 1);
+              }}
+              disabled={index === questions.length - 1}
+            >
+              <Typography size="sm" color="light">
+                다음
+              </Typography>
+            </Button>
+          </div>
+          <div css={editBtnCss}>
+            <div
+              css={editListCss(
+                editTarget.filter((v: INewAnswer) => v.isNew).length,
+              )}
+            >
+              <Icon color="primary">
+                <HashtagIcon />
+              </Icon>
+              <Typography color="dark" size="sm">
+                {editTarget.map((v: INewAnswer, i: number) =>
+                  v.isNew ? `${i + 1}번 ` : '',
+                )}
+              </Typography>
+            </div>
+            <Button
+              fullWidth
+              disabled={
+                editTarget.filter((v: INewAnswer) => v.isNew).length === 0
+              }
+              onClick={() => mutate()}
+            >
+              수정하기
+            </Button>
+          </div>
+        </>
+      )}
     </>
   );
 };
