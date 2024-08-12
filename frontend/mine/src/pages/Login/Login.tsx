@@ -92,7 +92,7 @@ const Login = () => {
       await UserLogin(email, password);
       localStorage.setItem('isLoggedIn', 'true');
       queryClient.clear();
-      nav('/');
+      // nav('/');
       window.postMessage(JSON.stringify({ data: 'login' }));
     } catch (err) {
       console.log('에러:', err);
