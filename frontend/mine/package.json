@@ -24,7 +24,7 @@
     "chartjs-plugin-datalabels": "^2.2.0",
     "dayjs": "^1.11.12",
     "eslint-config-react-app": "^7.0.1",
-    "oyc-ds": "^0.0.27",
+    "oyc-ds": "^0.0.28",
     "react": "^18.3.1",
     "react-chartjs-2": "^5.2.0",
     "react-cookie": "^7.1.4",
