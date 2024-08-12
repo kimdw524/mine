@@ -28,12 +28,13 @@ interface TextType {
 
 interface TypeTextFieldProps extends React.ComponentProps<'input'> {
   onTypeChange: (type: string) => void;
+  onVoiceInput: () => void;
   types: TextType[];
   avatarId?: number;
 }
 
 const TypeTextField = forwardRef<HTMLInputElement, TypeTextFieldProps>(
-  ({ onTypeChange, types, avatarId = 0, ...props }, ref) => {
+  ({ onTypeChange, types, avatarId = 0, onVoiceInput, ...props }, ref) => {
     const [type, setType] = useState<string>(types[0]?.value || '');
     const [focus, setFocus] = useState<boolean>(false);
     const modal = useModal();
@@ -52,6 +53,7 @@ const TypeTextField = forwardRef<HTMLInputElement, TypeTextFieldProps>(
       });
       textRef.current.value = result.data;
       textRef.current.focus();
+      onVoiceInput();
     };
 
     const handleRecordClick = () => {

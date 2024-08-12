@@ -1,14 +1,15 @@
 /** @jsxImportSource @emotion/react */
 import { Button, TextField, Typography } from 'oyc-ds';
 import React, { startTransition, useRef, useState } from 'react';
-import { formCss } from './style';
+import { buttonContainer, formCss } from './style';
 import { AvatarData } from '../../../apis/avatarApi';
 
 interface InforProps {
+  onBack: () => void;
   onSubmit: (result: Omit<AvatarData, 'avatarModel'>) => void;
 }
 
-const Infor = ({ onSubmit }: InforProps) => {
+const Infor = ({ onBack, onSubmit }: InforProps) => {
   const [disabled, setDisabled] = useState<boolean>(true);
   const nameRef = useRef<HTMLInputElement>(null);
   const residenceRef = useRef<HTMLInputElement>(null);
@@ -70,9 +71,14 @@ const Infor = ({ onSubmit }: InforProps) => {
           onChange={handleChange}
         />
       </div>
-      <Button size="xl" fullWidth disabled={disabled} onClick={handleSubmit}>
-        아바타 만들기
-      </Button>
+      <div css={buttonContainer}>
+        <Button color="secondary" onClick={onBack}>
+          이전
+        </Button>
+        <Button disabled={disabled} onClick={handleSubmit}>
+          아바타 만들기
+        </Button>
+      </div>
     </>
   );
 };

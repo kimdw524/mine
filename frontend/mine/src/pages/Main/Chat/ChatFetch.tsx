@@ -61,8 +61,12 @@ const ChatFetch = () => {
     },
   });
 
-  const handleChatSend = (e: React.KeyboardEvent) => {
-    if (e.key !== 'Enter' || !chatRef.current || !chatRef.current.value.trim())
+  const handleChatSend = (e: React.KeyboardEvent | void) => {
+    if (
+      (e && e.key !== 'Enter') ||
+      !chatRef.current ||
+      !chatRef.current.value.trim()
+    )
       return;
 
     const message = chatRef.current.value;
@@ -201,6 +205,7 @@ const ChatFetch = () => {
             onTypeChange={(type) => {
               chatTypeRef.current = type as ChatType;
             }}
+            onVoiceInput={handleChatSend}
             disabled={isPending}
           />
           {isPending && (

@@ -33,8 +33,8 @@ const Search = () => {
   const [search, setSearch] = useState<SearchData>({ query: '', type: type });
   const queryRef = useRef<HTMLInputElement>(null);
 
-  const handleSubmit = (e: React.KeyboardEvent) => {
-    if (!queryRef.current || e.key !== 'Enter') {
+  const handleSubmit = (e: React.KeyboardEvent | void) => {
+    if (!queryRef.current || (e && e.key !== 'Enter')) {
       return;
     }
     setSearch({ query: queryRef.current.value, type });
@@ -53,6 +53,7 @@ const Search = () => {
               ref={queryRef}
               onKeyDown={handleSubmit}
               onTypeChange={(type) => setType(type as AccountSearchType)}
+              onVoiceInput={handleSubmit}
             />
             <Typography color="secondary" size="xs" weight="medium">
               {tips[type]}
