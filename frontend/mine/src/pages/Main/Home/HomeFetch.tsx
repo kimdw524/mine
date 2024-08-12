@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { useMutation, useSuspenseQueries } from '@tanstack/react-query';
 import { getUserAvatars, getUserInfo } from '../../../apis/mypageApi';
 import { Button, Toggle, Typography } from 'oyc-ds';
@@ -105,6 +105,25 @@ const HomeFetch = () => {
     }
   };
 
+  const handleToggle = () => {
+    if (isOn) {
+      setIsOn(false);
+      localStorage.setItem('voiceToggle', 'off');
+    } else {
+      setIsOn(true);
+      localStorage.setItem('voiceToggle', 'on');
+    }
+  };
+
+  useEffect(() => {
+    if (localStorage.getItem('voiceToggle')) {
+      setIsOn(localStorage.getItem('voiceToggle') === 'on');
+    } else {
+      localStorage.setItem('voiceToggle', 'off');
+      setIsOn(false);
+    }
+  }, []);
+
   useEffect(() => {
     if (avatarQuery.data.data.length && showMessage) {
       updateSpinEaster();
@@ -134,13 +153,9 @@ const HomeFetch = () => {
         </Typography>
         <div css={toggleContainerCss}>
           <Typography color="dark" size="md" weight="medium">
-            {isOn ? '음성 끄기' : '음성 켜기'}
+            {isOn ? '음성' : '음소거'}
           </Typography>
-          <Toggle
-            color="primary"
-            size="md"
-            onClick={(checked) => setIsOn(checked)}
-          />
+          <Toggle color="primary" size="md" onClick={handleToggle} />
         </div>
         <div
           css={avatarContainerCss}

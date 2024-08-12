@@ -109,10 +109,17 @@ export const avatarTTS = (voiceId: string, text: string) => {
     process.env.REACT_APP_TTS_BASE_URL + `/${voiceId}`,
     {
       text: text,
+      model_id: 'eleven_multilingual_v2',
+      voice_settings: {
+        stability: 1,
+        similarity_boost: 1,
+        style: 1,
+        use_speaker_boost: true,
+      },
     },
     {
       headers: {
-        'xi-api-key': process.env.REACT_API_TTS_API_KEY,
+        'xi-api-key': process.env.REACT_APP_TTS_API_KEY,
         'Content-Type': 'application/json',
       },
       responseType: 'blob',
@@ -125,11 +132,9 @@ export const updateAvatarAchievement = () => {
   return api.patch<boolean>('/api/users/achievements/2');
 };
 
-
 export const updateClickEasterAchievement = () => {
   return api.patch<boolean>('/api/users/achievements/5');
 };
-
 
 //  아직 api가 없음
 export const updateSpinEasterAchievement = () => {
