@@ -65,6 +65,7 @@ const HomeFetch = () => {
   const { mutate: updateSpinEaster } = useMutation({
     mutationFn: async () => await updateSpinEasterAchievement(),
     onSuccess: (res) => {
+      console.log(res);
       if (res.data)
         alert(
           <div>
@@ -102,14 +103,9 @@ const HomeFetch = () => {
 
     if (eventCountRef.current === 400 && !showMessage) {
       setShowMessage(true);
-    }
-  };
-
-  useEffect(() => {
-    if (avatarQuery.data.data.length && showMessage) {
       updateSpinEaster();
     }
-  }, [showMessage, alert, updateSpinEaster]);
+  };
 
   return (
     <>
