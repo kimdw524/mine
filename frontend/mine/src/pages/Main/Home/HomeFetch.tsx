@@ -105,17 +105,22 @@ const HomeFetch = () => {
     }
   };
 
-  const handleToggle = useCallback(() => {
-    localStorage.setItem('voiceToggle', isOn ? 'on' : 'off');
-    setIsOn((prev) => (prev ? false : true));
-  }, []);
+  const handleToggle = () => {
+    if (isOn) {
+      setIsOn(false);
+      localStorage.setItem('voiceToggle', 'off');
+    } else {
+      setIsOn(true);
+      localStorage.setItem('voiceToggle', 'on');
+    }
+  };
 
   useEffect(() => {
     if (localStorage.getItem('voiceToggle')) {
       setIsOn(localStorage.getItem('voiceToggle') === 'on');
     } else {
-      localStorage.setItem('voiceToggle', 'on');
-      setIsOn(true);
+      localStorage.setItem('voiceToggle', 'off');
+      setIsOn(false);
     }
   }, []);
 
@@ -148,9 +153,9 @@ const HomeFetch = () => {
         </Typography>
         <div css={toggleContainerCss}>
           <Typography color="dark" size="md" weight="medium">
-            {isOn ? '음성 끄기' : '음성 켜기'}
+            {isOn ? '음성' : '음소거'}
           </Typography>
-          <Toggle color="primary" size="md" onClick={() => handleToggle} />
+          <Toggle color="primary" size="md" onClick={handleToggle} />
         </div>
         <div
           css={avatarContainerCss}
