@@ -6,7 +6,13 @@
  */
 
 import React, {useEffect, useRef, useState} from 'react';
-import {Alert, AppState, BackHandler, SafeAreaView} from 'react-native';
+import {
+  Alert,
+  AppState,
+  AppStateStatus,
+  BackHandler,
+  SafeAreaView,
+} from 'react-native';
 import WebView from 'react-native-webview';
 import SplashScreen from 'react-native-splash-screen';
 import CookieManager, {Cookies} from '@react-native-cookies/cookies';
@@ -45,41 +51,30 @@ function App(): React.JSX.Element {
 
     try {
       const storedCookies = await AsyncStorage.getItem(COOKIE_KEY);
+      Alert.alert(storedCookies);
 
-      if (storedCookies) {
-        const cookies: Cookies = JSON.parse(storedCookies);
+      // if (storedCookies) {
+      //   const cookies: Cookies = JSON.parse(storedCookies);
 
-        for (const [key, cookie] of Object.entries(cookies)) {
-          await CookieManager.set('https://99zdiary.com', cookie);
-          Alert.alert(cookie.name + cookie.value + cookie.domain + cookie.path);
-        }
-      }
+      //   for (const [key, cookie] of Object.entries(cookies)) {
+      //     await CookieManager.set('https://99zdiary.com', cookie);
+      //   }
+      // }
     } catch (e) {
       Alert.alert(e);
     }
   };
 
-  useEffect(() => {
-    const handleAppStateChange = async nextAppState => {
-      if (nextAppState === 'background' || nextAppState === 'inactive') {
-        try {
-          const cookies = await CookieManager.getAll(true);
-          await AsyncStorage.setItem(COOKIE_KEY, JSON.stringify(cookies));
-        } catch (e) {
-          Alert.alert(e);
-        }
-      }
-    };
-
-    const subscription = AppState.addEventListener(
-      'change',
-      handleAppStateChange,
-    );
-
-    return () => {
-      subscription.remove();
-    };
-  }, []);
+  const getCookies = async () => {
+    try {
+      const cookies = await CookieManager.get('https://99zdiary.com/');
+      Alert.alert('test' + JSON.stringify(cookies));
+      // if (cookies)
+      //   await AsyncStorage.setItem(COOKIE_KEY, JSON.stringify(cookies));
+    } catch (e) {
+      Alert.alert(e);
+    }
+  };
 
   useEffect(() => {
     const handleBack = () => {
@@ -99,6 +94,7 @@ function App(): React.JSX.Element {
     };
 
     BackHandler.addEventListener('hardwareBackPress', handleBack);
+    getCookies();
 
     return () => {
       BackHandler.removeEventListener('hardwareBackPress', handleBack);
