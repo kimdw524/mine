@@ -61,7 +61,7 @@ public class AssistantService {
 
 
     private HttpEntity<String> createRegisterRequestBody(Avatar avatar) {
-        String instruction = searchQuestionResService.getInstruction(avatar.getId());
+        String instruction = searchQuestionResService.getInstruction(avatar);
         AssistantRegisterRequestBody requestBody = new AssistantRegisterRequestBody(avatar.getJob(), instruction, avatar.getName(), avatar.getResidence());
 
         HttpHeaders httpHeaders = createHttpHeader();
@@ -98,7 +98,7 @@ public class AssistantService {
     }
 
     private HttpEntity<String> createModifyRequestBody(Avatar avatar) {
-        String instruction = searchQuestionResService.getInstruction(avatar.getId());
+        String instruction = searchQuestionResService.getInstruction(avatar);
         AssistantModifyRequestBody requestBody = AssistantModifyRequestBody.builder()
                 .assistant_id(avatar.getAssistant().getAssistantId())
                 .job(avatar.getJob())

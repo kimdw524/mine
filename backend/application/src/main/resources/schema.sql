@@ -98,11 +98,11 @@ create table avatar
     avatar_name         VARCHAR(40) NOT NULL,
     avatar_birthday     DATETIME    NOT NULL,
     avatar_personality  VARCHAR(100),
-    avatar_assistant_id VARCHAR(60) NOT NULL,
-    avatar_thread_id    VARCHAR(60) NOT NULL,
+    avatar_assistant_id VARCHAR(60),
+    avatar_thread_id    VARCHAR(60),
     avatar_voice_id     VARCHAR(60),
     is_deleted          BOOL        NOT NULL default FALSE,
-    avatar_model        VARCHAR(6)  NOT NULL,
+    avatar_model        VARCHAR(7)  NOT NULL,
     avatar_residence    VARCHAR(40),
     avatar_job          VARCHAR(40),
     is_main             BOOL,
@@ -285,7 +285,7 @@ VALUES (12, 12, '좋아하는 음식 종류는', 's');
 INSERT INTO avatar(avatar_id, user_id, avatar_name, avatar_birthday, avatar_personality, avatar_assistant_id,
                    avatar_thread_id, avatar_voice_id, is_deleted, avatar_model, avatar_residence, avatar_job, is_main)
 VALUES (1, 1, '김다운', '2024-08-02', '착함!! ㅎㅎ', 'asst_DPksAEgIePcXxIyJOPrM3n2o', 'thread_Rd3xUTKMTmrwYiY9Oss5upna',
-        'CrvDGrP4g0jagWAqURm5', false, "cow", '경북구미', '프톤트엔드엔지니어', true);
+        'CrvDGrP4g0jagWAqURm5', false, 'cow', '경북구미', '프톤트엔드엔지니어', true);
 
 INSERT INTO question_res(question_res_id, question_id, avatar_id, question_choice_id, subjective_ans, question_type)
 VALUES (1, 1, 1, 3, null, 'c'),

@@ -22,7 +22,7 @@ public class QuestionResController {
     @GetMapping("")
     @LoginCheck
     public ResponseEntity<?> findAllByAvatarId(@PathVariable Integer avatarId) {
-        return ResponseEntity.ok(searchQuestionResService.getQueastionResDataV2(avatarId));
+        return ResponseEntity.ok(searchQuestionResService.getQuestionResDataV2(avatarId));
     }
 
     @PatchMapping("")

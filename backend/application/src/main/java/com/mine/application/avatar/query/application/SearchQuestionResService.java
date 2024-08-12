@@ -1,5 +1,6 @@
 package com.mine.application.avatar.query.application;
 
+import com.mine.application.avatar.command.domain.Avatar;
 import com.mine.application.avatar.query.domain.*;
 import com.mine.application.common.domain.SessionConstants;
 import com.mine.application.common.domain.SessionDao;
@@ -21,7 +22,7 @@ public class SearchQuestionResService {
     private final SessionDao sessionDao;
 
     @Transactional(readOnly = true)
-    public List<QuestionResDtoV2> getQueastionResDataV2(Integer avatarId) {
+    public List<QuestionResDtoV2> getQuestionResDataV2(Integer avatarId) {
         List<QuestionResDto> questionResDtos = questionResData(avatarId);
 
         return questionResDtos.stream().map(questionResDto ->
@@ -34,19 +35,19 @@ public class SearchQuestionResService {
     }
 
     @Transactional(readOnly = true)
-    public String getInstruction(Integer avatarId) {
-        List<QuestionResDto> questionResDtos = questionResData(avatarId);
-        String avatarName = avatarDataRepository.findAvatarNameByUserIdAndAvatarId((Integer) sessionDao.get(SessionConstants.USER_ID).get(), avatarId).orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND));
+    public String getInstruction(Avatar avatar) {
+        List<QuestionResDto> questionResDtos = questionResData(avatar.getId());
+        String avatarName = avatar.getName();
         StringBuilder sb = new StringBuilder();
         for (QuestionResDto questionResDto : questionResDtos) {
-            sb.append(avatarName).append("의");
-            sb.append(questionResDto.getQuestion());
+            sb.append(avatarName).append("의 ");
+            sb.append(questionResDto.getQuestion()).append(" ");
             if (questionResDto.getQuestionType().equals('c')) {
                 sb.append(questionResDto.getChoiceAnswer().getDescription());
             } else {
                 sb.append(questionResDto.getSubjectiveAnswer());
             }
-            sb.append("`입니다. \n");
+            sb.append(" 입니다. \n");
         }
 
         return sb.toString();
