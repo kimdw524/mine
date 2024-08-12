@@ -6,25 +6,18 @@ import ChartDataLabels from 'chartjs-plugin-datalabels';
 import {
   Chart as ChartJS,
   CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
   Legend,
 } from 'chart.js';
 import { containerCss, msgCss } from '../analysis.style';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { spendMsg } from '../../../../apis/statisticsApi';
 import { calculateDateRange } from '../../../../utils/SpendData';
+import { useMemo } from 'react';
 
-ChartJS.register(ChartDataLabels);
 ChartJS.register(
   CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
   Legend,
+  ChartDataLabels
 );
 
 interface SpendChartProps {
@@ -53,6 +46,16 @@ const Analysis: React.FC<SpendChartProps> = ({ period, offset, curSum }) => {
   const prevSum = data?.data.prevSum || 0;
   const diff = (curSum || 0) - prevSum;
   const maxSum = Math.max(prevSum, curSum || 0);
+
+  const renderMessage = useMemo(() => {
+    if (!curSum) return null;
+
+    if (diff >= 0) {
+      return <h2>저번에 비해 {diff}원 더 썼어요!</h2>;
+    } else {
+      return <h2>저번에 비해 {-diff}원 덜 썼어요!</h2>;
+    }
+  }, [curSum, diff]);
 
   const barData = {
     labels: ['이전 합계', '현재 합계'],
@@ -99,13 +102,7 @@ const Analysis: React.FC<SpendChartProps> = ({ period, offset, curSum }) => {
 
   return (
     <div css={containerCss}>
-      {curSum ? (
-        diff >= 0 ? (
-          <h2>저번에 비해 {diff}원 더 썼어요!</h2>
-        ) : (
-          <h2>저번에 비해 {-diff}원 덜 썼어요!</h2>
-        )
-      ) : null}
+        {renderMessage}
       <Bar data={barData} options={options} height={'70%'} />
       <div css={msgCss}>
         <h3>소비 패턴 분석 메시지</h3>

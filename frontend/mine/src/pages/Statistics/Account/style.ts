@@ -40,10 +40,10 @@ export const itempriceCss = css`
 
 export const typeCss = css`
   width: 130px;
-  height: 35px;
+  height: 30px;
   margin-left: auto;
 `
 
 export const allbtnCss = css`
-  margin-left: auto; /* 추가된 부분 */
+  margin-left: auto; 
 `

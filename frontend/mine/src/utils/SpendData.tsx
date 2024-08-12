@@ -37,20 +37,20 @@ export const getDisplayTimeframe = (period: string, offset: number): Timeframe =
     previousWeekEnd.setDate(previousWeekStart.getDate() + 6);
     startDate = apiFormatDate(previousWeekStart);
     endDate = apiFormatDate(previousWeekEnd);
-    title = `${previousWeekStart.getFullYear()}년 ${previousWeekStart.getMonth() + 1}월 ${previousWeekStart.getDate()}일 ~ ${previousWeekEnd.getFullYear()}년 ${previousWeekEnd.getMonth() + 1}월 ${previousWeekEnd.getDate()}일`;
+    title = `${previousWeekStart.getFullYear()}. ${previousWeekStart.getMonth() + 1}. ${previousWeekStart.getDate()} ~ ${previousWeekEnd.getFullYear()}. ${previousWeekEnd.getMonth() + 1}. ${previousWeekEnd.getDate()}.`;
   } else if (period === 'monthly') {
     const currentMonth = today.getMonth();
     const currentYear = today.getFullYear();
     const adjustedDate = new Date(currentYear, currentMonth - offset, 1);
     startDate = apiFormatDate(new Date(adjustedDate.getFullYear(), adjustedDate.getMonth(), 1));
     endDate = apiFormatDate(new Date(adjustedDate.getFullYear(), adjustedDate.getMonth() + 1, 0));
-    title = `${adjustedDate.getFullYear()}년 ${adjustedDate.getMonth() + 1}월`;
+    title = `${adjustedDate.getFullYear()}. ${adjustedDate.getMonth() + 1}`;
   } else if (period === 'yearly') {
     const currentYear = today.getFullYear();
     const adjustedYear = currentYear - offset;
     startDate = `${adjustedYear}-01-01`;
     endDate = `${adjustedYear}-12-31`;
-    title = `${adjustedYear}년`;
+    title = `${adjustedYear}`;
   }
 
   return { startDate, endDate, title };
@@ -90,7 +90,7 @@ export const calculateDateRange = (period: string, offset: number) => {
 
   // 변수가 초기화되지 않은 경우 기본값을 설정
   if (!startDate || !endDate) {
-    throw new Error('Date range could not be determined');
+    throw new Error('날짜 범위가 확인이 되지 않음');
   }
 
   return { startDate, endDate };

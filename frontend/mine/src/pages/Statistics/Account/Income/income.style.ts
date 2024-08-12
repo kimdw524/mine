@@ -5,7 +5,7 @@ export const containerCss = css`
   /* border: 1px solid black; */
   /* max-width: 600px; */
   display: flex;
-  flex-direction: column; /* 추가된 부분 */
+  flex-direction: column; 
 `;
 
 export const incomeCss = css`
