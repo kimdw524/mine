@@ -8,7 +8,7 @@ import UserDataForm from './UserDataForm';
 import Verification from './Verification';
 import { containerCss } from './style';
 import { useNavigate } from 'react-router-dom';
-
+import { useLoginCheck } from '../../hooks/useLoginCheck';
 interface SignupInfo {
   email: string;
   password: string;
@@ -27,6 +27,7 @@ export const SignupContext = createContext<SignupContextProps>(
 );
 
 const Signup = () => {
+  useLoginCheck();
   const navigate = useNavigate();
   const [info, setInfo] = useState<SignupInfo>({
     email: '',

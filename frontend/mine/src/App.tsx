@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react';
 import Signup from './pages/Signup';
 import { LightTheme } from 'oyc-ds';
 import { ThemeProvider } from '@emotion/react';
-import { UserProvider } from './pages/Login/UserContext';
+// import { UserProvider } from './pages/Login/UserContext';
 import { ModalProvider } from './hooks/useModal';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import { ToastVariant } from 'oyc-ds/dist/components/molecules/Toast/Toast.types';
@@ -60,7 +60,6 @@ function App() {
   return (
     <>
       <GlobalStyle />
-      <UserProvider>
         <ThemeProvider theme={LightTheme}>
           <ModalProvider>
             <NotificationContext.Provider
@@ -105,7 +104,6 @@ function App() {
             </NotificationContext.Provider>
           </ModalProvider>
         </ThemeProvider>
-      </UserProvider>
     </>
   );
 }

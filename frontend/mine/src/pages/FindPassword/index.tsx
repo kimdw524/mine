@@ -1,9 +1,10 @@
 /** @jsxImportSource @emotion/react */
-import AppBar from '../../components/organisms/AppBar';
 import React, { createContext, useState } from 'react';
-import TransitionAnimation from '../../components/common/TransitionAnimation';
-import styles from './FindPassword.module.css';
 import { containerCss } from './style';
+import { useLoginCheck } from '../../hooks/useLoginCheck';
+import styles from './FindPassword.module.css';
+import AppBar from '../../components/organisms/AppBar';
+import TransitionAnimation from '../../components/common/TransitionAnimation';
 import EmailVerification from './EmailInput';
 import { useNavigate } from 'react-router-dom';
 import Password from '../Main/MypageV2/EditUser/PwdEdit/Password';
@@ -24,6 +25,7 @@ export const EmailContext = createContext<EmailContextProps>(
 );
 
 const FindPassword = () => {
+  useLoginCheck();
   const [step, setStep] = useState<number>(0);
   const nav = useNavigate();
 
