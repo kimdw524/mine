@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
-import React, { useEffect, useRef, useState } from 'react';
-import { css, keyframes, useTheme } from '@emotion/react';
+import React, { useState } from 'react';
+import { useTheme } from '@emotion/react';
 import { SpinnerProps } from './Spinner.types';
 import { base } from './Spinner.styles';
 
@@ -12,17 +12,14 @@ export const Spinner = ({
   const theme = useTheme();
   const [rotDeg, setRotDeg] = useState<number>(0);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setRotDeg((rotDeg) => (rotDeg + 60) % 360);
-    }, 800);
-
-    return () => clearInterval(interval);
-  }, []);
+  const handleAnimationEnd = () => {
+    setRotDeg((rotDeg) => (rotDeg + 60) % 360);
+  };
 
   return (
     <div
       css={[base(theme, size, theme.colors[color], rotDeg)]}
+      onAnimationEnd={handleAnimationEnd}
       {...props}
     ></div>
   );

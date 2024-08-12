@@ -40,6 +40,7 @@ export const labelField = (
     ? '0.625rem'
     : '1rem'};
   transition: all 150ms ease-in-out;
+  pointer-events: none;
 `;
 
 export const inputField = (

@@ -30,6 +30,6 @@ export const base = (
     border: 0.5rem solid #f1f3f5;
     border-top: 0.5rem solid ${palette.main};
     border-radius: 50%;
-    animation: ${spin} 0.8s ease-in-out infinite;
+    animation: ${spin} 0.8s ease-in-out forwards 1;
   `;
 };

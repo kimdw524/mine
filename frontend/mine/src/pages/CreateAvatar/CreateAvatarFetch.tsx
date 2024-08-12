@@ -127,7 +127,7 @@ const CreateAvatarFetch = ({ step, onChangeStep }: CreateAvatarFetchProps) => {
         />
         <ReadSentence key={2} items={setences} onSubmit={handleReadSentence} />
         <SelectAvatar key={3} onSubmit={handleSelectAvatar} />
-        <Infor key={4} onSubmit={handleInfor} />
+        <Infor key={4} onBack={() => onChangeStep(3)} onSubmit={handleInfor} />
         <Done key={5} />
       </TransitionAnimation>
     </>

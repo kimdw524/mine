@@ -5,7 +5,6 @@ import React, { useContext, useRef, useState } from 'react';
 import { SignupContext } from '..';
 import { checkEmail, requestVerificationEmail } from '../../../apis/authApi';
 import { useMutation } from '@tanstack/react-query';
-import { AxiosResponse } from 'axios';
 
 interface UserDataFormProps {
   onSubmit: () => void;
@@ -28,7 +27,7 @@ type FormField = 'email' | 'password' | 'passwordCheck' | 'name';
 type UserDataValidation = Record<FormField, string>;
 
 const UserDataForm = ({ onSubmit }: UserDataFormProps) => {
-  const [gender, setGender] = useState<'M' | 'F'>('M');
+  const genderRef = useRef<'M' | 'F' | undefined>(undefined);
   const [available, setAvailable] = useState<boolean>(false);
   const signupContext = useContext(SignupContext);
   const emailRef = useRef<HTMLInputElement>(null);
@@ -63,7 +62,7 @@ const UserDataForm = ({ onSubmit }: UserDataFormProps) => {
       email: emailRef.current?.value,
       password: passwordRef.current?.value,
       name: nameRef.current?.value,
-      gender,
+      gender: genderRef.current,
     });
 
     checkEmail(emailRef.current!.value).then((res) => {
@@ -142,6 +141,11 @@ const UserDataForm = ({ onSubmit }: UserDataFormProps) => {
       result.name = '';
     }
 
+    if (!genderRef.current) {
+      result.name = '';
+      flag = false;
+    }
+
     setValidation(result);
     setAvailable(flag);
     return flag;
@@ -217,16 +221,22 @@ const UserDataForm = ({ onSubmit }: UserDataFormProps) => {
           <Button
             size="md"
             color="secondary"
-            onClick={() => setGender('M')}
-            variant={gender === 'M' ? 'contained' : 'outlined'}
+            onClick={() => {
+              genderRef.current = 'M';
+              validate();
+            }}
+            variant={genderRef.current === 'M' ? 'contained' : 'outlined'}
           >
             남자
           </Button>
           <Button
             size="md"
             color="secondary"
-            onClick={() => setGender('F')}
-            variant={gender === 'F' ? 'contained' : 'outlined'}
+            onClick={() => {
+              genderRef.current = 'F';
+              validate();
+            }}
+            variant={genderRef.current === 'F' ? 'contained' : 'outlined'}
           >
             여자
           </Button>

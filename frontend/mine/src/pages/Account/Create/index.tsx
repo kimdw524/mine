@@ -65,14 +65,45 @@ const Create = ({ onCreate, selectedDate = new Date() }: CreateProps) => {
   });
 
   const handleSubmit = () => {
+    if (!titleRef.current!.value) {
+      alert('제목을 입력해 주세요.');
+      return;
+    }
+
+    if (isNaN(parseInt(moneyRef.current!.value.replaceAll(',', '')))) {
+      alert('금액을 정확히 입력해 주세요.');
+      return;
+    }
+
     mutate({
       spendCategoryId: categoryRef.current,
       accountType: type,
-      money: parseInt(moneyRef.current!.value),
+      money: parseInt(moneyRef.current!.value.replaceAll(',', '')),
       title: titleRef.current!.value,
       description: descriptionRef.current!.value,
       dateTime: apiFormatDateTime(dateRef.current),
     });
+  };
+
+  const handleMoneyFocus = () => {
+    if (!moneyRef.current) {
+      return;
+    }
+
+    moneyRef.current.value = moneyRef.current.value.replaceAll(',', '');
+  };
+
+  const handleMoneyBlur = () => {
+    if (!moneyRef.current) {
+      return;
+    }
+
+    if (isNaN(parseInt(moneyRef.current.value))) {
+      moneyRef.current.value = '0';
+      return;
+    }
+
+    moneyRef.current.value = parseInt(moneyRef.current.value).toLocaleString();
   };
 
   return (
@@ -135,6 +166,8 @@ const Create = ({ onCreate, selectedDate = new Date() }: CreateProps) => {
             variant="outlined"
             label="금액"
             defaultValue=""
+            onBlur={handleMoneyBlur}
+            onFocus={handleMoneyFocus}
           />
         </div>
         <DateTimePicker

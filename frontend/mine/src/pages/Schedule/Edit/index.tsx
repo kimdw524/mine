@@ -88,6 +88,11 @@ const Edit = ({ data }: EditProps) => {
   };
 
   const handleSubmit = () => {
+    if (!titleRef.current!.value) {
+      alert('제목을 입력해 주세요.');
+      return;
+    }
+
     mutate({
       scheduleId: data.scheduleId,
       categoryId: categoryRef.current,

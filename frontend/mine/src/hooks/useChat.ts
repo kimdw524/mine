@@ -48,6 +48,9 @@ const useChat = (
     onAccount,
     onSchedule,
   }: ChatEventHandler) => {
+    accountRef.current = onAccount;
+    scheduleRef.current = onSchedule;
+
     if (avatarId !== -1) {
       socketRef.current = new Client({
         webSocketFactory: () =>
@@ -85,9 +88,6 @@ const useChat = (
     socket.onWebSocketClose = onClose;
 
     socket.activate();
-
-    accountRef.current = onAccount;
-    scheduleRef.current = onSchedule;
   };
 
   const addLog = (data: ChatMessageData) => {
