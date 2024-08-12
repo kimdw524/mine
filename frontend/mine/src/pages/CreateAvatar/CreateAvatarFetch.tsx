@@ -68,7 +68,7 @@ const CreateAvatarFetch = ({ step, onChangeStep }: CreateAvatarFetchProps) => {
     queryFn: () => getQuestions(),
   });
   const { mutate } = useMutation({
-    mutationFn: (data: CreateAvatarRequest) => createAvatar(data),
+    mutationFn: async (data: CreateAvatarRequest) => createAvatar(data),
     onSuccess: async (data) => {
       if (data.status === 200) {
         const result = await updateAvatarAchievement();
@@ -104,9 +104,9 @@ const CreateAvatarFetch = ({ step, onChangeStep }: CreateAvatarFetchProps) => {
     onChangeStep(4);
   };
 
-  const handleInfor = (result: Omit<AvatarData, 'avatarModel'>) => {
+  const handleInfor = async (result: Omit<AvatarData, 'avatarModel'>) => {
     requestRef.current = { ...requestRef.current, ...result };
-    mutate(requestRef.current);
+    await mutate(requestRef.current);
   };
 
   return (

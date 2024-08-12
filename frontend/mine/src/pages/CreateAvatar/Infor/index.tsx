@@ -1,15 +1,16 @@
 /** @jsxImportSource @emotion/react */
-import { Button, TextField, Typography } from 'oyc-ds';
+import { Button, Spinner, TextField, Typography } from 'oyc-ds';
 import React, { startTransition, useRef, useState } from 'react';
-import { buttonContainer, formCss } from './style';
+import { buttonContainer, formCss, loadingCss } from './style';
 import { AvatarData } from '../../../apis/avatarApi';
 
 interface InforProps {
   onBack: () => void;
-  onSubmit: (result: Omit<AvatarData, 'avatarModel'>) => void;
+  onSubmit: (result: Omit<AvatarData, 'avatarModel'>) => Promise<void>;
 }
 
 const Infor = ({ onBack, onSubmit }: InforProps) => {
+  const [isPending, setIsPeding] = useState<boolean>(false);
   const [disabled, setDisabled] = useState<boolean>(true);
   const nameRef = useRef<HTMLInputElement>(null);
   const residenceRef = useRef<HTMLInputElement>(null);
@@ -29,7 +30,7 @@ const Infor = ({ onBack, onSubmit }: InforProps) => {
     });
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!nameRef.current || !residenceRef.current || !jobRef.current) {
       return;
     }
@@ -38,7 +39,9 @@ const Infor = ({ onBack, onSubmit }: InforProps) => {
       residence = residenceRef.current.value.trim(),
       job = jobRef.current.value.trim();
 
-    onSubmit({ avatarName: name, residence, job });
+    setIsPeding(false);
+    await onSubmit({ avatarName: name, residence, job });
+    setIsPeding(true);
   };
 
   return (
@@ -79,6 +82,11 @@ const Infor = ({ onBack, onSubmit }: InforProps) => {
           아바타 만들기
         </Button>
       </div>
+      {isPending && (
+        <div css={loadingCss}>
+          <Spinner size="sm" />
+        </div>
+      )}
     </>
   );
 };

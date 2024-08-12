@@ -109,9 +109,33 @@ const HomeFetch = () => {
 
     if (eventCountRef.current === 400 && !showMessage) {
       setShowMessage(true);
-      updateSpinEaster();
     }
   };
+
+  const handleToggle = () => {
+    if (isOn) {
+      setIsOn(false);
+      localStorage.setItem('voiceToggle', 'off');
+    } else {
+      setIsOn(true);
+      localStorage.setItem('voiceToggle', 'on');
+    }
+  };
+
+  useEffect(() => {
+    if (localStorage.getItem('voiceToggle')) {
+      setIsOn(localStorage.getItem('voiceToggle') === 'on');
+    } else {
+      localStorage.setItem('voiceToggle', 'off');
+      setIsOn(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (avatarQuery.data.data.length && showMessage) {
+      updateSpinEaster();
+    }
+  }, [showMessage, alert, updateSpinEaster]);
 
   return (
     <>
@@ -136,13 +160,9 @@ const HomeFetch = () => {
         </Typography>
         <div css={toggleContainerCss}>
           <Typography color="dark" size="md" weight="medium">
-            {isOn ? '음성 끄기' : '음성 켜기'}
+            {isOn ? '음성' : '음소거'}
           </Typography>
-          <Toggle
-            color="primary"
-            size="md"
-            onClick={(checked) => setIsOn(checked)}
-          />
+          <Toggle color="primary" size="md" onClick={handleToggle} />
         </div>
         <div
           css={avatarContainerCss}
@@ -164,7 +184,7 @@ const HomeFetch = () => {
         <div css={conversationCss}>
           {avatarQuery.data.data.length ? (
             <AvatarChat
-              avatarId={1}
+              avatarId={avatarQuery.data.data[0].avatarId}
               voiceId={avatarQuery.data.data[0].voiceId}
               voice={isOn}
             />

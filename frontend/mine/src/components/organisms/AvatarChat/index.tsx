@@ -31,7 +31,7 @@ const AvatarChat = ({ avatarId, voiceId, voice }: AvatarChatProps) => {
   const getRecentChat = (me: boolean) =>
     getLog()
       .reverse()
-      .find((item) => item.me === me);
+      .find((item) => item.me === me && item.avatarId === avatarId);
 
   const handleChatSend = (e: React.KeyboardEvent) => {
     if (
