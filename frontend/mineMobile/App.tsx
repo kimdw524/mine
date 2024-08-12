@@ -8,6 +8,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {Alert, BackHandler, SafeAreaView} from 'react-native';
 import WebView from 'react-native-webview';
+import SplashScreen from 'react-native-splash-screen';
 
 interface INav {
   url: string;
@@ -33,6 +34,10 @@ function App(): React.JSX.Element {
         onPress: () => BackHandler.exitApp(),
       },
     ]);
+  };
+
+  const handleWebViewLoadEnd = () => {
+    SplashScreen.hide();
   };
 
   useEffect(() => {
@@ -67,6 +72,7 @@ function App(): React.JSX.Element {
         onNavigationStateChange={(nav: INav) => {
           setNav({url: nav.url, canGoBack: nav.canGoBack});
         }}
+        onLoadEnd={handleWebViewLoadEnd}
       />
     </SafeAreaView>
   );
