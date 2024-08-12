@@ -239,7 +239,7 @@ const Login = () => {
         color="secondary"
         size="xs"
         weight="medium"
-        onClick={() => nav('/findpassword')}
+        onClick={() => nav('/user/findpassword')}
       >
         비밀번호 찾기
       </Typography>
