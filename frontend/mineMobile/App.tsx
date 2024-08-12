@@ -46,6 +46,46 @@ function App(): React.JSX.Element {
   };
 
   useEffect(() => {
+    const handleAppStateChange = async nextAppState => {
+      if (nextAppState === 'background' || nextAppState === 'inactive') {
+        try {
+          const cookies = await CookieManager.getAll(true);
+          await AsyncStorage.setItem(COOKIE_KEY, JSON.stringify(cookies));
+        } catch (e) {
+          Alert.alert(e);
+        }
+      }
+    };
+
+    const handleLoadCookies = async () => {
+      try {
+        const storedCookies = await AsyncStorage.getItem(COOKIE_KEY);
+
+        if (storedCookies) {
+          const cookies: Cookies = JSON.parse(storedCookies);
+
+          for (const [name, cookie] of Object.entries(cookies)) {
+            await CookieManager.set('https://99zdiary.com', cookie);
+          }
+        }
+      } catch (e) {
+        Alert.alert(e);
+      }
+    };
+
+    const subscription = AppState.addEventListener(
+      'change',
+      handleAppStateChange,
+    );
+
+    handleLoadCookies();
+
+    return () => {
+      subscription.remove();
+    };
+  }, []);
+
+  useEffect(() => {
     const handleBack = () => {
       if (nav.canGoBack) {
         if (
@@ -62,32 +102,7 @@ function App(): React.JSX.Element {
       return true;
     };
 
-    const handleAppStateChange = async nextAppState => {
-      if (nextAppState === 'background' || nextAppState === 'inactive') {
-        const cookies = await CookieManager.getAll(true);
-        await AsyncStorage.setItem(COOKIE_KEY, JSON.stringify(cookies));
-      }
-    };
-
-    const handleLoadCookies = async () => {
-      try {
-        const storedCookies = await AsyncStorage.getItem(COOKIE_KEY);
-
-        if (storedCookies) {
-          const cookies: Cookies = JSON.parse(storedCookies);
-
-          for (const [name, cookie] of Object.entries(cookies)) {
-            await CookieManager.set('https://99zdiary.com', cookie);
-          }
-        }
-      } catch (e) {
-        console.error(e);
-      }
-    };
-
     BackHandler.addEventListener('hardwareBackPress', handleBack);
-    AppState.addEventListener('change', handleAppStateChange);
-    handleLoadCookies();
 
     return () => {
       BackHandler.removeEventListener('hardwareBackPress', handleBack);
