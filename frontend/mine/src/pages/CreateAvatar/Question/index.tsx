@@ -15,11 +15,19 @@ const Question = ({ items, onSubmit }: QuestionProps) => {
   const answersRef = useRef<QuestionAnswer[]>([]);
 
   const handleSubmit = (choice: number | null, answer: string | null) => {
-    answersRef.current.push({
-      questionId: items[index].questionId,
-      questionChoiceId: choice,
-      subjectiveAns: answer,
-    });
+    if (index >= answersRef.current.length) {
+      answersRef.current.push({
+        questionId: items[index].questionId,
+        questionChoiceId: choice,
+        subjectiveAns: answer,
+      });
+    } else {
+      answersRef.current[index] = {
+        questionId: items[index].questionId,
+        questionChoiceId: choice,
+        subjectiveAns: answer,
+      };
+    }
 
     if (index >= items.length - 1) {
       onSubmit(answersRef.current);
@@ -27,6 +35,14 @@ const Question = ({ items, onSubmit }: QuestionProps) => {
     }
 
     setIndex((index) => index + 1);
+  };
+
+  const handleBack = () => {
+    if (index === 0) {
+      return;
+    }
+
+    setIndex((index) => index - 1);
   };
 
   return (
@@ -42,7 +58,10 @@ const Question = ({ items, onSubmit }: QuestionProps) => {
         key={index}
         question={items[index].description}
         choices={items[index].questionChoiceList}
+        back={index > 0}
         onSubmit={handleSubmit}
+        onBack={handleBack}
+        defaultValue={answersRef.current[index]}
       />
     </>
   );
