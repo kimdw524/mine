@@ -45,6 +45,7 @@ const MypageV2 = () => {
     if (res.status === 200) {
       const queryClient = new QueryClient();
       queryClient.clear();
+      localStorage.removeItem('isLoggedIn')
       nav('/user/login');
     }
   };
