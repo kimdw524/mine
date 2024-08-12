@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Bar } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -24,6 +24,10 @@ import Preview from '../../Preview';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { calculateDateRange } from '../../../../utils/SpendData';
 import { spendInfo } from '../../../../apis/statisticsApi';
+import { useMemo } from 'react';
+import { Suspense } from 'react';
+import Loading from '../../../../components/molecules/Loading';
+import { DivideIcon } from '@heroicons/react/24/solid';
 ChartJS.register(CategoryScale, BarElement, Title, Tooltip, Legend);
 
 interface SpendChartProps {
@@ -52,6 +56,7 @@ const categories: Record<number, { name: string; color: string }> = {
 const SpendChart: React.FC<SpendChartProps> = ({ period, offset }) => {
   const [showAll, setShowAll] = useState(false);
   const { startDate, endDate } = calculateDateRange(period, offset);
+  const [showAnalysis, setShowAnalysis] = useState(false);
 
   const { data, error, isFetching } = useSuspenseQuery({
     queryKey: ['spendinfo', period, offset],
@@ -72,13 +77,15 @@ const SpendChart: React.FC<SpendChartProps> = ({ period, offset }) => {
     color?: string;
   }
 
-  const filteredData = data.data
-    .map((data: itemTypes) => ({
-      ...data,
-      name: categories[data.spendCategoryId]?.name || '기타',
-      color: categories[data.spendCategoryId]?.color || '#535d90',
-    }))
-    .sort((a: itemTypes, b: itemTypes) => b.categorySum - a.categorySum);
+  const filteredData = useMemo(() => {
+    return data.data
+      .map((data: itemTypes) => ({
+        ...data,
+        name: categories[data.spendCategoryId]?.name || '기타',
+        color: categories[data.spendCategoryId]?.color || '#535d90',
+      }))
+      .sort((a: itemTypes, b: itemTypes) => b.categorySum - a.categorySum);
+  }, [data, categories]);
 
   const totalExpenditure = filteredData.reduce(
     (acc: number, data: itemTypes) => acc + (data.categorySum || 0),
@@ -125,7 +132,7 @@ const SpendChart: React.FC<SpendChartProps> = ({ period, offset }) => {
     })),
   };
 
-  const options = {
+  const options = useMemo(() => ({
     indexAxis: 'y' as const,
     plugins: {
       legend: { display: false },
@@ -134,18 +141,18 @@ const SpendChart: React.FC<SpendChartProps> = ({ period, offset }) => {
       },
     },
     scales: {
-      x: {
-        grid: { display: false },
-        ticks: { display: false },
-        border: { display: false },
-      },
-      y: {
-        grid: { display: false },
-        ticks: { display: false },
-        border: { display: false },
-      },
+      x: { display: false },
+      y: { display: false },
     },
-  };
+  }), []);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowAnalysis(true);
+    }, 300); // 1초 후에 Analysis 표시
+
+    return () => clearTimeout(timer); // 컴포넌트 언마운트 시 타이머 정리
+  }, []);
 
   return (
     <div css={containerCss}>
@@ -207,7 +214,11 @@ const SpendChart: React.FC<SpendChartProps> = ({ period, offset }) => {
               {showAll ? '접기' : '카테고리 전체 보기'}
             </Button>
           )}
-          <Analysis period={period} offset={offset} curSum={totalExpenditure} />
+          {showAnalysis && (
+            <Suspense fallback={<div></div>}>
+              <Analysis period={period} offset={offset} curSum={totalExpenditure} />
+            </Suspense>
+          )}
         </>
       ) : (
         <Preview content="가계부가" button="가계부" url="account" />

@@ -1,18 +1,17 @@
 /** @jsxImportSource @emotion/react */
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import MenuBar from '../../components/organisms/MenuBar';
 import AppBar from '../../components/organisms/AppBar';
 import Home from './Home';
 import { containerCss, contentCss } from './style';
 import MypageV2 from './MypageV2';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { CalendarDaysIcon } from '@heroicons/react/24/solid';
 import useModal from '../../hooks/useModal';
 import Calendar from '../Calendar';
 import Chat from './Chat';
 
 const Main = () => {
-  const nav = useNavigate();
   const location = useLocation();
   const modal = useModal();
   const [curMenu, setCurMenu] = useState<number>(
