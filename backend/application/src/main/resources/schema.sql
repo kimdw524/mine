@@ -151,11 +151,11 @@ create table chat
     FOREIGN KEY (avatar_id) REFERENCES avatar (avatar_id)
 );
 
-INSERT INTO user(user_id, user_email, user_gender, user_password, user_nickname, is_deleted, created_at)
-VALUES (1, 'khj745700@naver.com', 'M', CAST('$2a$10$yTQYJz8F/gkR2sEPQkmrT.6CKZXRI1ZvFUa1BtRuQa7cArWyn77T2' AS BINARY),
-        '테스트객체', false, '2024-08-02'),
-       (3, 'tjs2194@naver.com', 'F', CAST('$2a$10$OIi82DB5rJEISzKngkppzOUCgmpuJ4rVTilClSYg9lFBSsQwe74mS' AS BINARY),
-        '미래의토스인', false, '2024-08-02');
+# INSERT INTO user(user_id, user_email, user_gender, user_password, user_nickname, is_deleted, created_at)
+# VALUES (1, 'khj745700@naver.com', 'M', CAST('$2a$10$yTQYJz8F/gkR2sEPQkmrT.6CKZXRI1ZvFUa1BtRuQa7cArWyn77T2' AS BINARY),
+#         '테스트객체', false, '2024-08-02'),
+#        (3, 'tjs2194@naver.com', 'F', CAST('$2a$10$OIi82DB5rJEISzKngkppzOUCgmpuJ4rVTilClSYg9lFBSsQwe74mS' AS BINARY),
+#         '미래의토스인', false, '2024-08-02');
 
 
 INSERT INTO spend_category (spend_category_name)
