@@ -29,7 +29,9 @@ const AvatarInfo = () => {
           label={'birthday'}
           content={dayjs(avatar.birthday).format('YYYY-MM-DD')}
         />
-        <InfoBox label={'personality'} content={avatar.personality} />
+        {avatar.personality && (
+          <InfoBox label={'personality'} content={avatar.personality} />
+        )}
         <InfoBox label={'job'} content={avatar.job} />
         <InfoBox label={'residence'} content={avatar.residence} />
       </div>
