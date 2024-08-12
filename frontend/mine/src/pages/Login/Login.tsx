@@ -90,9 +90,10 @@ const Login = () => {
     e.preventDefault();
     try {
       await UserLogin(email, password);
-      localStorage.setItem('isLoggedIn', 'true')
+      localStorage.setItem('isLoggedIn', 'true');
       queryClient.clear();
       nav('/');
+      window.postMessage(JSON.stringify({ data: 'login' }));
     } catch (err) {
       console.log('에러:', err);
       setLoginResult(
@@ -146,22 +147,16 @@ const Login = () => {
             />
             <div
               style={{
-                position:'absolute',
-                right:'0.625rem',
+                position: 'absolute',
+                right: '0.625rem',
                 top: '55%',
-                transform:'translateY(-50%)',
+                transform: 'translateY(-50%)',
               }}
             >
               {hide ? (
-                <EyeSlashIcon
-                  css={IconCss}
-                  onClick={onToggleHide}
-                />
+                <EyeSlashIcon css={IconCss} onClick={onToggleHide} />
               ) : (
-                <EyeIcon
-                  css={IconCss}
-                  onClick={onToggleHide}
-                />
+                <EyeIcon css={IconCss} onClick={onToggleHide} />
               )}
             </div>
           </div>
