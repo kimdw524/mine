@@ -92,11 +92,10 @@ const Login = () => {
       await UserLogin(email, password);
       localStorage.setItem('isLoggedIn', 'true');
       queryClient.clear();
-      nav('/');
-      if ('ReactNativeWebview' in window) {
-        (window.ReactNativeWebview as Window).postMessage(
-          JSON.stringify({ data: 'login' }),
-        );
+      if ((window as any).ReactNativeWebView) {
+        (window as any).ReactNativeWebView.postMessage(JSON.stringify('login'));
+      } else {
+        console.log('Not running in React Native WebView.');
       }
       //window.postMessage(JSON.stringify({ data: 'login' }));
     } catch (err) {
