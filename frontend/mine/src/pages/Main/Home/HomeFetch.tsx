@@ -2,12 +2,13 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useMutation, useSuspenseQueries } from '@tanstack/react-query';
 import { getUserAvatars, getUserInfo } from '../../../apis/mypageApi';
-import { Button, Toggle, Typography } from 'oyc-ds';
+import { Button, Icon, Toggle, Typography } from 'oyc-ds';
 import {
   avatarContainerCss,
   conversationCss,
   numberdayCss,
   toggleContainerCss,
+  toggleTextCss,
 } from './style';
 import { containerCss } from './style';
 import Avatar3D from '../../../components/atoms/Avatar3D';
@@ -20,6 +21,7 @@ import {
 import AvatarChat from '../../../components/organisms/AvatarChat';
 import { useNavigate } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
+import { EllipsisHorizontalIcon } from '@heroicons/react/24/solid';
 
 const HomeFetch = () => {
   const nav = useNavigate();
@@ -38,7 +40,12 @@ const HomeFetch = () => {
     return false;
   });
 
-  const [isOn, setIsOn] = useState<boolean>(false);
+  const [isOn, setIsOn] = useState<boolean>(
+    localStorage.getItem('voiceToggle')
+      ? localStorage.getItem('voiceToggle') === 'on'
+      : true,
+  );
+  const [isPending, setIsPending] = useState<boolean>(false);
 
   const { alert } = useDialog();
   const { mutate: updateAttendance } = useMutation({
@@ -55,7 +62,7 @@ const HomeFetch = () => {
     onSuccess: (res) => {
       // 최초 달성시에만 res.data가 ture가 됨
       if (res.data) {
-        queryClient.invalidateQueries({queryKey:['clickeaster']})
+        queryClient.invalidateQueries({ queryKey: ['clickeaster'] });
         alert(
           <div>
             이스터에그 달성!
@@ -71,7 +78,7 @@ const HomeFetch = () => {
     mutationFn: async () => await updateSpinEasterAchievement(),
     onSuccess: (res) => {
       if (res.data) {
-        queryClient.invalidateQueries({queryKey:['spineaster']})
+        queryClient.invalidateQueries({ queryKey: ['spineaster'] });
         alert(
           <div>
             이스터에그 달성!
@@ -114,23 +121,14 @@ const HomeFetch = () => {
   };
 
   const handleToggle = () => {
-    if (isOn) {
-      setIsOn(false);
+    if (localStorage.getItem('voiceToggle') === 'on') {
       localStorage.setItem('voiceToggle', 'off');
+      setIsOn(() => false);
     } else {
-      setIsOn(true);
       localStorage.setItem('voiceToggle', 'on');
+      setIsOn(() => true);
     }
   };
-
-  useEffect(() => {
-    if (localStorage.getItem('voiceToggle')) {
-      setIsOn(localStorage.getItem('voiceToggle') === 'on');
-    } else {
-      localStorage.setItem('voiceToggle', 'off');
-      setIsOn(false);
-    }
-  }, []);
 
 
   return (
@@ -155,10 +153,22 @@ const HomeFetch = () => {
           )}
         </Typography>
         <div css={toggleContainerCss}>
-          <Typography color="dark" size="md" weight="medium">
-            {isOn ? '음성' : '음소거'}
-          </Typography>
-          <Toggle color="primary" size="md" onClick={handleToggle} />
+          <div css={toggleTextCss}>
+            {isOn && isPending && (
+              <Icon size="sm" color="dark">
+                <EllipsisHorizontalIcon />
+              </Icon>
+            )}
+            <Typography color="dark" size="md" weight="medium">
+              {isOn ? '음성' : '음소거'}
+            </Typography>
+          </div>
+          <Toggle
+            color="primary"
+            size="md"
+            startValue={isOn}
+            onClick={handleToggle}
+          />
         </div>
         <div
           css={avatarContainerCss}
@@ -183,6 +193,7 @@ const HomeFetch = () => {
               avatarId={avatarQuery.data.data[0].avatarId}
               voiceId={avatarQuery.data.data[0].voiceId}
               voice={isOn}
+              onTTSPendingChange={(state) => setIsPending(state)}
             />
           ) : (
             <Typography color="dark" size="md">

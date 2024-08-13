@@ -1,14 +1,7 @@
 import { css } from '@emotion/react';
 
 export const buttonContainerCss = css`
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
   margin: 0.75rem;
-
-  button {
-    flex: 1;
-  }
 `;
 
 export const instCss = css`
