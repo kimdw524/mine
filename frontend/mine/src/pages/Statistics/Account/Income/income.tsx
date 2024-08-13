@@ -29,7 +29,7 @@ const Incomes: React.FC<SpendChartProps> = ({ period, offset }) => {
       {data.data ? (
         <div>
           <Typography color="dark" size="lg" weight="bold" css={incomeCss}>
-            총 {data.data} 원을
+            총 {data.data.toLocaleString()} 원을
             <br />
             벌었어요
           </Typography>

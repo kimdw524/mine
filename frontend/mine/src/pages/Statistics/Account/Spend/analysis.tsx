@@ -13,6 +13,7 @@ import { useSuspenseQuery } from '@tanstack/react-query';
 import { spendMsg } from '../../../../apis/statisticsApi';
 import { calculateDateRange } from '../../../../utils/SpendData';
 import { useMemo } from 'react';
+import { Typography } from 'oyc-ds';
 
 ChartJS.register(
   CategoryScale,
@@ -48,12 +49,12 @@ const Analysis: React.FC<SpendChartProps> = ({ period, offset, curSum }) => {
   const maxSum = Math.max(prevSum, curSum || 0);
 
   const renderMessage = useMemo(() => {
-    if (!curSum) return null;
+    if (!curSum) return 0;
 
     if (diff >= 0) {
-      return <h2>저번에 비해 {diff}원 더 썼어요!</h2>;
+      return <h2>저번에 비해 {diff.toLocaleString()}원 더 썼어요!</h2>;
     } else {
-      return <h2>저번에 비해 {-diff}원 덜 썼어요!</h2>;
+      return <h2>저번에 비해 {(-diff).toLocaleString()}원 덜 썼어요!</h2>;
     }
   }, [curSum, diff]);
 
@@ -64,10 +65,10 @@ const Analysis: React.FC<SpendChartProps> = ({ period, offset, curSum }) => {
         label: '합계 비교',
         data: [prevSum, curSum],
         backgroundColor: [
-          'rgba(75, 192, 192, 0.6)',
-          'rgba(153, 102, 255, 0.6)',
+          '#EEE1FF',
+          '#CDB7FF',
         ],
-        maxBarThickness: 50, // 막대의 최대 두께를 제한하여 높이 조정
+        maxBarThickness:60, // 막대의 최대 두께를 제한하여 높이 조정
       },
     ],
   };
@@ -75,11 +76,13 @@ const Analysis: React.FC<SpendChartProps> = ({ period, offset, curSum }) => {
   const options: ChartOptions<'bar'> = {
     indexAxis: 'y',
     plugins: {
-      legend: { display: false },
+      legend: { 
+        display: false
+      },
       datalabels: {
         anchor: 'end',
         align: 'end',
-        formatter: (value) => `${value}원`,
+        formatter: (value) => `${value.toLocaleString()}원`,
         color: 'black',
         font: {
           weight: 'bold',
@@ -91,7 +94,7 @@ const Analysis: React.FC<SpendChartProps> = ({ period, offset, curSum }) => {
         grid: { display: false },
         border: { display: false },
         ticks: { display: false },
-        max: maxSum * 1.4, // 최대값을 약간 더 크게 설정해 여유 공간 확보
+        max: maxSum * 1.7, // 최대값을 약간 더 크게 설정해 여유 공간 확보
       },
       y: {
         grid: { display: false },
@@ -102,11 +105,31 @@ const Analysis: React.FC<SpendChartProps> = ({ period, offset, curSum }) => {
 
   return (
     <div css={containerCss}>
-        {renderMessage}
+        <Typography
+          color="dark"
+          size="md"
+          weight="bold"
+          className='content'
+        >
+          {renderMessage} 
+        </Typography>
       <Bar data={barData} options={options} height={'70%'} />
       <div css={msgCss}>
-        <h3>소비 패턴 분석 메시지</h3>
-        <div>{data?.data.analysis}</div>
+        <Typography
+          color="dark"
+          size="md"
+          weight="bold"
+        >
+          소비 패턴 분석 메시지
+        </Typography>
+        <Typography
+          color="dark"
+          size="sm"
+          weight="medium"
+          className='content'
+        >
+          {data?.data.analysis} 
+        </Typography>
       </div>
     </div>
   );

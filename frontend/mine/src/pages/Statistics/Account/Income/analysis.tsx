@@ -16,6 +16,7 @@ import { containerCss, msgCss } from '../analysis.style';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { incomeMsg } from '../../../../apis/statisticsApi';
 import { calculateDateRange } from '../../../../utils/SpendData';
+import { Typography } from 'oyc-ds';
 
 ChartJS.register(ChartDataLabels);
 ChartJS.register(
@@ -76,7 +77,7 @@ const Analysis: React.FC<SpendChartProps> = ({ period, offset, curSum }) => {
       datalabels: {
         anchor: 'end',
         align: 'end',
-        formatter: (value) => `${value}원`,
+        formatter: (value) => `${value.toLocaleString()}원`,
         color: 'black',
         font: {
           weight: 'bold',
@@ -88,7 +89,7 @@ const Analysis: React.FC<SpendChartProps> = ({ period, offset, curSum }) => {
         grid: { display: false },
         border: { display: false },
         ticks: { display: false },
-        max: maxSum * 1.4, // 최대값을 약간 더 크게 설정해 여유 공간 확보
+        max: maxSum * 1.7, // 최대값을 약간 더 크게 설정해 여유 공간 확보
       },
       y: {
         grid: { display: false },
@@ -96,20 +97,46 @@ const Analysis: React.FC<SpendChartProps> = ({ period, offset, curSum }) => {
       },
     },
   };
+  
 
   return (
     <div css={containerCss}>
       {curSum ? (
         diff >= 0 ? (
-          <h2>저번에 비해 {diff}원 더 벌었어요!</h2>
+          <Typography
+          color="dark"
+          size="md"
+          weight="bold"
+        >
+          저번에 비해 {diff.toLocaleString()}원 더 벌었어요!
+        </Typography>
         ) : (
-          <h2>저번에 비해 {-diff}원 덜 벌었어요!</h2>
+          <Typography
+          color="dark"
+          size="md"
+          weight="bold"
+        >
+          저번에 비해 {(-diff).toLocaleString()}원 덜 벌었어요!
+        </Typography>
         )
       ) : null}
       <Bar data={barData} options={options} height={'70%'} />
       <div css={msgCss}>
-        <h3>소비 패턴 분석 메시지</h3>
-        <div>{data?.data.analysis}</div>
+        <Typography
+          color="dark"
+          size="md"
+          weight="bold"
+        >
+          소비 패턴 분석 메시지
+        </Typography>
+        <Typography
+          color="dark"
+          size="sm"
+          weight="medium"
+          className='content'
+        >
+          {data?.data.analysis}
+        </Typography>
       </div>
     </div>
   );
