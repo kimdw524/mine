@@ -121,7 +121,7 @@ const HomeFetch = () => {
             {userQuery.data.data.nickname}
           </Typography>
           <br />
-          {avatarQuery.data.data.length && (
+          {avatarQuery.data.data.length > 0 ? (
             <>
               난 너의 비서{' '}
               <Typography color="dark" size="xl" style={{ display: 'inline' }}>
@@ -129,6 +129,8 @@ const HomeFetch = () => {
               </Typography>{' '}
               이야
             </>
+          ) : (
+            ''
           )}
         </Typography>
         <div
