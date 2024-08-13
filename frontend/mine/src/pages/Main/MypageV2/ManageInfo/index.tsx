@@ -18,7 +18,7 @@ interface ManageInfoProps {
 
 const ManageInfo = ({ title, labels, url, data, avatars }: ManageInfoProps) => {
   const nav = useNavigate();
-  const [avatarNames, setAvatarNames] = useState<string[]>([]);
+  const [avatarNames, setAvatarNames] = useState<string[]>(['pig']);
   const [avatarIdx, setAvatarIdx] = useState<number>(0);
 
   const handleAvatarChange = (e: React.FormEvent<HTMLSelectElement>) => {
@@ -28,7 +28,9 @@ const ManageInfo = ({ title, labels, url, data, avatars }: ManageInfoProps) => {
 
   useEffect(() => {
     if (avatars) {
-      if (avatars?.length === 1) {
+      if (avatars.length === 0) return;
+
+      if (avatars.length === 1) {
         setAvatarNames(() => [avatars[0].avatarName]);
       } else {
         setAvatarNames(() => [
