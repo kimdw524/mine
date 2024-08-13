@@ -38,7 +38,11 @@ const HomeFetch = () => {
     return false;
   });
 
-  const [isOn, setIsOn] = useState<boolean>(false);
+  const [isOn, setIsOn] = useState<boolean>(
+    localStorage.getItem('voiceToggle')
+      ? localStorage.getItem('voiceToggle') === 'on'
+      : true,
+  );
 
   const { alert } = useDialog();
   const { mutate: updateAttendance } = useMutation({
@@ -55,7 +59,7 @@ const HomeFetch = () => {
     onSuccess: (res) => {
       // 최초 달성시에만 res.data가 ture가 됨
       if (res.data) {
-        queryClient.invalidateQueries({queryKey:['clickeaster']})
+        queryClient.invalidateQueries({ queryKey: ['clickeaster'] });
         alert(
           <div>
             이스터에그 달성!
@@ -71,7 +75,7 @@ const HomeFetch = () => {
     mutationFn: async () => await updateSpinEasterAchievement(),
     onSuccess: (res) => {
       if (res.data) {
-        queryClient.invalidateQueries({queryKey:['spineaster']})
+        queryClient.invalidateQueries({ queryKey: ['spineaster'] });
         alert(
           <div>
             이스터에그 달성!
@@ -113,23 +117,14 @@ const HomeFetch = () => {
   };
 
   const handleToggle = () => {
-    if (isOn) {
-      setIsOn(false);
+    if (localStorage.getItem('voiceToggle') === 'on') {
       localStorage.setItem('voiceToggle', 'off');
+      setIsOn(() => false);
     } else {
-      setIsOn(true);
       localStorage.setItem('voiceToggle', 'on');
+      setIsOn(() => true);
     }
   };
-
-  useEffect(() => {
-    if (localStorage.getItem('voiceToggle')) {
-      setIsOn(localStorage.getItem('voiceToggle') === 'on');
-    } else {
-      localStorage.setItem('voiceToggle', 'off');
-      setIsOn(false);
-    }
-  }, []);
 
   useEffect(() => {
     if (avatarQuery.data.data.length && showMessage) {
@@ -162,7 +157,12 @@ const HomeFetch = () => {
           <Typography color="dark" size="md" weight="medium">
             {isOn ? '음성' : '음소거'}
           </Typography>
-          <Toggle color="primary" size="md" onClick={handleToggle} />
+          <Toggle
+            color="primary"
+            size="md"
+            startValue={isOn}
+            onClick={handleToggle}
+          />
         </div>
         <div
           css={avatarContainerCss}
