@@ -196,12 +196,14 @@ VALUES (5, "연속 출석 5회", "연속 출석 5회 해줘!!"),
  INSERT INTO achievement_state (user_id, achievement_id, achievement_count, achieved_date, is_achieved)
  VALUES (1, 1, 5, null, 0),
         (1, 2, 1, now(), 1),
-        (1, 3, 10, null, 0),
-        (1, 4, 10, null, 0),
-        (1, 5, 1, null, 0),
-        (1, 6, 1, null, 0),
-        (1, 7, 1, null, 0);
+        (1, 3, 10, now(), 1),
+        (1, 4, 10, now(), 1),
+        (1, 5, 0, now(), 1),
+        (1, 6, 0, now(), 1),
+        (1, 7, 1, now(), 1);
 
+INSERT INTO login_log(user_id, login_datetime)
+VALUES (1, DATE_SUB(now(), INTERVAL 1 DAY));
 
 INSERT INTO question(question_id, question_num, question_description, question_type)
 VALUES (1, 1, '좋아하는 영화는', 'c');
@@ -262,24 +264,24 @@ VALUES (11, 11, '생활 습관은', 's');
 INSERT INTO question(question_id, question_num, question_description, question_type)
 VALUES (12, 12, '좋아하는 음식 종류는', 's');
 
---  INSERT INTO avatar(avatar_id, user_id, avatar_name, avatar_birthday, avatar_personality, avatar_assistant_id,
---                     avatar_thread_id, avatar_voice_id, is_deleted, avatar_model, avatar_residence, avatar_job, is_main)
---  VALUES (1, 1, '김다운', '2024-08-02', '착함!! ㅎㅎ', 'asst_DPksAEgIePcXxIyJOPrM3n2o', 'thread_Rd3xUTKMTmrwYiY9Oss5upna',
---          'iPvTpU6VDm5cvZEjqVu6', false, 'cow', '경북구미', '프톤트엔드엔지니어', true);
---
---  INSERT INTO question_res(question_res_id, question_id, avatar_id, question_choice_id, subjective_ans, question_type)
---  VALUES (1, 1, 1, 3, null, 'c'),
---         (2, 2, 1, 7, null, 'c'),
---         (3, 3, 1, 13, null, 'c'),
---         (4, 4, 1, 15, null, 'c'),
---         (5, 5, 1, 20, null, 'c'),
---         (6, 6, 1, null, 'ISTJ', 's'),
---         (7, 7, 1, null, '핫딜 찾기', 's'),
---         (8, 8, 1, null, '술 마시기', 's'),
---         (9, 9, 1, null, '누워있기', 's'),
---         (10, 10, 1, null, '열심히 살자', 's'),
---         (11, 11, 1, null, '늦게 자기', 's'),
---         (12, 12, 1, null, '중식', 's');
+ INSERT INTO avatar(avatar_id, user_id, avatar_name, avatar_birthday, avatar_assistant_id,
+                    avatar_thread_id, avatar_voice_id, is_deleted, avatar_model, avatar_residence, avatar_job, is_main)
+ VALUES (1, 1, '마인아바타', '2024-08-13', 'asst_jAtDRjIkapEbkv67BnWEePuF', 'thread_jmLURTxxo8rURGEUkQW3M5wx',
+         'cys0s7MI7iCcoGF178aQ', false, 'rabbit', '대구광역시 달서구', '취업준비생', true);
+
+ INSERT INTO question_res(question_res_id, question_id, avatar_id, question_choice_id, subjective_ans, question_type)
+ VALUES (1, 1, 1, 3, null, 'c'),
+        (2, 2, 1, 7, null, 'c'),
+        (3, 3, 1, 13, null, 'c'),
+        (4, 4, 1, 15, null, 'c'),
+        (5, 5, 1, 20, null, 'c'),
+        (6, 6, 1, null, 'ISTJ', 's'),
+        (7, 7, 1, null, '핫딜 찾기', 's'),
+        (8, 8, 1, null, '술 마시기', 's'),
+        (9, 9, 1, null, '누워있기', 's'),
+        (10, 10, 1, null, '열심히 살자', 's'),
+        (11, 11, 1, null, '늦게 자기', 's'),
+        (12, 12, 1, null, '중식', 's');
 
 
  -- 7월 데이터 (20개)
