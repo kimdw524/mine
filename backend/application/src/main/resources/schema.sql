@@ -194,12 +194,12 @@ VALUES (5, "연속 출석 5회", "연속 출석 5회 해줘!!"),
        (1, "[이스터 에그] 채팅", "채팅에 바보라고 입력해줘!!");
 
  INSERT INTO achievement_state (user_id, achievement_id, achievement_count, achieved_date, is_achieved)
- VALUES (1, 1, 5, null, 0),
+ VALUES (1, 1, 5, now(), 1),
         (1, 2, 1, now(), 1),
         (1, 3, 10, now(), 1),
         (1, 4, 10, now(), 1),
-        (1, 5, 0, now(), 1),
-        (1, 6, 0, now(), 1),
+        (1, 5, 0, null, 0),
+        (1, 6, 0, null, 0),
         (1, 7, 1, now(), 1);
 
 INSERT INTO login_log(user_id, login_datetime)
