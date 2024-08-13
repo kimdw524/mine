@@ -2,14 +2,8 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useMutation, useSuspenseQueries } from '@tanstack/react-query';
 import { getUserAvatars, getUserInfo } from '../../../apis/mypageApi';
-import { Button, Icon, Spinner, Toggle, Typography } from 'oyc-ds';
-import {
-  avatarContainerCss,
-  conversationCss,
-  numberdayCss,
-  toggleContainerCss,
-  toggleTextCss,
-} from './style';
+import { Button, Typography } from 'oyc-ds';
+import { avatarContainerCss, conversationCss, numberdayCss } from './style';
 import { containerCss } from './style';
 import Avatar3D from '../../../components/atoms/Avatar3D';
 import useDialog from '../../../hooks/useDialog';
@@ -21,7 +15,6 @@ import {
 import AvatarChat from '../../../components/organisms/AvatarChat';
 import { useNavigate } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
-import { EllipsisHorizontalIcon } from '@heroicons/react/24/solid';
 import { getMainAvatar } from '../../../utils/avatarUtils';
 
 const HomeFetch = () => {
@@ -41,13 +34,6 @@ const HomeFetch = () => {
     return false;
   });
 
-  const [isOn, setIsOn] = useState<boolean>(
-    localStorage.getItem('voiceToggle')
-      ? localStorage.getItem('voiceToggle') === 'on'
-      : true,
-  );
-  const [isPending, setIsPending] = useState<boolean>(false);
-
   const { alert } = useDialog();
   const { mutate: updateAttendance } = useMutation({
     mutationFn: async () => await updateAttendenceAchievement(),
@@ -61,7 +47,7 @@ const HomeFetch = () => {
   const { mutate: updateClickEaster } = useMutation({
     mutationFn: async () => await updateClickEasterAchievement(),
     onSuccess: (res) => {
-      // 최초 달성시에만 res.data가 ture가 됨
+      // 최초 달성시에만 res.data가 true가 됨
       if (res.data) {
         queryClient.invalidateQueries({ queryKey: ['clickeaster'] });
         alert(
@@ -120,16 +106,6 @@ const HomeFetch = () => {
     }
   };
 
-  const handleToggle = () => {
-    if (localStorage.getItem('voiceToggle') === 'on') {
-      localStorage.setItem('voiceToggle', 'off');
-      setIsOn(() => false);
-    } else {
-      localStorage.setItem('voiceToggle', 'on');
-      setIsOn(() => true);
-    }
-  };
-
   useEffect(() => {
     if (avatarQuery.data.data.length && showMessage) {
       updateSpinEaster();
@@ -145,9 +121,7 @@ const HomeFetch = () => {
             {userQuery.data.data.nickname}
           </Typography>
           <br />
-          {avatarQuery.data.data.length === 0 ? (
-            ''
-          ) : (
+          {avatarQuery.data.data.length && (
             <>
               난 너의 비서{' '}
               <Typography color="dark" size="xl" style={{ display: 'inline' }}>
@@ -157,24 +131,6 @@ const HomeFetch = () => {
             </>
           )}
         </Typography>
-        <div css={toggleContainerCss}>
-          <div css={toggleTextCss}>
-            {isOn && isPending && (
-              <Icon size="sm" color="dark">
-                <EllipsisHorizontalIcon />
-              </Icon>
-            )}
-            <Typography color="dark" size="md" weight="medium">
-              {isOn ? '음성' : '음소거'}
-            </Typography>
-          </div>
-          <Toggle
-            color="primary"
-            size="md"
-            startValue={isOn}
-            onClick={handleToggle}
-          />
-        </div>
         <div
           css={avatarContainerCss}
           onTouchStart={handleTouchStart}
@@ -185,9 +141,7 @@ const HomeFetch = () => {
           <Avatar3D
             avatarModel={
               avatarQuery.data.data.length
-                ? avatarQuery.data.data[0].isMain
-                  ? avatarQuery.data.data[0].avatarModel
-                  : avatarQuery.data.data[1].avatarModel
+                ? getMainAvatar(avatarQuery.data.data).avatarModel
                 : 'pig'
             }
           />
@@ -197,8 +151,6 @@ const HomeFetch = () => {
             <AvatarChat
               avatarId={getMainAvatar(avatarQuery.data.data).avatarId}
               voiceId={getMainAvatar(avatarQuery.data.data).voiceId}
-              voice={isOn}
-              onTTSPendingChange={(state) => setIsPending(state)}
             />
           ) : (
             <Typography color="dark" size="md">

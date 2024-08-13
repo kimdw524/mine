@@ -16,3 +16,19 @@ export const waitCss = css`
   font-size: 0.875rem;
   text-align: center;
 `;
+
+export const speechCss = css`
+  display: block;
+  margin-bottom: 0.25rem;
+
+  svg {
+    width: 0.875rem;
+    height: 0.875rem;
+  }
+`;
+
+export const responseContainer = css`
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+`;
