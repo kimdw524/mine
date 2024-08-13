@@ -25,6 +25,7 @@ const AvatarChat = ({ avatarId, voiceId }: AvatarChatProps) => {
   const { connect, getLog, send } = useChat(avatarId);
   const chatRef = useRef<HTMLInputElement>(null);
   const [response, setResponse] = useState<ReactNode>(undefined);
+  const [IsResponsed, setIsResponsed] = useState<boolean>(false);
   const [request, setRequest] = useState<string | undefined>(undefined);
   const audioCacheRef = useRef<string>('');
   const [isPending, setIsPending] = useState<boolean>(false);
@@ -58,6 +59,7 @@ const AvatarChat = ({ avatarId, voiceId }: AvatarChatProps) => {
       audioCacheRef.current = '';
 
       setResponse(<div css={waitCss}>아바타가 대답을 생각 중이에요.</div>);
+      setIsResponsed(false);
 
       setRequest(chatRef.current.value);
       chatRef.current.value = '';
@@ -98,6 +100,7 @@ const AvatarChat = ({ avatarId, voiceId }: AvatarChatProps) => {
 
     const handleMessage = (res: ChatResponse) => {
       setResponse(res.text);
+      setIsResponsed(true);
     };
 
     connect({
@@ -109,6 +112,10 @@ const AvatarChat = ({ avatarId, voiceId }: AvatarChatProps) => {
       onSchedule: () => {},
     });
 
+    if (getRecentChat(false)?.message?.toString()) {
+      setIsResponsed(true);
+    }
+
     setResponse(getRecentChat(false)?.message?.toString());
     setRequest(getRecentChat(true)?.message?.toString());
   }, []);
@@ -116,7 +123,7 @@ const AvatarChat = ({ avatarId, voiceId }: AvatarChatProps) => {
   return (
     <div css={containerCss}>
       <div css={responseContainer} onClick={handleTTSClick}>
-        {response && (
+        {response && IsResponsed && (
           <Icon size="sm" css={speechCss}>
             {isPending ? <EllipsisHorizontalIcon /> : <SpeakerWaveIcon />}
           </Icon>
