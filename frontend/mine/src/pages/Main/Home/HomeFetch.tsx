@@ -2,7 +2,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useMutation, useSuspenseQueries } from '@tanstack/react-query';
 import { getUserAvatars, getUserInfo } from '../../../apis/mypageApi';
-import { Button, Icon, Toggle, Typography } from 'oyc-ds';
+import { Button, Icon, Spinner, Toggle, Typography } from 'oyc-ds';
 import {
   avatarContainerCss,
   conversationCss,
@@ -22,6 +22,7 @@ import AvatarChat from '../../../components/organisms/AvatarChat';
 import { useNavigate } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
 import { EllipsisHorizontalIcon } from '@heroicons/react/24/solid';
+import { getMainAvatar } from '../../../utils/avatarUtils';
 
 const HomeFetch = () => {
   const nav = useNavigate();
@@ -116,7 +117,6 @@ const HomeFetch = () => {
 
     if (eventCountRef.current === 400 && !showMessage) {
       setShowMessage(true);
-      updateSpinEaster()
     }
   };
 
@@ -130,6 +130,11 @@ const HomeFetch = () => {
     }
   };
 
+  useEffect(() => {
+    if (avatarQuery.data.data.length && showMessage) {
+      updateSpinEaster();
+    }
+  }, [showMessage, alert, updateSpinEaster]);
 
   return (
     <>
@@ -146,7 +151,7 @@ const HomeFetch = () => {
             <>
               난 너의 비서{' '}
               <Typography color="dark" size="xl" style={{ display: 'inline' }}>
-                {avatarQuery.data.data[0].avatarName}
+                {getMainAvatar(avatarQuery.data.data).avatarName}
               </Typography>{' '}
               이야
             </>

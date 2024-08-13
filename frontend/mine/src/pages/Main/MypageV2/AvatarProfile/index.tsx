@@ -35,8 +35,9 @@ const AvatarProfile = ({ avatars }: AvatarProfileProps) => {
     mutationFn: (data: UpdateData) =>
       updateAvatarInfo(data.avatarId, data.infoType, true),
     onSuccess: (data) => {
-      if (data.status === 200) {
+      if (data.status === 202) {
         queryClient.invalidateQueries({ queryKey: ['avatarinfo'] });
+        window.location.reload();
       }
     },
     onError: () => {
