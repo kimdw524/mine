@@ -20,6 +20,7 @@ import useDialog from '../../../hooks/useDialog';
 import { useMutation } from '@tanstack/react-query';
 import { updateChatEasterAchievement } from '../../../apis/avatarApi';
 import { Typography } from 'oyc-ds';
+import { getMainAvatar } from '../../../utils/avatarUtils';
 
 const ChatFetch = () => {
   const chatRef = useRef<HTMLInputElement>(null);
@@ -40,7 +41,9 @@ const ChatFetch = () => {
   }
 
   const chat = useChat(
-    avatarQuery.data.data.length ? avatarQuery.data.data[0].avatarId : -1,
+    avatarQuery.data.data.length
+      ? getMainAvatar(avatarQuery.data.data).avatarId
+      : -1,
   );
 
   const addChat = (data: ChatMessageData) => {
@@ -192,7 +195,7 @@ const ChatFetch = () => {
         <div css={chatLogCss} ref={chatLogRef}>
           <ChatBox
             messages={chatLog}
-            voiceId={avatarQuery.data?.data[0]?.voiceId}
+            voiceId={getMainAvatar(avatarQuery?.data?.data).voiceId}
           />
         </div>
         <div css={chatCss}>

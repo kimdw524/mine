@@ -195,8 +195,8 @@ const HomeFetch = () => {
         <div css={conversationCss}>
           {avatarQuery.data.data.length ? (
             <AvatarChat
-              avatarId={avatarQuery.data.data[0].avatarId}
-              voiceId={avatarQuery.data.data[0].voiceId}
+              avatarId={getMainAvatar(avatarQuery.data.data).avatarId}
+              voiceId={getMainAvatar(avatarQuery.data.data).voiceId}
               voice={isOn}
               onTTSPendingChange={(state) => setIsPending(state)}
             />
