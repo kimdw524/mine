@@ -10,7 +10,7 @@ interface InforProps {
 }
 
 const Infor = ({ onBack, onSubmit }: InforProps) => {
-  const [isPending, setIsPeding] = useState<boolean>(false);
+  const [isPending, setIsPending] = useState<boolean>(false);
   const [disabled, setDisabled] = useState<boolean>(true);
   const nameRef = useRef<HTMLInputElement>(null);
   const residenceRef = useRef<HTMLInputElement>(null);
@@ -39,9 +39,14 @@ const Infor = ({ onBack, onSubmit }: InforProps) => {
       residence = residenceRef.current.value.trim(),
       job = jobRef.current.value.trim();
 
-    setIsPeding(false);
-    await onSubmit({ avatarName: name, residence, job });
-    setIsPeding(true);
+    setIsPending(true);
+    onSubmit({ avatarName: name, residence, job })
+      .then(() => {
+        setIsPending(false);
+      })
+      .catch(() => {
+        setIsPending(false);
+      });
   };
 
   return (
