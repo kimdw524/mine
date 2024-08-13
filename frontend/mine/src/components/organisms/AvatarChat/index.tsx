@@ -10,9 +10,15 @@ interface AvatarChatProps {
   avatarId: number;
   voiceId: string;
   voice: boolean;
+  onTTSPendingChange: (state: boolean) => void;
 }
 
-const AvatarChat = ({ avatarId, voiceId, voice }: AvatarChatProps) => {
+const AvatarChat = ({
+  avatarId,
+  voiceId,
+  voice,
+  onTTSPendingChange,
+}: AvatarChatProps) => {
   const { connect, getLog, send } = useChat(avatarId);
   const chatRef = useRef<HTMLInputElement>(null);
   const [response, setResponse] = useState<ReactNode>(undefined);
@@ -70,12 +76,17 @@ const AvatarChat = ({ avatarId, voiceId, voice }: AvatarChatProps) => {
         return;
       }
 
+      onTTSPendingChange(true);
+
       avatarTTS(voiceRef.current.voiceId, res.text)
         .then((result) => {
           new Audio(window.URL.createObjectURL(result.data)).play();
         })
         .catch(() => {
           alert('오류로 인해 TTS를 재생하지 못했습니다.');
+        })
+        .finally(() => {
+          onTTSPendingChange(false);
         });
     };
 

@@ -103,7 +103,9 @@ const Create = ({ onCreate, selectedDate = new Date() }: CreateProps) => {
       return;
     }
 
-    moneyRef.current.value = parseInt(moneyRef.current.value).toLocaleString();
+    moneyRef.current.value = parseInt(
+      moneyRef.current.value.replaceAll(',', ''),
+    ).toLocaleString();
   };
 
   return (
