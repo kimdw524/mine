@@ -195,7 +195,11 @@ const ChatFetch = () => {
         <div css={chatLogCss} ref={chatLogRef}>
           <ChatBox
             messages={chatLog}
-            voiceId={getMainAvatar(avatarQuery?.data?.data).voiceId}
+            voiceId={
+              avatarQuery?.data?.data.length
+                ? getMainAvatar(avatarQuery.data.data).voiceId
+                : ''
+            }
           />
         </div>
         <div css={chatCss}>
