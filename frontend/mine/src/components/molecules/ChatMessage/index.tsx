@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import React, { ReactNode, useRef } from 'react';
+import React, { ReactNode, useRef, useState } from 'react';
 import {
   animationCss,
   balloonCss,
@@ -13,7 +13,10 @@ import {
 } from './style';
 import { Icon, Typography } from 'oyc-ds';
 import { ChatMessageData } from '../../../hooks/useChat';
-import { SpeakerWaveIcon } from '@heroicons/react/24/solid';
+import {
+  EllipsisHorizontalIcon,
+  SpeakerWaveIcon,
+} from '@heroicons/react/24/solid';
 import { avatarTTS } from '../../../apis/avatarApi';
 import useDialog from '../../../hooks/useDialog';
 
@@ -35,8 +38,16 @@ const ChatMessage = ({
 }: ChatMessageProps) => {
   const { alert } = useDialog();
   const audioCacheRef = useRef<string>('');
+  const [isPending, setIsPending] = useState<boolean>(false);
+
   const handleTTSClick = (message: string) => {
+    if (isPending) {
+      return;
+    }
+
     if (!audioCacheRef.current) {
+      setIsPending(true);
+
       avatarTTS(voiceId, message)
         .then((result) => {
           audioCacheRef.current = window.URL.createObjectURL(result.data);
@@ -44,6 +55,9 @@ const ChatMessage = ({
         })
         .catch(() => {
           alert('오류로 인해 TTS를 재생하지 못했습니다.');
+        })
+        .finally(() => {
+          setIsPending(false);
         });
       return;
     }
@@ -67,7 +81,7 @@ const ChatMessage = ({
         >
           {speech && (
             <Icon size="sm" css={speechCss}>
-              <SpeakerWaveIcon />
+              {isPending ? <EllipsisHorizontalIcon /> : <SpeakerWaveIcon />}
             </Icon>
           )}
           {children}

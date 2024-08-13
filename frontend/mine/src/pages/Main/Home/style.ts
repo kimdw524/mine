@@ -19,8 +19,14 @@ export const toggleContainerCss = css`
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  column-gap: 1rem;
+  column-gap: 0.75rem;
   margin-top: 1.5rem;
+`;
+
+export const toggleTextCss = css`
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
 `;
 
 export const avatarContainerCss = css`
