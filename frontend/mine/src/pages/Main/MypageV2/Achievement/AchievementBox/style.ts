@@ -56,6 +56,7 @@ export const progressBarCss = (required_amount: number, count: number) => css`
 `;
 
 export const achievedCss = (achievedDate: string | undefined) => css`
+  z-index: 10;
   display: ${achievedDate ? 'block' : 'none'};
   left: 0;
   border-radius: 0.25rem;
