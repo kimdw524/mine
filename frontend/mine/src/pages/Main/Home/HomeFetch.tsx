@@ -2,7 +2,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useMutation, useSuspenseQueries } from '@tanstack/react-query';
 import { getUserAvatars, getUserInfo } from '../../../apis/mypageApi';
-import { Button, Icon, Spinner, Toggle, Typography } from 'oyc-ds';
+import { Button, Icon, Toggle, Typography } from 'oyc-ds';
 import {
   avatarContainerCss,
   conversationCss,
@@ -116,6 +116,7 @@ const HomeFetch = () => {
 
     if (eventCountRef.current === 400 && !showMessage) {
       setShowMessage(true);
+      updateSpinEaster()
     }
   };
 
@@ -129,11 +130,6 @@ const HomeFetch = () => {
     }
   };
 
-  useEffect(() => {
-    if (avatarQuery.data.data.length && showMessage) {
-      updateSpinEaster();
-    }
-  }, [showMessage, alert, updateSpinEaster]);
 
   return (
     <>
