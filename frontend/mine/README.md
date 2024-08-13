@@ -1,46 +1,74 @@
-# Getting Started with Create React App
+# Mine
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<div style="text-align: center">
+  <img src="./logo.png" alt="logo" style="width: 500px" />
+</div>
 
-## Available Scripts
+## 프로젝트 개요
 
-In the project directory, you can run:
+[나만의 AI 비서 서비스 **Mine**](https://99zdiary.com/)
 
-### `npm start`
+ㅁㄴㅇ
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## 🛠️ Tech Stack
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### Backend
 
-### `npm test`
+### Frontend
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 와이어프레임
 
-### `npm run build`
+## ERD
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+![ERD](./erd.png)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## API 명세서
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+![API](./apispec.png)
 
-### `npm run eject`
+## 백엔드 아키텍처
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+![Architecture](./architecture.png)
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## 와이어프레임
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+![Wireframe](./wireframe.png)
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+### 로그인 및 회원가입
 
-## Learn More
+<img src="./signin.gif" alt="로그인" style="width: 300px" />
+<img src="./signup.gif" alt="회원가입" style="width: 300px" />
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### 일정
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+<img src="./schedule1.gif" alt="일정1" style="width: 300px" />
+<img src="./schedule2.gif" alt="일정2" style="width: 300px" />
+
+### 가계부
+
+<img src="./account1.gif" alt="가계부1" style="width: 300px" />
+<img src="./account2.gif" alt="가계부2" style="width: 300px" />
+
+### 업적
+
+<img src="./achievement.png" alt="업적1" style="width: 300px" />
+
+### 통계
+
+<img src="./statistics1.gif" alt="통계1" style="width: 300px" />
+
+### 채팅
+
+<img src="./avatarchat.gif" alt="아바타 채팅" style="width: 300px" />
+
+음성으로 등록하기
+
+채팅3
+
+### 마이페이지
+
+마이페이지 및 정보 변경
+
+### 정보 관리
+
+정보 관리 및 질문 관리
