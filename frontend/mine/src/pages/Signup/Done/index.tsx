@@ -18,10 +18,7 @@ const Done = () => {
         {signupContext.info.name}님의 회원가입을 축하합니다!
       </Typography>
       <div css={buttonContainerCss}>
-        <Button size="lg" variant="outlined" onClick={() => navigate('/')}>
-          홈으로
-        </Button>
-        <Button size="lg" onClick={() => navigate('/user/login')}>
+        <Button size="lg" onClick={() => navigate('/user/login')} fullWidth>
           로그인
         </Button>
       </div>
