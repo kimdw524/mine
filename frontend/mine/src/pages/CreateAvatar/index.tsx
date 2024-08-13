@@ -9,7 +9,7 @@ import Error from '../../components/molecules/Error';
 import Loading from '../../components/molecules/Loading';
 
 const CreateAvatar = () => {
-  const [step, setStep] = useState<number>(0);
+  const [step, setStep] = useState<number>(4);
   const navigate = useNavigate();
 
   return (

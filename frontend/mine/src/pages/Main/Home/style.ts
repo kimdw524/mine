@@ -4,8 +4,10 @@ export const containerCss = css`
   display: flex;
   flex-direction: column;
   position: relative;
-  height: 100%;
+  height: calc(100% - 0.0625rem);
   padding: 0 1rem;
+  box-shadow: 0 0 0 0 #eee;
+  border-top: 0.0625rem solid #ddd;
   background-color: #fffcb1;
 `;
 
