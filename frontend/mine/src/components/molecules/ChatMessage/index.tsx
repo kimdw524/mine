@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useRef } from 'react';
 import {
   animationCss,
   balloonCss,
@@ -34,14 +34,21 @@ const ChatMessage = ({
   speech = false,
 }: ChatMessageProps) => {
   const { alert } = useDialog();
+  const audioCacheRef = useRef<string>('');
   const handleTTSClick = (message: string) => {
-    avatarTTS(voiceId, message)
-      .then((result) => {
-        new Audio(window.URL.createObjectURL(result.data)).play();
-      })
-      .catch(() => {
-        alert('오류로 인해 TTS를 재생하지 못했습니다.');
-      });
+    if (!audioCacheRef.current) {
+      avatarTTS(voiceId, message)
+        .then((result) => {
+          audioCacheRef.current = window.URL.createObjectURL(result.data);
+          new Audio(audioCacheRef.current).play();
+        })
+        .catch(() => {
+          alert('오류로 인해 TTS를 재생하지 못했습니다.');
+        });
+      return;
+    }
+
+    new Audio(audioCacheRef.current).play();
   };
 
   return (
