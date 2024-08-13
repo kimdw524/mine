@@ -7,7 +7,7 @@ export const containerCss = css`
   height: calc(100% - 0.0625rem);
   padding: 0 1rem;
   box-shadow: 0 0 0 0 #eee;
-  border-top: 0.0625rem solid #ddd;
+  border-top: 0.0625rem solid #eee;
   background-color: #fffcb1;
 `;
 

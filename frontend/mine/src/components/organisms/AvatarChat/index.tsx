@@ -1,38 +1,38 @@
 /** @jsxImportSource @emotion/react */
-import { TextField, Typography } from 'oyc-ds';
+import { Icon, TextField, Typography } from 'oyc-ds';
 import React, { ReactNode, useEffect, useRef, useState } from 'react';
-import { chatCss, containerCss, waitCss } from './style';
+import {
+  chatCss,
+  containerCss,
+  responseContainer,
+  speechCss,
+  waitCss,
+} from './style';
 import useChat, { ChatResponse } from '../../../hooks/useChat';
 import { avatarTTS } from '../../../apis/avatarApi';
 import useDialog from '../../../hooks/useDialog';
+import {
+  EllipsisHorizontalIcon,
+  SpeakerWaveIcon,
+} from '@heroicons/react/24/solid';
 
 interface AvatarChatProps {
   avatarId: number;
   voiceId: string;
-  voice: boolean;
-  onTTSPendingChange: (state: boolean) => void;
 }
 
-const AvatarChat = ({
-  avatarId,
-  voiceId,
-  voice,
-  onTTSPendingChange,
-}: AvatarChatProps) => {
+const AvatarChat = ({ avatarId, voiceId }: AvatarChatProps) => {
   const { connect, getLog, send } = useChat(avatarId);
   const chatRef = useRef<HTMLInputElement>(null);
   const [response, setResponse] = useState<ReactNode>(undefined);
   const [request, setRequest] = useState<string | undefined>(undefined);
+  const audioCacheRef = useRef<string>('');
+  const [isPending, setIsPending] = useState<boolean>(false);
   const { alert } = useDialog();
 
-  const voiceRef = useRef<{ active: boolean; voiceId: string }>({
-    active: voice,
-    voiceId,
-  });
+  const voiceIdRef = useRef<string>(voiceId);
 
-  useEffect(() => {
-    voiceRef.current = { active: voice, voiceId };
-  }, [voiceRef, voice, voiceId]);
+  voiceIdRef.current = voiceId;
 
   const getRecentChat = (me: boolean) =>
     getLog()
@@ -55,11 +55,38 @@ const AvatarChat = ({
         return;
       }
 
+      audioCacheRef.current = '';
+
       setResponse(<div css={waitCss}>아바타가 대답을 생각 중이에요.</div>);
 
       setRequest(chatRef.current.value);
       chatRef.current.value = '';
     });
+  };
+
+  const handleTTSClick = () => {
+    if (!response || isPending) {
+      return;
+    }
+
+    if (!audioCacheRef.current) {
+      setIsPending(true);
+
+      avatarTTS(voiceId, response.toString())
+        .then((result) => {
+          audioCacheRef.current = window.URL.createObjectURL(result.data);
+          new Audio(audioCacheRef.current).play();
+        })
+        .catch(() => {
+          alert('오류로 인해 TTS를 재생하지 못했습니다.');
+        })
+        .finally(() => {
+          setIsPending(false);
+        });
+      return;
+    }
+
+    new Audio(audioCacheRef.current).play();
   };
 
   useEffect(() => {
@@ -71,23 +98,6 @@ const AvatarChat = ({
 
     const handleMessage = (res: ChatResponse) => {
       setResponse(res.text);
-
-      if (!voiceRef.current.active) {
-        return;
-      }
-
-      onTTSPendingChange(true);
-
-      avatarTTS(voiceRef.current.voiceId, res.text)
-        .then((result) => {
-          new Audio(window.URL.createObjectURL(result.data)).play();
-        })
-        .catch(() => {
-          alert('오류로 인해 TTS를 재생하지 못했습니다.');
-        })
-        .finally(() => {
-          onTTSPendingChange(false);
-        });
     };
 
     connect({
@@ -105,9 +115,16 @@ const AvatarChat = ({
 
   return (
     <div css={containerCss}>
-      <Typography color="dark" size="md">
-        {response ?? '안녕!'}
-      </Typography>
+      <div css={responseContainer} onClick={handleTTSClick}>
+        {response && (
+          <Icon size="sm" css={speechCss}>
+            {isPending ? <EllipsisHorizontalIcon /> : <SpeakerWaveIcon />}
+          </Icon>
+        )}
+        <Typography color="dark" size="md">
+          {response ?? '안녕!'}
+        </Typography>
+      </div>
       <TextField
         variant="standard"
         label=""

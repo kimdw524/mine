@@ -69,7 +69,10 @@ const AvatarProfile = ({ avatars }: AvatarProfileProps) => {
                     })
                   }
                 >
-                  <Typography size="xs" color="dark">
+                  <Typography
+                    size="xs"
+                    color={avatar.isMain ? 'dark' : 'light'}
+                  >
                     아바타 지정
                   </Typography>
                 </Button>
