@@ -20,6 +20,7 @@ import { MicrophoneIcon } from '@heroicons/react/24/solid';
 import useModal from '../../../hooks/useModal';
 import { getSTT } from '../../../apis/avatarApi';
 import VoiceRecord from '../../common/VoiceRecord';
+import { ChevronUpDownIcon } from '@heroicons/react/24/outline';
 
 interface TextType {
   name: string;
@@ -91,6 +92,9 @@ const TypeTextField = forwardRef<HTMLInputElement, TypeTextFieldProps>(
               </span>
             ))}
           </TransitionAnimation>
+          <Icon size="sm" color="dark">
+            <ChevronUpDownIcon />
+          </Icon>
         </div>
         <input
           type="text"

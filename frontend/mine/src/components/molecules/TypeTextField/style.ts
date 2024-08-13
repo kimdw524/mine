@@ -27,12 +27,19 @@ export const textCss = css`
 `;
 
 export const typeCss = css`
+  display: flex;
+  align-items: center;
   flex-shrink: 0;
-  padding: 0 0.375rem 0 0.75rem;
+  padding: 0 0.125rem 0 0.75rem;
   height: 100%;
   border-right: 0.0625rem solid #d3d3d3;
   cursor: pointer;
   user-select: none;
+
+  svg {
+    width: 1rem;
+    height: 1rem;
+  }
 
   div > span {
     font-size: 0.875rem;
