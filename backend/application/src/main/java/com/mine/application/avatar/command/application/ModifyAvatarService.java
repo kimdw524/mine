@@ -31,7 +31,7 @@ public class ModifyAvatarService {
 
         AssistantModifyRequestBody body = avatar.modifyAvatarInfo(request);
 
-        if(request.getIsMain() != null && avatar.getIsMain() != request.getIsMain()) {
+        if(request.getIsMain() != null && request.getIsMain()) {
             Optional<Avatar> avatarByUserIdAndNotAvatarId = avatarRepository.findAvatarByUserIdAndNotAvatarId(userId, avatar.getId());
             avatarByUserIdAndNotAvatarId.ifPresent(another -> another.modifyAvatarInfo(ModifyAvatarRequest.builder().isMain(false).build()));
         }
