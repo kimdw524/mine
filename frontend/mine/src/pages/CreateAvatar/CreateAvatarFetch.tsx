@@ -1,6 +1,10 @@
 /** @jsxImportSource @emotion/react */
 import React, { useRef } from 'react';
-import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
+import {
+  useMutation,
+  useQueryClient,
+  useSuspenseQuery,
+} from '@tanstack/react-query';
 import {
   AvatarData,
   CreateAvatarRequest,
@@ -54,6 +58,7 @@ const setences: SentenceData[] = [
 ];
 
 const CreateAvatarFetch = ({ step, onChangeStep }: CreateAvatarFetchProps) => {
+  const queryClient = useQueryClient();
   const { alert } = useDialog();
   const requestRef = useRef<CreateAvatarRequest>({
     avatarName: '',
@@ -76,6 +81,7 @@ const CreateAvatarFetch = ({ step, onChangeStep }: CreateAvatarFetchProps) => {
           await alert('새로운 업적을 달성하였습니다');
         }
 
+        queryClient.invalidateQueries({ queryKey: ['avatarinfo'] });
         onChangeStep(5);
       }
     },

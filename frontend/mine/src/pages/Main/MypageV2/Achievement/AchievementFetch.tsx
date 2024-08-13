@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
-import React, { useCallback } from 'react';
-import { useSuspenseQueries } from '@tanstack/react-query';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useSuspenseQuery } from '@tanstack/react-query';
 import {
   getAchievedCount,
   getUserAchievement,
@@ -23,28 +23,19 @@ export interface IAchievement {
 const AchievementFetch = () => {
   const nav = useNavigate();
   const { alert } = useDialog();
+  const [achievedCount, setAchievedCount] = useState<number>(0);
 
-  const [achievementQuery, achievedCountQuery] = useSuspenseQueries({
-    queries: [
-      {
-        queryKey: ['achievement'],
-        queryFn: async () => await getUserAchievement(),
-      },
-      {
-        queryKey: ['achievedcount'],
-        queryFn: async () => await getAchievedCount(),
-      },
-    ],
+  const achievementQuery = useSuspenseQuery({
+    queryKey: ['achievement'],
+    queryFn: async () => await getUserAchievement(),
   });
 
-  [achievementQuery, achievedCountQuery].some((query) => {
-    if (query.error && !query.isFetching) {
-      throw query.error;
-    }
-  });
+  if (achievementQuery.error && !achievementQuery.isFetching) {
+    throw achievementQuery.error;
+  }
 
   const handleClick = useCallback(() => {
-    if (achievedCountQuery.data.data.count < 7) {
+    if (achievedCount < 7) {
       alert(
         <div>
           모든 업적을 완료해주세요!
@@ -57,6 +48,12 @@ const AchievementFetch = () => {
     } else {
       nav('/avatar/create');
     }
+  }, []);
+
+  useEffect(() => {
+    getAchievedCount()
+      .then((res) => setAchievedCount(res.data.count))
+      .catch(() => alert('오류가 발생하였습니다'));
   }, []);
 
   return (
