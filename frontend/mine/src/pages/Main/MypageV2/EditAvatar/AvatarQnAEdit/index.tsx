@@ -18,7 +18,7 @@ const AvatarQnAEdit = () => {
       <div css={avatarQnAEditContainerCss}>
         <AppBar
           label={getAvatarById(location.state.data).avatarName}
-          onBackClick={() => nav(-1)}
+          onBackClick={() => nav('/', { state: { step: 2 } })}
         />
         <div css={titleCss}>
           <Typography size="md" color="dark">
@@ -26,13 +26,9 @@ const AvatarQnAEdit = () => {
           </Typography>
         </div>
         <div css={questionCss}>
-          <ErrorBoundary fallback={<>에러</>}>
-            <Suspense fallback={<>로딩중</>}>
-              <AvatarQnAEditFetch
-                avatarId={getAvatarById(location.state.data).avatarId}
-              />
-            </Suspense>
-          </ErrorBoundary>
+          <AvatarQnAEditFetch
+            avatarId={getAvatarById(location.state.data).avatarId}
+          />
         </div>
       </div>
     </>
