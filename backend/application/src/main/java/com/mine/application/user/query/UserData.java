@@ -9,6 +9,7 @@ import org.hibernate.annotations.Immutable;
 import org.hibernate.annotations.SQLRestriction;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+@Getter
 @Entity
 @Table(name="user")
 @AllArgsConstructor
@@ -21,16 +22,19 @@ public class UserData {
     private Integer id;
 
     @Getter
+    @Column(name = "user_email")
+    String email;
+
+    @Getter
     @Column(name = "user_nickname")
     String nickname;
 
     @Getter
-    @Column(name = "user_email")
-    String email;
+    @Column(name = "user_gender")
+    String gender;
 
     @Column(name = "user_password")
     String password;
-
 
     public boolean isEqualsPassword(String password, PasswordEncoder encoder) {
         return encoder.matches(password, this.password);

@@ -1,19 +1,26 @@
 package com.mine.application.avatar.command.domain;
-// 아바타 객체를 데이터베이스에 저장하고 생성하는 리포지토리 인터페이스
-import org.springframework.data.repository.Repository;
 
-import java.time.LocalDateTime;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.Repository;
+import org.springframework.data.repository.query.Param;
+
 import java.util.Optional;
+
 
 public interface AvatarRepository extends Repository<Avatar, Integer> {
 
-    void save(Avatar avatar);
+    Avatar save(Avatar avatar);
 
-    Optional<Avatar> findByIdAndUserId(Integer id, Integer userId);
+    @Query("SELECT a FROM Avatar a WHERE a.id = :id AND a.isDeleted = false")
+    Optional<Avatar> findById(Integer id);
 
-    default Avatar create(Integer userId, String name, LocalDateTime birthday, String personality, String assistantId, String threadId, String voiceId, Integer modelId, String residence, String job) {
-        Avatar avatar = new Avatar(userId, name, birthday, personality, assistantId, threadId, voiceId, modelId, residence, job);
-        save(avatar);
-        return avatar;
-    }
+    @Query("SELECT a FROM Avatar a JOIN FETCH a.questionResList WHERE a.id = :id AND a.userId = :userId")
+    Optional<Avatar> findAvatarInAllDataByIdAndUserId(@Param("id") Integer id, @Param("userId") Integer userId);
+
+    @Query("SELECT COUNT(id) FROM Avatar WHERE userId = :userId AND isDeleted = false")
+    Integer countAvatarByUserId(@Param(value = "userId") Integer userId);
+
+    @Query("SELECT avatar FROM Avatar avatar WHERE avatar.userId = :userId AND avatar.isDeleted = false AND avatar.id != :avatarId")
+    Optional<Avatar> findAvatarByUserIdAndNotAvatarId(@Param(value = "userId")Integer userId, @Param(value = "avatarId") Integer avatarId);
+
 }

@@ -4,6 +4,7 @@ import static com.mine.application.account.query.domain.QAccountData.accountData
 
 import com.mine.application.account.ui.dto.GetAccountResponse;
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -18,11 +19,13 @@ public class AccountDataCustomRepositoryImpl implements AccountDataCustomReposit
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public List<GetAccountResponse> findAccountsBetweenDates(
+    public List<GetAccountResponse> findAccountsByDatesAndCategory(
             Integer userId,
+            String appendType,
+            Integer categoryId,
             LocalDateTime startDateTime,
-            LocalDateTime endDateTime)
-    {
+            LocalDateTime endDateTime
+    ) {
         return jpaQueryFactory
                 .select(Projections.constructor(GetAccountResponse.class,
                         accountData.id,
@@ -34,7 +37,9 @@ public class AccountDataCustomRepositoryImpl implements AccountDataCustomReposit
                         accountData.dateTime))
                 .from(accountData)
                 .where(accountData.dateTime.between(startDateTime, endDateTime)
-                        .and(accountData.userId.eq(userId)))
+                        .and(accountData.userId.eq(userId))
+                        .and(categoryIdEq(appendType, categoryId)))
+                .orderBy(accountData.dateTime.asc())
                 .fetch();
     }
 
@@ -53,7 +58,20 @@ public class AccountDataCustomRepositoryImpl implements AccountDataCustomReposit
                 .where(accountData.title.contains(query)
                         .or(accountData.description.contains(query))
                         .and(accountData.userId.eq(userId)))
+                .orderBy(accountData.dateTime.asc())
                 .fetch();
+    }
+
+    private BooleanExpression categoryIdEq(String accountType, Integer categoryId) {
+        if (accountType == null) {
+            return null;
+        }
+        if ("I".equals(accountType)) {
+            return accountData.accountType.eq("I");
+        }
+        return categoryId == null ?
+                accountData.accountType.eq("S") :
+                accountData.spendCategoryId.eq(categoryId);
     }
 
 }

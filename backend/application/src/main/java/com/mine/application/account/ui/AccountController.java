@@ -1,61 +1,110 @@
 package com.mine.application.account.ui;
 
-import com.mine.application.account.command.application.AddAccountService;
-import com.mine.application.account.command.application.DeleteAccountService;
-import com.mine.application.account.command.application.UpdateAccountService;
+import com.mine.application.account.command.application.*;
 import com.mine.application.account.query.application.AccountQueryService;
-import com.mine.application.account.ui.dto.AddAccountRequest;
-import com.mine.application.account.ui.dto.GetAccountResponse;
-import com.mine.application.account.ui.dto.UpdateAccountRequest;
+import com.mine.application.account.ui.dto.*;
+import com.mine.application.common.aop.LoginCheck;
+import jakarta.annotation.Nullable;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
 
+@CrossOrigin(originPatterns = "*", allowedHeaders = "*", allowCredentials = "true")
 @RequiredArgsConstructor
-@RequestMapping("/users")
 @RestController
 public class AccountController {
 
     private final AccountQueryService accountQueryService;
+    private final GetAccountByChatService getAccountByChatService;
     private final AddAccountService addAccountService;
     private final UpdateAccountService updateAccountService;
     private final DeleteAccountService deleteAccountService;
+    private final GetSpendCategoryService getSpendCategoryService;
 
-    @GetMapping
-    public ResponseEntity<List<GetAccountResponse>> getAccountsBetweenDates(
+    @LoginCheck
+    @GetMapping("/users/accounts")
+    public ResponseEntity<List<GetAccountResponse>> getAllAccounts(
             @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
-            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate)
-    {
-        return ResponseEntity.ok().body(accountQueryService.getAccountsBetweenDates(startDate, endDate));
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate
+    ) {
+        return ResponseEntity.ok()
+                .body(accountQueryService.getAllAccounts(startDate, endDate));
     }
 
-    @GetMapping("/accounts/calendar")
-    public ResponseEntity<List<GetAccountResponse>> getSchedulesByContaining(@RequestParam String query) {
-        return ResponseEntity.ok(accountQueryService.getAccountsByContaining(query));
+    @LoginCheck
+    @GetMapping("/users/accounts/income")
+    public ResponseEntity<List<GetAccountResponse>> getIncomeAccounts(
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate
+    ) {
+        return ResponseEntity.ok()
+                .body(accountQueryService.getIncomeAccounts(startDate, endDate));
     }
 
-    @PostMapping("/accounts/calendar")
-    public ResponseEntity<Void> addAccount(@RequestBody @Valid AddAccountRequest addAccountRequest) {
-        addAccountService.addAccount(addAccountRequest);
+    @LoginCheck
+    @GetMapping("/users/accounts/spend")
+    public ResponseEntity<List<GetAccountResponse>> getSpendAccountsByCategory(
+            @RequestParam @Nullable Integer spendCategoryId,
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate
+    ) {
+        return ResponseEntity.ok()
+                .body(accountQueryService.getSpendAccountsByCategory(spendCategoryId, startDate, endDate));
+    }
+
+    @LoginCheck
+    @GetMapping("/users/accounts/calendar")
+    public ResponseEntity<List<GetAccountResponse>> searchAccounts(@RequestParam String query) {
+        return ResponseEntity.ok(accountQueryService.searchAccounts(query));
+    }
+
+    @LoginCheck
+    @GetMapping("/users/accounts/chat")
+    public ResponseEntity<String> getAccountsByChat(@RequestParam String query) {
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(getAccountByChatService.getAccountsByChat(query));
+    }
+
+    @LoginCheck
+    @PostMapping("/users/accounts/calendar")
+    public ResponseEntity<Void> addAccountByCalendar(@RequestBody @Valid AddAccountByCalendarRequest addAccountByCalendarRequest) {
+        addAccountService.addAccountByCalendar(addAccountByCalendarRequest);
         return ResponseEntity.ok().build();
     }
 
-    @PatchMapping("/account")
+    @LoginCheck
+    @PostMapping("/users/accounts/chat")
+    public ResponseEntity<AddAccountByChatResponse> addAccountByChat(@RequestBody @Valid AddAccountByChatRequest addAccountByChatRequest) {
+        return ResponseEntity.ok()
+                .body(addAccountService.addAccountByChat(addAccountByChatRequest.getQuery()));
+    }
+
+    @LoginCheck
+    @PatchMapping("/users/account")
     public ResponseEntity<Void> updateAccount(@RequestBody @Valid UpdateAccountRequest updateAccountRequest) {
         updateAccountService.updateAccount(updateAccountRequest);
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/accounts/{accountId}")
+    @LoginCheck
+    @DeleteMapping("/users/accounts/{accountId}")
     public ResponseEntity<Void> deleteAccount(@PathVariable @NotNull Integer accountId) {
         deleteAccountService.deleteAccount(accountId);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/account/spend-category/{spendCategoryId}")
+    public ResponseEntity<String> getSpendCategory(@PathVariable @NotNull Integer spendCategoryId) {
+        return ResponseEntity.ok()
+                .body(getSpendCategoryService.getSpendCategory(spendCategoryId));
     }
 
 }

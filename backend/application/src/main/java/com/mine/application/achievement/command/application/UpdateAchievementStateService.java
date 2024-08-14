@@ -2,6 +2,7 @@ package com.mine.application.achievement.command.application;
 
 import com.mine.application.achievement.command.domain.AchievementState;
 import com.mine.application.achievement.command.domain.AchievementStateRepository;
+import com.mine.application.achievement.ui.dto.UpdateAchievementCountRequest;
 import com.mine.application.common.domain.SessionConstants;
 import com.mine.application.common.domain.SessionDao;
 import com.mine.application.common.erros.errorcode.CommonErrorCode;
@@ -20,7 +21,6 @@ public class UpdateAchievementStateService {
     @Transactional
     public boolean updateAchievementState(int achievementId) {
         AchievementState achievementState = getAchievementStateOrElseThrow(achievementId);
-
         if (achievementState.isAchieved()) {
             return false;
         }
@@ -32,9 +32,21 @@ public class UpdateAchievementStateService {
         return achievementState.isAchieved();
     }
 
+    /*
+    * 개발용
+    * */
+    public void updateAchievementCount(UpdateAchievementCountRequest request) {
+        AchievementState achievementState = getAchievementStateOrElseThrow(request.getAchievementId());
+        int newCount = request.getNewCount();
+        if (newCount > achievementState.getAchievement().getAmount() || newCount < 0) {
+            throw new RestApiException(CommonErrorCode.INVALID_PARAMETER);
+        }
+        achievementState.tempChangeCountApi(newCount);
+    }
+
     private AchievementState getAchievementStateOrElseThrow(int achievementId) {
         Integer userId = (Integer) sessionDao.get(SessionConstants.USER_ID)
-                .orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND));
+                .orElseThrow(() -> new RestApiException(CommonErrorCode.UNAUTHORIZED));
 
         return achievementStateRepository.findByUserIdAndAchievement_Id(userId, achievementId)
                 .orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND));

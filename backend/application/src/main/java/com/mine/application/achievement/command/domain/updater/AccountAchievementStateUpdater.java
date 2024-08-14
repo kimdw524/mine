@@ -8,7 +8,11 @@ public class AccountAchievementStateUpdater implements AchievementStateUpdater {
 
     @Override
     public int updateCount(AchievementState achievementState) {
-        return 0;
+        return updateAccountCount(achievementState);
+    }
+
+    private int updateAccountCount(AchievementState achievementState) {
+        return achievementState.getCount() + 1;
     }
 
 }

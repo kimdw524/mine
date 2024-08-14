@@ -2,8 +2,11 @@ package com.mine.application.user.command.application;
 
 import com.mine.application.common.domain.SessionConstants;
 import com.mine.application.common.domain.SessionDao;
+import com.mine.application.common.erros.errorcode.CommonErrorCode;
+import com.mine.application.common.erros.exception.RestApiException;
 import com.mine.application.common.event.Events;
 import com.mine.application.common.infra.mailsender.MailSenderRequest;
+import com.mine.application.user.command.domain.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,9 +19,36 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class EmailVerificationService {
     private static final Logger log = LoggerFactory.getLogger(EmailVerificationService.class);
+    private final UserRepository userRepository;
     private final SessionDao sessionDao;
 
+    public void emailNumberRequestForNotExist(EmailVerificationNumRequest request) {
+        if(userRepository.findByEmail(request.getEmail()).isPresent()) {
+            throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
+        }
+
+        emailNumberRequest(request);
+    }
+
+    public void emailNumberRequestForSame(EmailVerificationNumRequest request) {
+        String sessionEmail = (String) sessionDao.get(SessionConstants.EMAIL).get();
+        if(!request.getEmail().equals(sessionEmail)) {
+            throw new RestApiException(CommonErrorCode.UNAUTHORIZED);
+        }
+        emailNumberRequest(request);
+    }
+
+    public void emailVerifyForSession(EmailVerificationRequest request) {
+        String sessionEmail = (String) sessionDao.get(SessionConstants.EMAIL).get();
+        if(!request.getEmail().equals(sessionEmail)) {
+            throw new RestApiException(CommonErrorCode.UNAUTHORIZED);
+        }
+        verifyEmail(request);
+    }
+
     public void emailNumberRequest(EmailVerificationNumRequest request) {
+
+
         String randomNumStr = GenerateRandomNumber.getStr(6);
 
         UserVerificationEmailDto userVerificationEmailDto = UserVerificationEmailDto.builder()
@@ -46,4 +76,5 @@ public class EmailVerificationService {
         }
         return false;
     }
+
 }

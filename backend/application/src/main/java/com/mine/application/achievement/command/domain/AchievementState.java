@@ -27,8 +27,8 @@ public class AchievementState {
     @Column(name = "achievement_count", nullable = false)
     private Integer count;
 
-    @Column(name = "achievement_date")
-    private LocalDateTime date;
+    @Column(name = "achieved_date")
+    private LocalDateTime achieved_date;
 
     @Column(name = "is_achieved")
     private Boolean isAchieved;
@@ -45,12 +45,19 @@ public class AchievementState {
         this.count = count;
         if(achievementCompleted()) {
             this.isAchieved = true;
-            date = LocalDateTime.now();
+            achieved_date = LocalDateTime.now();
         }
     }
 
     public boolean isAchieved() {
         return isAchieved;
+    }
+
+    /*
+     * 개발용
+     * */
+    public void tempChangeCountApi(final int count) {
+        this.count = count;
     }
 
     private boolean achievementCompleted() {

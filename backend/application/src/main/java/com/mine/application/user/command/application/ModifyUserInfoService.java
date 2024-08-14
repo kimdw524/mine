@@ -35,7 +35,6 @@ public class ModifyUserInfoService {
 
     @Transactional
     public void modifyPasswordByEmailValidation(ModifyPasswordRequest request) {
-        Integer sessionId = (Integer) sessionDao.get(SessionConstants.USER_ID).get();
         Optional<Object> emailValidInfo = sessionDao.get(SessionConstants.EMAIL_VERIFICATION);
 
         if(emailValidInfo.isEmpty()) {
@@ -48,7 +47,7 @@ public class ModifyUserInfoService {
             throw new IllegalArgumentException("invalid access");
         }
 
-        User findUser = userRepository.findById(sessionId).orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND));
+        User findUser = userRepository.findByEmail(emailDto.getEmail()).orElseThrow(() -> new RestApiException(CommonErrorCode.RESOURCE_NOT_FOUND));
         findUser.updateUserPassword(request);
 
         sessionDao.remove(SessionConstants.EMAIL_VERIFICATION);

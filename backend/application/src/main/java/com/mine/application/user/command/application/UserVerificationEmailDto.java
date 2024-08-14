@@ -24,4 +24,8 @@ public class UserVerificationEmailDto implements Serializable {
     public boolean canUse() {
         return isValid;
     }
+
+    public String getEmail() {
+        return email;
+    }
 }
