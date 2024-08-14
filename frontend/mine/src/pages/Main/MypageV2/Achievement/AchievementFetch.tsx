@@ -28,6 +28,7 @@ const AchievementFetch = () => {
   const achievementQuery = useSuspenseQuery({
     queryKey: ['achievement'],
     queryFn: async () => await getUserAchievement(),
+    staleTime: 3000,
   });
 
   if (achievementQuery.error && !achievementQuery.isFetching) {

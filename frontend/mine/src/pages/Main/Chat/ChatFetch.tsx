@@ -6,8 +6,14 @@ import useChat, {
   ChatResponse,
   ChatType,
 } from '../../../hooks/useChat';
-import { AccountData } from '../../../apis/accountApi';
-import { ScheduleData } from '../../../apis/scheduleApi';
+import {
+  AccountData,
+  updateAccountAchievement,
+} from '../../../apis/accountApi';
+import {
+  ScheduleData,
+  updateScheduleAchievement,
+} from '../../../apis/scheduleApi';
 import useModal from '../../../hooks/useModal';
 import EditSchedule from '../../Schedule/Edit';
 import EditAccount from '../../Account/Edit';
@@ -131,7 +137,13 @@ const ChatFetch = () => {
       mainContext.onPendingChange(false);
     };
 
-    const handleAccount = (data: AccountData) => {
+    const handleAccount = async (data: AccountData) => {
+      const result = await updateAccountAchievement();
+
+      if (result.data) {
+        alert('새로운 업적을 달성하였습니다!');
+      }
+
       setChatLog((chatLog) => [
         ...chatLog,
         {
@@ -153,9 +165,16 @@ const ChatFetch = () => {
         },
       ]);
       setIsPending(false);
+      mainContext.onPendingChange(false);
     };
 
-    const handleSchedule = (data: ScheduleData) => {
+    const handleSchedule = async (data: ScheduleData) => {
+      const result = await updateScheduleAchievement();
+
+      if (result.data) {
+        alert('새로운 업적을 달성하였습니다!');
+      }
+
       setChatLog((chatLog) => [
         ...chatLog,
         {
@@ -177,6 +196,7 @@ const ChatFetch = () => {
         },
       ]);
       setIsPending(false);
+      mainContext.onPendingChange(false);
     };
 
     chat.connect({
