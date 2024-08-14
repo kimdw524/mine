@@ -1,10 +1,17 @@
 /** @jsxImportSource @emotion/react */
 import { Icon, TextField, Typography } from 'oyc-ds';
-import React, { ReactNode, useEffect, useRef, useState } from 'react';
+import React, {
+  ReactNode,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import {
   chatCss,
   containerCss,
   responseContainer,
+  responseCss,
   speechCss,
   waitCss,
 } from './style';
@@ -15,6 +22,7 @@ import {
   EllipsisHorizontalIcon,
   SpeakerWaveIcon,
 } from '@heroicons/react/24/solid';
+import { MainContext } from '../../../pages/Main';
 
 interface AvatarChatProps {
   avatarId: number;
@@ -30,6 +38,7 @@ const AvatarChat = ({ avatarId, voiceId }: AvatarChatProps) => {
   const audioCacheRef = useRef<string>('');
   const [isPending, setIsPending] = useState<boolean>(false);
   const { alert } = useDialog();
+  const mainContext = useContext(MainContext);
 
   const voiceIdRef = useRef<string>(voiceId);
 
@@ -38,7 +47,10 @@ const AvatarChat = ({ avatarId, voiceId }: AvatarChatProps) => {
   const getRecentChat = (me: boolean) =>
     getLog()
       .reverse()
-      .find((item) => item.me === me && item.avatarId === avatarId);
+      .find(
+        (item) =>
+          item.me === me && item.type === 'chat' && item.avatarId === avatarId,
+      );
 
   const handleChatSend = (e: React.KeyboardEvent) => {
     if (
@@ -58,6 +70,7 @@ const AvatarChat = ({ avatarId, voiceId }: AvatarChatProps) => {
 
       audioCacheRef.current = '';
 
+      mainContext.onPendingChange(true);
       setResponse(<div css={waitCss}>아바타가 대답을 생각 중이에요.</div>);
       setIsResponsed(false);
 
@@ -101,6 +114,7 @@ const AvatarChat = ({ avatarId, voiceId }: AvatarChatProps) => {
     const handleMessage = (res: ChatResponse) => {
       setResponse(res.text);
       setIsResponsed(true);
+      mainContext.onPendingChange(false);
     };
 
     connect({
@@ -128,9 +142,11 @@ const AvatarChat = ({ avatarId, voiceId }: AvatarChatProps) => {
             {isPending ? <EllipsisHorizontalIcon /> : <SpeakerWaveIcon />}
           </Icon>
         )}
-        <Typography color="dark" size="md">
-          {response ?? '안녕!'}
-        </Typography>
+        <div css={responseCss}>
+          <Typography color="dark" size="md">
+            {response ?? '안녕!'}
+          </Typography>
+        </div>
       </div>
       <TextField
         variant="standard"

@@ -17,9 +17,19 @@ const containerCss = css`
   padding: 1rem 0.5rem;
 `;
 
+const containerLargeCss = css`
+  padding: 1rem 0.5rem;
+  text-align: left;
+
+  > button {
+    width: calc(33.3% - 0.75rem);
+    margin: 0.375rem;
+  }
+`;
+
 const MultipleChoice = ({ items, selected, onSelect }: MultipleChoiceProps) => {
   return (
-    <div css={containerCss}>
+    <div css={items.length > 6 ? containerLargeCss : containerCss}>
       {items.map((item, index) => (
         <Button
           key={item.questionChoiceId}

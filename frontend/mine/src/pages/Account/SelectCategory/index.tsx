@@ -44,7 +44,7 @@ const SelectCategory = ({ selected, onChange }: SelectCategoryProps) => {
             <CategorySelect.Item
               key={accountCategoryData[99].id}
               name={accountCategoryData[99].name}
-              color={accountCategoryData[99].color}
+              color="#3131ff"
               value={accountCategoryData[99].id}
             >
               {accountCategoryData[99].icon}
@@ -52,7 +52,7 @@ const SelectCategory = ({ selected, onChange }: SelectCategoryProps) => {
             <CategorySelect.Item
               key={100}
               name="지출"
-              color={accountCategoryData[99].color}
+              color="#ff1616"
               value={100}
             >
               <CreditCardIcon />

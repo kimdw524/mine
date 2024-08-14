@@ -1,7 +1,5 @@
 /** @jsxImportSource @emotion/react */
 import React, { Suspense, useRef, useState } from 'react';
-import AppBar from '../../components/organisms/AppBar';
-import { useNavigate } from 'react-router-dom';
 import { Button, Calendar, Chip, Dropdown, Typography } from 'oyc-ds';
 import {
   bottomCss,
@@ -19,13 +17,12 @@ import {
 } from '../../utils/dateUtils';
 import Create from './Create';
 import useModal from '../../hooks/useModal';
-import Search from './Search';
 import Error from '../../components/molecules/Error';
 import ChipList from '../../components/molecules/ChipList';
 import SelectCategory from './SelectCategory';
 import { accountCategoryData } from '../../utils/accountUtils';
 import { useQuery } from '@tanstack/react-query';
-import { getSchedules } from '../../apis/scheduleApi';
+import { getSchedules, getSchedulesWithCategory } from '../../apis/scheduleApi';
 
 export type SchedulePeriod = 'daily' | 'weekly' | 'monthly';
 
@@ -46,8 +43,15 @@ const Schedule = () => {
     .split(' ');
 
   const { data } = useQuery({
-    queryKey: ['schedule', '0', calendarPeriod[0], calendarPeriod[1]],
-    queryFn: () => getSchedules(calendarPeriod[0], calendarPeriod[1]),
+    queryKey: ['schedule', category, calendarPeriod[0], calendarPeriod[1]],
+    queryFn: () =>
+      category
+        ? getSchedulesWithCategory(
+            calendarPeriod[0],
+            calendarPeriod[1],
+            category,
+          )
+        : getSchedules(calendarPeriod[0], calendarPeriod[1]),
   });
 
   const handlePeriodChange = (e: React.FormEvent<HTMLSelectElement>) => {

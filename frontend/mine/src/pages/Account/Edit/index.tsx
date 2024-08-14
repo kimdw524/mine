@@ -24,6 +24,7 @@ import {
 } from '../../../apis/accountApi';
 import { apiFormatDateTime } from '../../../utils/dateUtils';
 import useDialog from '../../../hooks/useDialog';
+import { AxiosError } from 'axios';
 
 interface EditProps {
   data: AccountData;
@@ -48,7 +49,12 @@ const Edit = ({ data }: EditProps) => {
         navigate(-1);
       }
     },
-    onError: (error) => {
+    onError: async (error: AxiosError) => {
+      if (error.response?.status === 404) {
+        await alert('이미 삭제된 가계부입니다.');
+        navigate(-1);
+        return;
+      }
       alert('오류가 발생하였습니다.');
       console.error(error);
     },
@@ -62,7 +68,12 @@ const Edit = ({ data }: EditProps) => {
         navigate(-1);
       }
     },
-    onError: (error) => {
+    onError: async (error: AxiosError) => {
+      if (error.response?.status === 404) {
+        await alert('이미 삭제된 가계부입니다.');
+        navigate(-1);
+        return;
+      }
       alert('오류가 발생하였습니다.');
       console.error(error);
     },

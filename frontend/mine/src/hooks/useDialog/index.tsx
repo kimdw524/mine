@@ -28,7 +28,13 @@ const useDialog = () => {
       };
 
       modalContext.push({
-        component: <Confirm onYesClick={handleYesClick}>{message}</Confirm>,
+        component: (
+          <Confirm onYesClick={handleYesClick}>
+            {message.split('\n').map((line, index) => (
+              <div key={index}>{line}</div>
+            ))}
+          </Confirm>
+        ),
         name: 'confirm',
         type: 'confirm',
         show: true,

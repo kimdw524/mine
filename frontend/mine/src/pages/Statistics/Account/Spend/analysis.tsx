@@ -127,8 +127,9 @@ const Analysis: React.FC<SpendChartProps> = ({ period, offset, curSum }) => {
           size="sm"
           weight="medium"
           className='content'
+          
         >
-          {data?.data.analysis} 
+          {data?.data.analysis}
         </Typography>
       </div>
     </div>

@@ -90,7 +90,7 @@ const Schedule: React.FC<SpendChartProps> = ({ period, offset }) => {
   return (
     <>
       {scheduledata.labels.length === 0 ? (
-        <Preview content="일정이" button="일정" url="schedule" /> // `Preview` 컴포넌트 사용
+        <Preview content="일정이" button="일정" url="schedule" /> 
       ) : (
         <>
           <Typography
