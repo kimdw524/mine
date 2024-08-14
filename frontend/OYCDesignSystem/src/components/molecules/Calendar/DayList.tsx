@@ -20,7 +20,7 @@ const DayList = ({ days, selected = [], scheduled = [], onClick }: DayList) => {
               {week.map((day, index) => (
                 <td key={index}>
                   <Day
-                    key={`${day.month}-${day.day}`}
+                    key={`${day.year}-${day.month}-${day.day}`}
                     {...day}
                     scheduled={
                       scheduled.indexOf(`${day.year}-${day.month}-${day.day}`) >

@@ -7,7 +7,8 @@ import styles from './Signup.module.css';
 import UserDataForm from './UserDataForm';
 import Verification from './Verification';
 import { containerCss } from './style';
-
+import { useNavigate } from 'react-router-dom';
+import { useLoginCheck } from '../../hooks/useLoginCheck';
 interface SignupInfo {
   email: string;
   password: string;
@@ -26,6 +27,8 @@ export const SignupContext = createContext<SignupContextProps>(
 );
 
 const Signup = () => {
+  useLoginCheck();
+  const navigate = useNavigate();
   const [info, setInfo] = useState<SignupInfo>({
     email: '',
     password: '',
@@ -43,10 +46,7 @@ const Signup = () => {
 
   return (
     <SignupContext.Provider value={{ info, update: updateInfo }}>
-      <AppBar
-        label="회원가입"
-        onBackClick={() => console.log('navigate to main')}
-      >
+      <AppBar label="회원가입" onBackClick={() => navigate(-1)}>
         <AppBar.Progress value={step + 1} max={3} />
       </AppBar>
       <div css={containerCss}>

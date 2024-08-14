@@ -7,11 +7,12 @@ import { base, thumb } from './Toggle.styles';
 export const Toggle = ({
   color = 'primary',
   size = 'sm',
+  startValue = true,
   onClick = () => {},
   ...props
 }: ToggleProps) => {
   const theme = useTheme();
-  const [isOn, setIsOn] = useState<boolean>(false);
+  const [isOn, setIsOn] = useState<boolean>(startValue);
 
   return (
     <div

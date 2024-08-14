@@ -40,6 +40,7 @@ export const labelField = (
     ? '0.625rem'
     : '1rem'};
   transition: all 150ms ease-in-out;
+  pointer-events: none;
 `;
 
 export const inputField = (
@@ -87,6 +88,7 @@ export const variants: Record<
   outlined: (theme: Theme, palette: PaletteColor, isFocused: boolean) => css`
     border: calc(0.0625rem * 1.5) ${isFocused ? palette.main : '#D5D5D5'} solid;
     border-radius: 0.3125rem;
+    overflow: visible;
   `,
   standard: (theme: Theme, palette: PaletteColor, isFocused: boolean) => css`
     padding-bottom: 0;

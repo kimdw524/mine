@@ -1,6 +1,6 @@
 package com.mine.application.achievement.query;
 
-import com.mine.application.achievement.ui.dto.AchievementConverter;
+import com.mine.application.achievement.converter.AchievementDtoConverter;
 import com.mine.application.achievement.ui.dto.GetAchievementStateResponse;
 import com.mine.application.common.domain.SessionConstants;
 import com.mine.application.common.domain.SessionDao;
@@ -29,7 +29,7 @@ public class AchievementStateQueryService {
         return achievementStateDataRepository.findAllByUserId(userId)
                 .stream()
                 .sorted(Comparator.comparingInt(o -> o.getAchievement().getId()))
-                .map(AchievementConverter::convert)
+                .map(AchievementDtoConverter::convert)
                 .collect(Collectors.toList());
     }
 

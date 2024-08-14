@@ -1,32 +1,25 @@
 /** @jsxImportSource @emotion/react */
-import React, { useState } from 'react';
+import React from 'react';
 import { Icon } from 'oyc-ds';
 import { containerCss, menuBoxCss } from './style';
 import IconTypography from '../../molecules/IconTypography/IconTypography';
 import { engToIcon } from '../../../utils/EngToIcon';
 
 interface MenuBarProps {
-  page?: string;
   menu: number;
-  setCurMenu: React.Dispatch<React.SetStateAction<number>>;
+  onMenuClick: (index: number) => void;
 }
 
-const MenuBar = ({ page, menu, setCurMenu }: MenuBarProps) => {
-  const [labels, setLabels] = useState<Array<string>>(
-    page === 'mypage'
-      ? ['achievement', 'userInfo', 'avatar']
-      : ['chatting', 'home', 'speech'],
-  );
-
+const MenuBar = ({ menu, onMenuClick }: MenuBarProps) => {
   return (
     <div css={containerCss}>
-      {labels.map((v: string, i: number) => {
+      {['chatting', 'home', 'mypage'].map((v: string, i: number) => {
         return (
           <div key={v} css={menuBoxCss}>
             {menu === i ? (
               <IconTypography label={v} color="primary" />
             ) : (
-              <Icon color="secondary" onClick={() => setCurMenu(i)}>
+              <Icon color="secondary" onClick={() => onMenuClick(i)}>
                 {engToIcon[v]}
               </Icon>
             )}

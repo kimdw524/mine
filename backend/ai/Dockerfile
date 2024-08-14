@@ -4,7 +4,7 @@ WORKDIR /ai
 
 COPY . .
 RUN pip install --upgrade pip
-RUN pip install fastapi openai pika pymysql
+RUN pip install uvicorn fastapi openai pika pymysql
 #
 EXPOSE 8000
 

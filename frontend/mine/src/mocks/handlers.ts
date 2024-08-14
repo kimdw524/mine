@@ -11,14 +11,13 @@ const userHandler = [
     });
   }),
 
-
   http.post('/user/login', async ({ request }) => {
     const result: any = await request.json();
     const data = {
       accessToken: '오늘도 파이팅',
       email: '',
       password: '',
-      nickname:'ssafy',
+      nickname: 'ssafy',
     };
 
     if (result?.email === 'abc@mail.com' && result?.password === 'qwer1234') {
@@ -156,6 +155,99 @@ const mypageHandler = [
       ],
     });
   }),
+  http.get('/mypage/avatar/questions', async () => {
+    await delay(1000);
+
+    return HttpResponse.json([
+      {
+        questionType: 'c',
+        questionId: 1,
+        question: '1. 1번 질문',
+        choices: [
+          {
+            responseId: 1,
+            response: '1번 응답',
+          },
+          {
+            responseId: 2,
+            response: '2번 응답',
+          },
+          {
+            responseId: 3,
+            response: '3번 응답',
+          },
+        ],
+        answer: 1,
+      },
+      {
+        questionType: 'c',
+        questionId: 2,
+        question: '2. 2번 질문?',
+        choices: [
+          {
+            responseId: 4,
+            response: '4번 응답',
+          },
+          {
+            responseId: 5,
+            response: '5번 응답',
+          },
+          {
+            responseId: 6,
+            response: '6번 응답',
+          },
+        ],
+        answer: 2,
+      },
+      {
+        questionType: 'c',
+        questionId: 3,
+        question: '3번 질문',
+        choices: [
+          {
+            responseId: 7,
+            response: '7번 응답',
+          },
+          {
+            responseId: 8,
+            response: '8번 응답',
+          },
+          {
+            responseId: 9,
+            response: '9번 응답',
+          },
+        ],
+        answer: 3,
+      },
+      {
+        questionType: 's',
+        questionId: 4,
+        question: '1. 1번 질문',
+        choices: [],
+        answer: '1번 응답',
+      },
+      {
+        questionType: 's',
+        questionId: 5,
+        question: '2. 2번 질문?',
+        choices: [],
+        answer: '2번 응답',
+      },
+      {
+        questionType: 's',
+        questionId: 6,
+        question: '3번 질문',
+        choices: [],
+        answer: '3번 응답',
+      },
+    ]);
+  }),
+  http.patch('/mypage/avatar/newchoice', () => {
+    return HttpResponse.json({ msg: '변경 완료' }, { status: 200 });
+  }),
+  http.patch('/mypage/avatar/subjective', () => {
+    return HttpResponse.json({ msg: '변경 완료' }, { status: 200 });
+  }),
 ];
 
 const avatarHandler = [
@@ -220,6 +312,44 @@ const avatarHandler = [
           'ABCDEFG1245678ABCDEFG1245678ABCDEFG1245678ABCDEFG1245678ABCDEFG1245678',
       },
     ]);
+  }),
+  http.get('/mypage/avatar', async () => {
+    await delay(1000);
+
+    return HttpResponse.json([
+      {
+        name: '내가 그 토비유',
+        birthday: '2024-07-30',
+        personality: '게이름, 천하태평함, 긍정적임',
+        job: '개발자',
+        place: '경상북도 구미시',
+      },
+      {
+        name: '백종원이유',
+        birthday: '2024-08-30',
+        personality: '꼼꼼함, 유쾌함, 재치있음, 즉흥적임',
+        job: '요리 연구가',
+        place: '대전광역시',
+      },
+    ]);
+  }),
+  http.patch('/mypage/avatar/job', () => {
+    return HttpResponse.json(
+      { msg: '직업이 성공적으로 변경되었습니다.' },
+      { status: 200 },
+    );
+  }),
+  http.patch('/mypage/avatar/name', () => {
+    return HttpResponse.json(
+      { msg: '이름이 성공적으로 변경되었습니다.' },
+      { status: 200 },
+    );
+  }),
+  http.patch('/mypage/avatar/place', () => {
+    return HttpResponse.json(
+      { msg: '거주지가 성공적으로 변경되었습니다.' },
+      { status: 200 },
+    );
   }),
 ];
 
@@ -294,10 +424,63 @@ const scheduleHandler = [
   }),
 ];
 
+const accountHandler = [
+  http.get('/api/users/accounts*', async () => {
+    return HttpResponse.json([
+      {
+        accountId: 26,
+        spendCategoryId: 1,
+        accountType: 'S',
+        money: 50000,
+        title: '점심 식사',
+        description: '직장 근처 식당에서 점심',
+        dateTime: '2024-07-01 12:30:00',
+      },
+      {
+        accountId: 31,
+        spendCategoryId: 3,
+        accountType: 'S',
+        money: 5000,
+        title: '카페',
+        description: '커피 한 잔',
+        dateTime: '2024-07-03 14:00:00',
+      },
+      {
+        accountId: 36,
+        spendCategoryId: 2,
+        accountType: 'S',
+        money: 2500,
+        title: '버스 요금',
+        description: '출장용 버스',
+        dateTime: '2024-07-06 08:00:00',
+      },
+      {
+        accountId: 41,
+        spendCategoryId: 1,
+        accountType: 'S',
+        money: 20000,
+        title: '점심 식사',
+        description: '식당에서 점심',
+        dateTime: '2024-07-08 12:30:00',
+      },
+      {
+        accountId: 46,
+        spendCategoryId: null,
+        accountType: 'I',
+        money: 3000000,
+        title: '월급',
+        description: '7월 월급',
+        dateTime: '2024-07-01 09:00:00',
+      },
+    ]);
+  }),
+];
+
 // 하나의 handler 로 관리
 export const handlers = [
   ...userHandler,
   ...mypageHandler,
   ...avatarHandler,
   ...scheduleHandler,
+  ...accountHandler,
 ];

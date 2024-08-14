@@ -3,9 +3,11 @@ import { Button, Typography } from 'oyc-ds';
 import React, { useContext } from 'react';
 import { SignupContext } from '..';
 import { buttonContainerCss, instCss } from './style';
+import { useNavigate } from 'react-router-dom';
 
 const Done = () => {
   const signupContext = useContext(SignupContext);
+  const navigate = useNavigate();
 
   return (
     <>
@@ -16,10 +18,9 @@ const Done = () => {
         {signupContext.info.name}님의 회원가입을 축하합니다!
       </Typography>
       <div css={buttonContainerCss}>
-        <Button size="lg" variant="outlined">
-          홈으로
+        <Button size="lg" onClick={() => navigate('/user/login')} fullWidth>
+          로그인
         </Button>
-        <Button size="lg">로그인</Button>
       </div>
     </>
   );

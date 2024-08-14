@@ -1,6 +1,7 @@
 package com.mine.socket.infra;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mine.socket.application.ChatResponse;
 import com.mine.socket.domain.AvatarData;
 import com.mine.socket.domain.AvatarRepository;
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Map;
 
 @Slf4j
 @Component
@@ -26,6 +28,7 @@ public class AssistantChatResponsedEventHandler {
     private final AvatarRepository avatarRepository;
 
     private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
     @Transactional
     @RabbitListener(queues = "${rabbitmq.queue.my-name}")
     public void receiveChatMessageFromFastAPI(ChatReceiveDto chatReceiveDto) {
@@ -37,6 +40,7 @@ public class AssistantChatResponsedEventHandler {
                 .avatarId(chatReceiveDto.getAvatarId())
                 .userId(chatReceiveDto.getUserId())
                 .chatRole("b")
+                .created_at(LocalDateTime.now())
                 .sendedAt(LocalDateTime.parse(chatReceiveDto.getSendedAt(), dateTimeFormatter))
                 .build();
 
@@ -49,9 +53,12 @@ public class AssistantChatResponsedEventHandler {
                 .avatarId(chatReceiveDto.getAvatarId())
                 .avatarName(avatarData.getAvatarName())
                 .role("b")
-                .sendedDate(chat.getSendedAt())
+                .sendedDate(chat.getSendedAt().toString())
                 .build();
 
-        messagingTemplate.convertAndSend("/chat/" + chatReceiveDto.getAvatarId(), response);
+        log.info(response.toString());
+        ObjectMapper objectMapper = new ObjectMapper();
+        Map<String, String> body = objectMapper.convertValue(response, Map.class);
+        messagingTemplate.convertAndSend("/chat/" + chatReceiveDto.getAvatarId(), body);
     }
 }

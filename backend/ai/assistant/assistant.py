@@ -1,4 +1,4 @@
-from openai import OpenAI
+from openai import OpenAI, NOT_GIVEN
 
 
 class Assistant:
@@ -16,3 +16,10 @@ class Assistant:
 
     def create_thread(self):
         return self.client.beta.threads.create().id
+
+    def update_assistant(self, assistant_id, instruction, name):
+        self.client.beta.assistants.update(
+            name=name,
+            instructions=instruction,
+            assistant_id=assistant_id
+        )

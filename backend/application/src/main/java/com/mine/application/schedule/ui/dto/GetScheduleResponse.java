@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class GetScheduleResponse {
 
-    private Integer id;
+    private Integer scheduleId;
 
     private Integer categoryId;
 

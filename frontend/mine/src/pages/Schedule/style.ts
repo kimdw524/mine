@@ -3,7 +3,7 @@ import { css } from '@emotion/react';
 export const containerCss = css`
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: 100%;
 `;
 
 export const scheduleCss = css`
@@ -27,4 +27,9 @@ export const bottomCss = css`
   justify-content: flex-end;
   padding: 0.75rem;
   border-top: 0.0625rem solid #e6e6e6;
+`;
+
+export const menuCss = css`
+  display: flex;
+  flex-direction: row;
 `;

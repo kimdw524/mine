@@ -1,149 +1,114 @@
-import React, { useContext, useState, useEffect } from 'react';
-import axios from 'axios';
-import './Login.css';
+/** @jsxImportSource @emotion/react */
+import React, { useState, useCallback } from 'react';
+import { useLoginCheck } from '../../hooks/useLoginCheck';
+import { useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
-import { useCookies } from 'react-cookie';
-import { Button,LabeledCheckBox, Typography, TextField } from 'oyc-ds';
+import { UserLogin } from '../../apis/loginApi';
 import { Palette } from 'oyc-ds/dist/themes/lightTheme';
-import { UserContext } from './UserContext';
+import { Button, Typography, TextField } from 'oyc-ds';
+import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
+import {
+  loginBtnCss,
+  errmsgCss,
+  fieldCss,
+  loginformCss,
+  logoCss,
+  signupBtnCss,
+  pwfindCss,
+  failmsgCss,
+  passwordCss,
+  IconCss,
+} from './Login.styles';
 
 interface ColorInfo {
   email: Palette;
   password: Palette;
 }
 const emailCheck = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-za-z0-9\-]+/;
-const passwordCheck = /^(?=.*[a-zA-Z])(?=.*[0-9]).{7,}$/; // 영문, 숫자, 8글자 이상
+const passwordCheck = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,}$/; // 영문, 숫자, 8글자 이상
 
 const Login = () => {
+  useLoginCheck();
+  const queryClient = useQueryClient();
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const nav = useNavigate();
-  const [cookies, setCookie] = useCookies();
-  const [ischecked, setIsChecked] = useState(false);
-  const [emailvalidation, setEmailValidation] = useState<boolean>(false);
+  const [emailvalidation, setEmailValidation] = useState<boolean>(true);
   const [passwordvalidation, setPasswordValidation] = useState<boolean>(false);
-  const [loginResult, setLoginResult] = useState('');
-  const { setUserInfo } = useContext(UserContext);
+  const [loginResult, setLoginResult] = useState<string>('');
+  const [hide, setHide] = useState<boolean>(true);
   const [color, setColor] = useState<ColorInfo>({
-    email:'primary',
-    password:'primary'
+    email: 'primary',
+    password: 'primary',
   });
 
-  useEffect(() => {
-    const storedUserInfo = localStorage.getItem('userInfo');
-    if (storedUserInfo) {
-      setUserInfo(JSON.parse(storedUserInfo));
-    }
-  }, [setUserInfo]);
-
-  const EmailValidation = (email: string) => {
-    if (emailCheck.test(email)) {
-      setEmailValidation(true); // 검증 성공
-      setColor((prevColor) => ({
-        ...prevColor,
-        email: 'success'
-      }));
-    } else {
-      setEmailValidation(false); // 검증 실패
-      setColor((prevColor) => ({
-        ...prevColor,
-        email: 'danger'
-      }));
-    }
+  const onToggleHide = () => {
+    setHide((prevHide) => !prevHide);
   };
 
-  const PasswordValidation = (password: string) => {
+  const EmailValidation = useCallback(async () => {
+    if (emailCheck.test(email)) {
+      setEmailValidation(true);
+      setColor((prevColor) => ({
+        ...prevColor,
+        email: 'success',
+      }));
+    } else {
+      setEmailValidation(false);
+      setColor((prevColor) => ({
+        ...prevColor,
+        email: 'danger',
+      }));
+    }
+  }, [email]);
+
+  const PasswordValidation = useCallback(async () => {
     if (passwordCheck.test(password)) {
       setPasswordValidation(true);
       setColor((prevColor) => ({
         ...prevColor,
-        password: 'success'
+        password: 'success',
       }));
     } else {
       setPasswordValidation(false);
       setColor((prevColor) => ({
         ...prevColor,
-        email: 'danger'
+        password: 'danger',
       }));
     }
-  };
+  }, [password]);
 
   const emailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
-    console.log(email);
-    EmailValidation(email);
   };
 
   const passwordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
-    console.log(password);
-    PasswordValidation(password);
   };
 
-  const checkedItemHandler = (ischecked: boolean) => {
-    if (!ischecked) {
-      setIsChecked(false);
-      console.log('체크해제');
-    } else {
-      setIsChecked(true);
-      console.log('체크');
-    }
-  };
-
-  const autoLogin = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleLogin = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    if (ischecked) {
-      const today = new Date();
-      today.setDate(today.getDate() + 1);
-      axios
-        .post('/user/login', { email: email, password: password })
-        .then((res) => {
-          console.log(res.data);
-          setCookie('Token', res.data.accessToken, { expires: today });
-          const userData = {
-            nickname: res.data.nickname,
-            email: res.data.email,
-          };
-          setUserInfo(userData);
-          localStorage.setItem('userInfo', JSON.stringify(userData));
-          nav('/');
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    } else if (!ischecked) {
-      axios
-        .post('/user/login', { email: email, password: password })
-        .then((res) => {
-          console.log(res.data);
-          setCookie('Token', res.data.accessToken, { maxAge: 30 }); // 쿠키에 토큰 저장
-          const userData = {
-            nickname: res.data.nickname,
-            email: res.data.email,
-          };
-          setUserInfo(userData);
-          localStorage.setItem('userInfo', JSON.stringify(userData));
-          nav('/');
-        })
-        .catch((err) => {
-          console.log('에러...:', err);
-          setLoginResult(
-            `이메일 또는 비밀번호가 잘못되었습니다.\n아이디와 비밀번호를 정확히 입력해주세요.`,
-          );
-        });
+    try {
+      await UserLogin(email, password);
+      localStorage.setItem('isLoggedIn', 'true');
+      queryClient.clear();
+      nav('/');
+    } catch (err) {
+      console.log('에러:', err);
+      setLoginResult(
+        '이메일 또는 비밀번호가 잘못되었습니다.\n아이디와 비밀번호를 정확히 입력해주세요.',
+      );
     }
-    console.log(cookies);
   };
 
   return (
-    <div className="Login">
-      <Typography color="primary" size="xl" weight="bold" className="header">
+    <div css={loginformCss}>
+      <Typography color="primary" size="xl" weight="bold" css={logoCss}>
         Mine
       </Typography>
       <form>
-        <div className="emailtexfield">
+        <div css={fieldCss}>
           <TextField
-            name="email"
             color={color.email}
             defaultValue=""
             label="이메일 주소"
@@ -152,12 +117,12 @@ const Login = () => {
             type="text"
             variant="outlined"
             onChange={emailChange}
+            onKeyUp={EmailValidation}
             required
-            value={email}
           />
           {!emailvalidation && email ? (
             <Typography
-              className="errormsg"
+              css={errmsgCss}
               color="danger"
               size="xs"
               weight="medium"
@@ -166,22 +131,37 @@ const Login = () => {
             </Typography>
           ) : null}
         </div>
-        <div className="passwordtextfield">
-          <TextField
-            name="password"
-            color={color.password}
-            defaultValue=""
-            label="비밀번호"
-            maxRows={10}
-            placeholder="영문, 숫자 포함 8글자 이상 작성해주세요."
-            type="password"
-            variant="outlined"
-            onChange={passwordChange}
-            value={password}
-          />
+        <div css={fieldCss}>
+          <div css={passwordCss}>
+            <TextField
+              color={color.password}
+              defaultValue=""
+              label="비밀번호"
+              maxRows={10}
+              placeholder="영문, 숫자 포함 8글자 이상"
+              type={hide ? 'password' : 'text'}
+              variant="outlined"
+              onChange={passwordChange}
+              onKeyUp={PasswordValidation}
+            />
+            <div
+              style={{
+                position: 'absolute',
+                right: '0.625rem',
+                top: '55%',
+                transform: 'translateY(-50%)',
+              }}
+            >
+              {hide ? (
+                <EyeSlashIcon css={IconCss} onClick={onToggleHide} />
+              ) : (
+                <EyeIcon css={IconCss} onClick={onToggleHide} />
+              )}
+            </div>
+          </div>
           {!passwordvalidation && password ? (
             <Typography
-              className="errormsg"
+              css={errmsgCss}
               color="danger"
               size="xs"
               weight="medium"
@@ -190,39 +170,25 @@ const Login = () => {
             </Typography>
           ) : null}
         </div>
-        <LabeledCheckBox
-          color="primary"
-          labelColor="dark"
-          size="sm"
-          weight="medium"
-          onChange={checkedItemHandler}
-        >
-          자동 로그인
-        </LabeledCheckBox>
         {loginResult ? (
-          <Typography
-            className="errormsg"
-            color="danger"
-            size="xs"
-            weight="medium"
-          >
+          <Typography css={failmsgCss} color="danger" size="xs" weight="medium">
             {loginResult}
           </Typography>
         ) : null}
-        <div className="LoginBtn">
+        <div css={loginBtnCss}>
           <Button
             color="primary"
             size="md"
             variant="contained"
             type="submit"
-            onClick={autoLogin}
+            onClick={handleLogin}
             disabled={passwordvalidation && emailvalidation ? false : true}
           >
             로그인
           </Button>
         </div>
       </form>
-      <div className="SignUpBtn">
+      <div css={signupBtnCss}>
         <Button
           color="primary"
           size="md"
@@ -233,11 +199,11 @@ const Login = () => {
         </Button>
       </div>
       <Typography
+        css={pwfindCss}
         color="secondary"
         size="xs"
         weight="medium"
-        className="passwordfind"
-        onClick={() => nav('/findpassword')}
+        onClick={() => nav('/user/findpassword')}
       >
         비밀번호 찾기
       </Typography>

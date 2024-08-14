@@ -1,0 +1,8 @@
+Model Information:
+* title:	Cute Little Animals
+* source:	https://sketchfab.com/3d-models/cute-little-animals-00164f7ff8284bfb89c19c7e598a6eba
+* author:	ahingel (https://sketchfab.com/ahingel)
+
+Model License:
+* license type:	SKETCHFAB Standard (https://sketchfab.com/licenses)
+* requirements:	Under basic restrictions, use worldwide, on all types of media, commercially or not, and in all types of derivative works

@@ -2,7 +2,7 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/mine
+    url: jdbc:mysql://localhost:3306/mine&rewriteBatchedStatements=true
     username: developer
     password: qwer1234
 
@@ -15,9 +15,10 @@ spring:
       hibernate:
         highlight_sql: true
         format_sql: true
+        default_batch_fetch_size: 100
   data:
     redis:
-      host: khj745700.iptime.org
+      host: redis
       port: 6379
 
   mail:
@@ -38,11 +39,12 @@ spring:
             enable: true
         debug: false
   sql:
-      init:
-        mode: always
+    init:
+      mode: always
 
   session:
     expire-seconds: 86400
+    store-type: redis
 
   ai:
     openai:
@@ -50,3 +52,14 @@ spring:
 
   profiles:
     include: dev
+
+server:
+  servlet:
+    session:
+      cookie:
+        http-only: true
+        path: /
+        secure: true
+        same-site: none
+        max-age: 86400 # 하루
+        domain: i11d106.p.ssafy.io

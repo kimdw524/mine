@@ -5,16 +5,20 @@ import com.mine.socket.application.ChatRequest;
 import com.mine.socket.domain.AvatarData;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @AllArgsConstructor
-@NoArgsConstructor
+
 @Setter
 @Getter
+@ToString
 public class ChatSendDto {
     private String chatContent;
     private String assistantId;
     private String threadId;
     private Integer avatarId;
     private Integer userId;
+    private String timestamp;
 
     @Builder
     public ChatSendDto(AvatarData avatarData, ChatRequest request) {
@@ -23,5 +27,10 @@ public class ChatSendDto {
         this.avatarId = avatarData.getAvatarId();
         this.threadId = avatarData.getThreadId();
         this.userId = avatarData.getUserId();
+        this.timestamp = LocalDateTime.now().toString();
+    }
+
+    public ChatSendDto() {
+        this.timestamp = LocalDateTime.now().toString();
     }
 }

@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Calendar } from 'oyc-ds';
 import TimePicker, { TimeData } from '../../molecules/TimePicker';
 
@@ -22,7 +22,7 @@ const DateTimePicker = ({
   const [selectedDate, setSelectedDate] = useState<string>(
     `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`,
   );
-  const timeRef = useRef<TimeData>({
+  const [time, setTime] = useState<TimeData>({
     hours: date.getHours(),
     minutes: date.getMinutes(),
   });
@@ -30,28 +30,20 @@ const DateTimePicker = ({
   const handleDateChange = (year: number, month: number, day: number) => {
     const newDate = `${year}-${month}-${day}`;
     setSelectedDate(newDate);
-    onChange(
-      new Date(
-        `${newDate} ${timeRef.current.hours}:${timeRef.current.minutes}`,
-      ),
-    );
+    onChange(new Date(`${newDate} ${time.hours}:${time.minutes}`));
   };
 
   const handleTimeChange = (time: TimeData) => {
-    timeRef.current = time;
-    onChange(
-      new Date(
-        `${selectedDate} ${timeRef.current.hours}:${timeRef.current.minutes}`,
-      ),
-    );
+    setTime(time);
+    onChange(new Date(`${selectedDate} ${time.hours}:${time.minutes}`));
   };
 
   useEffect(() => {
     setSelectedDate(
       `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`,
     );
-    timeRef.current = { hours: date.getHours(), minutes: date.getMinutes() };
-  }, [date]);
+    setTime({ hours: date.getHours(), minutes: date.getMinutes() });
+  }, [setTime, date]);
 
   return (
     <div>
@@ -62,7 +54,7 @@ const DateTimePicker = ({
         month={parseInt(selectedDate.split('-')[1])}
       />
       <div css={timeCss}>
-        <TimePicker onChange={handleTimeChange} time={timeRef.current} />
+        <TimePicker onChange={handleTimeChange} time={time} />
       </div>
     </div>
   );
