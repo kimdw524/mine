@@ -9,6 +9,9 @@ import java.time.LocalDateTime;
 @Getter
 public class AddAccountDto {
 
+    @JsonProperty("spendCategoryId")
+    private int spendCategoryId;
+
     @JsonProperty("accountType")
     private String accountType;
 

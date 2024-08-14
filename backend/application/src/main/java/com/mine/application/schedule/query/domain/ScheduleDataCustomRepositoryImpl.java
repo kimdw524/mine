@@ -38,6 +38,8 @@ public class ScheduleDataCustomRepositoryImpl implements ScheduleDataCustomRepos
                 .where(scheduleData.startDateTime.between(startDateTime, endDateTime)
                         .and(scheduleData.userId.eq(userId))
                         .and(categoryIdEq(categoryId)))
+                .orderBy(scheduleData.startDateTime.asc(),
+                         scheduleData.endDateTime.asc())
                 .fetch();
     }
 
@@ -57,6 +59,8 @@ public class ScheduleDataCustomRepositoryImpl implements ScheduleDataCustomRepos
                         .or(scheduleData.description.contains(query))
                         .or(scheduleData.where.contains(query))
                         .and(scheduleData.userId.eq(userId)))
+                .orderBy(scheduleData.startDateTime.asc(),
+                        scheduleData.endDateTime.asc())
                 .fetch();
     }
 
