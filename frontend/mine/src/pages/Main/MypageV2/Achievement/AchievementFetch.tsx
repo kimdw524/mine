@@ -1,9 +1,10 @@
 /** @jsxImportSource @emotion/react */
 import React, { useCallback, useEffect, useState } from 'react';
-import { useSuspenseQuery } from '@tanstack/react-query';
+import { useSuspenseQueries } from '@tanstack/react-query';
 import {
   getAchievedCount,
   getUserAchievement,
+  getUserAvatars,
 } from '../../../../apis/mypageApi';
 import { achievementListBox } from './style';
 import AchievementBox from './AchievementBox';
@@ -25,35 +26,46 @@ const AchievementFetch = () => {
   const { alert } = useDialog();
   const [achievedCount, setAchievedCount] = useState<number>(0);
 
-  const achievementQuery = useSuspenseQuery({
-    queryKey: ['achievement'],
-    queryFn: async () => await getUserAchievement(),
+  const [achievementQuery, avatarQuery] = useSuspenseQueries({
+    queries: [
+      {
+        queryKey: ['achievement'],
+        queryFn: async () => await getUserAchievement(),
+      },
+      {
+        queryKey: ['avatarinfo'],
+        queryFn: async () => await getUserAvatars(),
+      },
+    ],
   });
 
-  if (achievementQuery.error && !achievementQuery.isFetching) {
-    throw achievementQuery.error;
-  }
-
-  const handleClick = useCallback(() => {
-    if (achievedCount < 7) {
-      alert(
-        <div>
-          모든 업적을 완료해주세요!
-          <br />
-          <Typography size="xs" color="secondary">
-            숨겨진 업적이 있을지도...
-          </Typography>
-        </div>,
-      );
-    } else {
-      nav('/avatar/create');
+  [achievementQuery, avatarQuery].some((query) => {
+    if (query.error && !query.isFetching) {
+      throw query.error;
     }
-  }, []);
+    return false;
+  });
 
-  useEffect(() => {
-    getAchievedCount()
-      .then((res) => setAchievedCount(res.data.count))
-      .catch(() => alert('오류가 발생하였습니다'));
+  const handleClick = useCallback(async () => {
+    await getAchievedCount()
+      .then((res) => {
+        if (res.data.count < 7) {
+          alert(
+            <div>
+              모든 업적을 완료해주세요!
+              <br />
+              <Typography size="xs" color="secondary">
+                숨겨진 업적이 있을지도...
+              </Typography>
+            </div>,
+          );
+        } else if (avatarQuery.data.data.length === 2) {
+          alert('더 이상 아바타를 생성할 수 없습니다.');
+        } else {
+          nav('/avatar/create');
+        }
+      })
+      .catch(() => alert('오류가 발생하였습니다.'));
   }, []);
 
   return (
