@@ -53,10 +53,10 @@ const Main = () => {
 
   return (
     <MainContext.Provider value={{ onPendingChange: handlePendingChange }}>
-      <div css={containerCss}>
+      <div css={containerCss(curMenu)}>
         <AppBar
           label={
-            curMenu === 0 ? '채팅방' : curMenu === 1 ? 'Home' : '마이페이지'
+            curMenu === 0 ? '채팅방' : curMenu === 1 ? 'Mine' : '마이페이지'
           }
           menu={[
             {

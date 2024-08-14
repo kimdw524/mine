@@ -2,33 +2,18 @@
 import React from 'react';
 import { containerCss, profileCss } from './style';
 import { Button, Typography } from 'oyc-ds';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { updateAvatarInfo } from '../../../../apis/mypageApi';
 import useDialog from '../../../../hooks/useDialog';
-
-export interface IAvatar {
-  avatarId: number;
-  avatarName: string;
-  birthday: string;
-  personality: string;
-  residence: string;
-  voiceId: string;
-  job: string;
-  avatarModel: string;
-  isMain: boolean;
-}
-
-interface AvatarProfileProps {
-  avatars: IAvatar[];
-}
+import useMypage, { IAvatar } from '../../../../hooks/useMypage';
 
 interface UpdateData {
   avatarId: number;
   infoType: string;
 }
 
-const AvatarProfile = ({ avatars }: AvatarProfileProps) => {
-  const queryClient = useQueryClient();
+const AvatarProfile = () => {
+  const { getAvatar, updateInfo } = useMypage();
   const { alert } = useDialog();
 
   const { mutate } = useMutation({
@@ -36,8 +21,8 @@ const AvatarProfile = ({ avatars }: AvatarProfileProps) => {
       updateAvatarInfo(data.avatarId, data.infoType, true),
     onSuccess: (data) => {
       if (data.status === 202) {
-        queryClient.invalidateQueries({ queryKey: ['avatarinfo'] });
-        window.location.reload();
+        updateInfo('avatar');
+        //window.location.reload();
       }
     },
     onError: () => {
@@ -47,9 +32,9 @@ const AvatarProfile = ({ avatars }: AvatarProfileProps) => {
 
   return (
     <div css={containerCss}>
-      {avatars.length ? (
+      {getAvatar().length ? (
         <>
-          {avatars.map((avatar: IAvatar) => {
+          {getAvatar().map((avatar: IAvatar) => {
             return (
               <div key={avatar.avatarName} css={profileCss}>
                 <Typography
@@ -73,7 +58,7 @@ const AvatarProfile = ({ avatars }: AvatarProfileProps) => {
                     size="xs"
                     color={avatar.isMain ? 'dark' : 'light'}
                   >
-                    아바타 지정
+                    {avatar.isMain ? '현재 아바타' : '메인 아바타 지정'}
                   </Typography>
                 </Button>
               </div>

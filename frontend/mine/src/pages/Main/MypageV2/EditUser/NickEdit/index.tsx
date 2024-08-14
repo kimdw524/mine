@@ -3,20 +3,21 @@ import React, { useCallback, useContext, useState } from 'react';
 import AppBar from '../../../../../components/organisms/AppBar';
 import useDialog from '../../../../../hooks/useDialog';
 import { contentCss, nickEditContainerCss } from './style';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Button, TextField, Typography } from 'oyc-ds';
 import { updateNickname } from '../../../../../apis/mypageApi';
 import { NotificationContext } from '../../../../../utils/NotificationContext';
 import { Palette } from 'oyc-ds/dist/themes/lightTheme';
 import { useMutation } from '@tanstack/react-query';
+import useMypage from '../../../../../hooks/useMypage';
 
 const NickEdit = () => {
   const nav = useNavigate();
-  const location = useLocation();
   const notificationContext = useContext(NotificationContext);
   const [newNick, setNewNick] = useState<string>('');
   const [color, setColor] = useState<Palette>('primary');
   const [label, setLabel] = useState<string>('');
+  const { getUser } = useMypage();
   const { alert } = useDialog();
 
   const handleInputChange = useCallback(
@@ -33,7 +34,7 @@ const NickEdit = () => {
     } else if (newNick.length > 10) {
       setColor('danger');
       setLabel('10자 이하의 닉네임');
-    } else if (newNick === location.state.data) {
+    } else if (newNick === getUser().nickname) {
       setColor('danger');
       setLabel('동일한 닉네임');
     } else {
@@ -66,7 +67,7 @@ const NickEdit = () => {
         />
         <div css={contentCss}>
           <Typography size="lg" color="dark">
-            현재 닉네임 : {location.state.data}
+            현재 닉네임 : {getUser().nickname}
           </Typography>
           <TextField
             color={color}

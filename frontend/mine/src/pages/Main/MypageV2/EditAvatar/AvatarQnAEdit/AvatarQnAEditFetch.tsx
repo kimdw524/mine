@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import React, { useCallback, useEffect, useState, useContext } from 'react';
-import { useMutation, useSuspenseQueries } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import EditQnA from '../EditQnA';
 import { controlBtnCss, editBtnCss, editListCss } from './style';
 import { Button, Typography, Icon } from 'oyc-ds';
@@ -26,19 +26,6 @@ interface IAvatarQnAEditFetchProps {
 }
 
 const AvatarQnAEditFetch = ({ avatarId }: IAvatarQnAEditFetchProps) => {
-  const [questionQuery, answerQuery] = useSuspenseQueries({
-    queries: [
-      { queryKey: ['questions'], queryFn: () => getQuestions() },
-      { queryKey: ['answers'], queryFn: () => getAnswers(avatarId) },
-    ],
-  });
-
-  [questionQuery, answerQuery].some((query) => {
-    if (query.error && !query.isFetching) {
-      throw query.error;
-    }
-  });
-
   const notificationContext = useContext(NotificationContext);
   const nav = useNavigate();
   const { alert } = useDialog();
@@ -47,25 +34,28 @@ const AvatarQnAEditFetch = ({ avatarId }: IAvatarQnAEditFetchProps) => {
   const [answers, setAnswers] = useState<IAnswer[]>([]);
   const [editTarget, setEditTarget] = useState<INewAnswer[]>([]);
 
-  useEffect(() => {
-    setQuestions(() => questionQuery.data.data);
-    setAnswers(() => answerQuery.data.data);
-  }, []);
+  const getQnA = async () => {
+    const qs = await getQuestions();
+    const as = await getAnswers(avatarId);
 
-  useEffect(() => {
+    setQuestions(qs.data);
+    setAnswers(as.data);
+
     const newAns: INewAnswer[] = [];
-
-    questions.map((q: IQuestion, idx: number) => {
+    qs.data.map((q: IQuestion, idx: number) => {
       newAns.push({
-        questionResId: answers[idx].questionResId,
+        questionResId: as.data[idx].questionResId,
         questionId: q.questionId,
         isNew: false,
         newAns: q.type === 'c' ? -1 : '',
       });
     });
-
     setEditTarget([...newAns]);
-  }, [questions]);
+  };
+
+  useEffect(() => {
+    getQnA();
+  }, []);
 
   const handleTarget = useCallback(
     (Qidx: number, isNew: boolean, newAns: number | string) => {
@@ -133,7 +123,7 @@ const AvatarQnAEditFetch = ({ avatarId }: IAvatarQnAEditFetchProps) => {
 
   return (
     <>
-      {isPending ? (
+      {isPending || !questions.length || !answers.length ? (
         <Loading />
       ) : (
         <>

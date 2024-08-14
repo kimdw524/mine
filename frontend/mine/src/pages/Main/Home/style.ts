@@ -8,7 +8,6 @@ export const containerCss = css`
   padding: 0 1rem;
   box-shadow: 0 0 0 0 #eee;
   border-top: 0.0625rem solid #eee;
-  background-color: #fffcb1;
 `;
 
 export const numberdayCss = css`
@@ -17,26 +16,19 @@ export const numberdayCss = css`
   line-height: 1.75rem;
 `;
 
-export const toggleContainerCss = css`
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  column-gap: 0.75rem;
-  margin-top: 1.5rem;
-`;
-
-export const toggleTextCss = css`
-  display: flex;
-  align-items: center;
-  gap: 0.375rem;
-`;
-
 export const avatarContainerCss = css`
   display: flex;
   align-items: center;
   justify-content: center;
   width: calc(100%);
-  height: 20rem;
+  height: 15rem;
+`;
+
+export const contentsCss = css`
+  height: 6rem;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  background-color: #fffde7;
 `;
 
 export const conversationCss = css`
@@ -44,6 +36,7 @@ export const conversationCss = css`
   right: 1rem;
   left: 1rem;
   bottom: 0;
+  height: 8rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -54,4 +47,5 @@ export const conversationCss = css`
   padding: 1rem;
   border-radius: 1rem;
   background-color: #fffde7;
+  overflow-y: scroll;
 `;

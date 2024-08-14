@@ -1,18 +1,18 @@
 /** @jsxImportSource @emotion/react */
-import React, { useState } from 'react';
+import React from 'react';
 import { avatarCss, avatarInfoBoxCss, avatarInfoBtn } from './style';
 import InfoBox from '../../../../components/molecules/InfoBox/InfoBox';
-import { IAvatar } from '../AvatarProfile';
 import dayjs from 'dayjs';
 import { Button } from 'oyc-ds';
 import { useLocation, useNavigate } from 'react-router-dom';
 import AppBar from '../../../../components/organisms/AppBar';
 import Avatar3D from '../../../../components/atoms/Avatar3D';
+import useMypage from '../../../../hooks/useMypage';
 
 const AvatarInfo = () => {
   const nav = useNavigate();
+  const { getAvatarById } = useMypage();
   const location = useLocation();
-  const [avatar, setAvatar] = useState<IAvatar>(location.state.data);
 
   return (
     <>
@@ -21,19 +21,35 @@ const AvatarInfo = () => {
         onBackClick={() => nav('/', { state: { step: 2 } })}
       />
       <div css={avatarCss}>
-        <Avatar3D avatarModel={avatar.avatarModel} />
+        <Avatar3D
+          avatarModel={getAvatarById(location.state.data).avatarModel}
+        />
       </div>
       <div css={avatarInfoBoxCss}>
-        <InfoBox label={'name'} content={avatar.avatarName} />
+        <InfoBox
+          label={'name'}
+          content={getAvatarById(location.state.data).avatarName}
+        />
         <InfoBox
           label={'birthday'}
-          content={dayjs(avatar.birthday).format('YYYY-MM-DD')}
+          content={dayjs(getAvatarById(location.state.data).birthday).format(
+            'YYYY-MM-DD',
+          )}
         />
-        {avatar.personality && (
-          <InfoBox label={'personality'} content={avatar.personality} />
+        {getAvatarById(location.state.data).personality && (
+          <InfoBox
+            label={'personality'}
+            content={getAvatarById(location.state.data).personality}
+          />
         )}
-        <InfoBox label={'job'} content={avatar.job} />
-        <InfoBox label={'residence'} content={avatar.residence} />
+        <InfoBox
+          label={'job'}
+          content={getAvatarById(location.state.data).job}
+        />
+        <InfoBox
+          label={'residence'}
+          content={getAvatarById(location.state.data).residence}
+        />
       </div>
       <div css={avatarInfoBtn}>
         <Button
@@ -41,9 +57,9 @@ const AvatarInfo = () => {
           onClick={() =>
             nav('/mypage/avatar/info', {
               state: {
-                avatarId: avatar.avatarId,
+                avatarId: getAvatarById(location.state.data).avatarId,
                 colName: 'avatarName',
-                oldInfo: avatar.avatarName,
+                oldInfo: getAvatarById(location.state.data).avatarName,
               },
             })
           }
@@ -55,9 +71,9 @@ const AvatarInfo = () => {
           onClick={() =>
             nav('/mypage/avatar/info', {
               state: {
-                avatarId: avatar.avatarId,
+                avatarId: getAvatarById(location.state.data).avatarId,
                 colName: 'job',
-                oldInfo: avatar.job,
+                oldInfo: getAvatarById(location.state.data).job,
               },
             })
           }
@@ -69,9 +85,9 @@ const AvatarInfo = () => {
           onClick={() =>
             nav('/mypage/avatar/info', {
               state: {
-                avatarId: avatar.avatarId,
+                avatarId: getAvatarById(location.state.data).avatarId,
                 colName: 'residence',
-                oldInfo: avatar.residence,
+                oldInfo: getAvatarById(location.state.data).residence,
               },
             })
           }

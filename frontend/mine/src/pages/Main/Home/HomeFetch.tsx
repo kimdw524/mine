@@ -3,7 +3,12 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useMutation, useSuspenseQueries } from '@tanstack/react-query';
 import { getUserAvatars, getUserInfo } from '../../../apis/mypageApi';
 import { Button, Typography } from 'oyc-ds';
-import { avatarContainerCss, conversationCss, numberdayCss } from './style';
+import {
+  avatarContainerCss,
+  contentsCss,
+  conversationCss,
+  numberdayCss,
+} from './style';
 import { containerCss } from './style';
 import Avatar3D from '../../../components/atoms/Avatar3D';
 import useDialog from '../../../hooks/useDialog';
@@ -16,6 +21,7 @@ import AvatarChat from '../../../components/organisms/AvatarChat';
 import { useNavigate } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
 import { getMainAvatar } from '../../../utils/avatarUtils';
+import CalendarContents from './CalendarContents';
 
 const HomeFetch = () => {
   const nav = useNavigate();
@@ -103,14 +109,9 @@ const HomeFetch = () => {
 
     if (eventCountRef.current === 400 && !showMessage) {
       setShowMessage(true);
-    }
-  };
-
-  useEffect(() => {
-    if (avatarQuery.data.data.length && showMessage) {
       updateSpinEaster();
     }
-  }, [showMessage, alert, updateSpinEaster]);
+  };
 
   return (
     <>
@@ -147,6 +148,9 @@ const HomeFetch = () => {
                 : 'pig'
             }
           />
+        </div>
+        <div css={contentsCss}>
+          <CalendarContents />
         </div>
         <div css={conversationCss}>
           {avatarQuery.data.data.length ? (
