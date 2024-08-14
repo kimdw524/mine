@@ -1,6 +1,12 @@
 /** @jsxImportSource @emotion/react */
 import { Icon, TextField, Typography } from 'oyc-ds';
-import React, { ReactNode, useEffect, useRef, useState } from 'react';
+import React, {
+  ReactNode,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import {
   chatCss,
   containerCss,
@@ -15,6 +21,7 @@ import {
   EllipsisHorizontalIcon,
   SpeakerWaveIcon,
 } from '@heroicons/react/24/solid';
+import { MainContext } from '../../../pages/Main';
 
 interface AvatarChatProps {
   avatarId: number;
@@ -30,6 +37,7 @@ const AvatarChat = ({ avatarId, voiceId }: AvatarChatProps) => {
   const audioCacheRef = useRef<string>('');
   const [isPending, setIsPending] = useState<boolean>(false);
   const { alert } = useDialog();
+  const mainContext = useContext(MainContext);
 
   const voiceIdRef = useRef<string>(voiceId);
 
@@ -58,6 +66,7 @@ const AvatarChat = ({ avatarId, voiceId }: AvatarChatProps) => {
 
       audioCacheRef.current = '';
 
+      mainContext.onPendingChange(true);
       setResponse(<div css={waitCss}>아바타가 대답을 생각 중이에요.</div>);
       setIsResponsed(false);
 
@@ -101,6 +110,7 @@ const AvatarChat = ({ avatarId, voiceId }: AvatarChatProps) => {
     const handleMessage = (res: ChatResponse) => {
       setResponse(res.text);
       setIsResponsed(true);
+      mainContext.onPendingChange(false);
     };
 
     connect({

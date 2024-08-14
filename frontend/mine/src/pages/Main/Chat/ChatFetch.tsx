@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { chatCss, chatLogCss, containerCss, pendingCss } from './style';
 import useChat, {
   ChatMessageData,
@@ -21,6 +21,7 @@ import { useMutation } from '@tanstack/react-query';
 import { updateChatEasterAchievement } from '../../../apis/avatarApi';
 import { Typography } from 'oyc-ds';
 import { getMainAvatar } from '../../../utils/avatarUtils';
+import { MainContext } from '..';
 
 const ChatFetch = () => {
   const chatRef = useRef<HTMLInputElement>(null);
@@ -30,6 +31,7 @@ const ChatFetch = () => {
   const { push } = useModal();
   const { alert } = useDialog();
   const [isPending, setIsPending] = useState<boolean>(false);
+  const mainContext = useContext(MainContext);
 
   const avatarQuery = useSuspenseQuery({
     queryKey: ['avatarinfo'],
@@ -86,6 +88,7 @@ const ChatFetch = () => {
 
     chat.send(chatTypeRef.current, message, () => {
       setIsPending(true);
+      mainContext.onPendingChange(true);
 
       addChat({
         me: true,
@@ -125,6 +128,7 @@ const ChatFetch = () => {
       });
 
       setIsPending(false);
+      mainContext.onPendingChange(false);
     };
 
     const handleAccount = (data: AccountData) => {
