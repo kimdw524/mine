@@ -33,7 +33,7 @@ const Intro = ({ onCreateClick }: IntroProps) => {
         </Process>
       </div>
       <Typography color="secondary" size="xs" style={{ margin: '1rem 0' }}>
-        평균적으로 약 10분 정도 시간이 소요됩니다.
+        평균적으로 약 5분 정도 시간이 소요됩니다.
       </Typography>
       <Button onClick={onCreateClick} size="lg" fullWidth>
         시작하기
