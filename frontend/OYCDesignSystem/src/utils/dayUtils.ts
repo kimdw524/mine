@@ -8,9 +8,9 @@ export interface DateData {
 }
 
 export const getLastMonth = (year: number, month: number): DateData => {
-  if (month === 0) {
+  if (month === 1) {
     year--;
-    month = 11;
+    month = 12;
   } else {
     month--;
   }
@@ -18,9 +18,9 @@ export const getLastMonth = (year: number, month: number): DateData => {
 };
 
 export const getNextMonth = (year: number, month: number): DateData => {
-  if (month === 11) {
+  if (month === 12) {
     year++;
-    month = 0;
+    month = 1;
   } else {
     month++;
   }

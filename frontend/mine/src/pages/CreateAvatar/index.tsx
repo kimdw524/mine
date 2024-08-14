@@ -5,6 +5,8 @@ import { containerCss, appBarCss, innerCss } from './style';
 import CreateAvatarFetch from './CreateAvatarFetch';
 import { ErrorBoundary } from 'react-error-boundary';
 import { useNavigate } from 'react-router-dom';
+import Error from '../../components/molecules/Error';
+import Loading from '../../components/molecules/Loading';
 
 const CreateAvatar = () => {
   const [step, setStep] = useState<number>(0);
@@ -17,11 +19,11 @@ const CreateAvatar = () => {
         onBackClick={() => navigate('/')}
         css={appBarCss}
       >
-        <AppBar.Progress value={step} max={3} />
+        <AppBar.Progress value={step} max={5} />
       </AppBar>
       <div css={innerCss}>
-        <ErrorBoundary fallback={<>에러</>}>
-          <Suspense fallback={<>로딩중</>}>
+        <ErrorBoundary fallbackRender={Error}>
+          <Suspense fallback={<Loading />}>
             <CreateAvatarFetch
               step={step}
               onChangeStep={(step) => setStep(step)}

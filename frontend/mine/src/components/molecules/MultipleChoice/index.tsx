@@ -2,9 +2,10 @@
 import React from 'react';
 import { Button } from 'oyc-ds';
 import { css } from '@emotion/react';
+import { QuestionChoice } from '../../../apis/avatarApi';
 
 interface MultipleChoiceProps {
-  items: string[];
+  items: QuestionChoice[];
   selected: number;
   onSelect: (index: number) => void;
 }
@@ -16,18 +17,28 @@ const containerCss = css`
   padding: 1rem 0.5rem;
 `;
 
+const containerLargeCss = css`
+  padding: 1rem 0.5rem;
+  text-align: left;
+
+  > button {
+    width: calc(33.3% - 0.75rem);
+    margin: 0.375rem;
+  }
+`;
+
 const MultipleChoice = ({ items, selected, onSelect }: MultipleChoiceProps) => {
   return (
-    <div css={containerCss}>
+    <div css={items.length > 6 ? containerLargeCss : containerCss}>
       {items.map((item, index) => (
         <Button
-          key={item}
+          key={item.questionChoiceId}
           color={selected === index ? 'primary' : 'secondary'}
           variant="outlined"
           size="lg"
           onClick={() => onSelect(index)}
         >
-          {item}
+          {item.description}
         </Button>
       ))}
     </div>

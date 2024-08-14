@@ -1,51 +1,125 @@
-import { ReactElement, useEffect, useState } from 'react';
+import React, {
+  createContext,
+  ReactElement,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 import Modal from './Modal';
-import { useNavigate } from 'react-router-dom';
 
-export interface ModalData {
+export type ModalType = 'modal' | 'alert' | 'confirm';
+
+export interface ModalPushProps {
   name: string;
   component: ReactElement;
+  type?: ModalType;
   show?: boolean;
+  onClose?: () => void;
 }
 
-const useModal = () => {
-  const navigate = useNavigate();
-  const [modal, setModal] = useState<ModalData | null>(null);
+export type ModalData = Required<ModalPushProps>;
+
+interface ModalContextType {
+  modals: ModalData[];
+  push: (data: ModalData) => void;
+  pop: () => void;
+}
+
+export const ModalContext = createContext<ModalContextType>(
+  {} as ModalContextType,
+);
+
+export const ModalProvider = (props: { children: ReactNode }) => {
+  const [modals, setModals] = useState<ModalData[]>([]);
+
+  const push = ({
+    component,
+    name,
+    show = true,
+    type = 'modal',
+    onClose = () => {},
+  }: ModalPushProps) => {
+    for (const modal of modals) {
+      if (modal.name === name) {
+        return;
+      }
+    }
+    setModals((modals) => [
+      ...modals,
+      { component, name, show, type, onClose },
+    ]);
+    window.history.pushState({ ...window.history.state, type, name }, '', '');
+  };
+
+  const pop = (name: string) => {
+    setModals((modals) => {
+      for (let i = modals.length - 1; i >= 0; i--) {
+        if (!modals[i].show && modals[i].name === name) {
+          modals[i].onClose();
+          return [...modals.slice(0, i), ...modals.slice(i + 1)];
+        }
+      }
+      return modals;
+    });
+  };
+
+  const hide = () => {
+    setModals((modals) => {
+      for (let i = modals.length - 1; i >= 0; i--) {
+        if (modals[i].show) {
+          modals[i].show = false;
+          break;
+        }
+      }
+      return [...modals];
+    });
+  };
 
   useEffect(() => {
-    const handlePopState = (e: PopStateEvent) => {
-      if (!modal) return;
-
-      if (e.state.modal === modal.name) {
-        navigate(-1);
-        setModal({ ...modal, show: false });
-      }
+    const handlePopState = () => {
+      hide();
     };
+
     window.addEventListener('popstate', handlePopState);
 
     return () => {
       window.removeEventListener('popstate', handlePopState);
     };
-  }, [window, modal]);
+  }, []);
 
-  const close = () => {
-    if (modal && modal.show) {
-      navigate(-1);
-    }
+  return (
+    <ModalContext.Provider value={{ modals, push, pop: hide }}>
+      {props.children}
+      {modals.map((modal) => (
+        <Modal
+          key={modal.name}
+          data={modal}
+          onFadeOutEnd={() => pop(modal.name)}
+        />
+      ))}
+    </ModalContext.Provider>
+  );
+};
+
+const useModal = () => {
+  const modalContext = useContext(ModalContext);
+
+  const pop = () => {
+    window.history.back();
   };
 
-  const open = (data: ModalData) => {
-    for (let i = 0; i < 2; i++) {
-      window.history.pushState(
-        { ...window.history.state, modal: data.name },
-        '',
-        '',
-      );
-    }
-    setModal({ ...data, show: true });
+  const push = ({
+    component,
+    name,
+    show = true,
+    type = 'modal',
+    onClose = () => {},
+  }: ModalPushProps) => {
+    modalContext.push({ component, name, show, type, onClose });
   };
 
-  return { close, open, Modal, modal };
+  return { push, pop };
 };
 
 export default useModal;

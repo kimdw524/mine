@@ -6,6 +6,8 @@ export const questionCss = css`
 `;
 
 export const buttonContainerCss = css`
-  padding: 0 1rem;
-  text-align: right;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  padding: 0 0.5rem;
 `;

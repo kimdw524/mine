@@ -4,15 +4,16 @@ import ScheduleList from '../../components/molecules/ScheduleList';
 import { css } from '@emotion/react';
 import { SchedulePeriod } from '.';
 import { useSuspenseQuery } from '@tanstack/react-query';
-import { getDailySchedules } from '../../apis/scheduleApi';
-import { formatDate } from '../../utils/dateUtils';
-import DetailView from './DetailView';
+import { getSchedules, getSchedulesWithCategory } from '../../apis/scheduleApi';
+import { apiFormatDate } from '../../utils/dateUtils';
 import useModal from '../../hooks/useModal';
-import Modal from '../../hooks/useModal/Modal';
+import Edit from './Edit';
 
 interface ScheduleListFetchProps {
   type: SchedulePeriod;
-  date: string;
+  start: Date;
+  end: Date;
+  category: number;
 }
 
 const containerCss = css`
@@ -25,37 +26,44 @@ const containerCss = css`
 
 export const ScheduleListFetch = ({
   type,
-  date,
-  ...props
+  start,
+  end,
+  category,
 }: ScheduleListFetchProps) => {
-  const formattedDate = formatDate(date);
   const { data, error, isFetching } = useSuspenseQuery({
-    queryKey: ['schedule', formattedDate],
-    queryFn: () => getDailySchedules(formattedDate),
+    queryKey: [
+      'schedule',
+      category,
+      start.toLocaleDateString(),
+      end.toLocaleDateString(),
+    ],
+    queryFn: () =>
+      category === 0
+        ? getSchedules(apiFormatDate(start), apiFormatDate(end))
+        : getSchedulesWithCategory(
+            apiFormatDate(start),
+            apiFormatDate(end),
+            category,
+          ),
   });
 
   if (error && !isFetching) {
     throw error;
   }
 
-  const { open, modal } = useModal();
+  const { push } = useModal();
 
   return (
     <>
-      <Modal data={modal} />
-      <div css={containerCss} {...props}>
+      <div css={containerCss}>
         {data.data.map((data, index) => (
           <ScheduleList
             key={data.scheduleId}
-            title={data.title}
-            description={data.description}
-            category={data.categoryId}
-            startDateTime={data.startDateTime}
-            endDateTime={data.endDateTime}
+            data={data}
             onClick={() =>
-              open({
-                component: <DetailView data={data} />,
-                name: 'detailView',
+              push({
+                component: <Edit data={data} />,
+                name: 'editSchedule',
               })
             }
             style={

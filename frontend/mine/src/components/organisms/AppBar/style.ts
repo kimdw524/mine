@@ -8,16 +8,18 @@ export const containerCss = (theme: Theme) => css`
   top: 0;
   z-index: 30;
   height: 3.5rem;
+  min-height: 3.5rem;
   padding: 0 1rem;
   background-color: ${theme.colors.background};
 `;
 
 export const labelCss = css`
-  pointer-events: none;
-  user-select: none;
+  border: none;
 `;
 
 export const menuCss = css`
+  display: flex;
+  gap: 0.25rem;
   position: absolute;
   right: 1rem;
 `;

@@ -33,7 +33,7 @@ const useUserAudio = () => {
 
       mediaRecorder.current.onstop = () => {
         const audioBlob = new Blob(audioChunks.current, {
-          type: 'audio/ogg codecs=opus',
+          type: 'audio/webm',
         });
         const reader = new FileReader();
         reader.readAsDataURL(audioBlob);

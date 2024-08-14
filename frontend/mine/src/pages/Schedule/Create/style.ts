@@ -39,8 +39,5 @@ export const textContainerCss = css`
 `;
 
 export const categoryCss = css`
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  margin: 0.75rem 0;
+  margin-bottom: 0.5rem;
 `;

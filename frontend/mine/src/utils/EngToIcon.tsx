@@ -8,6 +8,14 @@ import {
   ChatBubbleBottomCenterTextIcon,
   HomeIcon,
   MicrophoneIcon,
+  CakeIcon,
+  BriefcaseIcon,
+  MapIcon,
+  KeyIcon,
+  PencilIcon,
+  CursorArrowRaysIcon,
+  BanknotesIcon,
+  ListBulletIcon,
 } from '@heroicons/react/24/outline';
 
 export const engToIcon: Record<string, ReactNode> = {
@@ -20,4 +28,16 @@ export const engToIcon: Record<string, ReactNode> = {
   chatting: <ChatBubbleBottomCenterTextIcon />,
   home: <HomeIcon />,
   speech: <MicrophoneIcon />,
+  name: <TagIcon />,
+  birthday: <CakeIcon />,
+  personality: <UserIcon />,
+  job: <BriefcaseIcon />,
+  residence: <MapIcon />,
+  mypage: <UserIcon />,
+  nickEdit: <TagIcon />,
+  pwdEdit: <KeyIcon />,
+  infoEdit: <PencilIcon />,
+  qnaEdit: <CursorArrowRaysIcon />,
+  accountChart: <BanknotesIcon />,
+  scheduleChart: <ListBulletIcon />,
 };

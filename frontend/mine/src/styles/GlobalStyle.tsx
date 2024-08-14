@@ -31,6 +31,11 @@ const GlobalStyle = () => {
             font-family: 'GmarketSans';
             font-size: 16px;
             -webkit-tap-highlight-color: transparent !important;
+
+            ::-webkit-scrollbar {
+              width: 0;
+              height: 0;
+            }
           }
 
           body,
@@ -38,11 +43,14 @@ const GlobalStyle = () => {
             width: 100vw;
             height: 100vh;
             overflow-x: hidden;
-            overscroll-behavior: contain;
             overflow-y: scroll;
             -ms-overflow-style: none;
-            ::-webkit-scrollbar {
-              width: 0;
+            overscroll-behavior: none;
+
+            input::-webkit-outer-spin-button,
+            input::-webkit-inner-spin-button {
+              -webkit-appearance: none;
+              margin: 0;
             }
           }
         `,

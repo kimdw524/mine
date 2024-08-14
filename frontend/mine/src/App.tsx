@@ -2,25 +2,32 @@ import React, { useCallback, useState } from 'react';
 import Signup from './pages/Signup';
 import { LightTheme } from 'oyc-ds';
 import { ThemeProvider } from '@emotion/react';
-import GlobalStyle from './styles/GlobalStyle';
-import { Routes, Route } from 'react-router-dom';
-import Home from './pages/Login/Home';
-import Login from './pages/Login/Login';
-import Information from './pages/MyPage/Information';
-import NickEdit from './pages/MyPage/EditUser/NickEdit';
-import './App.css';
-import PwdEdit from './pages/MyPage/EditUser/PwdEdit';
-import CreateAvatar from './pages/CreateAvatar';
-import FindPassword from './pages/FindPassword';
-import Main from './pages/Main/Main';
-import Notification from './components/common/Notification';
+// import { UserProvider } from './pages/Login/UserContext';
+import { ModalProvider } from './hooks/useModal';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import { ToastVariant } from 'oyc-ds/dist/components/molecules/Toast/Toast.types';
 import { Palette } from 'oyc-ds/dist/themes/lightTheme';
 import { INotiInfo, NotificationContext } from './utils/NotificationContext';
-import Schedule from './pages/Schedule';
-import { UserProvider } from './pages/Login/UserContext';
+import './App.css';
+import GlobalStyle from './styles/GlobalStyle';
+import Login from './pages/Login/Login';
+import CreateAvatar from './pages/CreateAvatar';
+import FindPassword from './pages/FindPassword';
+import Main from './pages/Main';
+import Notification from './components/common/Notification';
+import AccountChart from './pages/Statistics/Account/index';
+import ScheduleChart from './pages/Statistics/Schedule/index';
+import NickEdit from './pages/Main/MypageV2/EditUser/NickEdit';
+import PwdEdit from './pages/Main/MypageV2/EditUser/PwdEdit';
+import Achievement from './pages/Main/MypageV2/Achievement';
+import AvatarInfo from './pages/Main/MypageV2/AvatarInfo';
+import AvatarInfoEdit from './pages/Main/MypageV2/EditAvatar/AvatarInfoEdit';
+import AvatarQnAEdit from './pages/Main/MypageV2/EditAvatar/AvatarQnAEdit';
+import Calendar from './pages/Calendar';
+import { MypageProvider } from './hooks/useMypage';
 
 function App() {
+  const nav = useNavigate();
   const [notiInfo, setNotiInfo] = useState<INotiInfo>({
     notiState: false,
     variant: 'contained',
@@ -54,8 +61,8 @@ function App() {
   return (
     <>
       <GlobalStyle />
-      <UserProvider>
-        <ThemeProvider theme={LightTheme}>
+      <ThemeProvider theme={LightTheme}>
+        <ModalProvider>
           <NotificationContext.Provider
             value={{
               info: notiInfo,
@@ -65,21 +72,82 @@ function App() {
           >
             {notiInfo.notiState && <Notification notiInfo={notiInfo} />}
             <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/user/signup" element={<Signup />} />
+              {/* 회원 인증 / 인가 */}
               <Route path="/user/login" element={<Login />} />
-              <Route path="/main" element={<Main />} />
+              <Route path="/user/signup" element={<Signup />} />
+              <Route path="/user/findpassword" element={<FindPassword />} />
+
+              {/* 메인 화면 */}
+              <Route
+                path="/"
+                element={
+                  <MypageProvider>
+                    <Main />
+                  </MypageProvider>
+                }
+              />
+
+              <Route path="/chart/account" element={<AccountChart />} />
+              <Route path="/chart/schedule" element={<ScheduleChart />} />
 
               {/* 마이페이지 */}
-              <Route path="/mypage" element={<Information />} />
-              <Route path="/mypage/nickname" element={<NickEdit />} />
-              <Route path="/mypage/password" element={<PwdEdit />} />
+              <Route
+                path="/mypage/nick"
+                element={
+                  <MypageProvider>
+                    <NickEdit />
+                  </MypageProvider>
+                }
+              />
+              <Route
+                path="/mypage/pwd"
+                element={
+                  <MypageProvider>
+                    <PwdEdit />
+                  </MypageProvider>
+                }
+              />
+              <Route
+                path="/mypage/achievement"
+                element={
+                  <MypageProvider>
+                    <Achievement />
+                  </MypageProvider>
+                }
+              />
+              <Route
+                path="/mypage/avatar"
+                element={
+                  <MypageProvider>
+                    <AvatarInfo />
+                  </MypageProvider>
+                }
+              />
+              <Route
+                path="/mypage/avatar/info"
+                element={
+                  <MypageProvider>
+                    <AvatarInfoEdit />
+                  </MypageProvider>
+                }
+              />
+              <Route
+                path="/mypage/avatar/qna"
+                element={
+                  <MypageProvider>
+                    <AvatarQnAEdit />
+                  </MypageProvider>
+                }
+              />
+
               <Route path="/avatar/create" element={<CreateAvatar />} />
-              <Route path="/findpassword" element={<FindPassword />} />
+
+              <Route path="/schedule" element={<Calendar page="schedule" />} />
+              <Route path="/account" element={<Calendar page="account" />} />
             </Routes>
           </NotificationContext.Provider>
-        </ThemeProvider>
-      </UserProvider>
+        </ModalProvider>
+      </ThemeProvider>
     </>
   );
 }
