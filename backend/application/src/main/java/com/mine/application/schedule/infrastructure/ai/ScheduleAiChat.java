@@ -32,16 +32,22 @@ public class ScheduleAiChat {
     public AddScheduleDto getAddScheduleDtoFromQuery(String query) {
         PromptTemplate promptTemplate = new PromptTemplate(
                 """
-                query: '{query}'를
-                startDateTime, endDateTime, title, description, where 가진
+                현재 시간: {now},
+                query: "{query}",
+                categoryId: "1: 미정, 2: 여행, 3: 외식, 4: 업무, 5: 약속, 6: 시험, 7: 기타"
+                categoryId, startDateTime, endDateTime, title, description, where 가진
                 json으로 답변해. json 외에 다른 답변은 주지마.
+                'categoryId'는 query를 통해 최대한 유추해서 넣어.
                 'startDateTime' 시작 시간으로 초 단위는 0초로.
                 'endDateTime' 끝나는 시간으로 초 단위는 0초로.
                 'DateTime'들은 현재 시간과 비교해서 넣어.
+                'DateTime'들은 "yyyy-MM-dd'T'HH:mm:ss" 형식으로.
                 그런데 시간 정보를 알 수 없다면 현재 시간과 똑같이 해.
                 'startDateTime'은 'endDateTime'보다 작거나 같아야 해.
-                query에서 where을 알 수 없다면 null을 넣어.
-                현재 시간: {now}.
+                'title'은 null을 넣지마.
+                'description'은 query를 간단하게 요약.
+                query에서 where을 최대한 유추해서 넣어.
+                query에서 where에 대한 정보를 알 수 없다면 null을 넣어.
                 """);
         Prompt prompt = promptTemplate.create(Map.of("query", query, "now", LocalDateTime.now().toString()));
         String response = openAiChatModel.call(prompt).getResult().getOutput().getContent();
