@@ -162,7 +162,7 @@ const SpendChart: React.FC<SpendChartProps> = ({ period, offset }) => {
             총{' '}
             {totalExpenditure
               ? totalExpenditure.toLocaleString()
-              : '데이터 없음'}
+              : '0 '}
             원을
             <br />
             소비했어요.
@@ -196,7 +196,7 @@ const SpendChart: React.FC<SpendChartProps> = ({ period, offset }) => {
                   >
                     {item.categorySum
                       ? item.categorySum.toLocaleString()
-                      : '데이터 없음'}
+                      : '0 '}
                     원
                   </Typography>
                 </section>

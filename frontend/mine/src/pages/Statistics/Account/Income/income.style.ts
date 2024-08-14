@@ -1,9 +1,6 @@
 import { css } from '@emotion/react';
 
 export const containerCss = css`
-  /* margin: 0 auto; */
-  /* border: 1px solid black; */
-  /* max-width: 600px; */
   display: flex;
   flex-direction: column; 
 `;
