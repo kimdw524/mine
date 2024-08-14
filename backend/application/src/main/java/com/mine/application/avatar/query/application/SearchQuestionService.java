@@ -17,7 +17,7 @@ public class SearchQuestionService {
 
     @Transactional(readOnly = true)
     public List<QuestionDto> findAllForClient() {
-        return findAll().stream().map(data -> new QuestionDto(data, "아바타의 ", "무엇인가요?")).toList();
+        return findAll().stream().map(data -> new QuestionDto(data, "아바타의 ", " 무엇인가요?")).toList();
     }
 
     @Transactional(readOnly = true)
