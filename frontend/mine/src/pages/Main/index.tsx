@@ -27,11 +27,7 @@ const Main = () => {
       <div css={containerCss(curMenu)}>
         <AppBar
           label={
-            curMenu === 0
-              ? '채팅방'
-              : curMenu === 1
-                ? '메인 화면'
-                : '마이페이지'
+            curMenu === 0 ? '채팅방' : curMenu === 1 ? 'Mine' : '마이페이지'
           }
           menu={[
             {

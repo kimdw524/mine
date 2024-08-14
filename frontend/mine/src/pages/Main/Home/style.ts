@@ -24,11 +24,19 @@ export const avatarContainerCss = css`
   height: 15rem;
 `;
 
+export const contentsCss = css`
+  height: 6rem;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  background-color: #fffde7;
+`;
+
 export const conversationCss = css`
   position: absolute;
   right: 1rem;
   left: 1rem;
   bottom: 0;
+  max-height: 8rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -39,4 +47,5 @@ export const conversationCss = css`
   padding: 1rem;
   border-radius: 1rem;
   background-color: #fffde7;
+  overflow-y: scroll;
 `;

@@ -18,7 +18,7 @@ import AccountSearch from '../Account/Search';
 import styles from './Calendar.module.css';
 import TransitionAnimation from '../../components/common/TransitionAnimation';
 
-type CalendarPage = 'schedule' | 'account';
+export type CalendarPage = 'schedule' | 'account';
 
 interface CalendarProps {
   page?: CalendarPage;
