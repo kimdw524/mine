@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { containerCss, menuCss, modalCss, typeCss } from './style';
 import { useNavigate } from 'react-router-dom';
 import { TimeData } from '..';
@@ -34,6 +34,11 @@ const TimePickerModal = ({ defaultValue, onChange }: TimePickerProps) => {
     navigate(-1);
   };
 
+  useEffect(() => {
+    hoursRef.current = defaultValue.hours % 12;
+    minutesRef.current = defaultValue.minutes;
+  }, [defaultValue.hours, defaultValue.minutes]);
+
   return (
     <div css={modalCss}>
       <div css={containerCss}>
@@ -61,13 +66,13 @@ const TimePickerModal = ({ defaultValue, onChange }: TimePickerProps) => {
         <SlideInput
           min={1}
           max={12}
-          value={10}
+          value={hoursRef.current}
           onChange={(value) => (hoursRef.current = value)}
         />
         <SlideInput
           min={0}
           max={59}
-          value={0}
+          value={minutesRef.current}
           onChange={(value) => (minutesRef.current = value)}
         />
         <Button css={menuCss} size="sm" onClick={handleSubmit}>

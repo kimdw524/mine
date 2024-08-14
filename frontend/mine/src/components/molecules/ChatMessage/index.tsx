@@ -19,6 +19,12 @@ import {
 } from '@heroicons/react/24/solid';
 import { avatarTTS } from '../../../apis/avatarApi';
 import useDialog from '../../../hooks/useDialog';
+import useModal from '../../../hooks/useModal';
+import EditSchedule from '../../../pages/Schedule/Edit';
+import EditAccount from '../../../pages/Account/Edit';
+import EventMessage from '../../../components/molecules/EventMessage';
+import { AccountData } from '../../../apis/accountApi';
+import { ScheduleData } from '../../../apis/scheduleApi';
 
 interface ChatMessageProps extends Omit<ChatMessageData, 'message'> {
   children: ReactNode;
@@ -34,8 +40,11 @@ const ChatMessage = ({
   dateTime,
   voiceId,
   animation = false,
+  type,
+  data,
   speech = false,
 }: ChatMessageProps) => {
+  const { push } = useModal();
   const { alert } = useDialog();
   const audioCacheRef = useRef<string>('');
   const [isPending, setIsPending] = useState<boolean>(false);
@@ -84,7 +93,31 @@ const ChatMessage = ({
               {isPending ? <EllipsisHorizontalIcon /> : <SpeakerWaveIcon />}
             </Icon>
           )}
-          {children}
+          {type === 'account' && !me ? (
+            <EventMessage
+              title={(data as AccountData).title}
+              value="가계부 보기"
+              onClick={() =>
+                push({
+                  component: <EditAccount data={data as AccountData} />,
+                  name: 'editAccount',
+                })
+              }
+            />
+          ) : type === 'schedule' && !me ? (
+            <EventMessage
+              title={(data as ScheduleData).title}
+              value="일정 보기"
+              onClick={() =>
+                push({
+                  component: <EditSchedule data={data as ScheduleData} />,
+                  name: 'editSchedule',
+                })
+              }
+            />
+          ) : (
+            children
+          )}
         </div>
         <div css={dateTimeCss}>
           <Typography color="secondary" size="xs" weight="medium">

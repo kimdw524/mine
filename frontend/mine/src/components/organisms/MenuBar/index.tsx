@@ -7,10 +7,10 @@ import { engToIcon } from '../../../utils/EngToIcon';
 
 interface MenuBarProps {
   menu: number;
-  setCurMenu: React.Dispatch<React.SetStateAction<number>>;
+  onMenuClick: (index: number) => void;
 }
 
-const MenuBar = ({ menu, setCurMenu }: MenuBarProps) => {
+const MenuBar = ({ menu, onMenuClick }: MenuBarProps) => {
   return (
     <div css={containerCss}>
       {['chatting', 'home', 'mypage'].map((v: string, i: number) => {
@@ -19,7 +19,7 @@ const MenuBar = ({ menu, setCurMenu }: MenuBarProps) => {
             {menu === i ? (
               <IconTypography label={v} color="primary" />
             ) : (
-              <Icon color="secondary" onClick={() => setCurMenu(i)}>
+              <Icon color="secondary" onClick={() => onMenuClick(i)}>
                 {engToIcon[v]}
               </Icon>
             )}

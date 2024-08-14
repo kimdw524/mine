@@ -12,7 +12,12 @@ import Error from '../../components/molecules/Error';
 import ChipList from '../../components/molecules/ChipList';
 import SelectCategory from './SelectCategory';
 import { accountCategoryData } from '../../utils/accountUtils';
-import { getAccounts } from '../../apis/accountApi';
+import {
+  getAccounts,
+  getAccountsWithCategory,
+  getIncomeAccounts,
+  getSpendAccounts,
+} from '../../apis/accountApi';
 import { useQuery } from '@tanstack/react-query';
 
 const Account = () => {
@@ -26,9 +31,26 @@ const Account = () => {
   ]);
   const { push } = useModal();
 
+  console.log(category);
+
   const { data } = useQuery({
-    queryKey: ['account', '0', calendarPeriod[0], calendarPeriod[1]],
-    queryFn: () => getAccounts(calendarPeriod[0], calendarPeriod[1]),
+    queryKey: ['account', category, calendarPeriod[0], calendarPeriod[1]],
+    queryFn: () => {
+      switch (category) {
+        case 0:
+          return getAccounts(calendarPeriod[0], calendarPeriod[1]);
+        case 99:
+          return getIncomeAccounts(calendarPeriod[0], calendarPeriod[1]);
+        case 100:
+          return getSpendAccounts(calendarPeriod[0], calendarPeriod[1]);
+        default:
+          return getAccountsWithCategory(
+            calendarPeriod[0],
+            calendarPeriod[1],
+            category,
+          );
+      }
+    },
   });
 
   const [year, month] = start

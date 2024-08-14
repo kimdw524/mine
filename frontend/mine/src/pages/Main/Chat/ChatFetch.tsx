@@ -1,17 +1,19 @@
 /** @jsxImportSource @emotion/react */
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { chatCss, chatLogCss, containerCss, pendingCss } from './style';
 import useChat, {
   ChatMessageData,
   ChatResponse,
   ChatType,
 } from '../../../hooks/useChat';
-import { AccountData } from '../../../apis/accountApi';
-import { ScheduleData } from '../../../apis/scheduleApi';
-import useModal from '../../../hooks/useModal';
-import EditSchedule from '../../Schedule/Edit';
-import EditAccount from '../../Account/Edit';
-import EventMessage from '../../../components/molecules/EventMessage';
+import {
+  AccountData,
+  updateAccountAchievement,
+} from '../../../apis/accountApi';
+import {
+  ScheduleData,
+  updateScheduleAchievement,
+} from '../../../apis/scheduleApi';
 import ChatBox from '../../../components/organisms/ChatBox';
 import TypeTextField from '../../../components/molecules/TypeTextField';
 import { useSuspenseQuery } from '@tanstack/react-query';
@@ -21,15 +23,16 @@ import { useMutation } from '@tanstack/react-query';
 import { updateChatEasterAchievement } from '../../../apis/avatarApi';
 import { Typography } from 'oyc-ds';
 import { getMainAvatar } from '../../../utils/avatarUtils';
+import { MainContext } from '..';
 
 const ChatFetch = () => {
   const chatRef = useRef<HTMLInputElement>(null);
   const chatLogRef = useRef<HTMLDivElement>(null);
   const [chatLog, setChatLog] = useState<ChatMessageData[]>([]);
   const chatTypeRef = useRef<ChatType>('chat');
-  const { push } = useModal();
   const { alert } = useDialog();
   const [isPending, setIsPending] = useState<boolean>(false);
+  const mainContext = useContext(MainContext);
 
   const avatarQuery = useSuspenseQuery({
     queryKey: ['avatarinfo'],
@@ -86,12 +89,15 @@ const ChatFetch = () => {
 
     chat.send(chatTypeRef.current, message, () => {
       setIsPending(true);
+      mainContext.onPendingChange(true);
 
       addChat({
         me: true,
         message,
         name: '나',
         dateTime: new Date().toJSON(),
+        type: 'chat',
+        data: null,
       });
 
       if (chatRef.current) {
@@ -122,57 +128,52 @@ const ChatFetch = () => {
         message: res.text,
         name: res.avatarName,
         dateTime: res.sendedDate,
+        type: 'chat',
+        data: null,
       });
 
       setIsPending(false);
+      mainContext.onPendingChange(false);
     };
 
-    const handleAccount = (data: AccountData) => {
-      setChatLog((chatLog) => [
-        ...chatLog,
-        {
-          me: false,
-          message: (
-            <EventMessage
-              title={data.title}
-              value="가계부 보기"
-              onClick={() =>
-                push({
-                  component: <EditAccount data={data} />,
-                  name: 'editAccount',
-                })
-              }
-            />
-          ),
-          name: '아바타',
-          dateTime: new Date().toJSON(),
-        },
-      ]);
+    const handleAccount = async (data: AccountData) => {
+      const result = await updateAccountAchievement();
+
+      if (result.data) {
+        alert('새로운 업적을 달성하였습니다!');
+      }
+
+      addChat({
+        me: false,
+        message: '',
+        name: '',
+        dateTime: new Date().toJSON(),
+        type: 'account',
+        data,
+      });
+
       setIsPending(false);
+      mainContext.onPendingChange(false);
     };
 
-    const handleSchedule = (data: ScheduleData) => {
-      setChatLog((chatLog) => [
-        ...chatLog,
-        {
-          me: false,
-          message: (
-            <EventMessage
-              title={data.title}
-              value="일정 보기"
-              onClick={() =>
-                push({
-                  component: <EditSchedule data={data} />,
-                  name: 'editSchedule',
-                })
-              }
-            />
-          ),
-          name: '아바타',
-          dateTime: new Date().toJSON(),
-        },
-      ]);
+    const handleSchedule = async (data: ScheduleData) => {
+      const result = await updateScheduleAchievement();
+
+      if (result.data) {
+        alert('새로운 업적을 달성하였습니다!');
+      }
+
+      addChat({
+        me: false,
+        message: '',
+        name: '',
+        dateTime: new Date().toJSON(),
+        type: 'schedule',
+        data,
+      });
+
       setIsPending(false);
+      mainContext.onPendingChange(false);
     };
 
     chat.connect({

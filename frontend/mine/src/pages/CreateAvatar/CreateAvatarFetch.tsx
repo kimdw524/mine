@@ -13,7 +13,6 @@ import {
   VoiceFile,
   createAvatar,
   getQuestions,
-  updateAvatarAchievement,
 } from '../../apis/avatarApi';
 import TransitionAnimation from '../../components/common/TransitionAnimation';
 import Question from './Question';
@@ -74,13 +73,8 @@ const CreateAvatarFetch = ({ step, onChangeStep }: CreateAvatarFetchProps) => {
   });
   const { mutateAsync } = useMutation({
     mutationFn: async (data: CreateAvatarRequest) => await createAvatar(data),
-    onSuccess: async (data) => {
+    onSuccess: (data) => {
       if (data.status === 200) {
-        const result = await updateAvatarAchievement();
-        if (result.data) {
-          await alert('새로운 업적을 달성하였습니다');
-        }
-
         queryClient.invalidateQueries({ queryKey: ['avatarinfo'] });
         onChangeStep(5);
       }

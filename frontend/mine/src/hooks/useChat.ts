@@ -12,6 +12,8 @@ export interface ChatMessageData {
   me: boolean;
   dateTime: string;
   avatarId?: number;
+  type: ChatType;
+  data: object | null;
 }
 
 export interface ChatResponse {
@@ -79,6 +81,8 @@ const useChat = (
           message: data.text,
           dateTime: data.sendedDate,
           avatarId,
+          type: 'chat',
+          data: null,
         });
         onMessage(data);
       });
@@ -93,19 +97,20 @@ const useChat = (
   const addLog = (data: ChatMessageData) => {
     const log: ChatMessageData[] = getLog();
     log.push(data);
-    localStorage.setItem('chatLog', JSON.stringify(log.slice(-30)));
+    localStorage.setItem('chatLog2', JSON.stringify(log.slice(-30)));
   };
 
   const getLog = (): ChatMessageData[] => {
     return (
-      JSON.parse(localStorage.getItem('chatLog') ?? '[]') as ChatMessageData[]
+      JSON.parse(localStorage.getItem('chatLog2') ?? '[]') as ChatMessageData[]
     ).filter((message) => message.avatarId === avatarId);
   };
 
   const send = async (type: ChatType, content: string, onSend: () => void) => {
+    const date = new Date().toJSON();
+
     switch (type) {
       case 'chat': {
-        const date = new Date().toJSON();
         const socket = socketRef.current;
 
         if (!socket) {
@@ -126,6 +131,8 @@ const useChat = (
             message: content,
             dateTime: date,
             avatarId,
+            type: 'chat',
+            data: null,
           });
           onSend();
         } catch (error) {
@@ -135,17 +142,53 @@ const useChat = (
         break;
       }
       case 'account': {
+        addLog({
+          me: true,
+          name: '나',
+          message: content,
+          dateTime: date,
+          avatarId,
+          type: 'account',
+          data: null,
+        });
         onSend();
 
         const result = await addAccountByChat({ query: content });
         accountRef.current(result.data);
+        addLog({
+          me: false,
+          name: '',
+          message: content,
+          dateTime: date,
+          avatarId,
+          type: 'account',
+          data: result.data,
+        });
         break;
       }
       case 'schedule': {
+        addLog({
+          me: true,
+          name: '나',
+          message: content,
+          dateTime: date,
+          avatarId,
+          type: 'schedule',
+          data: null,
+        });
         onSend();
 
         const result = await addScheduleByChat({ query: content });
         scheduleRef.current(result.data);
+        addLog({
+          me: false,
+          name: '',
+          message: content,
+          dateTime: date,
+          avatarId,
+          type: 'schedule',
+          data: result.data,
+        });
         break;
       }
     }

@@ -10,6 +10,7 @@ import {
   signup,
   verifyEmailCode,
 } from '../../../apis/authApi';
+import useDialog from '../../../hooks/useDialog';
 
 interface VerificationProps {
   onSubmit: () => void;
@@ -18,6 +19,7 @@ interface VerificationProps {
 const Verification = ({ onSubmit }: VerificationProps) => {
   const signupContext = useContext(SignupContext);
   const numberRef = useRef<HTMLInputElement>(null);
+  const { alert } = useDialog();
 
   const requestSignup = useMutation({
     mutationFn: (param: SignupParam) => signup(param),

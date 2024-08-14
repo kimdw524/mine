@@ -32,3 +32,9 @@ export const responseContainer = css`
   flex-direction: column;
   gap: 0.125rem;
 `;
+
+export const responseCss = css`
+  overflow-y: scroll;
+  word-break: break-all;
+  max-height: 3rem;
+`;
