@@ -81,7 +81,7 @@ const AchievementFetch = () => {
         })}
       </div>
       <Button style={{ margin: '2rem 0' }} onClick={handleClick}>
-        아바타 생성
+        업적 보상 받기
       </Button>
     </>
   );

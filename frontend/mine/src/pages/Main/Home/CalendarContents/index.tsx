@@ -12,7 +12,7 @@ import { useSuspenseQueries } from '@tanstack/react-query';
 import { getSchedules } from '../../../../apis/scheduleApi';
 import dayjs from 'dayjs';
 import TransitionAnimation from '../../../../components/common/TransitionAnimation';
-import styles from './Week.module.css';
+import styles from './CalendarContents.module.css';
 import { Icon, Typography } from 'oyc-ds';
 import { ChevronUpDownIcon } from '@heroicons/react/24/solid';
 import { incomeInfo, spendInfo } from '../../../../apis/statisticsApi';
@@ -25,7 +25,7 @@ interface ISpend {
   categorySum: number;
 }
 
-const WeekSchedule = () => {
+const CalendarContents = () => {
   const modal = useModal();
   const [type, setType] = useState<string>('schedule');
 
@@ -174,6 +174,4 @@ const WeekSchedule = () => {
   );
 };
 
-export default WeekSchedule;
-
-//spendSum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+export default CalendarContents;

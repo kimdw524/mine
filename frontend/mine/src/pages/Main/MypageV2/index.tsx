@@ -56,11 +56,6 @@ const MypageV2 = () => {
         <UserInfo />
         <AvatarProfile />
         <ManageInfo
-          title={'내정보'}
-          labels={['nickEdit', 'pwdEdit', 'achievement']}
-          url={['/mypage/nick', '/mypage/pwd', '/mypage/achievement']}
-        />
-        <ManageInfo
           title={'아바타'}
           labels={['infoEdit', 'qnaEdit']}
           url={['/mypage/avatar', '/mypage/avatar/qna']}
@@ -69,6 +64,11 @@ const MypageV2 = () => {
           title={'통계'}
           labels={['accountChart', 'scheduleChart']}
           url={['/chart/account', '/chart/schedule']}
+        />
+        <ManageInfo
+          title={'내정보'}
+          labels={['nickEdit', 'pwdEdit', 'achievement']}
+          url={['/mypage/nick', '/mypage/pwd', '/mypage/achievement']}
         />
         <div css={infoManageCss}>
           <Typography color="dark">정보관리</Typography>

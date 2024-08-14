@@ -36,7 +36,7 @@ export const conversationCss = css`
   right: 1rem;
   left: 1rem;
   bottom: 0;
-  max-height: 8rem;
+  height: 8rem;
   display: flex;
   flex-direction: column;
   justify-content: center;

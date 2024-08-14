@@ -21,8 +21,7 @@ import AvatarChat from '../../../components/organisms/AvatarChat';
 import { useNavigate } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
 import { getMainAvatar } from '../../../utils/avatarUtils';
-import WeekSchedule from './WeekSchedule';
-import WeekAccount from './WeekAccount';
+import CalendarContents from './CalendarContents';
 
 const HomeFetch = () => {
   const nav = useNavigate();
@@ -151,7 +150,7 @@ const HomeFetch = () => {
           />
         </div>
         <div css={contentsCss}>
-          <WeekSchedule />
+          <CalendarContents />
         </div>
         <div css={conversationCss}>
           {avatarQuery.data.data.length ? (
