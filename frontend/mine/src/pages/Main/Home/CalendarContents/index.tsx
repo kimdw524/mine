@@ -128,7 +128,7 @@ const CalendarContents = () => {
             <Typography size="lg">{scheduleQuery.data.data.length}</Typography>
           )}
           <Typography color="dark" style={{ marginTop: '0.2rem' }}>
-            {type === 'schedule' ? '이번 주 일정' : '이번 달 가계'}
+            {type === 'schedule' ? '오늘의 일정' : '이번 달 가계'}
           </Typography>
         </div>
       </div>
