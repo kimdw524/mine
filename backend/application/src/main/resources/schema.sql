@@ -250,7 +250,27 @@ VALUES (18, 5, 1, '빠르고 역동적인 활동'),
 
 
 INSERT INTO question(question_id, question_num, question_description, question_type)
-VALUES (6, 6, 'MBTI는', 's');
+VALUES (6, 6, 'MBTI는', 'c');
+
+INSERT INTO question_choice(question_choice_id, question_id, question_choice_number, question_choice_description)
+VALUES (22, 6, 1, 'ESTJ'),
+       (23, 6, 2, 'ESTP'),
+       (24, 6, 3, 'ESFJ'),
+       (25, 6, 4, 'ESFP'),
+       (26, 6, 5, 'ENTJ'),
+       (27, 6, 6, 'ENTP'),
+       (28, 6, 7, 'ENFJ'),
+       (29, 6, 8, 'ENFP'),
+       (30, 6, 9, 'ISTJ'),
+       (31, 6, 10, 'ISTP'),
+       (32, 6, 11, 'ISFJ'),
+       (33, 6, 12, 'ISFP'),
+       (34, 6, 13, 'INTJ'),
+       (35, 6, 14, 'INTP'),
+       (36, 6, 15, 'INFJ'),
+       (37, 6, 16, 'INFP');
+
+
 INSERT INTO question(question_id, question_num, question_description, question_type)
 VALUES (7, 7, '남들과 다른 독특한 취미는', 's');
 INSERT INTO question(question_id, question_num, question_description, question_type)
@@ -275,7 +295,7 @@ VALUES (12, 12, '좋아하는 음식 종류는', 's');
         (3, 3, 1, 13, null, 'c'),
         (4, 4, 1, 15, null, 'c'),
         (5, 5, 1, 20, null, 'c'),
-        (6, 6, 1, null, 'ISTJ', 's'),
+        (6, 6, 1, 30, null, 'c'),
         (7, 7, 1, null, '핫딜 찾기', 's'),
         (8, 8, 1, null, '술 마시기', 's'),
         (9, 9, 1, null, '누워있기', 's'),
