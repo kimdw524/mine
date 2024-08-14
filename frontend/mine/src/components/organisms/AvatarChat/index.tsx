@@ -11,6 +11,7 @@ import {
   chatCss,
   containerCss,
   responseContainer,
+  responseCss,
   speechCss,
   waitCss,
 } from './style';
@@ -141,9 +142,11 @@ const AvatarChat = ({ avatarId, voiceId }: AvatarChatProps) => {
             {isPending ? <EllipsisHorizontalIcon /> : <SpeakerWaveIcon />}
           </Icon>
         )}
-        <Typography color="dark" size="md">
-          {response ?? '안녕!'}
-        </Typography>
+        <div css={responseCss}>
+          <Typography color="dark" size="md">
+            {response ?? '안녕!'}
+          </Typography>
+        </div>
       </div>
       <TextField
         variant="standard"
