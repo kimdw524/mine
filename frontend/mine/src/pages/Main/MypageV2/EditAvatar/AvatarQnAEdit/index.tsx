@@ -1,11 +1,10 @@
 /** @jsxImportSource @emotion/react */
-import React, { Suspense } from 'react';
+import React from 'react';
 import AppBar from '../../../../../components/organisms/AppBar';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { avatarQnAEditContainerCss, questionCss, titleCss } from './style';
 import { Typography } from 'oyc-ds';
 import AvatarQnAEditFetch from './AvatarQnAEditFetch';
-import { ErrorBoundary } from 'react-error-boundary';
 import useMypage from '../../../../../hooks/useMypage';
 
 const AvatarQnAEdit = () => {

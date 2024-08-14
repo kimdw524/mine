@@ -24,7 +24,7 @@ const Main = () => {
 
   return (
     <>
-      <div css={containerCss}>
+      <div css={containerCss(curMenu)}>
         <AppBar
           label={
             curMenu === 0
