@@ -1,4 +1,4 @@
-import React, { ReactNode, useContext } from 'react';
+import React, { Fragment, ReactNode, useContext } from 'react';
 import { useQueryClient, useSuspenseQueries } from '@tanstack/react-query';
 import { createContext } from 'react';
 import { getUserAvatars, getUserInfo } from '../apis/mypageApi';
