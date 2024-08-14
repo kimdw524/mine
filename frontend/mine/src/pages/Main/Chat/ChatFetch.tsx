@@ -14,10 +14,6 @@ import {
   ScheduleData,
   updateScheduleAchievement,
 } from '../../../apis/scheduleApi';
-import useModal from '../../../hooks/useModal';
-import EditSchedule from '../../Schedule/Edit';
-import EditAccount from '../../Account/Edit';
-import EventMessage from '../../../components/molecules/EventMessage';
 import ChatBox from '../../../components/organisms/ChatBox';
 import TypeTextField from '../../../components/molecules/TypeTextField';
 import { useSuspenseQuery } from '@tanstack/react-query';
@@ -34,7 +30,6 @@ const ChatFetch = () => {
   const chatLogRef = useRef<HTMLDivElement>(null);
   const [chatLog, setChatLog] = useState<ChatMessageData[]>([]);
   const chatTypeRef = useRef<ChatType>('chat');
-  const { push } = useModal();
   const { alert } = useDialog();
   const [isPending, setIsPending] = useState<boolean>(false);
   const mainContext = useContext(MainContext);
@@ -101,6 +96,8 @@ const ChatFetch = () => {
         message,
         name: '나',
         dateTime: new Date().toJSON(),
+        type: 'chat',
+        data: null,
       });
 
       if (chatRef.current) {
@@ -131,6 +128,8 @@ const ChatFetch = () => {
         message: res.text,
         name: res.avatarName,
         dateTime: res.sendedDate,
+        type: 'chat',
+        data: null,
       });
 
       setIsPending(false);
@@ -144,26 +143,15 @@ const ChatFetch = () => {
         alert('새로운 업적을 달성하였습니다!');
       }
 
-      setChatLog((chatLog) => [
-        ...chatLog,
-        {
-          me: false,
-          message: (
-            <EventMessage
-              title={data.title}
-              value="가계부 보기"
-              onClick={() =>
-                push({
-                  component: <EditAccount data={data} />,
-                  name: 'editAccount',
-                })
-              }
-            />
-          ),
-          name: '아바타',
-          dateTime: new Date().toJSON(),
-        },
-      ]);
+      addChat({
+        me: false,
+        message: '',
+        name: '',
+        dateTime: new Date().toJSON(),
+        type: 'account',
+        data,
+      });
+
       setIsPending(false);
       mainContext.onPendingChange(false);
     };
@@ -175,26 +163,15 @@ const ChatFetch = () => {
         alert('새로운 업적을 달성하였습니다!');
       }
 
-      setChatLog((chatLog) => [
-        ...chatLog,
-        {
-          me: false,
-          message: (
-            <EventMessage
-              title={data.title}
-              value="일정 보기"
-              onClick={() =>
-                push({
-                  component: <EditSchedule data={data} />,
-                  name: 'editSchedule',
-                })
-              }
-            />
-          ),
-          name: '아바타',
-          dateTime: new Date().toJSON(),
-        },
-      ]);
+      addChat({
+        me: false,
+        message: '',
+        name: '',
+        dateTime: new Date().toJSON(),
+        type: 'schedule',
+        data,
+      });
+
       setIsPending(false);
       mainContext.onPendingChange(false);
     };

@@ -25,6 +25,7 @@ import {
   updateSchedule,
 } from '../../../apis/scheduleApi';
 import useDialog from '../../../hooks/useDialog';
+import { AxiosError } from 'axios';
 
 interface EditProps {
   data: ScheduleData;
@@ -52,7 +53,12 @@ const Edit = ({ data }: EditProps) => {
         navigate(-1);
       }
     },
-    onError: (error) => {
+    onError: async (error: AxiosError) => {
+      if (error.response?.status === 404) {
+        await alert('이미 삭제된 일정입니다.');
+        navigate(-1);
+        return;
+      }
       alert('오류가 발생하였습니다.');
       console.error(error);
     },
@@ -66,7 +72,12 @@ const Edit = ({ data }: EditProps) => {
         navigate(-1);
       }
     },
-    onError: (error) => {
+    onError: async (error: AxiosError) => {
+      if (error.response?.status === 404) {
+        await alert('이미 삭제된 일정입니다.');
+        navigate(-1);
+        return;
+      }
       alert('오류가 발생하였습니다.');
       console.error(error);
     },

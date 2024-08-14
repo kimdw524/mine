@@ -12,7 +12,7 @@ interface ChatBoxProps {
 const ChatBox = ({ messages, voiceId }: ChatBoxProps) => {
   return (
     <div css={containerCss}>
-      {messages.map(({ name, message, me, dateTime }, index) => (
+      {messages.map(({ name, message, me, dateTime, type, data }, index) => (
         <ChatMessage
           key={index}
           name={name}
@@ -20,7 +20,9 @@ const ChatBox = ({ messages, voiceId }: ChatBoxProps) => {
           dateTime={dateTime}
           animation
           voiceId={voiceId}
-          speech={!me && typeof message === 'string'}
+          type={type}
+          data={data}
+          speech={!me && type === 'chat'}
         >
           {message}
         </ChatMessage>
