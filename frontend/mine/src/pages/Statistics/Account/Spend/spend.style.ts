@@ -4,9 +4,6 @@ export const containerCss = css`
   position: relative;
   display: flex;
   flex-direction: column; 
-  /* margin: 0 auto; */
-  /* border: 1px solid black; */
-  /* max-width: 600px; */
 `
 
 export const spendCss = css`
