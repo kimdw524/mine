@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import React, { useEffect, useState } from 'react';
 import { btnCss, containerCss, infoManageCss } from './style';
-import { QueryClient, useSuspenseQueries } from '@tanstack/react-query';
+import { QueryClient, useQueries } from '@tanstack/react-query';
 import { getUserAvatars, getUserInfo } from '../../../apis/mypageApi';
 import UserInfo from './UserInfo';
 import ManageInfo from './ManageInfo';
@@ -10,27 +10,23 @@ import { Button, Icon, Typography } from 'oyc-ds';
 import { engToIcon } from '../../../utils/EngToIcon';
 import { Logout } from '../../../apis/loginApi';
 import { useNavigate } from 'react-router-dom';
+import Loading from '../../../components/molecules/Loading';
 
 const MypageV2 = () => {
-  const [userQuery, avatarQuery] = useSuspenseQueries({
+  const nav = useNavigate();
+  const [userQuery, avatarQuery] = useQueries({
     queries: [
-      { queryKey: ['userinfo'], queryFn: async () => await getUserInfo() },
-      { queryKey: ['avatarinfo'], queryFn: async () => await getUserAvatars() },
+      { queryKey: ['userinfo'], queryFn: () => getUserInfo() },
+      { queryKey: ['avatarinfo'], queryFn: () => getUserAvatars() },
     ],
-  });
-
-  [userQuery, avatarQuery].some((query) => {
-    if (query.error && !query.isFetching) {
-      throw query.error;
-    }
   });
 
   const [curAvatar, setCurAvatar] = useState<string>('pig');
 
   useEffect(() => {
-    if (avatarQuery.data.data.length === 1) {
+    if (avatarQuery.data?.data.length === 1) {
       setCurAvatar(avatarQuery.data.data[0].avatarModel);
-    } else if (avatarQuery.data.data.length === 2) {
+    } else if (avatarQuery.data?.data.length === 2) {
       setCurAvatar(
         avatarQuery.data.data[0].isMain
           ? avatarQuery.data.data[0].avatarModel
@@ -39,13 +35,17 @@ const MypageV2 = () => {
     }
   }, []);
 
-  const nav = useNavigate();
+  for (const query of [userQuery, avatarQuery]) {
+    if (query.status !== 'success' || !query.isFetchedAfterMount) {
+      return <Loading />;
+    }
+  }
   const handleLogout = async () => {
     const res = await Logout();
     if (res.status === 200) {
       const queryClient = new QueryClient();
       queryClient.clear();
-      localStorage.removeItem('isLoggedIn')
+      localStorage.removeItem('isLoggedIn');
       nav('/user/login');
     }
   };
@@ -53,20 +53,20 @@ const MypageV2 = () => {
   return (
     <>
       <div css={containerCss}>
-        <UserInfo avatarModel={curAvatar} info={userQuery.data.data} />
-        <AvatarProfile avatars={avatarQuery.data.data} />
+        <UserInfo avatarModel={curAvatar} info={userQuery.data?.data} />
+        <AvatarProfile avatars={avatarQuery.data?.data} />
         <ManageInfo
           title={'내정보'}
           labels={['nickEdit', 'pwdEdit', 'achievement']}
           url={['/mypage/nick', '/mypage/pwd', '/mypage/achievement']}
-          data={[userQuery.data.data.nickname]}
+          data={[userQuery.data?.data.nickname]}
         />
         <ManageInfo
           title={'아바타'}
           labels={['infoEdit', 'qnaEdit']}
           url={['/mypage/avatar', '/mypage/avatar/qna']}
           data={[]}
-          avatars={avatarQuery.data.data}
+          avatars={avatarQuery.data?.data}
         />
         <ManageInfo
           title={'통계'}
