@@ -24,6 +24,7 @@ import AvatarInfo from './pages/Main/MypageV2/AvatarInfo';
 import AvatarInfoEdit from './pages/Main/MypageV2/EditAvatar/AvatarInfoEdit';
 import AvatarQnAEdit from './pages/Main/MypageV2/EditAvatar/AvatarQnAEdit';
 import Calendar from './pages/Calendar';
+import { MypageProvider } from './hooks/useMypage';
 
 function App() {
   const nav = useNavigate();
@@ -61,42 +62,50 @@ function App() {
     <>
       <GlobalStyle />
       <ThemeProvider theme={LightTheme}>
-        <ModalProvider>
-          <NotificationContext.Provider
-            value={{
-              info: notiInfo,
-              update: updateInfo,
-              handle: handleNoti,
-            }}
-          >
-            {notiInfo.notiState && <Notification notiInfo={notiInfo} />}
-            <Routes>
-              {/* 메인 화면 */}
-              <Route path="/" element={<Main />} />
+        <MypageProvider>
+          <ModalProvider>
+            <NotificationContext.Provider
+              value={{
+                info: notiInfo,
+                update: updateInfo,
+                handle: handleNoti,
+              }}
+            >
+              {notiInfo.notiState && <Notification notiInfo={notiInfo} />}
+              <Routes>
+                {/* 메인 화면 */}
+                <Route path="/" element={<Main />} />
 
-              {/* 회원 인증 / 인가 */}
-              <Route path="/user/login" element={<Login />} />
-              <Route path="/user/signup" element={<Signup />} />
-              <Route path="/user/findpassword" element={<FindPassword />} />
+                {/* 회원 인증 / 인가 */}
+                <Route path="/user/login" element={<Login />} />
+                <Route path="/user/signup" element={<Signup />} />
+                <Route path="/user/findpassword" element={<FindPassword />} />
 
-              <Route path="/chart/account" element={<AccountChart />} />
-              <Route path="/chart/schedule" element={<ScheduleChart />} />
+                <Route path="/chart/account" element={<AccountChart />} />
+                <Route path="/chart/schedule" element={<ScheduleChart />} />
 
-              {/* 마이페이지 */}
-              <Route path="/mypage/nick" element={<NickEdit />} />
-              <Route path="/mypage/pwd" element={<PwdEdit />} />
-              <Route path="/mypage/achievement" element={<Achievement />} />
-              <Route path="/mypage/avatar" element={<AvatarInfo />} />
-              <Route path="/mypage/avatar/info" element={<AvatarInfoEdit />} />
-              <Route path="/mypage/avatar/qna" element={<AvatarQnAEdit />} />
+                {/* 마이페이지 */}
+                <Route path="/mypage/nick" element={<NickEdit />} />
+                <Route path="/mypage/pwd" element={<PwdEdit />} />
+                <Route path="/mypage/achievement" element={<Achievement />} />
+                <Route path="/mypage/avatar" element={<AvatarInfo />} />
+                <Route
+                  path="/mypage/avatar/info"
+                  element={<AvatarInfoEdit />}
+                />
+                <Route path="/mypage/avatar/qna" element={<AvatarQnAEdit />} />
 
-              <Route path="/avatar/create" element={<CreateAvatar />} />
+                <Route path="/avatar/create" element={<CreateAvatar />} />
 
-              <Route path="/schedule" element={<Calendar page="schedule" />} />
-              <Route path="/account" element={<Calendar page="account" />} />
-            </Routes>
-          </NotificationContext.Provider>
-        </ModalProvider>
+                <Route
+                  path="/schedule"
+                  element={<Calendar page="schedule" />}
+                />
+                <Route path="/account" element={<Calendar page="account" />} />
+              </Routes>
+            </NotificationContext.Provider>
+          </ModalProvider>
+        </MypageProvider>
       </ThemeProvider>
     </>
   );

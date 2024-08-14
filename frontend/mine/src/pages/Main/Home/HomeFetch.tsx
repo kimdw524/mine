@@ -103,14 +103,9 @@ const HomeFetch = () => {
 
     if (eventCountRef.current === 400 && !showMessage) {
       setShowMessage(true);
-    }
-  };
-
-  useEffect(() => {
-    if (avatarQuery.data.data.length && showMessage) {
       updateSpinEaster();
     }
-  }, [showMessage, alert, updateSpinEaster]);
+  };
 
   return (
     <>

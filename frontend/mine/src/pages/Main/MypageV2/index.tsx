@@ -10,6 +10,7 @@ import { Button, Icon, Typography } from 'oyc-ds';
 import { engToIcon } from '../../../utils/EngToIcon';
 import { Logout } from '../../../apis/loginApi';
 import { useNavigate } from 'react-router-dom';
+import { MypageProvider } from '../../../hooks/useMypage';
 
 const MypageV2 = () => {
   const [userQuery, avatarQuery] = useSuspenseQueries({
@@ -45,7 +46,7 @@ const MypageV2 = () => {
     if (res.status === 200) {
       const queryClient = new QueryClient();
       queryClient.clear();
-      localStorage.removeItem('isLoggedIn')
+      localStorage.removeItem('isLoggedIn');
       nav('/user/login');
     }
   };
@@ -53,26 +54,22 @@ const MypageV2 = () => {
   return (
     <>
       <div css={containerCss}>
-        <UserInfo avatarModel={curAvatar} info={userQuery.data.data} />
-        <AvatarProfile avatars={avatarQuery.data.data} />
+        <UserInfo />
+        <AvatarProfile />
         <ManageInfo
           title={'내정보'}
           labels={['nickEdit', 'pwdEdit', 'achievement']}
           url={['/mypage/nick', '/mypage/pwd', '/mypage/achievement']}
-          data={[userQuery.data.data.nickname]}
         />
         <ManageInfo
           title={'아바타'}
           labels={['infoEdit', 'qnaEdit']}
           url={['/mypage/avatar', '/mypage/avatar/qna']}
-          data={[]}
-          avatars={avatarQuery.data.data}
         />
         <ManageInfo
           title={'통계'}
           labels={['accountChart', 'scheduleChart']}
           url={['/chart/account', '/chart/schedule']}
-          data={[]}
         />
         <div css={infoManageCss}>
           <Typography color="dark">정보관리</Typography>

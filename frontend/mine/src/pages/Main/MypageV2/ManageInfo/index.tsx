@@ -1,69 +1,63 @@
 /** @jsxImportSource @emotion/react */
-import React, { ReactNode, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Dropdown, Icon, Typography } from 'oyc-ds';
 import { engToIcon } from '../../../../utils/EngToIcon';
 import { engToKor } from '../../../../utils/EngToKor';
 import { btnContainerCss, btnCss, containerCss } from './style';
 import { useNavigate } from 'react-router-dom';
-import { IAvatar } from '../AvatarProfile';
-import { getMainAvatar, getNotMainAvatar } from '../../../../utils/avatarUtils';
+import useMypage from '../../../../hooks/useMypage';
 
 interface ManageInfoProps {
   title: string;
   labels: string[];
   url: string[];
-  data: ReactNode[];
-  avatars?: IAvatar[];
 }
 
-const ManageInfo = ({ title, labels, url, data, avatars }: ManageInfoProps) => {
+const ManageInfo = ({ title, labels, url }: ManageInfoProps) => {
   const nav = useNavigate();
-  const [avatarNames, setAvatarNames] = useState<string[]>(['pig']);
-  const [avatarIdx, setAvatarIdx] = useState<number>(0);
+  const { getAvatar, getMainAvatar, getNotMainAvatar } = useMypage();
+  const [targetAvatar, setTargetAvatar] = useState<number>(
+    getAvatar().length ? getMainAvatar().avatarId : -1,
+  );
+
+  useEffect(() => {
+    setTargetAvatar(getAvatar().length ? getMainAvatar().avatarId : -1);
+  }, [getMainAvatar()]);
 
   const handleAvatarChange = (e: React.FormEvent<HTMLSelectElement>) => {
     const curAvatar = (e.target as HTMLSelectElement).value;
-    setAvatarIdx(Number(curAvatar));
+    setTargetAvatar(Number(curAvatar));
   };
-
-  useEffect(() => {
-    if (avatars) {
-      if (avatars.length === 0) return;
-
-      if (avatars.length === 1) {
-        setAvatarNames(() => [avatars[0].avatarName]);
-      } else {
-        setAvatarNames(() => [
-          getMainAvatar(avatars as IAvatar[]).avatarName,
-          getNotMainAvatar(avatars as IAvatar[]).avatarName,
-        ]);
-      }
-    }
-  }, []);
 
   return (
     <div css={containerCss}>
       {title === '아바타' ? (
-        avatars?.length === 0 ? (
+        getAvatar().length === 0 ? (
           <Typography color="dark">아바타</Typography>
         ) : (
           <>
-            {avatars?.length === 1 ? (
-              avatars[0].avatarName
+            {getAvatar().length === 1 ? (
+              getAvatar()[0].avatarName
             ) : (
               <div style={{ width: 'fit-content' }}>
                 <Dropdown
                   size="sm"
                   onChangeCapture={handleAvatarChange}
+                  value={targetAvatar}
                   style={{ border: '0', paddingLeft: '0' }}
                 >
-                  {avatarNames.map((name: string, idx: number) => {
-                    return (
-                      <Dropdown.Item key={name} value={idx}>
-                        {name}
-                      </Dropdown.Item>
-                    );
-                  })}
+                  <Dropdown.Item
+                    key={getMainAvatar().avatarId}
+                    value={getMainAvatar().avatarId}
+                  >
+                    {getMainAvatar().avatarName}
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    key={getNotMainAvatar().avatarId}
+                    value={getNotMainAvatar().avatarId}
+                  >
+                    {getNotMainAvatar().avatarName}
+                  </Dropdown.Item>
                 </Dropdown>
               </div>
             )}
@@ -74,7 +68,7 @@ const ManageInfo = ({ title, labels, url, data, avatars }: ManageInfoProps) => {
       )}
       <div css={btnContainerCss}>
         {title === '아바타' ? (
-          avatars?.length === 0 ? (
+          getAvatar().length === 0 ? (
             <Button
               size="lg"
               variant="contained"
@@ -96,7 +90,7 @@ const ManageInfo = ({ title, labels, url, data, avatars }: ManageInfoProps) => {
                   css={btnCss}
                   onClick={() =>
                     nav(url[idx], {
-                      state: { data: avatars && avatars[avatarIdx] },
+                      state: { data: targetAvatar },
                     })
                   }
                 >
@@ -115,7 +109,7 @@ const ManageInfo = ({ title, labels, url, data, avatars }: ManageInfoProps) => {
                 variant="contained"
                 color="light"
                 css={btnCss}
-                onClick={() => nav(url[idx], { state: { data: data[idx] } })}
+                onClick={() => nav(url[idx])}
               >
                 <Icon>{engToIcon[label]}</Icon>
                 <Typography color="dark">{engToKor[label]}</Typography>

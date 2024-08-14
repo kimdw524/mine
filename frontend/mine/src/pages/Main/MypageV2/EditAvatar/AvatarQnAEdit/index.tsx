@@ -6,16 +6,18 @@ import { avatarQnAEditContainerCss, questionCss, titleCss } from './style';
 import { Typography } from 'oyc-ds';
 import AvatarQnAEditFetch from './AvatarQnAEditFetch';
 import { ErrorBoundary } from 'react-error-boundary';
+import useMypage from '../../../../../hooks/useMypage';
 
 const AvatarQnAEdit = () => {
   const location = useLocation();
   const nav = useNavigate();
+  const { getAvatarById } = useMypage();
 
   return (
     <>
       <div css={avatarQnAEditContainerCss}>
         <AppBar
-          label={location.state.data.avatarName}
+          label={getAvatarById(location.state.data).avatarName}
           onBackClick={() => nav(-1)}
         />
         <div css={titleCss}>
@@ -26,7 +28,9 @@ const AvatarQnAEdit = () => {
         <div css={questionCss}>
           <ErrorBoundary fallback={<>에러</>}>
             <Suspense fallback={<>로딩중</>}>
-              <AvatarQnAEditFetch avatarId={location.state.data.avatarId} />
+              <AvatarQnAEditFetch
+                avatarId={getAvatarById(location.state.data).avatarId}
+              />
             </Suspense>
           </ErrorBoundary>
         </div>

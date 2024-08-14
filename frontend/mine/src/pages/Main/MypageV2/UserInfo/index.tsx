@@ -3,42 +3,39 @@ import React from 'react';
 import { avatarCss, infoContainerCss, infoCss, userInfoCss } from './style';
 import { engToIcon } from '../../../../utils/EngToIcon';
 import { Icon, Typography } from 'oyc-ds';
+import { getMainAvatar } from '../../../../utils/avatarUtils';
+import useMypage from '../../../../hooks/useMypage';
 import Avatar3D from '../../../../components/atoms/Avatar3D';
 
-interface IUserInfo {
-  email: string;
-  nickname: string;
-  gender: string;
-}
+const UserInfo = () => {
+  const { getUser, getAvatar } = useMypage();
 
-interface UserInfoProps {
-  avatarModel: string;
-  info: IUserInfo;
-}
-
-const UserInfo = ({ avatarModel, info }: UserInfoProps) => {
   return (
     <div css={userInfoCss}>
       <div css={avatarCss}>
-        <Avatar3D avatarModel={avatarModel ? avatarModel : 'pig'} />
+        <Avatar3D
+          avatarModel={
+            getAvatar().length ? getMainAvatar(getAvatar()).avatarModel : 'pig'
+          }
+        />
       </div>
       <div css={infoContainerCss}>
         <div css={infoCss}>
           <Icon>{engToIcon['email']}</Icon>
           <Typography size="sm" color="dark">
-            {info.email}
+            {getUser().email}
           </Typography>
         </div>
         <div css={infoCss}>
           <Icon>{engToIcon['nickname']}</Icon>
           <Typography size="sm" color="dark">
-            {info.nickname}
+            {getUser().nickname}
           </Typography>
         </div>
         <div css={infoCss}>
           <Icon>{engToIcon['gender']}</Icon>
           <Typography size="sm" color="dark">
-            {info.gender}
+            {getUser().gender}
           </Typography>
         </div>
       </div>

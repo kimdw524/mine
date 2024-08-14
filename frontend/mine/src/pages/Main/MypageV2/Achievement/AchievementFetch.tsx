@@ -24,7 +24,6 @@ export interface IAchievement {
 const AchievementFetch = () => {
   const nav = useNavigate();
   const { alert } = useDialog();
-  const [achievedCount, setAchievedCount] = useState<number>(0);
 
   const [achievementQuery, avatarQuery] = useSuspenseQueries({
     queries: [
