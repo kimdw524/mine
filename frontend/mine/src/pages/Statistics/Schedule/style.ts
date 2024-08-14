@@ -2,11 +2,8 @@ import { css } from '@emotion/react';
 
 export const containerCss = css`
   padding: 1.25rem;
-  /* margin: 0 auto; */
-  /* border: 1px solid black; */
-  /* max-width: 600px; */
   display: flex;
-  flex-direction: column; /* 추가된 부분 */
+  flex-direction: column; 
 `;
 
 export const manymsgCss = css`
@@ -17,8 +14,8 @@ export const manymsgCss = css`
   .maxLabel {
     font-size: 14px;
     padding: 0.2rem 1rem;
-    border-radius: 20px; /* maxLabel도 둥글게 만들기 위해 radius 설정 */
-    display: inline-block; /* 요소가 inline-block으로 설정되어 padding이 적용될 수 있도록 */
+    border-radius: 20px;
+    display: inline-block;
   }
 `
 
