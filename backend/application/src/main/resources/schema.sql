@@ -200,15 +200,6 @@ VALUES (1, 1, 5, now(), 1),
        (1, 6, 0, null, 0),
        (1, 7, 1, now(), 1);
 
- INSERT INTO achievement_state (user_id, achievement_id, achievement_count, achieved_date, is_achieved)
- VALUES (1, 1, 5, now(), 1),
-        (1, 2, 1, now(), 1),
-        (1, 3, 10, now(), 1),
-        (1, 4, 10, now(), 1),
-        (1, 5, 0, null, 0),
-        (1, 6, 0, null, 0),
-        (1, 7, 1, now(), 1);
-
 INSERT INTO login_log(user_id, login_datetime)
 VALUES (1, DATE_SUB(now(), INTERVAL 1 DAY));
 
