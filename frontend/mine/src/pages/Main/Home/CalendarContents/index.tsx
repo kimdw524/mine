@@ -154,7 +154,7 @@ const CalendarContents = () => {
               지출
             </Typography>
             <Typography size="lg" color="success" style={{ display: 'inline' }}>
-              {incomeSum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') +
+              {spendSum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') +
                 ' 원'}
             </Typography>
           </div>
@@ -164,7 +164,7 @@ const CalendarContents = () => {
               수입
             </Typography>
             <Typography size="lg" color="danger" style={{ display: 'inline' }}>
-              {spendSum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') +
+              {incomeSum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') +
                 ' 원'}
             </Typography>
           </div>
