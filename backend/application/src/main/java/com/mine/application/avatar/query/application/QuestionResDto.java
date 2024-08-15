@@ -1,14 +1,14 @@
 package com.mine.application.avatar.query.application;
 
 import com.mine.application.avatar.query.domain.QuestionChoiceData;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 
 import java.util.List;
 
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
+@Setter
 @Getter
 public class QuestionResDto {
     private Integer questionResId;

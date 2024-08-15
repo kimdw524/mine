@@ -27,7 +27,7 @@ public final class AccountDtoConverter {
     public static Account convert(AddAccountDto addAccountDto, int userId) {
         return Account.builder()
                 .userId(userId)
-                .spendCategoryId(1)
+                .spendCategoryId(addAccountDto.getSpendCategoryId())
                 .accountType(AccountType.of(addAccountDto.getAccountType()))
                 .money(addAccountDto.getMoney())
                 .title(addAccountDto.getTitle())

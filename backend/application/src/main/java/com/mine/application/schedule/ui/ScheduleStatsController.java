@@ -1,5 +1,6 @@
 package com.mine.application.schedule.ui;
 
+import com.mine.application.common.aop.LoginCheck;
 import com.mine.application.schedule.query.application.ScheduleStatsService;
 import com.mine.application.schedule.ui.dto.GetScheduleStatsResponse;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,7 @@ public class ScheduleStatsController {
 
     private final ScheduleStatsService scheduleStatsService;
 
+    @LoginCheck
     @GetMapping
     public ResponseEntity<List<GetScheduleStatsResponse>> getScheduleStats(
             @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,

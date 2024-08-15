@@ -7,6 +7,7 @@ import com.mine.application.avatar.command.domain.AvatarModel;
 import com.mine.application.avatar.command.domain.AvatarRepository;
 import com.mine.application.avatar.command.domain.question.QuestionRes;
 import com.mine.application.avatar.command.domain.voice.UploadVoiceService;
+import com.mine.application.avatar.infra.AssistantService;
 import com.mine.application.common.domain.SessionConstants;
 import com.mine.application.common.domain.SessionDao;
 import com.mine.application.common.erros.errorcode.CommonErrorCode;
@@ -47,10 +48,11 @@ public class RegisterAvatarService {
 
         avatar.setQuestionResList(questionResList);
 
+        avatarRepository.save(avatar);
+
         Assistant assistant = assistantService.generateAssistant(avatar);
         avatar.enrollAssistant(assistant);
 
-        avatarRepository.save(avatar);
 
         Optional<Avatar> avatarByUserIdAndNotAvatarId = avatarRepository.findAvatarByUserIdAndNotAvatarId(userId, avatar.getId());
         avatarByUserIdAndNotAvatarId.ifPresent(avatarByUserId -> {avatarByUserId.modifyAvatarInfo(ModifyAvatarRequest.builder().isMain(false).build());});

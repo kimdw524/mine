@@ -16,6 +16,4 @@ public interface AvatarDataRepository extends Repository<AvatarData, Integer> {
     @Query("SELECT a.voiceId FROM AvatarData a WHERE a.isDeleted = false AND a.userId = :userId AND a.avatarId = :avatarId")
     Optional<Voice> findVoiceByUserIdAndAvatarId(@Param("userId")Integer userId, @Param("avatarId")Integer avatarId);
 
-    @Query("SELECT a.avatarName FROM AvatarData a WHERE a.isDeleted = false AND a.userId = :userId AND a.avatarId = :avatarId")
-    Optional<String> findAvatarNameByUserIdAndAvatarId(@Param("userId")Integer userId, @Param("avatarId")Integer avatarId);
 }

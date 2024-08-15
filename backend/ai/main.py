@@ -57,9 +57,12 @@ def get_connection_and_channel():
     return connection, channel
 
 
-def send_message_to_assistant(chatContent: str, assistant_id: str, thread_id: str):
+def send_message_to_assistant(chatContent: str, timestamp: str, assistant_id: str, thread_id: str):
     message_handler = MessageHandler(assistant_id, thread_id)
-    content = message_handler.get_response(chatContent)
+
+    request = {chatContent: chatContent, timestamp: timestamp}
+
+    content = message_handler.get_response(json.dumps(request))
 
     return content
 
@@ -76,7 +79,7 @@ def callback(ch, method, properties, body):
     jsonData = json.loads(body)
 
     log1.info(jsonData)
-    responseChat = send_message_to_assistant(jsonData['chatContent'], assistant_id=jsonData['assistantId'],
+    responseChat = send_message_to_assistant(jsonData['chatContent'], timestamp=jsonData['timestamp'], assistant_id=jsonData['assistantId'],
                                              thread_id=jsonData['threadId'])
 
     # 응답을 줄 때는 assistant에게 chat 내용을 보내서 응답을 가져올 것.

@@ -6,3 +6,4 @@ class ModifyAssistantRequest(BaseModel):
     job: str
     residence: str
     assistant_id: str
+    thread_id: str

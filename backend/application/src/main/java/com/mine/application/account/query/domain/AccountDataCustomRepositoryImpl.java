@@ -39,6 +39,7 @@ public class AccountDataCustomRepositoryImpl implements AccountDataCustomReposit
                 .where(accountData.dateTime.between(startDateTime, endDateTime)
                         .and(accountData.userId.eq(userId))
                         .and(categoryIdEq(appendType, categoryId)))
+                .orderBy(accountData.dateTime.asc())
                 .fetch();
     }
 
@@ -57,6 +58,7 @@ public class AccountDataCustomRepositoryImpl implements AccountDataCustomReposit
                 .where(accountData.title.contains(query)
                         .or(accountData.description.contains(query))
                         .and(accountData.userId.eq(userId)))
+                .orderBy(accountData.dateTime.asc())
                 .fetch();
     }
 

@@ -22,7 +22,7 @@ public class ScheduleDtoConverter {
     public static Schedule convert(AddScheduleDto addScheduleDto, int userId) {
         return Schedule.builder()
                 .userId(userId)
-                .categoryId(1)
+                .categoryId(addScheduleDto.getCategoryId())
                 .startDateTime(addScheduleDto.getStartDateTime())
                 .endDateTime(addScheduleDto.getEndDateTime())
                 .title(addScheduleDto.getTitle())

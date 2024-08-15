@@ -9,6 +9,9 @@ import java.time.LocalDateTime;
 @Getter
 public class AddScheduleDto {
 
+    @JsonProperty("categoryId")
+    private int categoryId;
+
     @JsonProperty("startDateTime")
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime startDateTime;

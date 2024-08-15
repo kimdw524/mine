@@ -1,0 +1,21 @@
+.fade-enter {
+  transform: scale(0.92) !important;
+  opacity: 0 !important;
+}
+
+.fade-exit {
+  opacity: 0 !important;
+  pointer-events: none;
+  user-select: none;
+}
+
+.fade {
+  position: absolute;
+  inset: 0 0 0 0;
+  overflow-y: scroll;
+  box-sizing: border-box;
+  opacity: 1;
+  transform: scale(1) !important;
+  transition: all 0.3s ease;
+  transition-property: transform, opacity;
+}

@@ -24,8 +24,8 @@ public class DummyDataCreator implements ApplicationListener<ContextRefreshedEve
     private final UserRepository userRepository;
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
-        createUsers();
-        RestTemplate restTemplate = new RestTemplate();
+//        createUsers();
+//        RestTemplate restTemplate = new RestTemplate();
     }
 
 
