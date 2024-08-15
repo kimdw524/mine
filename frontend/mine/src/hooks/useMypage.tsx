@@ -56,6 +56,10 @@ export const MypageProvider = (props: { children: ReactNode }) => {
     queryClient.invalidateQueries({ queryKey: [`${info}info`] });
   };
   const getMainAvatar = () => {
+    if (!avatar.data.data.length) {
+      return null;
+    }
+
     if (avatar.data.data.length === 1) return avatar.data.data[0];
     else
       return avatar.data.data[0].isMain
@@ -63,6 +67,10 @@ export const MypageProvider = (props: { children: ReactNode }) => {
         : avatar.data.data[1];
   };
   const getNotMainAvatar = () => {
+    if (!avatar.data.data.length) {
+      return null;
+    }
+
     if (avatar.data.data.length === 1) return avatar.data.data[0];
     else
       return avatar.data.data[0].isMain
