@@ -7,9 +7,6 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/mine
-    username: admin
-    password: qwer1234
 
   data:
     redis:
@@ -19,8 +16,8 @@ spring:
   rabbitmq:
     host: rabbitmq
     port: 5672
-    username: guest
-    password: guest
+    username: # rabbitmq 초기 유저 이름
+    password: # rabbitmq 초기 유저 비밀번호
 
 rabbitmq:
   queue.my-name: chat-queue-springboot
@@ -40,4 +37,4 @@ server:
         secure: true
         same-site: none
         max-age: 3600
-        domain: i11d106.p.ssafy.io
+        domain: # 도메인 명

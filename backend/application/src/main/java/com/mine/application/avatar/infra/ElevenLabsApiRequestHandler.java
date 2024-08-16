@@ -7,6 +7,7 @@ import com.mine.application.common.erros.errorcode.CommonErrorCode;
 import com.mine.application.common.erros.exception.RestApiException;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.io.PathResource;
 import org.springframework.http.HttpEntity;
@@ -30,7 +31,9 @@ class ElevenLabsApiRequestHandler implements VirtualVoiceHandler {
 
     private static final String ELEVEN_LABS_EDIT_URL_FORMAT = "https://api.elevenlabs.io/v1/voices/%s/edit";
     private static final String ELEVEN_LABS_UPLOAD_URL = "https://api.elevenlabs.io/v1/voices/add";
-    private static final String API_KEY = "sk_6bc08ac561e6c47d29452cb32d54a3afa4c76dc68d171c0d";
+
+    @Value("${elevenlabs.api-key}")
+    private String API_KEY;
 
 
     @Override

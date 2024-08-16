@@ -102,13 +102,13 @@ services:
     build: ./ai/
     ports:
       - "8000:8000"
-    depends_on:
-      rabbitmq:
-        condition: service_healthy
-      chat:
-        condition: service_healthy
-      mysql:
-        condition: service_healthy
+#    depends_on:
+#      rabbitmq:
+#        condition: service_healthy
+#      chat:
+#        condition: service_healthy
+#      mysql:
+#        condition: service_healthy
     restart: always
     environment:
       TZ: "Asia/Seoul"
@@ -128,6 +128,6 @@ services:
         condition: service_healthy
     volumes:
       - /home/ubuntu/data/nginx/pki-validation:/usr/share/nginx/html/.well-known/pki-validation
-      - /home/ubuntu/data/nginx/ssl:/etc/ssl/i11d106.p.ssafy.io
+      - /home/ubuntu/data/nginx/ssl:/etc/ssl/ #도메인 명
     environment:
       TZ: "Asia/Seoul"
