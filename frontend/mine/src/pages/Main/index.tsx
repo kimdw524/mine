@@ -48,6 +48,7 @@ const Main = () => {
         return;
       }
     }
+    isPendingRef.current = false;
     setCurMenu(index);
   };
 

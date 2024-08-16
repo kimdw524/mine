@@ -128,7 +128,7 @@ const CalendarContents = () => {
             <Typography size="lg">{scheduleQuery.data.data.length}</Typography>
           )}
           <Typography color="dark" style={{ marginTop: '0.2rem' }}>
-            {type === 'schedule' ? '이번 주 일정' : '이번 달 가계'}
+            {type === 'schedule' ? '오늘의 일정' : '이번 달 가계'}
           </Typography>
         </div>
       </div>
@@ -154,7 +154,7 @@ const CalendarContents = () => {
               지출
             </Typography>
             <Typography size="lg" color="success" style={{ display: 'inline' }}>
-              {incomeSum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') +
+              {spendSum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') +
                 ' 원'}
             </Typography>
           </div>
@@ -164,7 +164,7 @@ const CalendarContents = () => {
               수입
             </Typography>
             <Typography size="lg" color="danger" style={{ display: 'inline' }}>
-              {spendSum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') +
+              {incomeSum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') +
                 ' 원'}
             </Typography>
           </div>

@@ -14,9 +14,6 @@ export const kindCss = css`
 `;
 
 export const scheduleCss = css`
-  display: flex;
-  flex-direction: column;
-  row-gap: 0.5rem;
   width: 65%;
   height: 100%;
   overflow-y: scroll;
