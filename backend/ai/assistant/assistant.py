@@ -1,8 +1,13 @@
+import os.path
+
 from openai import OpenAI, NOT_GIVEN
+from dotenv import load_dotenv
+import os
 
 
 class Assistant:
-    client = OpenAI(api_key="sk-None-UMlcbFFlLf7aBiYFMy7YT3BlbkFJbO5ol9peEGHBKmR9Kkue")
+    load_dotenv()
+    client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
 
     def __init__(self):
         return

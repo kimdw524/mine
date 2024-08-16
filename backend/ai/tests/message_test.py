@@ -1,7 +1,11 @@
 from assistant.message_handler import *
-
+from dotenv import load_dotenv
+import os
 #
-client = OpenAI(api_key="sk-None-UMlcbFFlLf7aBiYFMy7YT3BlbkFJbO5ol9peEGHBKmR9Kkue")
+
+load_dotenv()
+client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
+print(os.getenv('OPENAI_API_KEY'))
 #
 # # result = client.beta.threads.messages.list(thread_id="thread_fl7nsnIUoR0ZurPDzUtMIrAX", order="asc")
 # #
