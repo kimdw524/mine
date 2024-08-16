@@ -65,9 +65,9 @@ _"**빅스비**의 대화형 인터페이스가 **뱅크샐러드**의 가계부
 
 | Backend | Version |
 | ------- | ------- |
-| FastAPI | 123     |
-| FastAPI | 456     |
-| FastAPI | 789     |
+| JVM | 21.0.11 (Amazon Corretto OpekJDK) |
+| MySQL | 8.3.0 |
+| AWS EC2 Ubuntu | 20.04.3 LTS |
 
 | Frontend   | Version |
 | ---------- | ------- |
